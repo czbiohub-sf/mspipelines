@@ -1,0 +1,25 @@
+functionality:
+  name: maxquant
+  namespace: category
+  arguments:
+    - name: "--input"
+      type: file
+      required: true
+      multiple: true
+      example: XXXXXXX.raw
+    - name: "--fasta"
+      type: file
+      required: true
+      example: XXXXXXX.fasta
+    - name: "--output"
+      type: file
+      required: true
+      multiple: true
+      example: output_dir
+  resources:
+    - type: bash_script
+      path: script.sh
+platforms:
+  - type: docker
+    #image: quay.io/biocontainers/maxquant:2.0.3.0--py310hdfd78af_1 
+    image: maxquant:2.0.3.0
