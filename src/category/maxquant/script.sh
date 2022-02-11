@@ -1,22 +1,19 @@
 #!/bin/bash
 
 ## VIASH START
-par_input="a:b:c"
-par_fasta="..."
-par_output
+par_input="resources_test/maxquant_test_data/Raw"
+par_fasta="resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"
+par_output="output/"
 ## VIASH END
 
+# if par_input is a directory, look for raw files
+if [ -d "$par_input" ]; then
+   par_input=`find "$par_input" -name "*.raw" | tr '\n' ':'`
+fi
+
+# create param file
 mkdir -p "$par_output"
 parameter_file="$par_output/mqpar.xml"
-
-# process supplemental reference files
-IFS=:
-set -f
-for val in $par_input; do
-   unset IFS
-   INPUT_DIR=`dirname $val`
-done
-set +f
 
 # write start of file
 cat > "$parameter_file" << HERE
@@ -155,7 +152,7 @@ cat > "$parameter_file" << HERE
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
-   <fixedCombinedFolder></fixedCombinedFolder>
+   <fixedCombinedFolder>$par_output</fixedCombinedFolder>
    <fullMinMz>-1.79769313486232E+308</fullMinMz>
    <fullMaxMz>1.79769313486232E+308</fullMaxMz>
    <sendEmail>False</sendEmail>
@@ -168,8 +165,9 @@ cat > "$parameter_file" << HERE
    <profilePerformance>False</profilePerformance>
    <filePaths>
 HERE
+# TO DO: Fix combined folder ↑
 
-# process supplemental reference files
+# write paths
 IFS=:
 set -f
 for val in $par_input; do
@@ -180,68 +178,89 @@ HERE
 done
 set +f
 
-# write rest of file
+# tags
 cat >> "$parameter_file" << HERE
    </filePaths>
    <experiments>
-      <string>14</string>
-      <string>16</string>
-      <string>20</string>
-      <string>24</string>
-      <string>28</string>
-      <string>30</string>
-      <string>32</string>
-      <string>34</string>
-      <string>36</string>
-      <string>38</string>
+HERE
+
+# write experiments
+IFS=:
+set -f
+for val in $par_input; do
+  unset IFS
+  cat >> "$parameter_file" << HERE
+      <string>$(basename $val)</string>
+HERE
+done
+set +f
+
+cat >> "$parameter_file" << HERE
    </experiments>
    <fractions>
+HERE
+
+# write fractions
+IFS=:
+set -f
+for val in $par_input; do
+  unset IFS
+  cat >> "$parameter_file" << HERE
       <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
-      <short>32767</short>
+HERE
+done
+set +f
+
+cat >> "$parameter_file" << HERE
    </fractions>
    <ptms>
+HERE
+
+# write ptms
+IFS=:
+set -f
+for val in $par_input; do
+  unset IFS
+  cat >> "$parameter_file" << HERE
       <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
-      <boolean>False</boolean>
+HERE
+done
+set +f
+
+cat >> "$parameter_file" << HERE
    </ptms>
    <paramGroupIndices>
+HERE
+
+# write ptms
+IFS=:
+set -f
+for val in $par_input; do
+  unset IFS
+  cat >> "$parameter_file" << HERE
       <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
-      <int>0</int>
+HERE
+done
+set +f
+
+cat >> "$parameter_file" << HERE
    </paramGroupIndices>
    <referenceChannel>
+HERE
+
+# write reference channel
+IFS=:
+set -f
+for val in $par_input; do
+  unset IFS
+  cat >> "$parameter_file" << HERE
       <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
-      <string></string>
+HERE
+done
+set +f
+
+# write rest of the file
+cat >> "$parameter_file" << HERE
    </referenceChannel>
    <intensPred>False</intensPred>
    <intensPredModelReTrain>False</intensPredModelReTrain>
@@ -627,16 +646,7 @@ HERE
 
 MaxQuantCmd=/maxquant/bin/MaxQuantCmd.exe
 
-# mono "$MaxQuantCmd" --help
-echo Running MaxQuant dry run
-# mono "$MaxQuantCmd" --dryrun "$parameter_file"
-
-
-
-parameter_new_file="$par_output/mqpar.new.xml"
-# mono "$MaxQuantCmd" "$parameter_file" --changeFolder "$parameter_new_file" "$INPUT_DIR"
-
 cd `dirname $parameter_file`
-echo "+" mono --runtime=3.1 "$MaxQuantCmd" "$parameter_file" --changeFolder "$parameter_new_file" "$INPUT_DIR" `dirname $par_fasta`
-mono --runtime=3.1 "$MaxQuantCmd" "$parameter_file" --changeFolder "$parameter_new_file" "$INPUT_DIR" `dirname $par_fasta`
-# mono --runtime=3.1 "$MaxQuantCmd" `basename $parameter_file`
+
+echo "+" dotnet "$MaxQuantCmd" `basename $parameter_file`
+dotnet "$MaxQuantCmd" `basename $parameter_file`
