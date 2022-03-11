@@ -4,4 +4,4 @@ convert	maxquant_to_h5ad	docker	tests	-1	0	MISSING
 maxquant	maxquant	docker	build_executable	0	0	SUCCESS
 maxquant	maxquant	docker	tests	-1	0	MISSING
 download	sync_resources_test	docker	build_executable	0	0	SUCCESS
-download	sync_resources_test	docker	run_test.sh	1	2	ERROR
+download	sync_resources_test	docker	run_test.sh	1	1	ERROR
