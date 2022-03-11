@@ -20,8 +20,7 @@ cd "$REPO_ROOT"
 
 curl -fsSL get.viash.io | bash -s -- \
   --tag 0.5.8 \
-  --registry ghcr.io \
-  --organisation czbiohub/mspipelines \
+  --registry ghcr.io/czbiohub/mspipelines \
   --viash bin/viash
 
 cd bin
