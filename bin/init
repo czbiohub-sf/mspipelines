@@ -21,7 +21,8 @@ cd "$REPO_ROOT"
 curl -fsSL get.viash.io | bash -s -- \
   --tag 0.5.8 \
   --registry ghcr.io/czbiohub/mspipelines \
-  --viash bin/viash
+  --viash bin/viash \
+  --config_mod '.platforms[.type == "docker"].setup += { type: "docker", label: "org.opencontainers.image.source=https://github.com/czbiohub/mspipelines" }'
 
 cd bin
 
