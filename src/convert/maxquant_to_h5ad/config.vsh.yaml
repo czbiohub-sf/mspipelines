@@ -11,11 +11,13 @@ functionality:
       required: true
       example: output.h5ad
   resources:
-    - type: python_script
-      path: script.py
+    - type: r_script
+      path: script.R
 platforms:
   - type: docker
-    image: python:3.9
-    setup:
-      - type: python
-        packages: [ anndata ]
+    image: dataintuitive/randpy:r4.0_py3.8_bioc3.12
+    # setup:
+    #   - type: python
+    #     packages: [ anndata ]
+    #   - type: r
+    #     packages: [ anndata ]
