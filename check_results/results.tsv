@@ -1,5 +1,5 @@
 namespace	functionality	platform	test_name	exit_code	duration	result
-download	sync_resources_test	docker	build_executable	0	15	SUCCESS
-download	sync_resources_test	docker	run_test.sh	1	2	ERROR
-preproc	maxquant	docker	build_executable	0	127	SUCCESS
-preproc	maxquant	docker	tests	-1	0	MISSING
+download	sync_resources_test	docker	build_executable	0	11	SUCCESS
+download	sync_resources_test	docker	run_test.sh	1	1	ERROR
+maxquant	maxquant	docker	build_executable	0	630	SUCCESS
+maxquant	maxquant	docker	tests	-1	0	MISSING

@@ -1,13 +1,13 @@
 functionality:
   name: maxquant
-  namespace: preproc
+  namespace: maxquant
   arguments:
     - name: "--input"
       type: file
       required: true
       multiple: true
       example: XXXXXXX.raw
-    - name: "--fasta"
+    - name: "--reference"
       type: file
       required: true
       example: XXXXXXX.fasta

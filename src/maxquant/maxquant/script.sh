@@ -2,7 +2,7 @@
 
 ## VIASH START
 par_input="resources_test/maxquant_test_data/Raw"
-par_fasta="resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"
+par_reference="resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"
 par_output="output/"
 ## VIASH END
 
@@ -21,7 +21,7 @@ cat > "$parameter_file" << HERE
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
       <FastaFileInfo>
-         <fastaFilePath>$par_fasta</fastaFilePath>
+         <fastaFilePath>$par_reference</fastaFilePath>
          <identifierParseRule>>([^\s]*)</identifierParseRule>
          <descriptionParseRule>>(.*)</descriptionParseRule>
          <taxonomyParseRule></taxonomyParseRule>
