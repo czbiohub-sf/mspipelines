@@ -1,0 +1,42 @@
+functionality:
+  name: maxquant
+  namespace: preproc
+  arguments:
+    - name: "--input"
+      type: file
+      required: true
+      multiple: true
+      example: XXXXXXX.raw
+    - name: "--fasta"
+      type: file
+      required: true
+      example: XXXXXXX.fasta
+    - name: "--output"
+      type: file
+      required: true
+      multiple: true
+      example: output_dir
+  resources:
+    - type: bash_script
+      path: script.sh
+platforms:
+  - type: docker
+    image: ubuntu:20.04
+    setup:
+      - type: apt
+        packages: [ wget, unzip, apt-transport-https ]
+      - type: docker
+        run: 
+          - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
+              dpkg -i packages-microsoft-prod.deb &&
+              rm packages-microsoft-prod.deb
+      - type: apt
+        packages: [ dotnet-sdk-2.1, aspnetcore-runtime-2.1, dotnet-sdk-3.1, aspnetcore-runtime-3.1 ]
+      - type: docker
+        run: 
+          - mkdir /maxquant && cd /maxquant &&
+            wget http://computproteomics.bmb.sdu.dk/share/MaxQuant_2.0.3.0.zip -O MaxQuant_2.0.3.0.zip &&
+            unzip MaxQuant_2.0.3.0.zip && 
+            rm MaxQuant_2.0.3.0.zip &&
+            cd $(find /maxquant/* -type d -maxdepth 1) && 
+            mv * /maxquant
