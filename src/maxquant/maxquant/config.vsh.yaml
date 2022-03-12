@@ -1,6 +1,11 @@
 functionality:
   name: maxquant
   namespace: maxquant
+  authors:
+    - name: Robrecht Cannoodt
+      email: rcannood@gmail.com
+      roles: [ maintainer ]
+      props: { github: rcannood, orcid: "0000-0003-3641-729X" }
   arguments:
     - name: "--input"
       type: file
@@ -22,6 +27,7 @@ functionality:
 platforms:
   - type: docker
     image: ubuntu:20.04
+    target_image_source: "https://github.com/czbiohub/mspipelines"
     setup:
       - type: apt
         packages: [ wget, unzip, apt-transport-https ]

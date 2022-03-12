@@ -35,4 +35,5 @@ functionality:
 platforms:
   - type: docker
     image: "amazon/aws-cli:2.4.15"
+    target_image_source: "https://github.com/czbiohub/mspipelines"
   - type: nextflow
