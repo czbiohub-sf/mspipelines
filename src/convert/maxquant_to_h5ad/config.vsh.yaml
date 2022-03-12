@@ -1,6 +1,11 @@
 functionality:
   name: maxquant_to_h5ad
   namespace: convert
+  authors:
+    - name: Robrecht Cannoodt
+      email: rcannood@gmail.com
+      roles: [ maintainer ]
+      props: { github: rcannood, orcid: "0000-0003-3641-729X" }
   arguments:
     - name: "--input"
       type: file
@@ -16,6 +21,7 @@ functionality:
 platforms:
   - type: docker
     image: dataintuitive/randpy:r4.0_py3.8_bioc3.12
+    target_image_source: "https://github.com/czbiohub/mspipelines"
     # setup:
     #   - type: python
     #     packages: [ anndata ]
