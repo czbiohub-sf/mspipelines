@@ -18,8 +18,8 @@ functionality:
       example: XXXXXXX.fasta
     - name: "--output"
       type: file
+      direction: output
       required: true
-      multiple: true
       example: output_dir
   resources:
     - type: bash_script
