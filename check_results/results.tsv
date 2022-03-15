@@ -1,6 +1,6 @@
            namespace        functionality             platform            test_name exit_code duration               result[0m
-            download  sync_resources_test               docker                start                                        [0m
              convert     maxquant_to_h5ad               docker                start                                        [0m
+            download  sync_resources_test               docker                start                                        [0m
 [32m             convert     maxquant_to_h5ad               docker     build_executable         0        0              SUCCESS[0m
 [33m             convert     maxquant_to_h5ad               docker                tests        -1        0              MISSING[0m
             maxquant             maxquant               docker                start                                        [0m

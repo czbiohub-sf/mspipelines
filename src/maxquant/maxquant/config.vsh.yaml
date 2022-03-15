@@ -45,3 +45,5 @@ platforms:
             rm MaxQuant_2.0.3.0.zip &&
             cd $(find /maxquant/* -type d -maxdepth 1) && 
             mv * /maxquant
+  - type: nextflow
+    publish: true
