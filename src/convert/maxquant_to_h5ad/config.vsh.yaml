@@ -21,7 +21,6 @@ functionality:
 platforms:
   - type: docker
     image: dataintuitive/randpy:r4.0_py3.8_bioc3.12
-    target_image_source: "https://github.com/czbiohub/mspipelines"
     # setup:
     #   - type: python
     #     packages: [ anndata ]
