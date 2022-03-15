@@ -14,6 +14,7 @@ functionality:
     - name: "--output"
       type: file
       required: true
+      direction: output
       example: output.h5ad
   resources:
     - type: r_script
