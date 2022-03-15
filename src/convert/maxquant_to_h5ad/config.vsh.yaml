@@ -26,3 +26,5 @@ platforms:
     #     packages: [ anndata ]
     #   - type: r
     #     packages: [ anndata ]
+  - type: nextflow
+    publish: true

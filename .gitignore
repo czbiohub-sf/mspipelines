@@ -4,3 +4,4 @@ output
 target
 log*
 .viash_log*
+.nextflow*
