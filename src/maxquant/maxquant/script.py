@@ -1,27 +1,33 @@
-#!/bin/bash
+import os
+import re
+import subprocess
 
 ## VIASH START
-par_input="resources_test/maxquant_test_data/Raw"
-par_reference="resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"
-par_output="output/"
+par = {
+   "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
+   "reference": "resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta",
+   "output": "output/"
+}
 ## VIASH END
 
 # if par_input is a directory, look for raw files
-if [ -d "$par_input" ]; then
-   par_input=`find "$par_input" -name "*.raw" | tr '\n' ':'`
-fi
+# if os.path.isdir(par["input"]):
+#    par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
 
-# create param file
-mkdir -p "$par_output"
-parameter_file="$par_output/mqpar.xml"
+if not os.path.exists(par["output"]):
+    os.makedirs(par["output"])
 
-# write start of file
-cat > "$parameter_file" << HERE
-<?xml version="1.0" encoding="utf-8"?>
+param_file=os.path.join(par["output"], "mqpar.xml")
+
+# workaround for newlines in large fstrings
+endl = "\n"
+
+# Create params file
+param_content = f"""<?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
       <FastaFileInfo>
-         <fastaFilePath>$par_reference</fastaFilePath>
+         <fastaFilePath>{par["reference"]}</fastaFilePath>
          <identifierParseRule>>([^\s]*)</identifierParseRule>
          <descriptionParseRule>>(.*)</descriptionParseRule>
          <taxonomyParseRule></taxonomyParseRule>
@@ -152,7 +158,7 @@ cat > "$parameter_file" << HERE
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
-   <fixedCombinedFolder>$par_output</fixedCombinedFolder>
+   <fixedCombinedFolder>{par["output"]}</fixedCombinedFolder>
    <fullMinMz>-1.79769313486232E+308</fullMinMz>
    <fullMaxMz>1.79769313486232E+308</fullMaxMz>
    <sendEmail>False</sendEmail>
@@ -164,103 +170,22 @@ cat > "$parameter_file" << HERE
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
    <filePaths>
-HERE
-# TO DO: Fix combined folder ↑
-
-# write paths
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string>$(realpath --no-symlinks $val)</string>
-HERE
-done
-set +f
-
-# tags
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <string>{file}</string>{endl}" for file in par["input"] ])}
    </filePaths>
    <experiments>
-HERE
-
-# write experiments
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string>$(basename $val)</string>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <string>{os.path.basename(file)}</string>{endl}" for file in par["input"] ])}
    </experiments>
    <fractions>
-HERE
-
-# write fractions
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <short>32767</short>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <short>32767</short>{endl}" for file in par["input"] ])}
    </fractions>
    <ptms>
-HERE
-
-# write ptms
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <boolean>False</boolean>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <boolean>False</boolean>{endl}" for file in par["input"] ])}
    </ptms>
    <paramGroupIndices>
-HERE
-
-# write ptms
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <int>0</int>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <int>0</int>{endl}" for file in par["input"] ])}
    </paramGroupIndices>
    <referenceChannel>
-HERE
-
-# write reference channel
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string></string>
-HERE
-done
-set +f
-
-# write rest of the file
-cat >> "$parameter_file" << HERE
+{''.join([ f"      <string></string>{endl}" for file in par["input"] ])}
    </referenceChannel>
    <intensPred>False</intensPred>
    <intensPredModelReTrain>False</intensPredModelReTrain>
@@ -612,7 +537,10 @@ cat >> "$parameter_file" << HERE
       </fragmentationParams>
    </fragmentationParamsArray>
 </MaxQuantParams>
-HERE
+"""
+
+with open(param_file, "w") as f:
+   f.write(param_content)
 
 # USAGE:
 # Complete run of an existing mqpar.xml file:
@@ -643,10 +571,12 @@ HERE
 #   mqpar (pos. 0)                  Required. Path to the mqpar.xml file. If you do not have an mqpar.xml, you can generate one using the MaxQuant GUI or use
 #                                   --create option.
 
+p = subprocess.Popen(
+   ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+   cwd=os.path.dirname(param_file)#,
+   # stdout=subprocess.STDOUT,
+   # stderr=subprocess.STDOUT
+)
+p.wait()
 
-MaxQuantCmd=/maxquant/bin/MaxQuantCmd.exe
-
-cd `dirname $parameter_file`
-
-echo "+" dotnet "$MaxQuantCmd" `basename $parameter_file`
-dotnet "$MaxQuantCmd" `basename $parameter_file`
+print(f"MaxQuant finished with exit code {p.returncode}")

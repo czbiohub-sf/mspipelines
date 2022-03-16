@@ -101,8 +101,8 @@ workflow run_wf {
     }
     | view { "before maxquant: [${it[0]}, ${it[1]}, params]" }
     | maxquant
-    // | maxquant_to_h5ad
-    // | view { "after maxquant: ${it[0]} - ${it[1]}" }
+    | maxquant_to_h5ad
+    | view { "after maxquant: ${it[0]} - ${it[1]}" }
 
   emit:
   output_ch
