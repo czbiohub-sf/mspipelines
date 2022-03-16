@@ -77,7 +77,7 @@ workflow run_wf {
 
       // process input
       if (li.containsKey("input") && li.input) {
-        input_path = file(li.input)
+        input_path = li.input.split(";").collect { path -> file(path) }.flatten()
       } else {
         exit 1, multirun ? 
           "ERROR: The provided csv file should contain an 'input' column" : 
