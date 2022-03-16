@@ -1370,5 +1370,5 @@ info:
   output: "target/docker/maxquant/maxquant"
   executable: "target/docker/maxquant/maxquant/maxquant"
   viash_version: "0.5.10"
-  git_commit: "70b9f761afc8df8aaeb2df620e3b8e29b50741cf"
+  git_commit: "3d9ad251a0af88e44d30ab8a0222416fa60b108f"
   git_remote: "https://github.com/czbiohub/mspipelines"
