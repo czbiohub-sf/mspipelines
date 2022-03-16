@@ -29,6 +29,10 @@ jobs:
       run: |
         bin/viash_build
 
+    - name: Sync test resources
+      run: |
+        target/docker/download/sync_resources_test/sync_resources_test
+
     - name: Run tests
       run: |
         # create check_results folder
