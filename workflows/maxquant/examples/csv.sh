@@ -11,7 +11,7 @@ export NXF_VER=21.10.6
 bin/nextflow \
   run . \
   -main-script workflows/maxquant/main.nf \
-  --csv 'workflows/maxquant/examples/test_input.csv'
+  --csv 'workflows/maxquant/examples/test_input.csv' \
   --publishDir output/ \
   -resume \
   -c workflows/maxquant/nextflow.config

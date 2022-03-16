@@ -79,6 +79,6 @@ def has_param(name) {
 }
 def check_required_param(name, description) {
   if (!has_param(name)) {
-    exit 1, "ERROR: Please provide a --{name} parameter {description}"
+    exit 1, "ERROR: Please provide a --${name} parameter ${description}"
   }
 }

@@ -1,6 +1,8 @@
 import os
 import re
 import subprocess
+import tempfile
+import shutil
 
 ## VIASH START
 par = {
@@ -11,19 +13,30 @@ par = {
 ## VIASH END
 
 # if par_input is a directory, look for raw files
-# if os.path.isdir(par["input"]):
-#    par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
+if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
+   par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
 
-if not os.path.exists(par["output"]):
-    os.makedirs(par["output"])
+# use absolute paths
+par["input"] = [ os.path.abspath(f) for f in par["input"] ]
+par["reference"] = os.path.abspath(par["reference"])
+par["output"] = os.path.abspath(par["output"])
 
-param_file=os.path.join(par["output"], "mqpar.xml")
+# copy input files to tempdir
+with tempfile.TemporaryDirectory() as temp_dir:
+   old_inputs = par["input"]
+   new_inputs = [ os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs ]
+   for old, new in zip(old_inputs, new_inputs):
+      shutil.copyfile(old, new)
+   par["input"] = new_inputs
 
-# workaround for newlines in large fstrings
-endl = "\n"
+   # create output dir if not exists
+   if not os.path.exists(par["output"]):
+      os.makedirs(par["output"])
 
-# Create params file
-param_content = f"""<?xml version="1.0" encoding="utf-8"?>
+   # Create params file
+   param_file = os.path.join(par["output"], "mqpar.xml")
+   endl = "\n"
+   param_content = f"""<?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
       <FastaFileInfo>
@@ -158,7 +171,7 @@ param_content = f"""<?xml version="1.0" encoding="utf-8"?>
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
-   <fixedCombinedFolder>{par["output"]}</fixedCombinedFolder>
+   <fixedCombinedFolder>{par["output"]}/</fixedCombinedFolder>
    <fullMinMz>-1.79769313486232E+308</fullMinMz>
    <fullMaxMz>1.79769313486232E+308</fullMaxMz>
    <sendEmail>False</sendEmail>
@@ -169,23 +182,17 @@ param_content = f"""<?xml version="1.0" encoding="utf-8"?>
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
-   <filePaths>
-{''.join([ f"      <string>{file}</string>{endl}" for file in par["input"] ])}
+   <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>
-{''.join([ f"      <string>{os.path.basename(file)}</string>{endl}" for file in par["input"] ])}
+   <experiments>{''.join([ f"{endl}      <string>{os.path.basename(file)}</string>" for file in par["input"] ])}
    </experiments>
-   <fractions>
-{''.join([ f"      <short>32767</short>{endl}" for file in par["input"] ])}
+   <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>
-   <ptms>
-{''.join([ f"      <boolean>False</boolean>{endl}" for file in par["input"] ])}
+   <ptms>{''.join([ f"{endl}      <boolean>False</boolean>" for file in par["input"] ])}
    </ptms>
-   <paramGroupIndices>
-{''.join([ f"      <int>0</int>{endl}" for file in par["input"] ])}
+   <paramGroupIndices>{''.join([ f"{endl}      <int>0</int>" for file in par["input"] ])}
    </paramGroupIndices>
-   <referenceChannel>
-{''.join([ f"      <string></string>{endl}" for file in par["input"] ])}
+   <referenceChannel>{''.join([ f"{endl}      <string></string>" for file in par["input"] ])}
    </referenceChannel>
    <intensPred>False</intensPred>
    <intensPredModelReTrain>False</intensPredModelReTrain>
@@ -539,44 +546,14 @@ param_content = f"""<?xml version="1.0" encoding="utf-8"?>
 </MaxQuantParams>
 """
 
-with open(param_file, "w") as f:
-   f.write(param_content)
+   with open(param_file, "w") as f:
+      f.write(param_content)
 
-# USAGE:
-# Complete run of an existing mqpar.xml file:
-#   MaxQuantCmd.exe mqpar.xml
-# Print job ids/names table:
-#   MaxQuantCmd.exe --dryrun mqpar.xml
-# Rerunning second and third parts of the analysis:
-#   MaxQuantCmd.exe --partial-processing-end=3 --partial-processing=1 mqpar.xml
-# Changing folder location for fasta files and raw files for a given mqpar file:
-#   MaxQuantCmd.exe --changeFolder="<new mqpar.xml>" "<new folder with fasta files>" "<new folder with raw files>" mqpar.xml
-#
-#   -p, --partial-processing        (Default: 1) Start processing from the specified job id. Can be used to continue/redo parts of the processing. Job id's can be
-#                                   obtained in the MaxQuant GUI partial processing view or from --dryrun option. The first job id is 1.
-#
-#   -e, --partial-processing-end    (Default: 2147483647) Finish processing at the specified job id. 1-based indexing is used.
-#
-#   -n, --dryrun                    Print job ids and job names table.
-#
-#   -c, --create                    Create a template of MaxQuant parameter file.
-#
-#   -f, --changeFolder              Change folder location for fasta and raw files (presuming all raw files are in the same folder). Expecting three locations
-#                                   separated by space. 1) path to the mqpar file 2) path to the fasta file(s) 3) path to the raw files.
-#
-#   --help                          Display this help screen.
-#
-#   --version                       Display version information.
-#
-#   mqpar (pos. 0)                  Required. Path to the mqpar.xml file. If you do not have an mqpar.xml, you can generate one using the MaxQuant GUI or use
-#                                   --create option.
+   p = subprocess.Popen(
+      ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+      cwd=os.path.dirname(param_file)
+   )
+   p.wait()
 
-p = subprocess.Popen(
-   ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-   cwd=os.path.dirname(param_file)#,
-   # stdout=subprocess.STDOUT,
-   # stderr=subprocess.STDOUT
-)
-p.wait()
-
-print(f"MaxQuant finished with exit code {p.returncode}")
+   if p.returncode != 0:
+      raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
