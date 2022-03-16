@@ -1,27 +1,46 @@
-#!/bin/bash
+import os
+import re
+import subprocess
+import tempfile
+import shutil
 
 ## VIASH START
-par_input="resources_test/maxquant_test_data/Raw"
-par_reference="resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"
-par_output="output/"
+par = {
+   "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
+   "reference": "resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta",
+   "output": "output/"
+}
 ## VIASH END
 
 # if par_input is a directory, look for raw files
-if [ -d "$par_input" ]; then
-   par_input=`find "$par_input" -name "*.raw" | tr '\n' ':'`
-fi
+if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
+   par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
 
-# create param file
-mkdir -p "$par_output"
-parameter_file="$par_output/mqpar.xml"
+# use absolute paths
+par["input"] = [ os.path.abspath(f) for f in par["input"] ]
+par["reference"] = os.path.abspath(par["reference"])
+par["output"] = os.path.abspath(par["output"])
 
-# write start of file
-cat > "$parameter_file" << HERE
-<?xml version="1.0" encoding="utf-8"?>
+# copy input files to tempdir
+with tempfile.TemporaryDirectory() as temp_dir:
+   old_inputs = par["input"]
+   new_inputs = [ os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs ]
+   for old, new in zip(old_inputs, new_inputs):
+      shutil.copyfile(old, new)
+   par["input"] = new_inputs
+
+   # create output dir if not exists
+   if not os.path.exists(par["output"]):
+      os.makedirs(par["output"])
+
+   # Create params file
+   param_file = os.path.join(par["output"], "mqpar.xml")
+   endl = "\n"
+   param_content = f"""<?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
       <FastaFileInfo>
-         <fastaFilePath>$par_reference</fastaFilePath>
+         <fastaFilePath>{par["reference"]}</fastaFilePath>
          <identifierParseRule>>([^\s]*)</identifierParseRule>
          <descriptionParseRule>>(.*)</descriptionParseRule>
          <taxonomyParseRule></taxonomyParseRule>
@@ -152,7 +171,7 @@ cat > "$parameter_file" << HERE
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
-   <fixedCombinedFolder>$par_output</fixedCombinedFolder>
+   <fixedCombinedFolder>{par["output"]}/</fixedCombinedFolder>
    <fullMinMz>-1.79769313486232E+308</fullMinMz>
    <fullMaxMz>1.79769313486232E+308</fullMaxMz>
    <sendEmail>False</sendEmail>
@@ -163,104 +182,17 @@ cat > "$parameter_file" << HERE
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
-   <filePaths>
-HERE
-# TO DO: Fix combined folder ↑
-
-# write paths
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string>$(realpath --no-symlinks $val)</string>
-HERE
-done
-set +f
-
-# tags
-cat >> "$parameter_file" << HERE
+   <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>
-HERE
-
-# write experiments
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string>$(basename $val)</string>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+   <experiments>{''.join([ f"{endl}      <string>{os.path.basename(file)}</string>" for file in par["input"] ])}
    </experiments>
-   <fractions>
-HERE
-
-# write fractions
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <short>32767</short>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+   <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>
-   <ptms>
-HERE
-
-# write ptms
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <boolean>False</boolean>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+   <ptms>{''.join([ f"{endl}      <boolean>False</boolean>" for file in par["input"] ])}
    </ptms>
-   <paramGroupIndices>
-HERE
-
-# write ptms
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <int>0</int>
-HERE
-done
-set +f
-
-cat >> "$parameter_file" << HERE
+   <paramGroupIndices>{''.join([ f"{endl}      <int>0</int>" for file in par["input"] ])}
    </paramGroupIndices>
-   <referenceChannel>
-HERE
-
-# write reference channel
-IFS=:
-set -f
-for val in $par_input; do
-  unset IFS
-  cat >> "$parameter_file" << HERE
-      <string></string>
-HERE
-done
-set +f
-
-# write rest of the file
-cat >> "$parameter_file" << HERE
+   <referenceChannel>{''.join([ f"{endl}      <string></string>" for file in par["input"] ])}
    </referenceChannel>
    <intensPred>False</intensPred>
    <intensPredModelReTrain>False</intensPredModelReTrain>
@@ -612,41 +544,16 @@ cat >> "$parameter_file" << HERE
       </fragmentationParams>
    </fragmentationParamsArray>
 </MaxQuantParams>
-HERE
+"""
 
-# USAGE:
-# Complete run of an existing mqpar.xml file:
-#   MaxQuantCmd.exe mqpar.xml
-# Print job ids/names table:
-#   MaxQuantCmd.exe --dryrun mqpar.xml
-# Rerunning second and third parts of the analysis:
-#   MaxQuantCmd.exe --partial-processing-end=3 --partial-processing=1 mqpar.xml
-# Changing folder location for fasta files and raw files for a given mqpar file:
-#   MaxQuantCmd.exe --changeFolder="<new mqpar.xml>" "<new folder with fasta files>" "<new folder with raw files>" mqpar.xml
-#
-#   -p, --partial-processing        (Default: 1) Start processing from the specified job id. Can be used to continue/redo parts of the processing. Job id's can be
-#                                   obtained in the MaxQuant GUI partial processing view or from --dryrun option. The first job id is 1.
-#
-#   -e, --partial-processing-end    (Default: 2147483647) Finish processing at the specified job id. 1-based indexing is used.
-#
-#   -n, --dryrun                    Print job ids and job names table.
-#
-#   -c, --create                    Create a template of MaxQuant parameter file.
-#
-#   -f, --changeFolder              Change folder location for fasta and raw files (presuming all raw files are in the same folder). Expecting three locations
-#                                   separated by space. 1) path to the mqpar file 2) path to the fasta file(s) 3) path to the raw files.
-#
-#   --help                          Display this help screen.
-#
-#   --version                       Display version information.
-#
-#   mqpar (pos. 0)                  Required. Path to the mqpar.xml file. If you do not have an mqpar.xml, you can generate one using the MaxQuant GUI or use
-#                                   --create option.
+   with open(param_file, "w") as f:
+      f.write(param_content)
 
+   p = subprocess.Popen(
+      ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+      cwd=os.path.dirname(param_file)
+   )
+   p.wait()
 
-MaxQuantCmd=/maxquant/bin/MaxQuantCmd.exe
-
-cd `dirname $parameter_file`
-
-echo "+" dotnet "$MaxQuantCmd" `basename $parameter_file`
-dotnet "$MaxQuantCmd" `basename $parameter_file`
+   if p.returncode != 0:
+      raise Exception(f"MaxQuant finished with exit code {p.returncode}") 

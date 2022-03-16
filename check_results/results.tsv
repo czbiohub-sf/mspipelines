@@ -7,4 +7,4 @@
 [32m            maxquant             maxquant               docker     build_executable         0        0              SUCCESS[0m
 [33m            maxquant             maxquant               docker                tests        -1        0              MISSING[0m
 [32m            download  sync_resources_test               docker     build_executable         0        0              SUCCESS[0m
-[31m            download  sync_resources_test               docker          run_test.sh         1        2                ERROR[0m
+[31m            download  sync_resources_test               docker          run_test.sh         1        1                ERROR[0m

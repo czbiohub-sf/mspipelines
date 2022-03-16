@@ -158,6 +158,8 @@ def overrideIO(_params, inputs, outputs) {
 }
 
 process maxquant_process {
+  label 'highmem'
+  label 'highcpu'
   tag "${id}"
   echo { (params.debug == true) ? true : false }
   stageInMode "symlink"

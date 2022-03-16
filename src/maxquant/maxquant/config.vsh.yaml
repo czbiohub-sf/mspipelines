@@ -11,19 +11,19 @@ functionality:
       type: file
       required: true
       multiple: true
-      example: XXXXXXX.raw
+      example: input.raw
     - name: "--reference"
       type: file
       required: true
-      example: XXXXXXX.fasta
+      example: reference.fasta
     - name: "--output"
       type: file
       direction: output
       required: true
       example: output_dir
   resources:
-    - type: bash_script
-      path: script.sh
+    - type: python_script
+      path: script.py
 platforms:
   - type: docker
     image: ubuntu:20.04
@@ -45,5 +45,8 @@ platforms:
             rm MaxQuant_2.0.3.0.zip &&
             cd $(find /maxquant/* -type d -maxdepth 1) && 
             mv * /maxquant
+      - type: apt
+        packages: [ python3, python-is-python3 ]
   - type: nextflow
     publish: true
+    labels: [ highmem, highcpu ]
