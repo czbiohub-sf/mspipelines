@@ -150,18 +150,21 @@ VIASH_META_FUNCTIONALITY_NAME="maxquant_to_h5ad"
 # ViashHelp: Display helpful explanation about this executable
 function ViashHelp {
   echo "maxquant_to_h5ad main_build"
+  echo "Converting a MaxQuant output folder to an AnnData file."
   echo
   echo "Options:"
 
   echo "   --input"
   echo "        type: file, required parameter"
   echo "        example: /path/to/output_dir"
+  echo "        The output folder of a MaxQuant analysis. Must contain 'combined' as a subdirectory."
   echo ""
 
 
   echo "   --output"
   echo "        type: file, required parameter, output"
   echo "        example: output.h5ad"
+  echo "        The dataset as an AnnData file."
   echo ""
 
 }

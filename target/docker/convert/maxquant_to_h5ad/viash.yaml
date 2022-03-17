@@ -14,6 +14,8 @@ functionality:
   - type: "file"
     name: "--input"
     alternatives: []
+    description: "The output folder of a MaxQuant analysis. Must contain 'combined'\
+      \ as a subdirectory."
     example: "/path/to/output_dir"
     must_exist: false
     required: true
@@ -23,6 +25,7 @@ functionality:
   - type: "file"
     name: "--output"
     alternatives: []
+    description: "The dataset as an AnnData file."
     example: "output.h5ad"
     must_exist: false
     required: true
@@ -184,18 +187,21 @@ functionality:
       # ViashHelp: Display helpful explanation about this executable
       function ViashHelp {
         echo "maxquant_to_h5ad main_build"
+        echo "Converting a MaxQuant output folder to an AnnData file."
         echo
         echo "Options:"
       
         echo "   --input"
         echo "        type: file, required parameter"
         echo "        example: /path/to/output_dir"
+        echo "        The output folder of a MaxQuant analysis. Must contain 'combined' as a subdirectory."
         echo ""
       
       
         echo "   --output"
         echo "        type: file, required parameter, output"
         echo "        example: output.h5ad"
+        echo "        The dataset as an AnnData file."
         echo ""
       
       }
@@ -747,6 +753,7 @@ functionality:
 
     dest: "maxquant_to_h5ad"
     is_executable: true
+  description: "Converting a MaxQuant output folder to an AnnData file."
   tests: []
   info: {}
   dummy_arguments: []
@@ -774,5 +781,5 @@ info:
   output: "target/docker/convert/maxquant_to_h5ad"
   executable: "target/docker/convert/maxquant_to_h5ad/maxquant_to_h5ad"
   viash_version: "0.5.10.1"
-  git_commit: "81b5f26b57b05af084a63908c38e63fe70ec88e8"
+  git_commit: "cb9922beb928afd4df4b3d402c9e027f5acc27a8"
   git_remote: "https://github.com/czbiohub/mspipelines"

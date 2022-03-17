@@ -1,6 +1,7 @@
 functionality:
   name: maxquant_to_h5ad
   namespace: convert
+  description: Converting a MaxQuant output folder to an AnnData file.
   authors:
     - name: Robrecht Cannoodt
       email: rcannood@gmail.com
@@ -11,11 +12,13 @@ functionality:
       type: file
       required: true
       example: /path/to/output_dir
+      description: The output folder of a MaxQuant analysis. Must contain 'combined' as a subdirectory.
     - name: "--output"
       type: file
       required: true
       direction: output
       example: output.h5ad
+      description: The dataset as an AnnData file.
   resources:
     - type: r_script
       path: script.R
