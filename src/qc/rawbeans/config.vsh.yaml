@@ -1,0 +1,40 @@
+functionality:
+  name: rawbeans
+  namespace: qc
+  description: Perform a QC analysis.
+  usage: rawbeans --input file1.mzML --output out_qc/
+  authors:
+    - name: Robrecht Cannoodt
+      email: rcannood@gmail.com
+      roles: [ maintainer ]
+      props: { github: rcannood, orcid: "0000-0003-3641-729X" }
+  arguments:
+    - name: "--input"
+      type: file
+      required: true
+      multiple: true
+      description: One or more mzML files.
+      example: input.mzML
+    - name: "--output"
+      type: file
+      direction: output
+      required: true
+      example: output_qc_dir
+      description: An output directory to the QC results.
+  resources:
+    - type: bash_script
+      path: script.sh
+platforms:
+  - type: docker
+    image: python:3.8
+    setup:
+      - type: apt
+        packages: [ cython3, git ]
+      - type: docker
+        run: |
+          cd / && \
+          git clone https://bitbucket.org/incpm/prot-qc.git && \
+          cd prot-qc && \
+          python setup.py install
+  - type: nextflow
+    publish: true

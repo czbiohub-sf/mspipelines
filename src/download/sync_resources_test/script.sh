@@ -12,4 +12,4 @@ if [ "$par_dryrun" == "true" ]; then
   extra_params+=( "--dryrun" )
 fi
 
-aws s3 sync "$par_input" "$par_output" --no-sign-request "${extra_params[@]}"
+aws s3 sync "$par_input" "$par_output/" --no-sign-request "${extra_params[@]}"
