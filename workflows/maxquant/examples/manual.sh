@@ -28,7 +28,6 @@ bin/nextflow \
 #   -resume \
 #   -c workflows/maxquant/nextflow.config
 
-
 # bin/nextflow \
 #   run https://github.com/czbiohub/mspipelines.git \
 #   -r main_build \
