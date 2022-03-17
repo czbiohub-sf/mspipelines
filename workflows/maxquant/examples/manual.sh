@@ -27,3 +27,13 @@ bin/nextflow \
 #   --publishDir output/ \
 #   -resume \
 #   -c workflows/maxquant/nextflow.config
+
+
+# bin/nextflow \
+#   run https://github.com/czbiohub/mspipelines.git \
+#   -r main_build \
+#   -main-script workflows/maxquant/main.nf \
+#   --input 'https://zenodo.org/record/4274987/files/Sample1.raw;https://zenodo.org/record/4274987/files/Sample2.raw' \
+#   --reference 'https://zenodo.org/record/4274987/files/Protein_database.fasta' \
+#   --publishDir output/ \
+#   -resume
