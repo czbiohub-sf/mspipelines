@@ -150,24 +150,31 @@ VIASH_META_FUNCTIONALITY_NAME="maxquant"
 # ViashHelp: Display helpful explanation about this executable
 function ViashHelp {
   echo "maxquant main_build"
+  echo "Perform a MaxQuant analysis with mostly default parameters."
+  echo
+  echo -n "Usage: "
+  echo "maxquant --input file1.raw --input file2.raw --reference ref.fasta --output out/"
   echo
   echo "Options:"
 
   echo "   --input"
   echo "        type: file, required parameter, multiple values allowed"
   echo "        example: input.raw"
+  echo "        One or more Thermo Raw files."
   echo ""
 
 
   echo "   --reference"
   echo "        type: file, required parameter"
   echo "        example: reference.fasta"
+  echo "        A reference file in fasta format."
   echo ""
 
 
   echo "   --output"
   echo "        type: file, required parameter, output"
   echo "        example: output_dir"
+  echo "        An output directory to store the 'mqpar.xml' and 'combined' outputs."
   echo ""
 
 }

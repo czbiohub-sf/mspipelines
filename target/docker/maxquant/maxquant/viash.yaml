@@ -14,6 +14,7 @@ functionality:
   - type: "file"
     name: "--input"
     alternatives: []
+    description: "One or more Thermo Raw files."
     example: "input.raw"
     must_exist: false
     required: true
@@ -23,6 +24,7 @@ functionality:
   - type: "file"
     name: "--reference"
     alternatives: []
+    description: "A reference file in fasta format."
     example: "reference.fasta"
     must_exist: false
     required: true
@@ -32,6 +34,7 @@ functionality:
   - type: "file"
     name: "--output"
     alternatives: []
+    description: "An output directory to store the 'mqpar.xml' and 'combined' outputs."
     example: "output_dir"
     must_exist: false
     required: true
@@ -193,24 +196,31 @@ functionality:
       # ViashHelp: Display helpful explanation about this executable
       function ViashHelp {
         echo "maxquant main_build"
+        echo "Perform a MaxQuant analysis with mostly default parameters."
+        echo
+        echo -n "Usage: "
+        echo "maxquant --input file1.raw --input file2.raw --reference ref.fasta --output out/"
         echo
         echo "Options:"
       
         echo "   --input"
         echo "        type: file, required parameter, multiple values allowed"
         echo "        example: input.raw"
+        echo "        One or more Thermo Raw files."
         echo ""
       
       
         echo "   --reference"
         echo "        type: file, required parameter"
         echo "        example: reference.fasta"
+        echo "        A reference file in fasta format."
         echo ""
       
       
         echo "   --output"
         echo "        type: file, required parameter, output"
         echo "        example: output_dir"
+        echo "        An output directory to store the 'mqpar.xml' and 'combined' outputs."
         echo ""
       
       }
@@ -1303,6 +1313,9 @@ functionality:
 
     dest: "maxquant"
     is_executable: true
+  description: "Perform a MaxQuant analysis with mostly default parameters."
+  usage: "maxquant --input file1.raw --input file2.raw --reference ref.fasta --output\
+    \ out/"
   tests: []
   info: {}
   dummy_arguments: []
@@ -1370,5 +1383,5 @@ info:
   output: "target/docker/maxquant/maxquant"
   executable: "target/docker/maxquant/maxquant/maxquant"
   viash_version: "0.5.10.1"
-  git_commit: "4e0a0c69c4e8b40618a31478d2cd63a72da19cea"
+  git_commit: "81b5f26b57b05af084a63908c38e63fe70ec88e8"
   git_remote: "https://github.com/czbiohub/mspipelines"
