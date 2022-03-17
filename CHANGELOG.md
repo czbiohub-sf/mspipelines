@@ -1,8 +1,15 @@
+# mspipeline 0.2.0
+
+Added components:
+
+* `convert/thermo_to_mzml`: Convert a Thermo raw file to mzML.
+* `qc/rawbeans`: Perform QC analysis on mzML file.
+
 # mspipeline 0.1.0
 
 Initial release of mspipeline.
 
-Components:
+Added components:
  * `maxquant/maxquant`: Running a MaxQuant analysis with mostly default parameters.
  * `convert/maxquant_to_h5ad`: Converting a MaxQuant output folder to an AnnData file. 
  * `download/sync_resources_test`: Download testing resources from S3 to the `resources_test/` directory.
