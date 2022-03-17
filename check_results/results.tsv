@@ -1,6 +1,6 @@
            namespace        functionality             platform            test_name exit_code duration               result[0m
-             convert       thermo_to_mzml               docker                start                                        [0m
             download  sync_resources_test               docker                start                                        [0m
+             convert       thermo_to_mzml               docker                start                                        [0m
 [32m             convert       thermo_to_mzml               docker     build_executable         0        0              SUCCESS[0m
 [33m             convert       thermo_to_mzml               docker                tests        -1        0              MISSING[0m
                   qc             rawbeans               docker                start                                        [0m
