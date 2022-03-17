@@ -781,5 +781,5 @@ info:
   output: "target/docker/convert/maxquant_to_h5ad"
   executable: "target/docker/convert/maxquant_to_h5ad/maxquant_to_h5ad"
   viash_version: "0.5.10.1"
-  git_commit: "aaab58e27188ac5b8e0767197b3c3718447634b6"
+  git_commit: "3075ed4c7c0c5bff5132f8f74a855c2d7896842c"
   git_remote: "https://github.com/czbiohub/mspipelines"
