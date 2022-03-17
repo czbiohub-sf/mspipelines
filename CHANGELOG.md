@@ -1,6 +1,6 @@
 # mspipeline 0.1.0
 
-Initial commit of mspipeline 
+Initial release of mspipeline.
 
 Components:
  * `maxquant/maxquant`: Running a MaxQuant analysis with mostly default parameters.
