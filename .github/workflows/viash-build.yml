@@ -56,7 +56,7 @@ jobs:
 
     - name: Push containers
       run: |
-        bin/viash_push -m release -t main_build
+        bin/viash_push -m release -t main_build --force
         
     - name: Upload check results
       uses: actions/upload-artifact@master
