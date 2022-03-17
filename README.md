@@ -1,4 +1,4 @@
-# msmpipelines
+# mspipelines
 
 ## Run a pipeline with a release
 
