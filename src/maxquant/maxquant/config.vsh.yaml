@@ -1,6 +1,8 @@
 functionality:
   name: maxquant
   namespace: maxquant
+  description: Perform a MaxQuant analysis with mostly default parameters.
+  usage: maxquant --input file1.raw --input file2.raw --reference ref.fasta --output out/
   authors:
     - name: Robrecht Cannoodt
       email: rcannood@gmail.com
@@ -11,16 +13,19 @@ functionality:
       type: file
       required: true
       multiple: true
+      description: One or more Thermo Raw files.
       example: input.raw
     - name: "--reference"
       type: file
       required: true
       example: reference.fasta
+      description: A reference file in fasta format.
     - name: "--output"
       type: file
       direction: output
       required: true
       example: output_dir
+      description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
   resources:
     - type: python_script
       path: script.py
