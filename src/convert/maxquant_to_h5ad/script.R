@@ -4,7 +4,7 @@ library(anndata, warn.conflicts = FALSE)
 
 ## VIASH START
 par <- list(
-  input = "resources_test/zenodo_4274987/maxquant_out/combined/",
+  input = "resources_test/zenodo_4274987/maxquant_out/",
   output = "output.h5ad"
 )
 ## VIASH END
