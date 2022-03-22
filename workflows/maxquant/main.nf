@@ -5,6 +5,8 @@ targetDir = params.rootDir + "/target/nextflow"
 
 include { maxquant } from targetDir + "/maxquant/maxquant/main.nf" params(params)
 include { maxquant_to_h5ad } from targetDir + "/convert/maxquant_to_h5ad/main.nf" params(params)
+include { thermo_to_mzml } from targetDir + "/convert/thermo_to_mzml/main.nf" params(params)
+include { rawbeans } from targetDir + "/qc/rawbeans/main.nf" params(params)
 include { overrideOptionValue; has_param; check_required_param } from workflowDir + "/utils/utils.nf" params(params)
 
 /*
@@ -36,6 +38,8 @@ Arguments:
     exit 1, "ERROR: Please provide either an --input parameter or a --csv parameter"
   }
   
+  check_required_param("publishDir", "where output files will be published")
+
   def multirun = has_param("csv")
   if (multirun) {
     input_ch = Channel.fromPath(params.csv)
@@ -44,37 +48,8 @@ Arguments:
     input_ch = Channel.value( params.subMap(["input", "reference"]) )
   }
 
-  check_required_param("publishDir", "where output files will be published")
-
   input_ch
-    | run_wf
-}
-
-/*
-MaxQuant Processing - Common workflow
-
-A workflow for running the default MaxQuant processing components.
-
-input channel event format: [ id: xxx, input: xxx, reference: xxx ]
-  value id:                      an event id (optional)
-  value input:                   one or more raw files (required)
-  value reference:               a reference fasta file (required)
-output channel event format: [ id, data, params ]
-  value id:                      same as input
-  map data:
-    value input:                   one or more raw files (required)
-    value reference:               a reference fasta file (required)
-  value params:                  same as input params
-*/
-workflow run_wf {
-  take:
-  input_ch
-
-  main:
-  output_ch = input_ch 
     | map { li ->
-      def multirun = has_param("csv")
-
       // process input
       if (li.containsKey("input") && li.input) {
         input_path = li.input.split(";").collect { path -> file(path) }.flatten()
@@ -105,9 +80,52 @@ workflow run_wf {
       [ id_value, [ input: input_path, reference: reference_path ], params ]
     }
     | view { "before maxquant: [${it[0]}, ${it[1]}, params]" }
-    | maxquant
-    | maxquant_to_h5ad
+    | run_wf
     | view { "after maxquant: ${it[0]} - ${it[1]}" }
+}
+
+/*
+MaxQuant Processing - Common workflow
+
+A workflow for running the default MaxQuant processing components.
+
+input channel event format: [ id, data, params ]
+  value id:                      an event id
+  map data:
+    value input:                 one or more raw files (required)
+    value reference:             a reference fasta file (required)
+  value params:                    
+output channel event format: [ id, data, params ]
+  value id:                      same as input
+  map data:
+    value raw:                   raw data
+    value mzml:                  raw data as an mzml
+    value maxquant:              maxquant output directory
+    value rawbeans:              rawbeans output directory
+    value h5ad:                  maxquant output as an h5ad file
+  value params:                  same as input params
+*/
+workflow run_wf {
+  take:
+  input_ch
+
+  main:
+  mzml_out = input_ch 
+    | flatMap{ it -> it[1].input.withIndex().collect{in, ix -> [ it[0] + "_" + ix, in, it[2] ]}}
+    | thermo_to_mzml 
+    | map { it -> [ it[0].replaceFirst(/_[0-9]+$/, ""), it[1] ] }
+    | groupTuple()
+    | map { it -> [ it[0], it[1], params ]}
+  maxquant_out = input_ch | maxquant
+  rawbeans_out = mzml_out | rawbeans
+  h5ad_out = maxquant_out | maxquant_to_h5ad
+
+  output_ch = input_ch | map { it -> [ it[0], [ raw: it[1] ], it[2] ] }
+    | join(mzml_out | map { it -> [ it[0], [ mzml: it[1] ] ] }, remainder: true)
+    | join(maxquant_out | map { it -> [ it[0], [ maxquant: it[1] ] ] }, remainder: true)
+    | join(rawbeans_out | map { it -> [ it[0], [ rawbeans: it[1] ] ] }, remainder: true)
+    | join(h5ad_out | map { it -> [ it[0], [ h5ad: it[1] ] ] }, remainder: true)
+    | map { id, raw, params, mzml, maxquant, rawbeans, h5ad -> [id, raw + mzml + maxquant + rawbeans + h5ad, params] }
 
   emit:
   output_ch
