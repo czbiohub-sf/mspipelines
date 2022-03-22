@@ -12,7 +12,7 @@ functionality:
     - name: "--input"
       type: file
       required: true
-      description: A Thermo Raw file.
+      description: One or more Thermo Raw file(s).
       example: input.raw
     - name: "--output"
       type: file
@@ -20,6 +20,7 @@ functionality:
       required: true
       example: output.mzML
       description: Path to an .mzML file.
+      # todo: set multiple to true
   resources:
     - type: bash_script
       path: script.sh

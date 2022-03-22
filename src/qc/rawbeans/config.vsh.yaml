@@ -21,6 +21,16 @@ functionality:
       required: true
       example: output_qc_dir
       description: An output directory to the QC results.
+    - name: "--batch"
+      type: boolean_true
+      description: "When specified, will generate one report per sample instead of one report for all samples."
+    - name: "--no_report"
+      type: boolean_true
+      description: "When specified, will only generate json and no report."
+    - name: "--mass"
+      type: double
+      description: "List of masses to follow. Example: '--mass 371.10124 --mass 445.12003' or '--mass 371.10124:445.12003'."
+      multiple: true
   resources:
     - type: bash_script
       path: script.sh
