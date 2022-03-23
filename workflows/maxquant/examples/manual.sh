@@ -14,8 +14,7 @@ bin/nextflow \
   --input 'resources_test/zenodo_4274987/raw/*.raw' \
   --reference 'resources_test/zenodo_4274987/raw/reference.fasta' \
   --publishDir output/ \
-  -resume \
-  -c workflows/maxquant/nextflow.config
+  -resume
 
 
 # bin/nextflow \
