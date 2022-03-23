@@ -1,0 +1,41 @@
+functionality:
+  name: thermo_to_mzml
+  namespace: convert
+  description: Convert a thermo raw to an mzML file.
+  usage: thermo_to_mzml --input file1.raw --output output.mzML
+  authors:
+    - name: Robrecht Cannoodt
+      email: rcannood@gmail.com
+      roles: [ maintainer ]
+      props: { github: rcannood, orcid: "0000-0003-3641-729X" }
+  arguments:
+    - name: "--input"
+      type: file
+      required: true
+      description: One or more Thermo Raw file(s).
+      example: input.raw
+    - name: "--output"
+      type: file
+      direction: output
+      required: true
+      example: output.mzML
+      description: Path to an .mzML file.
+      # todo: set multiple to true
+  resources:
+    - type: bash_script
+      path: script.sh
+platforms:
+  - type: docker
+    image: mono:6.12
+    setup:
+      - type: apt
+        packages: [ wget, unzip ]
+      - type: docker
+        run: |
+          mkdir -p /var/local/thermorawfileparser && \
+          cd /var/local/thermorawfileparser && \
+          wget https://github.com/compomics/ThermoRawFileParser/releases/download/v1.3.4/ThermoRawFileParser.zip && \
+          unzip ThermoRawFileParser.zip && \
+          rm ThermoRawFileParser.zip
+  - type: nextflow
+    publish: true
