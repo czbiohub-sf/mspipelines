@@ -875,5 +875,5 @@ info:
   output: "target/nextflow/qc/rawbeans"
   executable: "target/nextflow/qc/rawbeans/rawbeans"
   viash_version: "0.5.10.1"
-  git_commit: "4d6ef186acda7c33cf2d125b3d55dd342cdfde5d"
+  git_commit: "584218faa2850596abb64f4a813838918e527877"
   git_remote: "https://github.com/czbiohub/mspipelines"
