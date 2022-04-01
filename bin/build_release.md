@@ -1,6 +1,15 @@
-# Building a release
+# Releases
+
+## Prepare a release branch
+
+Before building any release, create a 'release' fork from the main branch.
+
+Remove 'target' from the .gitignore.
+
+## Building a release
 
 The following commands can be used to build and push a release.
+
 
 ```bash
 TAG=0.1.0
