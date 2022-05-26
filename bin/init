@@ -19,7 +19,7 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 cd "$REPO_ROOT"
 
 curl -fsSL get.viash.io | bash -s -- \
-  --tag 0.5.10.1 \
+  --tag 0.5.12 \
   --registry ghcr.io \
   --organization czbiohub/mspipelines \
   --target_image_source https://github.com/czbiohub/mspipelines
