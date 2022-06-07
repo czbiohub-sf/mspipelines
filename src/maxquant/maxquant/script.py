@@ -600,8 +600,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
       
       # run maxquant
       p = subprocess.Popen(
-         # ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-         ["maxquant", os.path.basename(param_file)], 
+         ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+         # ["maxquant", os.path.basename(param_file)], 
          cwd=os.path.dirname(param_file)
       )
       p.wait()

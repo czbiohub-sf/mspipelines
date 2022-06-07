@@ -90,7 +90,7 @@ platforms:
     # setup:
     #   - type: python
     #     pypi: pandas
-    image: ubuntu:20.04
+    image: python:3.10
     setup:
       - type: apt
         packages: [ wget, unzip, apt-transport-https ]
@@ -109,8 +109,8 @@ platforms:
             rm MaxQuant_2.0.3.1.zip &&
             cd $(find /maxquant/* -type d -maxdepth 1) && 
             mv * /maxquant
-      - type: apt
-        packages: [ python3, python-is-python3, python3-pandas ]
+      - type: python
+        pypi: pandas
   - type: nextflow
     publish: true
     labels: [ highmem, highcpu ]
