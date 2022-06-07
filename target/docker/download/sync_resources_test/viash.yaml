@@ -786,5 +786,5 @@ info:
   output: "target/docker/download/sync_resources_test"
   executable: "target/docker/download/sync_resources_test/sync_resources_test"
   viash_version: "0.5.12"
-  git_commit: "456ec46adb115345c0f56e651627d6bc64f2fb43"
+  git_commit: "81039b050bb8956ce016abadd7ef28501b50254f"
   git_remote: "https://github.com/czbiohub/mspipelines"

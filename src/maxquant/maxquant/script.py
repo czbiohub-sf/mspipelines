@@ -53,14 +53,14 @@ group_type_settings = pd.read_table(
 )
 
 # check reference metadata
+
 assert len(par["reference"]) == len(par["ref_taxonomy_id"]), "--ref_taxonomy_id must have same length as --reference"
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
+   # prepare to copy input files to tempdir
    old_inputs = par["input"]
    new_inputs = [ os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs ]
-   for old, new in zip(old_inputs, new_inputs):
-      shutil.copyfile(old, new)
    par["input"] = new_inputs
 
    # create output dir if not exists
@@ -74,6 +74,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>"""
 
+   # TODO: make taxonomy optional
    for path, taxid in zip(par["reference"], par["ref_taxonomy_id"]):
       param_content += f"""
       <FastaFileInfo>
@@ -216,7 +217,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <sendEmail>False</sendEmail>
    <ionCountIntensities>False</ionCountIntensities>
    <verboseColumnHeaders>False</verboseColumnHeaders>
-   <calcPeakProperties>False</calcPeakProperties>
+   <calcPeakProperties>True</calcPeakProperties>
    <showCentroidMassDifferences>False</showCentroidMassDifferences>
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
    <useDotNetCore>True</useDotNetCore>
@@ -588,11 +589,22 @@ with tempfile.TemporaryDirectory() as temp_dir:
    with open(param_file, "w") as f:
       f.write(param_content)
 
-   # p = subprocess.Popen(
-   #    ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-   #    cwd=os.path.dirname(param_file)
-   # )
-   # p.wait()
+   if not par["dryrun"]:
+      # copy input files
+      for old, new in zip(old_inputs, new_inputs):
+         if (os.path.isdir(old)):
+            shutil.copytree(old, new)
+         else:
+            shutil.copyfile(old, new)
+         
+      
+      # run maxquant
+      p = subprocess.Popen(
+         # ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+         ["maxquant", os.path.basename(param_file)], 
+         cwd=os.path.dirname(param_file)
+      )
+      p.wait()
 
-   # if p.returncode != 0:
-   #    raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
+      if p.returncode != 0:
+         raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
