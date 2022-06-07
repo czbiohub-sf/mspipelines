@@ -38,7 +38,6 @@ functionality:
     # global > sequences
     - name: "--ref_taxonomy_id"
       type: string
-      required: true
       multiple: true
       example: "9606"
       description: |
@@ -50,6 +49,7 @@ functionality:
       default: false
       description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
     # global > tables
+    ## if DDA, DIA doesn't need to be returned
     - name: "--write_tables"
       type: string
       multiple: true
@@ -77,31 +77,38 @@ functionality:
       type: integer
       example: 30
       description: ""
+    - name: "--dryrun"
+      type: boolean_true
+      description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
   resources:
     - type: python_script
       path: script.py
     - path: settings
 platforms:
   - type: docker
+    # image: quay.io/biocontainers/maxquant:2.0.3.0--py310hdfd78af_1
+    # setup:
+    #   - type: python
+    #     pypi: pandas
     image: ubuntu:20.04
     setup:
-      # - type: apt
-      #   packages: [ wget, unzip, apt-transport-https ]
-      # - type: docker
-      #   run: 
-      #     - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
-      #         dpkg -i packages-microsoft-prod.deb &&
-      #         rm packages-microsoft-prod.deb
-      # - type: apt
-      #   packages: [ dotnet-sdk-2.1, aspnetcore-runtime-2.1, dotnet-sdk-3.1, aspnetcore-runtime-3.1 ]
-      # - type: docker
-      #   run: 
-      #     - mkdir /maxquant && cd /maxquant &&
-      #       wget http://computproteomics.bmb.sdu.dk/share/MaxQuant_2.0.3.0.zip -O MaxQuant_2.0.3.0.zip &&
-      #       unzip MaxQuant_2.0.3.0.zip && 
-      #       rm MaxQuant_2.0.3.0.zip &&
-      #       cd $(find /maxquant/* -type d -maxdepth 1) && 
-      #       mv * /maxquant
+      - type: apt
+        packages: [ wget, unzip, apt-transport-https ]
+      - type: docker
+        run: 
+          - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
+              dpkg -i packages-microsoft-prod.deb &&
+              rm packages-microsoft-prod.deb
+      - type: apt
+        packages: [ dotnet-sdk-2.1, aspnetcore-runtime-2.1, dotnet-sdk-3.1, aspnetcore-runtime-3.1 ]
+      - type: docker
+        run: 
+          - mkdir /maxquant && cd /maxquant &&
+            wget -q https://www.dropbox.com/s/6aijsx0v3zvkfqu/MaxQuant_2.0.3.1.zip -O MaxQuant_2.0.3.1.zip &&
+            unzip MaxQuant_2.0.3.1.zip && 
+            rm MaxQuant_2.0.3.1.zip &&
+            cd $(find /maxquant/* -type d -maxdepth 1) && 
+            mv * /maxquant
       - type: apt
         packages: [ python3, python-is-python3, python3-pandas ]
   - type: nextflow
