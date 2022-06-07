@@ -17,8 +17,11 @@ function clean_up {
 trap clean_up EXIT
 
 tmp_input="$TMPDIR/`basename "$par_input"`"
-cp "$par_input" "$tmp_input"
+cp -r "$par_input" "$tmp_input"
 
-mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=$tmp_input" "-b=$par_output"
-
-# mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=$par_input" "-b=$par_output"
+if [[ -d "$par_input" ]]; then
+  mkdir -p "$par_output"
+  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=$tmp_input" "-o=$par_output"
+else
+  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=$tmp_input" "-b=$par_output"
+fi
