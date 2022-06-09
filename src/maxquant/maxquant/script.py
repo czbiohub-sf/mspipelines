@@ -9,7 +9,8 @@ import pandas as pd
 par = {
    "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
    "reference": "resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta",
-   "output": "output/"
+   "output": "output/",
+   "match_between_runs": True
 }
 meta = {
    "resources_dir": "src/maxquant/maxquant/"
@@ -25,16 +26,22 @@ par["input"] = [ os.path.abspath(f) for f in par["input"] ]
 par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
 par["output"] = os.path.abspath(par["output"])
 
+# auto set experiment names
+experiment_names = [ re.sub(r"_\d+$", "", os.path.basename(file)) for file in par["input"] ]
 
 # load default matching settings
-if par["match_between_runs"]:
-   matching_cfg = { "mtw":"0.7", "mimw":"0.05", "atw":"20", "aimw":"1" }
-else: 
-   matching_cfg = { "mtw":"0", "mimw":"0", "atw":"0", "aimw":"0" }
+match_between_runs_settings = pd.read_table(
+   meta["resources_dir"] + "/settings/match_between_runs.tsv",
+   sep="\t",
+   index_col="id",
+   dtype=str,
+   keep_default_na=False,
+   na_values=['_']
+)
 
 # load default instrument settings
 ms_instrument_settings = pd.read_table(
-   meta["resources_dir"] + "/settings/ms_instrument_settings.tsv",
+   meta["resources_dir"] + "/settings/ms_instrument.tsv",
    sep="\t",
    index_col="id",
    dtype=str,
@@ -44,7 +51,7 @@ ms_instrument_settings = pd.read_table(
 
 # load default group type settings
 group_type_settings = pd.read_table(
-   meta["resources_dir"] + "/settings/group_type_settings.tsv",
+   meta["resources_dir"] + "/settings/group_type.tsv",
    sep="\t",
    index_col="id",
    dtype=str,
@@ -176,10 +183,10 @@ with tempfile.TemporaryDirectory() as temp_dir:
       <string>Oxidation (M)</string>
       <string>Acetyl (Protein N-term)</string>
    </restrictMods>
-   <matchingTimeWindow>{matching_cfg["mtw"]}</matchingTimeWindow>
-   <matchingIonMobilityWindow>{matching_cfg["mimw"]}</matchingIonMobilityWindow>
-   <alignmentTimeWindow>{matching_cfg["atw"]}</alignmentTimeWindow>
-   <alignmentIonMobilityWindow>{matching_cfg["aimw"]}</alignmentIonMobilityWindow>
+   <matchingTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingTimeWindow"]}</matchingTimeWindow>
+   <matchingIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingIonMobilityWindow"]}</matchingIonMobilityWindow>
+   <alignmentTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentTimeWindow"]}</alignmentTimeWindow>
+   <alignmentIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentIonMobilityWindow"]}</alignmentIonMobilityWindow>
    <numberOfCandidatesMsms>15</numberOfCandidatesMsms>
    <compositionPrediction>0</compositionPrediction>
    <quantMode>1</quantMode>
@@ -224,7 +231,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <profilePerformance>False</profilePerformance>
    <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>{''.join([ f"{endl}      <string>{os.path.basename(file)}</string>" for file in par["input"] ])}
+   <experiments>{''.join([ f"{endl}      <string>{experiment}</string>" for exp in experiment_names ])}
    </experiments>
    <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>
@@ -600,8 +607,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
       
       # run maxquant
       p = subprocess.Popen(
-         # ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-         ["maxquant", os.path.basename(param_file)], 
+         ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+         # ["maxquant", os.path.basename(param_file)], 
          cwd=os.path.dirname(param_file)
       )
       p.wait()
