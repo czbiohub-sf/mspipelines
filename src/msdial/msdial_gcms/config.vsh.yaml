@@ -1,0 +1,172 @@
+# built for MSDIAL 4.9.0 635b1bf90092a1a0631bf2da122c69787511a11b
+functionality:
+  name: msdial_gcms
+  namespace: msdial
+  authors:
+    - name: Robrecht Cannoodt
+      email: rcannood@gmail.com
+      roles: [ maintainer ]
+      props: { github: rcannood, orcid: "0000-0003-3641-729X" }
+  inputs:
+    - name: "--input"
+      type: file
+      required: true
+      # multiple: true
+      description: One or more ABF files.
+      example: input.abf
+  outputs:
+    - name: "--output"
+      type: file
+      direction: output
+      required: true
+      example: output_dir
+      description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
+  arguments:
+    # data type args
+    - name: "--data_type"
+      type: string
+      choices: [Centroid, Profile]
+      default: Centroid
+    - name: "--ion_mode"
+      type: string
+      choices: [Positive, Negative]
+      default: Positive
+    - name: "--accuracy_type"
+      type: string
+      choices: [IsNominal, IsAccurate]
+      default: IsNominal
+    
+    # data collection parameters
+    - name: "--retention_time_begin"
+      type: integer
+      default: 0
+    - name: "--retention_time_end"
+      type: integer
+      default: 25
+    - name: "--mass_range_begin"
+      type: integer
+      default: 0
+    - name: "--mass_range_end"
+      type: integer
+      default: 1000
+    
+    # peak detection parameters
+    - name: "--smoothing_method"
+      type: string
+      choices: [SimpleMovingAverage, LinearWeightedMovingAverage, SavitzkyGolayFilter, BinomialFilter]
+      default: LinearWeightedMovingAverage
+    - name: "--smoothing_level"
+      type: integer
+      default: 3
+    - name: "--average_peak_width"
+      type: integer
+      default: 20
+    - name: "--minimum_peak_height"
+      type: integer
+      default: 1000
+    - name: "--mass_slice_width"
+      type: double
+      default: 0.1
+    - name: "--mass_accuracy"
+      type: double
+      default: 0.025
+
+    # MS1Dec parameters
+    - name: "--sigma_window_value"
+      type: double
+      default: 0.5
+    - name: "--amplitude_cutoff"
+      type: integer
+      default: 10
+
+    # identification parameters
+    - name: "--msp_file"
+      type: file
+      required: false
+      example: file.msp
+    - name: "--ri_index"
+      type: file
+      required: false
+      example: ri_index.txt
+    - name: "--retention_type"
+      type: string
+      choices: [RI, RT]
+      default: RI
+    - name: "--ri_compound"
+      type: string
+      choices: [Fames, Alkanes]
+      default: Alkanes
+    - name: "--retention_time_tolerance_for_identification"
+      type: double
+      default: 0.5
+    - name: "--retention_index_tolerance_for_identification"
+      type: integer
+      default: 20
+    - name: "--ei_similarity_tolerance_for_identification"
+      type: integer
+      default: 70
+    - name: "--identification_score_cutoff"
+      type: integer
+      default: 70
+
+    # alignment parameters
+    - name: "--alignment_index_type"
+      type: string
+      choices: [RI, RT]
+      default: RT
+    - name: "--retention_time_tolerance_for_alignment"
+      type: double
+      default: 0.075
+    - name: "--retention_index_tolerance_for_alignment"
+      type: integer
+      default: 20
+    - name: "--ei_similarity_tolerance_for_alignment"
+      type: integer
+      default: 70
+    - name: "--retention_time_factor_for_alignment"
+      type: double
+      default: 0.5
+    - name: "--ei_similarity_factor_for_alignment"
+      type: double
+      default: 0.5
+    - name: "--peak_count_filter"
+      type: integer
+      default: 0
+    - name: "--qc_at_least_filter"
+      type: boolean
+      default: true
+  resources:
+    - type: python_script
+      path: script.py
+platforms:
+  - type: docker
+    image: python:3.10
+    setup:
+      # - type: apt
+      #   packages: [ wget, unzip, apt-transport-https ]
+      # - type: apt
+      #   packages: [ python3, python-is-python3, python3-pandas ]
+      - type: apt
+        packages: [ libnetcdf-dev ] # dependency of msdial
+      - type: docker
+        run: 
+          - mkdir /tmp/msdial && cd /tmp/msdial &&
+            wget "http://prime.psc.riken.jp/compms/msdial/download/repository/Linux/MSDIAL%20ver.4.90%20Linux.zip" -O "msdial.zip" &&
+            unzip "msdial.zip" && 
+            mv "MSDIAL ver.4.90 Linux" /msdial &&
+            rm -rf /tmp/msdial &&
+            chmod +x /msdial/MsdialConsoleApp
+      - type: python
+        pypi: pandas
+
+      # - type: docker
+      #   run: 
+      #     - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
+      #         dpkg -i packages-microsoft-prod.deb &&
+      #         rm packages-microsoft-prod.deb
+      # - type: apt
+      #   packages: [ dotnet-sdk-2.1, aspnetcore-runtime-2.1, dotnet-sdk-3.1, aspnetcore-runtime-3.1 ]
+
+  - type: nextflow
+    publish: true
+    labels: [ highmem, highcpu ]
