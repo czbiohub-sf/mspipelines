@@ -46,8 +46,7 @@ jobs:
       run: |
         bin/viash run \
           -p native \
-          src/download/sync_test_resources/config.vsh.yaml \
-          -- \
+          src/download/sync_test_resources/config.vsh.yaml -- \
           --delete
         tree resources_test/ -L 3
 
@@ -85,11 +84,6 @@ jobs:
       with:
         path: resources_test
         key: ${{ needs.list_components.outputs.cachehash }}
-
-    # sync if need be
-    - name: View test resources
-      run: |
-        tree resources_test/ -L 3
 
     - name: Run test
       run: |
