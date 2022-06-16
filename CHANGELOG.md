@@ -2,7 +2,7 @@
 
 Added components:
 
-* `msdial/gcms`: Added MSDial GC/MS component.
+* `msdial/msdial_gcms`: Added MSDial GC/MS component.
 
 Minor changes:
 
