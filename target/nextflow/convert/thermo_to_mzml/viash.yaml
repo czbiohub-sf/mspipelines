@@ -1225,5 +1225,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/convert/thermo_to_mzml"
   viash_version: "0.5.12"
-  git_commit: "02d39bef6bc6c4ffddb9cdb47ff676937104d02d"
+  git_commit: "dca84022443107bc51a755ebce192fad74b3b32e"
   git_remote: "https://github.com/czbiohub/mspipelines"
