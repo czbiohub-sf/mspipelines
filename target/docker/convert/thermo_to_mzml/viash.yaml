@@ -796,5 +796,5 @@ info:
   output: "target/docker/convert/thermo_to_mzml"
   executable: "target/docker/convert/thermo_to_mzml/thermo_to_mzml"
   viash_version: "0.5.12"
-  git_commit: "498dbc88169853a3e264eba9cef33c3b8acde0b0"
+  git_commit: "5cee41ad600b84f643ca3b4fc470369db3694c02"
   git_remote: "https://github.com/czbiohub/mspipelines"
