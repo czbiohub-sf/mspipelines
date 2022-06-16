@@ -1303,5 +1303,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/qc/rawbeans"
   viash_version: "0.5.12"
-  git_commit: "a9e3476cd09dffb2278caa9a6b6ef4cb9108604a"
+  git_commit: "e4205703f6ca23ca1ef89c89e5c0a9f63e83e9fd"
   git_remote: "https://github.com/czbiohub/mspipelines"
