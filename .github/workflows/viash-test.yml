@@ -41,6 +41,7 @@ jobs:
           src/download/sync_test_resources/config.vsh.yaml \
           -- \
           --delete
+        tree resources_test/ -L 3
 
     # store component locations
     - id: set_matrix
