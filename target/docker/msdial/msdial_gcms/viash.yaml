@@ -14,14 +14,14 @@ functionality:
   - type: "file"
     name: "--input"
     alternatives: []
-    description: "One or more ABF files."
+    description: "One or more ABF files. Can also be a directory of ABF files."
     example:
     - "input.abf"
     default: []
     must_exist: false
     required: true
     direction: "input"
-    multiple: false
+    multiple: true
     multiple_sep: ":"
   outputs:
   - type: "file"
@@ -40,14 +40,14 @@ functionality:
   - type: "file"
     name: "--input"
     alternatives: []
-    description: "One or more ABF files."
+    description: "One or more ABF files. Can also be a directory of ABF files."
     example:
     - "input.abf"
     default: []
     must_exist: false
     required: true
     direction: "input"
-    multiple: false
+    multiple: true
     multiple_sep: ":"
   - type: "file"
     name: "--output"
@@ -572,9 +572,9 @@ functionality:
         echo ""
         echo "Options:"
         echo "    --input"
-        echo "        type: file, required parameter"
+        echo "        type: file, required parameter, multiple values allowed"
         echo "        example: input.abf"
-        echo "        One or more ABF files."
+        echo "        One or more ABF files. Can also be a directory of ABF files."
         echo ""
         echo "    --output"
         echo "        type: file, required parameter, output"
@@ -582,9 +582,9 @@ functionality:
         echo "        An output directory to store the 'mqpar.xml' and 'combined' outputs."
         echo ""
         echo "    --input"
-        echo "        type: file, required parameter"
+        echo "        type: file, required parameter, multiple values allowed"
         echo "        example: input.abf"
-        echo "        One or more ABF files."
+        echo "        One or more ABF files. Can also be a directory of ABF files."
         echo ""
         echo "    --output"
         echo "        type: file, required parameter, output"
@@ -939,7 +939,7 @@ functionality:
         DEBIAN_FRONTEND=noninteractive apt-get install -y libnetcdf-dev && \
         rm -rf /var/lib/apt/lists/*
       
-      RUN mkdir /tmp/msdial && cd /tmp/msdial && wget https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" && unzip "msdial.zip" -d /msdial && rm -rf /tmp/msdial && chmod +x /msdial/MsdialConsoleApp
+      RUN mkdir /tmp/msdial && cd /tmp/msdial && wget -q https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" && unzip "msdial.zip" -d /msdial && rm -rf /tmp/msdial && chmod +x /msdial/MsdialConsoleApp
       RUN pip install --upgrade pip && \
         pip install --upgrade --no-cache-dir "pandas"
       
@@ -1092,12 +1092,20 @@ functionality:
                   exit
                   ;;
               --input)
-                  VIASH_PAR_INPUT="$2"
+                  if [ -z "$VIASH_PAR_INPUT" ]; then
+                    VIASH_PAR_INPUT="$2"
+                  else
+                    VIASH_PAR_INPUT="$VIASH_PAR_INPUT:""$2"
+                  fi
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --input. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --input=*)
-                  VIASH_PAR_INPUT=$(ViashRemoveFlags "$1")
+                  if [ -z "$VIASH_PAR_INPUT" ]; then
+                    VIASH_PAR_INPUT=$(ViashRemoveFlags "$1")
+                  else
+                    VIASH_PAR_INPUT="$VIASH_PAR_INPUT:"$(ViashRemoveFlags "$1")
+                  fi
                   shift 1
                   ;;
               --output)
@@ -1110,12 +1118,20 @@ functionality:
                   shift 1
                   ;;
               --input)
-                  VIASH_PAR_INPUT="$2"
+                  if [ -z "$VIASH_PAR_INPUT" ]; then
+                    VIASH_PAR_INPUT="$2"
+                  else
+                    VIASH_PAR_INPUT="$VIASH_PAR_INPUT:""$2"
+                  fi
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --input. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --input=*)
-                  VIASH_PAR_INPUT=$(ViashRemoveFlags "$1")
+                  if [ -z "$VIASH_PAR_INPUT" ]; then
+                    VIASH_PAR_INPUT=$(ViashRemoveFlags "$1")
+                  else
+                    VIASH_PAR_INPUT="$VIASH_PAR_INPUT:"$(ViashRemoveFlags "$1")
+                  fi
                   shift 1
                   ;;
               --output)
@@ -1850,8 +1866,17 @@ functionality:
       
       # detect volumes from file arguments
       if [ ! -z "$VIASH_PAR_INPUT" ]; then
-        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_INPUT")"
-        VIASH_PAR_INPUT=$(ViashAutodetectMount "$VIASH_PAR_INPUT")
+        IFS=":"
+        for var in $VIASH_PAR_INPUT; do
+          unset IFS
+          VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$var")"
+          if [ -z "$VIASH_TEST_INPUT" ]; then
+            VIASH_TEST_INPUT="$(ViashAutodetectMount "$var")"
+          else
+            VIASH_TEST_INPUT="$VIASH_TEST_INPUT:""$(ViashAutodetectMount "$var")"
+          fi
+        done
+        VIASH_PAR_INPUT="$VIASH_TEST_INPUT"
       fi
       if [ ! -z "$VIASH_PAR_OUTPUT" ]; then
         VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_OUTPUT")"
@@ -1907,9 +1932,9 @@ functionality:
       ## VIASH START
       # The following code has been auto-generated by Viash.
       par = {
-        'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "'${VIASH_PAR_INPUT//\'/\\\'}'"; else echo None; fi ),
+        'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "'${VIASH_PAR_INPUT//\'/\\\'}'.split(':')"; else echo None; fi ),
         'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "'${VIASH_PAR_OUTPUT//\'/\\\'}'"; else echo None; fi ),
-        'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "'${VIASH_PAR_INPUT//\'/\\\'}'"; else echo None; fi ),
+        'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "'${VIASH_PAR_INPUT//\'/\\\'}'.split(':')"; else echo None; fi ),
         'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "'${VIASH_PAR_OUTPUT//\'/\\\'}'"; else echo None; fi ),
         'data_type': $( if [ ! -z ${VIASH_PAR_DATA_TYPE+x} ]; then echo "'${VIASH_PAR_DATA_TYPE//\'/\\\'}'"; else echo None; fi ),
         'ion_mode': $( if [ ! -z ${VIASH_PAR_ION_MODE+x} ]; then echo "'${VIASH_PAR_ION_MODE//\'/\\\'}'"; else echo None; fi ),
@@ -1952,7 +1977,15 @@ functionality:
       resources_dir = '$VIASH_META_RESOURCES_DIR'
       
       ## VIASH END
-         
+      
+      assert len(par["input"]) > 0, "Need to specify at least one --input."
+      is_dir = [ os.path.isdir(file) for file in par["input"] ]
+      
+      if len(par["input"]) > 1:   
+         assert not any(is_dir), "Either pass to --input a single directory or a set of files."
+      
+      dir_mode=all(is_dir)
+      
       # Create params file
       param_file = os.path.join(par["output"], "params.txt")
       ri_index_file = os.path.join(par["output"], "ri_index_paths.txt")
@@ -2005,8 +2038,13 @@ functionality:
          # copy input files to tempdir
          # because MSDial otherwise generates a lot
          # of temporary files in the input dir.
-         shutil.copytree(par["input"], temp_dir, dirs_exist_ok=True)
-         par["input"] = temp_dir
+         if dir_mode:
+            shutil.copytree(par["input"][0], temp_dir, dirs_exist_ok=True)
+         else:
+            for file in par["input"]:
+               dest = os.path.join(temp_dir, os.path.basename(file))
+               print(f"Copying {file} to {dest}")
+               shutil.copyfile(file, dest)
       
          # create output dir if not exists
          if not os.path.exists(par["output"]):
@@ -2018,7 +2056,7 @@ functionality:
             with open(ri_index_file, 'w') as out_file:
                tsv_writer = csv.writer(out_file, delimiter="\\t")
       
-               for top, dirs, files in os.walk(par["input"]):
+               for top, dirs, files in os.walk(temp_dir):
                   input_files = [ os.path.join(top, file) for file in files if re.match('.*\\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)\$', file)]
                   tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
       
@@ -2031,7 +2069,7 @@ functionality:
             [
                f"{msdial_path}/MsdialConsoleApp", 
                "gcms", 
-               "-i", par["input"],
+               "-i", temp_dir,
                "-o", par["output"],
                "-m", param_file,
                "-p"
@@ -2084,7 +2122,7 @@ platform:
     add: []
     copy: []
     run:
-    - "mkdir /tmp/msdial && cd /tmp/msdial && wget https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1\
+    - "mkdir /tmp/msdial && cd /tmp/msdial && wget -q https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1\
       \ -O \"msdial.zip\" && unzip \"msdial.zip\" -d /msdial && rm -rf /tmp/msdial\
       \ && chmod +x /msdial/MsdialConsoleApp"
     build_args: []
@@ -2111,5 +2149,5 @@ info:
   output: "target/docker/msdial/msdial_gcms"
   executable: "target/docker/msdial/msdial_gcms/msdial_gcms"
   viash_version: "0.5.12"
-  git_commit: "75aa3441caacf61e6632f519829a0966f09df310"
+  git_commit: "c5fdaa7238e3ac94adedf695f239bdbdaa1de44b"
   git_remote: "https://github.com/czbiohub/mspipelines"

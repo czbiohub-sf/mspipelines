@@ -921,5 +921,5 @@ info:
   output: "target/docker/qc/rawbeans"
   executable: "target/docker/qc/rawbeans/rawbeans"
   viash_version: "0.5.12"
-  git_commit: "75aa3441caacf61e6632f519829a0966f09df310"
+  git_commit: "c5fdaa7238e3ac94adedf695f239bdbdaa1de44b"
   git_remote: "https://github.com/czbiohub/mspipelines"
