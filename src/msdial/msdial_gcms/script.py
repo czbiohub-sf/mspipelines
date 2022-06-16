@@ -8,7 +8,7 @@ import subprocess
 msdial_path="/msdial"
 ## VIASH START
 par = {
-  'input': '/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS',
+  'input': ['/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS'],
   'output': '/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS_output',
   'data_type': 'Centroid',
   'ion_mode': 'Positive',
@@ -26,7 +26,7 @@ par = {
   'sigma_window_value': float('0.5'),
   'amplitude_cutoff': int('50'),
   'msp_file': None,
-  'ri_index': None,
+  'ri_index_file': None,
   'retention_type': 'RI',
   'ri_compound': 'Alkanes',
   'retention_time_tolerance_for_identification': float('0.5'),
@@ -45,7 +45,15 @@ par = {
 msdial_path="../msdial_build"
 
 ## VIASH END
-   
+
+assert len(par["input"]) > 0, "Need to specify at least one --input."
+is_dir = [ os.path.isdir(file) for file in par["input"] ]
+
+if len(par["input"]) > 1:   
+   assert not any(is_dir), "Either pass to --input a single directory or a set of files."
+
+dir_mode=all(is_dir)
+
 # Create params file
 param_file = os.path.join(par["output"], "params.txt")
 ri_index_file = os.path.join(par["output"], "ri_index_paths.txt")
@@ -98,8 +106,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
    # copy input files to tempdir
    # because MSDial otherwise generates a lot
    # of temporary files in the input dir.
-   shutil.copytree(par["input"], temp_dir, dirs_exist_ok=True)
-   par["input"] = temp_dir
+   if dir_mode:
+      shutil.copytree(par["input"][0], temp_dir, dirs_exist_ok=True)
+   else:
+      for file in par["input"]:
+         dest = os.path.join(temp_dir, os.path.basename(file))
+         print(f"Copying {file} to {dest}")
+         shutil.copyfile(file, dest)
 
    # create output dir if not exists
    if not os.path.exists(par["output"]):
@@ -111,7 +124,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
       with open(ri_index_file, 'w') as out_file:
          tsv_writer = csv.writer(out_file, delimiter="\t")
 
-         for top, dirs, files in os.walk(par["input"]):
+         for top, dirs, files in os.walk(temp_dir):
             input_files = [ os.path.join(top, file) for file in files if re.match('.*\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)$', file)]
             tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
 
@@ -124,7 +137,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
       [
          f"{msdial_path}/MsdialConsoleApp", 
          "gcms", 
-         "-i", par["input"],
+         "-i", temp_dir,
          "-o", par["output"],
          "-m", param_file,
          "-p"

@@ -11,8 +11,8 @@ functionality:
     - name: "--input"
       type: file
       required: true
-      # multiple: true
-      description: One or more ABF files.
+      multiple: true
+      description: One or more ABF files. Can also be a directory of ABF files.
       example: input.abf
   outputs:
     - name: "--output"
@@ -158,7 +158,7 @@ platforms:
           #   chmod +x /msdial/MsdialConsoleApp
             #
           - mkdir /tmp/msdial && cd /tmp/msdial &&
-            wget https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" &&
+            wget -q https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" &&
             unzip "msdial.zip" -d /msdial && 
             rm -rf /tmp/msdial &&
             chmod +x /msdial/MsdialConsoleApp
