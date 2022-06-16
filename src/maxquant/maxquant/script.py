@@ -3,12 +3,17 @@ import re
 import subprocess
 import tempfile
 import shutil
+import pandas as pd
 
 ## VIASH START
 par = {
    "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
    "reference": "resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta",
-   "output": "output/"
+   "output": "output/",
+   "match_between_runs": True
+}
+meta = {
+   "resources_dir": "src/maxquant/maxquant/"
 }
 ## VIASH END
 
@@ -18,15 +23,51 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
 
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
-par["reference"] = os.path.abspath(par["reference"])
+par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
 par["output"] = os.path.abspath(par["output"])
+
+# auto set experiment names
+experiment_names = [ re.sub(r"_\d+$", "", os.path.basename(file)) for file in par["input"] ]
+
+# load default matching settings
+match_between_runs_settings = pd.read_table(
+   meta["resources_dir"] + "/settings/match_between_runs.tsv",
+   sep="\t",
+   index_col="id",
+   dtype=str,
+   keep_default_na=False,
+   na_values=['_']
+)
+
+# load default instrument settings
+ms_instrument_settings = pd.read_table(
+   meta["resources_dir"] + "/settings/ms_instrument.tsv",
+   sep="\t",
+   index_col="id",
+   dtype=str,
+   keep_default_na=False,
+   na_values=['_']
+)
+
+# load default group type settings
+group_type_settings = pd.read_table(
+   meta["resources_dir"] + "/settings/group_type.tsv",
+   sep="\t",
+   index_col="id",
+   dtype=str,
+   keep_default_na=False,
+   na_values=['_']
+)
+
+# check reference metadata
+
+assert len(par["reference"]) == len(par["ref_taxonomy_id"]), "--ref_taxonomy_id must have same length as --reference"
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
+   # prepare to copy input files to tempdir
    old_inputs = par["input"]
    new_inputs = [ os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs ]
-   for old, new in zip(old_inputs, new_inputs):
-      shutil.copyfile(old, new)
    par["input"] = new_inputs
 
    # create output dir if not exists
@@ -38,16 +79,22 @@ with tempfile.TemporaryDirectory() as temp_dir:
    endl = "\n"
    param_content = f"""<?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <fastaFiles>
+   <fastaFiles>"""
+
+   # TODO: make taxonomy optional
+   for path, taxid in zip(par["reference"], par["ref_taxonomy_id"]):
+      param_content += f"""
       <FastaFileInfo>
-         <fastaFilePath>{par["reference"]}</fastaFilePath>
-         <identifierParseRule>>([^\s]*)</identifierParseRule>
+         <fastaFilePath>{path}</fastaFilePath>
+         <identifierParseRule>>.*\|(.*)\|</identifierParseRule>
          <descriptionParseRule>>(.*)</descriptionParseRule>
          <taxonomyParseRule></taxonomyParseRule>
          <variationParseRule></variationParseRule>
          <modificationParseRule></modificationParseRule>
-         <taxonomyId></taxonomyId>
-      </FastaFileInfo>
+         <taxonomyId>{taxid}</taxonomyId>
+      </FastaFileInfo>"""
+
+   param_content += f"""
    </fastaFiles>
    <fastaFilesProteogenomics>
    </fastaFilesProteogenomics>
@@ -58,7 +105,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <advancedRatios>True</advancedRatios>
    <pvalThres>0.005</pvalThres>
    <rtShift>False</rtShift>
-   <separateLfq>True</separateLfq>
+   <separateLfq>False</separateLfq>
    <lfqStabilizeLargeRatios>True</lfqStabilizeLargeRatios>
    <lfqRequireMsms>True</lfqRequireMsms>
    <lfqBayesQuant>False</lfqBayesQuant>
@@ -74,7 +121,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <minScoreUnmodifiedPeptides>0</minScoreUnmodifiedPeptides>
    <minScoreModifiedPeptides>40</minScoreModifiedPeptides>
    <secondPeptide>True</secondPeptide>
-   <matchBetweenRuns>False</matchBetweenRuns>
+   <matchBetweenRuns>{par["match_between_runs"]}</matchBetweenRuns>
    <matchUnidentifiedFeatures>False</matchUnidentifiedFeatures>
    <matchBetweenRunsFdr>False</matchBetweenRunsFdr>
    <dependentPeptides>False</dependentPeptides>
@@ -136,26 +183,26 @@ with tempfile.TemporaryDirectory() as temp_dir:
       <string>Oxidation (M)</string>
       <string>Acetyl (Protein N-term)</string>
    </restrictMods>
-   <matchingTimeWindow>0</matchingTimeWindow>
-   <matchingIonMobilityWindow>0</matchingIonMobilityWindow>
-   <alignmentTimeWindow>0</alignmentTimeWindow>
-   <alignmentIonMobilityWindow>0</alignmentIonMobilityWindow>
+   <matchingTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingTimeWindow"]}</matchingTimeWindow>
+   <matchingIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingIonMobilityWindow"]}</matchingIonMobilityWindow>
+   <alignmentTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentTimeWindow"]}</alignmentTimeWindow>
+   <alignmentIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentIonMobilityWindow"]}</alignmentIonMobilityWindow>
    <numberOfCandidatesMsms>15</numberOfCandidatesMsms>
    <compositionPrediction>0</compositionPrediction>
    <quantMode>1</quantMode>
    <massDifferenceMods>
    </massDifferenceMods>
    <mainSearchMaxCombinations>200</mainSearchMaxCombinations>
-   <writeMsScansTable>False</writeMsScansTable>
-   <writeMsmsScansTable>True</writeMsmsScansTable>
-   <writePasefMsmsScansTable>True</writePasefMsmsScansTable>
-   <writeAccumulatedMsmsScansTable>True</writeAccumulatedMsmsScansTable>
-   <writeMs3ScansTable>True</writeMs3ScansTable>
-   <writeAllPeptidesTable>True</writeAllPeptidesTable>
-   <writeMzRangeTable>True</writeMzRangeTable>
-   <writeDiaFragmentTable>False</writeDiaFragmentTable>
-   <writeDiaFragmentQuantTable>False</writeDiaFragmentQuantTable>
-   <writeMzTab>False</writeMzTab>
+   <writeMsScansTable>{"msScans" in par["write_tables"]}</writeMsScansTable>
+   <writeMsmsScansTable>{"msmsScans" in par["write_tables"]}</writeMsmsScansTable>
+   <writePasefMsmsScansTable>{"pasefMsmsScans" in par["write_tables"]}</writePasefMsmsScansTable>
+   <writeAccumulatedMsmsScansTable>{"accumulatedMsmsScans" in par["write_tables"]}</writeAccumulatedMsmsScansTable>
+   <writeMs3ScansTable>{"ms3Scans" in par["write_tables"]}</writeMs3ScansTable>
+   <writeAllPeptidesTable>{"allPeptides" in par["write_tables"]}</writeAllPeptidesTable>
+   <writeMzRangeTable>{"mzRange" in par["write_tables"]}</writeMzRangeTable>
+   <writeDiaFragmentTable>{"DIA fragments" in par["write_tables"]}</writeDiaFragmentTable>
+   <writeDiaFragmentQuantTable>{"DIA fragments quant" in par["write_tables"]}</writeDiaFragmentQuantTable>
+   <writeMzTab>{"mzTab" in par["write_tables"]}</writeMzTab>
    <disableMd5>False</disableMd5>
    <cacheBinInds>True</cacheBinInds>
    <etdIncludeB>False</etdIncludeB>
@@ -177,14 +224,14 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <sendEmail>False</sendEmail>
    <ionCountIntensities>False</ionCountIntensities>
    <verboseColumnHeaders>False</verboseColumnHeaders>
-   <calcPeakProperties>False</calcPeakProperties>
+   <calcPeakProperties>True</calcPeakProperties>
    <showCentroidMassDifferences>False</showCentroidMassDifferences>
    <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
    <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>{''.join([ f"{endl}      <string>{os.path.basename(file)}</string>" for file in par["input"] ])}
+   <experiments>{''.join([ f"{endl}      <string>{experiment}</string>" for exp in experiment_names ])}
    </experiments>
    <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>
@@ -204,45 +251,45 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <proteinGroupingFile></proteinGroupingFile>
    <parameterGroups>
       <parameterGroup>
-         <msInstrument>0</msInstrument>
-         <maxCharge>7</maxCharge>
-         <minPeakLen>2</minPeakLen>
-         <diaMinPeakLen>1</diaMinPeakLen>
-         <useMs1Centroids>False</useMs1Centroids>
-         <useMs2Centroids>False</useMs2Centroids>
+         <msInstrument>{ms_instrument_settings.at[par["ms_instrument"], "msInstrument"]}</msInstrument>
+         <maxCharge>{ms_instrument_settings.at[par["ms_instrument"], "maxCharge"]}</maxCharge>
+         <minPeakLen>{ms_instrument_settings.at[par["ms_instrument"], "minPeakLen"]}</minPeakLen>
+         <diaMinPeakLen>{ms_instrument_settings.at[par["ms_instrument"], "diaMinPeakLen"]}</diaMinPeakLen>
+         <useMs1Centroids>{ms_instrument_settings.at[par["ms_instrument"], "useMs1Centroids"]}</useMs1Centroids>
+         <useMs2Centroids>{ms_instrument_settings.at[par["ms_instrument"], "useMs2Centroids"]}</useMs2Centroids>
          <cutPeaks>True</cutPeaks>
          <gapScans>1</gapScans>
          <minTime>NaN</minTime>
          <maxTime>NaN</maxTime>
          <matchType>MatchFromAndTo</matchType>
-         <intensityDetermination>0</intensityDetermination>
-         <centroidMatchTol>8</centroidMatchTol>
+         <intensityDetermination>{ms_instrument_settings.at[par["ms_instrument"], "intensityDetermination"]}</intensityDetermination>
+         <centroidMatchTol>{ms_instrument_settings.at[par["ms_instrument"], "centroidMatchTol"]}</centroidMatchTol>
          <centroidMatchTolInPpm>True</centroidMatchTolInPpm>
          <centroidHalfWidth>35</centroidHalfWidth>
          <centroidHalfWidthInPpm>True</centroidHalfWidthInPpm>
-         <valleyFactor>1.4</valleyFactor>
+         <valleyFactor>{ms_instrument_settings.at[par["ms_instrument"], "valleyFactor"]}</valleyFactor>
          <isotopeValleyFactor>1.2</isotopeValleyFactor>
-         <advancedPeakSplitting>False</advancedPeakSplitting>
-         <intensityThresholdMs1>0</intensityThresholdMs1>
-         <intensityThresholdMs2>0</intensityThresholdMs2>
+         <advancedPeakSplitting>{ms_instrument_settings.at[par["ms_instrument"], "advancedPeakSplitting"]}</advancedPeakSplitting>
+         <intensityThresholdMs1>{ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs1"]}</intensityThresholdMs1>
+         <intensityThresholdMs2>{ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs2"]}</intensityThresholdMs2>
          <labelMods>
             <string></string>
          </labelMods>
-         <lcmsRunType>Standard</lcmsRunType>
+         <lcmsRunType>{par["lcms_run_type"]}</lcmsRunType>
          <reQuantify>False</reQuantify>
-         <lfqMode>0</lfqMode>
+         <lfqMode>{"1" if par["lfq_mode"] == "LFQ" else "0"}</lfqMode>
          <lfqNormClusterSize>80</lfqNormClusterSize>
          <lfqMinEdgesPerNode>3</lfqMinEdgesPerNode>
          <lfqAvEdgesPerNode>6</lfqAvEdgesPerNode>
          <lfqMaxFeatures>100000</lfqMaxFeatures>
-         <neucodeMaxPpm>0</neucodeMaxPpm>
-         <neucodeResolution>0</neucodeResolution>
-         <neucodeResolutionInMda>False</neucodeResolutionInMda>
-         <neucodeInSilicoLowRes>False</neucodeInSilicoLowRes>
+         <neucodeMaxPpm>{group_type_settings.at[par["lcms_run_type"], "neucodeMaxPpm"]}</neucodeMaxPpm>
+         <neucodeResolution>{group_type_settings.at[par["lcms_run_type"], "neucodeResolution"]}</neucodeResolution>
+         <neucodeResolutionInMda>{group_type_settings.at[par["lcms_run_type"], "neucodeResolutionInMda"]}</neucodeResolutionInMda>
+         <neucodeInSilicoLowRes>{group_type_settings.at[par["lcms_run_type"], "neucodeInSilicoLowRes"]}</neucodeInSilicoLowRes>
          <fastLfq>True</fastLfq>
          <lfqRestrictFeatures>False</lfqRestrictFeatures>
          <lfqMinRatioCount>2</lfqMinRatioCount>
-         <maxLabeledAa>0</maxLabeledAa>
+         <maxLabeledAa>{group_type_settings.at[par["lcms_run_type"], "maxLabeledAa"]}</maxLabeledAa>
          <maxNmods>5</maxNmods>
          <maxMissedCleavages>2</maxMissedCleavages>
          <multiplicity>1</multiplicity>
@@ -281,30 +328,30 @@ with tempfile.TemporaryDirectory() as temp_dir:
          </additionalVariableModificationProteins>
          <doMassFiltering>True</doMassFiltering>
          <firstSearchTol>20</firstSearchTol>
-         <mainSearchTol>4.5</mainSearchTol>
+         <mainSearchTol>{ms_instrument_settings.at[par["ms_instrument"], "mainSearchTol"]}</mainSearchTol>
          <searchTolInPpm>True</searchTolInPpm>
-         <isotopeMatchTol>2</isotopeMatchTol>
-         <isotopeMatchTolInPpm>True</isotopeMatchTolInPpm>
+         <isotopeMatchTol>{ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTol"]}</isotopeMatchTol>
+         <isotopeMatchTolInPpm>{ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTolInPpm"]}</isotopeMatchTolInPpm>
          <isotopeTimeCorrelation>0.6</isotopeTimeCorrelation>
          <theorIsotopeCorrelation>0.6</theorIsotopeCorrelation>
-         <checkMassDeficit>True</checkMassDeficit>
+         <checkMassDeficit>{ms_instrument_settings.at[par["ms_instrument"], "checkMassDeficit"]}</checkMassDeficit>
          <recalibrationInPpm>True</recalibrationInPpm>
-         <intensityDependentCalibration>False</intensityDependentCalibration>
-         <minScoreForCalibration>70</minScoreForCalibration>
+         <intensityDependentCalibration>{ms_instrument_settings.at[par["ms_instrument"], "intensityDependentCalibration"]}</intensityDependentCalibration>
+         <minScoreForCalibration>{ms_instrument_settings.at[par["ms_instrument"], "minScoreForCalibration"]}</minScoreForCalibration>
          <matchLibraryFile>False</matchLibraryFile>
          <libraryFile></libraryFile>
          <matchLibraryMassTolPpm>0</matchLibraryMassTolPpm>
          <matchLibraryTimeTolMin>0</matchLibraryTimeTolMin>
          <matchLabelTimeTolMin>0</matchLabelTimeTolMin>
          <reporterMassTolerance>NaN</reporterMassTolerance>
-         <reporterPif>NaN</reporterPif>
+         <reporterPif>{group_type_settings.at[par["lcms_run_type"], "reporterPif"]}</reporterPif>
          <filterPif>False</filterPif>
-         <reporterFraction>NaN</reporterFraction>
-         <reporterBasePeakRatio>NaN</reporterBasePeakRatio>
-         <timsHalfWidth>0</timsHalfWidth>
-         <timsStep>0</timsStep>
-         <timsResolution>0</timsResolution>
-         <timsMinMsmsIntensity>0</timsMinMsmsIntensity>
+         <reporterFraction>{group_type_settings.at[par["lcms_run_type"], "reporterFraction"]}</reporterFraction>
+         <reporterBasePeakRatio>{group_type_settings.at[par["lcms_run_type"], "reporterBasePeakRatio"]}</reporterBasePeakRatio>
+         <timsHalfWidth>{group_type_settings.at[par["lcms_run_type"], "timsHalfWidth"]}</timsHalfWidth>
+         <timsStep>{group_type_settings.at[par["lcms_run_type"], "timsStep"]}</timsStep>
+         <timsResolution>{group_type_settings.at[par["lcms_run_type"], "timsResolution"]}</timsResolution>
+         <timsMinMsmsIntensity>{group_type_settings.at[par["lcms_run_type"], "timsMinMsmsIntensity"]}</timsMinMsmsIntensity>
          <timsRemovePrecursor>True</timsRemovePrecursor>
          <timsIsobaricLabels>False</timsIsobaricLabels>
          <timsCollapseMsms>True</timsCollapseMsms>
@@ -359,7 +406,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
          <diaQuantMethod>7</diaQuantMethod>
          <diaFeatureQuantMethod>2</diaFeatureQuantMethod>
          <lfqNormType>1</lfqNormType>
-         <diaTopNForQuant>10</diaTopNForQuant>
+         <diaTopNForQuant>{ms_instrument_settings.at[par["ms_instrument"], "diaTopNForQuant"]}</diaTopNForQuant>
          <diaMinMsmsIntensityForQuant>0</diaMinMsmsIntensityForQuant>
          <diaTopMsmsIntensityQuantileForQuant>0.85</diaTopMsmsIntensityQuantileForQuant>
          <diaPrecursorFilterType>0</diaPrecursorFilterType>
@@ -379,10 +426,10 @@ with tempfile.TemporaryDirectory() as temp_dir:
          <diaNoMl>False</diaNoMl>
          <diaPermuteRt>False</diaPermuteRt>
          <diaPermuteCcs>False</diaPermuteCcs>
-         <diaBackgroundSubtraction>False</diaBackgroundSubtraction>
-         <diaBackgroundSubtractionQuantile>0.5</diaBackgroundSubtractionQuantile>
+         <diaBackgroundSubtraction>{ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtraction"]}</diaBackgroundSubtraction>
+         <diaBackgroundSubtractionQuantile>{ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtractionQuantile"]}</diaBackgroundSubtractionQuantile>
          <diaBackgroundSubtractionFactor>4</diaBackgroundSubtractionFactor>
-         <diaLfqWeightedMedian>False</diaLfqWeightedMedian>
+         <diaLfqWeightedMedian>{ms_instrument_settings.at[par["ms_instrument"], "diaLfqWeightedMedian"]}</diaLfqWeightedMedian>
          <diaTransferQvalue>0.3</diaTransferQvalue>
          <diaOnlyIsosForRecal>True</diaOnlyIsosForRecal>
          <diaMinPeaksForRecal>5</diaMinPeaksForRecal>
@@ -549,11 +596,22 @@ with tempfile.TemporaryDirectory() as temp_dir:
    with open(param_file, "w") as f:
       f.write(param_content)
 
-   p = subprocess.Popen(
-      ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-      cwd=os.path.dirname(param_file)
-   )
-   p.wait()
+   if not par["dryrun"]:
+      # copy input files
+      for old, new in zip(old_inputs, new_inputs):
+         if (os.path.isdir(old)):
+            shutil.copytree(old, new)
+         else:
+            shutil.copyfile(old, new)
+         
+      
+      # run maxquant
+      p = subprocess.Popen(
+         ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+         # ["maxquant", os.path.basename(param_file)], 
+         cwd=os.path.dirname(param_file)
+      )
+      p.wait()
 
-   if p.returncode != 0:
-      raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
+      if p.returncode != 0:
+         raise Exception(f"MaxQuant finished with exit code {p.returncode}") 

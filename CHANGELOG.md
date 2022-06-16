@@ -1,3 +1,17 @@
+# mspipeline 0.3.0
+
+Added components:
+
+* `msdial/msdial_gcms`: Added MSDial GC/MS component.
+
+Minor changes:
+
+* `convert/thermo_to_mzml`: Allow also processing whole directories instead of 
+  individual raw files.
+
+* `convert/thermo_to_mzml`: Added unit test.
+
+
 # mspipeline 0.2.0
 
 Added components:
@@ -6,6 +20,7 @@ Added components:
 * `qc/rawbeans`: Perform QC analysis on mzML file.
 
 Major changes:
+
 * Pipeline `maxquant`: Added `rawbeans` to pipeline.
 
 # mspipeline 0.1.0

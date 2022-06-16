@@ -24,6 +24,10 @@ functionality:
   resources:
     - type: bash_script
       path: script.sh
+  tests:
+    - type: bash_script
+      path: run_test.sh
+    - path: ../../../resources_test/zenodo_4274987/raw
 platforms:
   - type: docker
     image: mono:6.12
@@ -38,4 +42,4 @@ platforms:
           unzip ThermoRawFileParser.zip && \
           rm ThermoRawFileParser.zip
   - type: nextflow
-    publish: true
+    variant: vdsl3

@@ -1,0 +1,6 @@
+id	msInstrument	maxCharge	minPeakLen	diaMinPeakLen	useMs1Centroids	useMs2Centroids	intensityDetermination	centroidMatchTol	valleyFactor	advancedPeakSplitting	intensityThresholdMs1	intensityThresholdMs2	mainSearchTol	isotopeMatchTol	isotopeMatchTolInPpm	checkMassDeficit	intensityDependentCalibration	minScoreForCalibration	diaTopNForQuant	diaBackgroundSubtraction	diaBackgroundSubtractionQuantile	diaLfqWeightedMedian
+Orbitrap	0	7	2	1	False	False	0	8	1.4	False	0	0	4.5	2	True	True	False	70	10	False	0.5	False
+Bruker Q-TOF	1	4	3	2	True	True	3	10	1.2	True	30	30	10	0.005	False	False	True	40	10	False	0.5	True
+Sciex Q-TOF	2	4	2	2	False	False	3	10	1.2	True	100	20	10	0.005	False	False	True	40	3	True	0.7	True
+Agilent Q-TOF	3	4	3	2	True	True	3	10	1.2	True	0	0	10	0.005	False	False	True	40	10	False	0.5	True
+Bruker TIMS	4	4	2	2	False	False	3	10	1.2	True	30	30	10	0.005	False	False	True	40	10	False	0.5	True

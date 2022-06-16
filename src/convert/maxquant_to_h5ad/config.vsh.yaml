@@ -31,4 +31,4 @@ platforms:
     #   - type: r
     #     packages: [ anndata ]
   - type: nextflow
-    publish: true
+    variant: vdsl3

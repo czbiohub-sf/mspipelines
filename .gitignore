@@ -1,6 +1,7 @@
 # temporary folder
 resources_test
-output
+output*
+target
 log*
 .viash_log*
 .nextflow*
