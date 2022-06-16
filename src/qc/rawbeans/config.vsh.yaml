@@ -47,4 +47,4 @@ platforms:
           cd prot-qc && \
           python setup.py install
   - type: nextflow
-    publish: true
+    variant: vdsl3

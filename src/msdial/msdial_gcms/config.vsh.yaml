@@ -138,6 +138,10 @@ functionality:
   resources:
     - type: python_script
       path: script.py
+  tests:
+    - type: bash_script
+      path: run_test.sh
+    - path: ../../../resources_test/msdial_demo_files/raw/GCMS
 platforms:
   - type: docker
     image: python:3.10
@@ -161,5 +165,4 @@ platforms:
       - type: python
         pypi: pandas
   - type: nextflow
-    publish: true
-    labels: [ highmem, highcpu ]
+    variant: vdsl3

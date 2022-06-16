@@ -38,4 +38,4 @@ platforms:
           unzip ThermoRawFileParser.zip && \
           rm ThermoRawFileParser.zip
   - type: nextflow
-    publish: true
+    variant: vdsl3
