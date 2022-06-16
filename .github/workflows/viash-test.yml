@@ -38,7 +38,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: resources_test
-        key: ${{ steps.cachehash.outputs.matrix }} # different keys might be needed in the future
+        key: ${{ steps.cachehash.outputs.cachehash }}
 
     # sync if need be
     - name: Sync test resources
