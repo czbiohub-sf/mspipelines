@@ -31,10 +31,9 @@ jobs:
       id: cachehash
       run: |
         AWS_EC2_METADATA_DISABLED=true aws s3 ls s3://czbiohub-pipelines/resources_test_ms/ --recursive --no-sign-request > bucket-contents.txt
-        cat bucket-contents.txt
-        CACHEHASH=${{ hashFiles('./bucket-contents.txt') }}
+        CACHEHASH=resources_test_${{ hashFiles('./bucket-contents.txt') }}
         echo "Hash: $CACHEHASH"
-        echo "::set-output name=cachehash::resources_test_$CACHEHASH"
+        echo "::set-output name=cachehash::$CACHEHASH"
     
     # initialize cache
     - name: Cache resources data
