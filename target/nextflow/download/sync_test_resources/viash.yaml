@@ -1318,5 +1318,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/download/sync_test_resources"
   viash_version: "0.5.12"
-  git_commit: "987b40401a5b84be7c48dba99855df1cb57d2ff7"
+  git_commit: "02d39bef6bc6c4ffddb9cdb47ff676937104d02d"
   git_remote: "https://github.com/czbiohub/mspipelines"
