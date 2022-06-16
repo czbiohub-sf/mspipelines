@@ -688,7 +688,13 @@ if [[ -d "\$par_input" ]]; then
   mkdir -p "\$par_output"
   mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=\$tmp_input" "-o=\$par_output"
 else
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\$tmp_input" "-b=\$par_output"
+  if [[ \$par_output == *.mzML ]]; then
+    out_path="\$par_output"
+  else
+    out_path="\$par_output/\$(basename -- "\$par_input" .raw).mzML"
+  fi
+  mkdir -p \`dirname "\$out_path"\`
+  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\$tmp_input" "-b=\$out_path"
 fi
 VIASHMAIN
 bash "\$tempscript" &

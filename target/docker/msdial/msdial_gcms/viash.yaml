@@ -2149,5 +2149,5 @@ info:
   output: "target/docker/msdial/msdial_gcms"
   executable: "target/docker/msdial/msdial_gcms/msdial_gcms"
   viash_version: "0.5.12"
-  git_commit: "c5fdaa7238e3ac94adedf695f239bdbdaa1de44b"
+  git_commit: "f32df91ae44cc3a01dd0f1adcbca08042935073a"
   git_remote: "https://github.com/czbiohub/mspipelines"

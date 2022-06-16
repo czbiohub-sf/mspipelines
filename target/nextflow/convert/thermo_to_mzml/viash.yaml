@@ -143,7 +143,13 @@ functionality:
         mkdir -p "\\$par_output"
         mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=\\$tmp_input" "-o=\\$par_output"
       else
-        mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\\$tmp_input" "-b=\\$par_output"
+        if [[ \\$par_output == *.mzML ]]; then
+          out_path="\\$par_output"
+        else
+          out_path="\\$par_output/\\$(basename -- "\\$par_input" .raw).mzML"
+        fi
+        mkdir -p \\`dirname "\\$out_path"\\`
+        mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\\$tmp_input" "-b=\\$out_path"
       fi
       VIASHMAIN
       bash "$tempscript"
@@ -1184,7 +1190,12 @@ functionality:
     dest: "nextflow.config"
   description: "Convert a thermo raw to an mzML file."
   usage: "thermo_to_mzml --input file1.raw --output output.mzML"
-  tests: []
+  tests:
+  - type: "bash_script"
+    path: "run_test.sh"
+    is_executable: true
+  - type: "file"
+    path: "../../../resources_test/zenodo_4274987/raw"
   info: {}
   dummy_arguments: []
   set_wd_to_resources_dir: false
@@ -1214,5 +1225,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/convert/thermo_to_mzml"
   viash_version: "0.5.12"
-  git_commit: "c5fdaa7238e3ac94adedf695f239bdbdaa1de44b"
+  git_commit: "f32df91ae44cc3a01dd0f1adcbca08042935073a"
   git_remote: "https://github.com/czbiohub/mspipelines"

@@ -9,6 +9,8 @@ Minor changes:
 * `convert/thermo_to_mzml`: Allow also processing whole directories instead of 
   individual raw files.
 
+* `convert/thermo_to_mzml`: Added unit test.
+
 
 # mspipeline 0.2.0
 
