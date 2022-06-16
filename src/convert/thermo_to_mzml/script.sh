@@ -2,7 +2,7 @@
 
 ## VIASH START
 par_input="resources_test/zenodo_4274987/raw/Sample1.raw"
-par_output="output.hzML"
+par_output="output.mzML"
 ## VIASH END
 
 
@@ -23,5 +23,11 @@ if [[ -d "$par_input" ]]; then
   mkdir -p "$par_output"
   mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=$tmp_input" "-o=$par_output"
 else
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=$tmp_input" "-b=$par_output"
+  if [[ $par_output == *.mzML ]]; then
+    out_path="$par_output"
+  else
+    out_path="$par_output/$(basename -- "$par_input" .raw).mzML"
+  fi
+  mkdir -p `dirname "$out_path"`
+  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=$tmp_input" "-b=$out_path"
 fi
