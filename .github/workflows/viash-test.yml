@@ -77,6 +77,11 @@ jobs:
         path: resources_test
         key: resources_test
 
+    # sync if need be
+    - name: View test resources
+      run: |
+        tree resources_test/ -L 3
+
     - name: Run test
       run: |
         bin/viash test -p docker ${{ matrix.component_path }}
