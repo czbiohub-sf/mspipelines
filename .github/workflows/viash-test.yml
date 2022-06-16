@@ -31,9 +31,7 @@ jobs:
       id: cachehash
       run: |
         AWS_EC2_METADATA_DISABLED=true aws s3 ls s3://czbiohub-pipelines/resources_test_ms/ --recursive --no-sign-request > bucket-contents.txt
-        CACHEHASH=resources_test_$( md5sum bucket-contents.txt | awk '{ print $1 }' )
-        echo "Hash: $CACHEHASH"
-        echo "::set-output name=cachehash::$CACHEHASH"
+        echo "::set-output name=cachehash::resources_test_$( md5sum bucket-contents.txt | awk '{ print $1 }' )"
     
     # initialize cache
     - name: Cache resources data
@@ -41,6 +39,7 @@ jobs:
       with:
         path: resources_test
         key: ${{ steps.cachehash.outputs.cachehash }}
+        restore-keys: resources_test_
 
     # sync if need be
     - name: Sync test resources
@@ -58,7 +57,7 @@ jobs:
         echo "::set-output name=matrix::$( bin/viash ns list -p docker --format json | jq -c '[ .[] | .info.config ]' )"
     outputs:
       matrix: ${{ steps.set_matrix.outputs.matrix }}
-      cachehash: ${{ steps.cachehash.outputs.matrix }}
+      cachehash: ${{ steps.cachehash.outputs.cachehash }}
 
   # phase 2
   viash_test:
