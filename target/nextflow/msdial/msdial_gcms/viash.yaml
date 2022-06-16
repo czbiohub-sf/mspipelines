@@ -1,6 +1,6 @@
 functionality:
-  name: "sync_test_resources"
-  namespace: "download"
+  name: "msdial_gcms"
+  namespace: "msdial"
   version: "main_build"
   authors:
   - name: "Robrecht Cannoodt"
@@ -10,68 +10,386 @@ functionality:
     props:
       github: "rcannood"
       orcid: "0000-0003-3641-729X"
-  inputs: []
-  outputs: []
+  inputs:
+  - type: "file"
+    name: "--input"
+    alternatives: []
+    description: "One or more ABF files."
+    example:
+    - "input.abf"
+    default: []
+    must_exist: false
+    required: true
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  outputs:
+  - type: "file"
+    name: "--output"
+    alternatives: []
+    description: "An output directory to store the 'mqpar.xml' and 'combined' outputs."
+    example:
+    - "output_dir"
+    default: []
+    must_exist: false
+    required: true
+    direction: "output"
+    multiple: false
+    multiple_sep: ":"
   arguments:
   - type: "string"
-    name: "--input"
-    alternatives:
-    - "-i"
-    description: "Path to the S3 bucket to sync from."
+    name: "--data_type"
+    alternatives: []
     example: []
     default:
-    - "s3://czbiohub-pipelines/resources_test_ms"
+    - "Centroid"
+    required: false
+    choices:
+    - "Centroid"
+    - "Profile"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--ion_mode"
+    alternatives: []
+    example: []
+    default:
+    - "Positive"
+    required: false
+    choices:
+    - "Positive"
+    - "Negative"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--accuracy_type"
+    alternatives: []
+    example: []
+    default:
+    - "IsNominal"
+    required: false
+    choices:
+    - "IsNominal"
+    - "IsAccurate"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--retention_time_begin"
+    alternatives: []
+    example: []
+    default:
+    - 0
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--retention_time_end"
+    alternatives: []
+    example: []
+    default:
+    - 25
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--mass_range_begin"
+    alternatives: []
+    example: []
+    default:
+    - 0
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--mass_range_end"
+    alternatives: []
+    example: []
+    default:
+    - 1000
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--smoothing_method"
+    alternatives: []
+    example: []
+    default:
+    - "LinearWeightedMovingAverage"
+    required: false
+    choices:
+    - "SimpleMovingAverage"
+    - "LinearWeightedMovingAverage"
+    - "SavitzkyGolayFilter"
+    - "BinomialFilter"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--smoothing_level"
+    alternatives: []
+    example: []
+    default:
+    - 3
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--average_peak_width"
+    alternatives: []
+    example: []
+    default:
+    - 20
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--minimum_peak_height"
+    alternatives: []
+    example: []
+    default:
+    - 1000
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--mass_slice_width"
+    alternatives: []
+    example: []
+    default:
+    - 0.1
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--mass_accuracy"
+    alternatives: []
+    example: []
+    default:
+    - 0.025
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--sigma_window_value"
+    alternatives: []
+    example: []
+    default:
+    - 0.5
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--amplitude_cutoff"
+    alternatives: []
+    example: []
+    default:
+    - 10
     required: false
     choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
   - type: "file"
-    name: "--output"
-    alternatives:
-    - "-o"
-    description: "Path to the test resource directory."
-    example: []
-    default:
-    - "resources_test"
+    name: "--msp_file"
+    alternatives: []
+    example:
+    - "file.msp"
+    default: []
     must_exist: false
     required: false
-    direction: "output"
+    direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "boolean_true"
-    name: "--quiet"
+  - type: "file"
+    name: "--ri_index_file"
     alternatives: []
-    description: "Displays the operations that would be performed using the specified\
-      \ command without actually running them."
-    direction: "input"
-  - type: "boolean_true"
-    name: "--dryrun"
-    alternatives: []
-    description: "Does not display the operations performed from the specified command."
-    direction: "input"
-  - type: "boolean_true"
-    name: "--delete"
-    alternatives: []
-    description: "Files that exist in the destination but not in the source are deleted\
-      \ during sync."
-    direction: "input"
-  - type: "string"
-    name: "--exclude"
-    alternatives: []
-    description: "Exclude all files or objects from the command that matches the specified\
-      \ pattern."
-    example: []
+    example:
+    - "ri_index.txt"
     default: []
+    must_exist: false
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--retention_type"
+    alternatives: []
+    example: []
+    default:
+    - "RI"
+    required: false
+    choices:
+    - "RI"
+    - "RT"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--ri_compound"
+    alternatives: []
+    example: []
+    default:
+    - "Alkanes"
+    required: false
+    choices:
+    - "Fames"
+    - "Alkanes"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--retention_time_tolerance_for_identification"
+    alternatives: []
+    example: []
+    default:
+    - 0.5
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--retention_index_tolerance_for_identification"
+    alternatives: []
+    example: []
+    default:
+    - 20
     required: false
     choices: []
     direction: "input"
-    multiple: true
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--ei_similarity_tolerance_for_identification"
+    alternatives: []
+    example: []
+    default:
+    - 70
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--identification_score_cutoff"
+    alternatives: []
+    example: []
+    default:
+    - 70
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "string"
+    name: "--alignment_index_type"
+    alternatives: []
+    example: []
+    default:
+    - "RT"
+    required: false
+    choices:
+    - "RI"
+    - "RT"
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--retention_time_tolerance_for_alignment"
+    alternatives: []
+    example: []
+    default:
+    - 0.075
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--retention_index_tolerance_for_alignment"
+    alternatives: []
+    example: []
+    default:
+    - 20
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--ei_similarity_tolerance_for_alignment"
+    alternatives: []
+    example: []
+    default:
+    - 70
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--retention_time_factor_for_alignment"
+    alternatives: []
+    example: []
+    default:
+    - 0.5
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--ei_similarity_factor_for_alignment"
+    alternatives: []
+    example: []
+    default:
+    - 0.5
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "integer"
+    name: "--peak_count_filter"
+    alternatives: []
+    example: []
+    default:
+    - 0
+    required: false
+    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--qc_at_least_filter"
+    alternatives: []
+    example: []
+    default:
+    - true
+    required: false
+    direction: "input"
+    multiple: false
     multiple_sep: ":"
   resources:
   - type: "file"
     text: |
-      // sync_test_resources main_build
+      // msdial_gcms main_build
       // 
       // This wrapper script is auto-generated by viash 0.5.12 and is thus a derivative
       // work thereof. This software comes with ABSOLUTELY NO WARRANTY from Data
@@ -98,154 +416,586 @@ functionality:
       
       // functionality metadata
       thisFunctionality = [
-        'name': 'sync_test_resources',
+        'name': 'msdial_gcms',
         'arguments': [
           [
             'name': 'input',
-            'required': false,
-            'type': 'string',
+            'required': true,
+            'type': 'file',
             'direction': 'input',
-            'description': 'Path to the S3 bucket to sync from.',
-            'default': 's3://czbiohub-pipelines/resources_test_ms',
+            'description': 'One or more ABF files.',
+            'example': 'input.abf',
             'multiple': false
           ],
           [
             'name': 'output',
-            'required': false,
+            'required': true,
             'type': 'file',
             'direction': 'output',
-            'description': 'Path to the test resource directory.',
+            'description': 'An output directory to store the \'mqpar.xml\' and \'combined\' outputs.',
             'default': '$id.$key.output',
+            'example': 'output_dir',
             'multiple': false
           ],
           [
-            'name': 'quiet',
-            'required': false,
-            'type': 'boolean_true',
-            'direction': 'input',
-            'description': 'Displays the operations that would be performed using the specified command without actually running them.',
-            'default': false,
-            'multiple': false
-          ],
-          [
-            'name': 'dryrun',
-            'required': false,
-            'type': 'boolean_true',
-            'direction': 'input',
-            'description': 'Does not display the operations performed from the specified command.',
-            'default': false,
-            'multiple': false
-          ],
-          [
-            'name': 'delete',
-            'required': false,
-            'type': 'boolean_true',
-            'direction': 'input',
-            'description': 'Files that exist in the destination but not in the source are deleted during sync.',
-            'default': false,
-            'multiple': false
-          ],
-          [
-            'name': 'exclude',
+            'name': 'data_type',
             'required': false,
             'type': 'string',
             'direction': 'input',
-            'description': 'Exclude all files or objects from the command that matches the specified pattern.',
-            'multiple': true,
-            'multiple_sep': ':'
+            'default': 'Centroid',
+            'multiple': false
+          ],
+          [
+            'name': 'ion_mode',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'Positive',
+            'multiple': false
+          ],
+          [
+            'name': 'accuracy_type',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'IsNominal',
+            'multiple': false
+          ],
+          [
+            'name': 'retention_time_begin',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 0,
+            'multiple': false
+          ],
+          [
+            'name': 'retention_time_end',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 25,
+            'multiple': false
+          ],
+          [
+            'name': 'mass_range_begin',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 0,
+            'multiple': false
+          ],
+          [
+            'name': 'mass_range_end',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 1000,
+            'multiple': false
+          ],
+          [
+            'name': 'smoothing_method',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'LinearWeightedMovingAverage',
+            'multiple': false
+          ],
+          [
+            'name': 'smoothing_level',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 3,
+            'multiple': false
+          ],
+          [
+            'name': 'average_peak_width',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 20,
+            'multiple': false
+          ],
+          [
+            'name': 'minimum_peak_height',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 1000,
+            'multiple': false
+          ],
+          [
+            'name': 'mass_slice_width',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.1,
+            'multiple': false
+          ],
+          [
+            'name': 'mass_accuracy',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.025,
+            'multiple': false
+          ],
+          [
+            'name': 'sigma_window_value',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.5,
+            'multiple': false
+          ],
+          [
+            'name': 'amplitude_cutoff',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 10,
+            'multiple': false
+          ],
+          [
+            'name': 'msp_file',
+            'required': false,
+            'type': 'file',
+            'direction': 'input',
+            'example': 'file.msp',
+            'multiple': false
+          ],
+          [
+            'name': 'ri_index_file',
+            'required': false,
+            'type': 'file',
+            'direction': 'input',
+            'example': 'ri_index.txt',
+            'multiple': false
+          ],
+          [
+            'name': 'retention_type',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'RI',
+            'multiple': false
+          ],
+          [
+            'name': 'ri_compound',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'Alkanes',
+            'multiple': false
+          ],
+          [
+            'name': 'retention_time_tolerance_for_identification',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.5,
+            'multiple': false
+          ],
+          [
+            'name': 'retention_index_tolerance_for_identification',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 20,
+            'multiple': false
+          ],
+          [
+            'name': 'ei_similarity_tolerance_for_identification',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 70,
+            'multiple': false
+          ],
+          [
+            'name': 'identification_score_cutoff',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 70,
+            'multiple': false
+          ],
+          [
+            'name': 'alignment_index_type',
+            'required': false,
+            'type': 'string',
+            'direction': 'input',
+            'default': 'RT',
+            'multiple': false
+          ],
+          [
+            'name': 'retention_time_tolerance_for_alignment',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.075,
+            'multiple': false
+          ],
+          [
+            'name': 'retention_index_tolerance_for_alignment',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 20,
+            'multiple': false
+          ],
+          [
+            'name': 'ei_similarity_tolerance_for_alignment',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 70,
+            'multiple': false
+          ],
+          [
+            'name': 'retention_time_factor_for_alignment',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.5,
+            'multiple': false
+          ],
+          [
+            'name': 'ei_similarity_factor_for_alignment',
+            'required': false,
+            'type': 'double',
+            'direction': 'input',
+            'default': 0.5,
+            'multiple': false
+          ],
+          [
+            'name': 'peak_count_filter',
+            'required': false,
+            'type': 'integer',
+            'direction': 'input',
+            'default': 0,
+            'multiple': false
+          ],
+          [
+            'name': 'qc_at_least_filter',
+            'required': false,
+            'type': 'boolean',
+            'direction': 'input',
+            'default': true,
+            'multiple': false
           ]
         ]
       ]
       
-      thisHelpMessage = '''sync_test_resources main_build
-      
-      Synchronise the test resources from s3://czbiohub-pipelines/resources_test_ms to
-      resources_test
-      
-      Usage:
-      sync_test_resources
-      sync_test_resources --input s3://czbiohub-pipelines/resources_test_ms --output
-      resources_test
+      thisHelpMessage = '''msdial_gcms main_build
       
       Options:
           --input
-              type: string
-              default: s3://czbiohub-pipelines/resources_test_ms
-              Path to the S3 bucket to sync from.
+              type: file, required parameter
+              example: input.abf
+              One or more ABF files.
       
           --output
-              type: file, output
-              default: resources_test
-              Path to the test resource directory.
+              type: file, required parameter, output
+              example: output_dir
+              An output directory to store the 'mqpar.xml' and 'combined' outputs.
       
-          --quiet
-              type: boolean_true
-              Displays the operations that would be performed using the specified
-      command without actually running them.
+          --data_type
+              type: string
+              default: Centroid
+              choices:
+                  - Centroid
+                  - Profile
       
-          --dryrun
-              type: boolean_true
-              Does not display the operations performed from the specified command.
+          --ion_mode
+              type: string
+              default: Positive
+              choices:
+                  - Positive
+                  - Negative
       
-          --delete
-              type: boolean_true
-              Files that exist in the destination but not in the source are deleted
-      during sync.
+          --accuracy_type
+              type: string
+              default: IsNominal
+              choices:
+                  - IsNominal
+                  - IsAccurate
       
-          --exclude
-              type: string, multiple values allowed
-              Exclude all files or objects from the command that matches the specified
-      pattern.'''
+          --retention_time_begin
+              type: integer
+              default: 0
+      
+          --retention_time_end
+              type: integer
+              default: 25
+      
+          --mass_range_begin
+              type: integer
+              default: 0
+      
+          --mass_range_end
+              type: integer
+              default: 1000
+      
+          --smoothing_method
+              type: string
+              default: LinearWeightedMovingAverage
+              choices:
+                  - SimpleMovingAverage
+                  - LinearWeightedMovingAverage
+                  - SavitzkyGolayFilter
+                  - BinomialFilter
+      
+          --smoothing_level
+              type: integer
+              default: 3
+      
+          --average_peak_width
+              type: integer
+              default: 20
+      
+          --minimum_peak_height
+              type: integer
+              default: 1000
+      
+          --mass_slice_width
+              type: double
+              default: 0.1
+      
+          --mass_accuracy
+              type: double
+              default: 0.025
+      
+          --sigma_window_value
+              type: double
+              default: 0.5
+      
+          --amplitude_cutoff
+              type: integer
+              default: 10
+      
+          --msp_file
+              type: file
+              example: file.msp
+      
+          --ri_index_file
+              type: file
+              example: ri_index.txt
+      
+          --retention_type
+              type: string
+              default: RI
+              choices:
+                  - RI
+                  - RT
+      
+          --ri_compound
+              type: string
+              default: Alkanes
+              choices:
+                  - Fames
+                  - Alkanes
+      
+          --retention_time_tolerance_for_identification
+              type: double
+              default: 0.5
+      
+          --retention_index_tolerance_for_identification
+              type: integer
+              default: 20
+      
+          --ei_similarity_tolerance_for_identification
+              type: integer
+              default: 70
+      
+          --identification_score_cutoff
+              type: integer
+              default: 70
+      
+          --alignment_index_type
+              type: string
+              default: RT
+              choices:
+                  - RI
+                  - RT
+      
+          --retention_time_tolerance_for_alignment
+              type: double
+              default: 0.075
+      
+          --retention_index_tolerance_for_alignment
+              type: integer
+              default: 20
+      
+          --ei_similarity_tolerance_for_alignment
+              type: integer
+              default: 70
+      
+          --retention_time_factor_for_alignment
+              type: double
+              default: 0.5
+      
+          --ei_similarity_factor_for_alignment
+              type: double
+              default: 0.5
+      
+          --peak_count_filter
+              type: integer
+              default: 0
+      
+          --qc_at_least_filter
+              type: boolean
+              default: true'''
       
       thisScript = '''set -e
       tempscript=".viash_script.sh"
       cat > "$tempscript" << VIASHMAIN
-      #!/bin/bash
+      import os
+      import csv
+      import re
+      import tempfile
+      import shutil
+      import subprocess
       
+      msdial_path="/msdial"
       ## VIASH START
       # The following code has been auto-generated by Viash.
-      $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "par_input='${VIASH_PAR_INPUT//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "par_output='${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      $( if [ ! -z ${VIASH_PAR_QUIET+x} ]; then echo "par_quiet='${VIASH_PAR_QUIET//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      $( if [ ! -z ${VIASH_PAR_DRYRUN+x} ]; then echo "par_dryrun='${VIASH_PAR_DRYRUN//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      $( if [ ! -z ${VIASH_PAR_DELETE+x} ]; then echo "par_delete='${VIASH_PAR_DELETE//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      $( if [ ! -z ${VIASH_PAR_EXCLUDE+x} ]; then echo "par_exclude='${VIASH_PAR_EXCLUDE//\\'/\\'\\"\\'\\"\\'}'"; fi )
-      meta_functionality_name='$VIASH_META_FUNCTIONALITY_NAME'
-      meta_resources_dir='$VIASH_META_RESOURCES_DIR'
-      meta_temp_dir='$VIASH_TEMP'
-      resources_dir="$VIASH_META_RESOURCES_DIR"
+      par = {
+        'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "'${VIASH_PAR_INPUT//\\'/\\\\\\'}'"; else echo None; fi ),
+        'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "'${VIASH_PAR_OUTPUT//\\'/\\\\\\'}'"; else echo None; fi ),
+        'data_type': $( if [ ! -z ${VIASH_PAR_DATA_TYPE+x} ]; then echo "'${VIASH_PAR_DATA_TYPE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'ion_mode': $( if [ ! -z ${VIASH_PAR_ION_MODE+x} ]; then echo "'${VIASH_PAR_ION_MODE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'accuracy_type': $( if [ ! -z ${VIASH_PAR_ACCURACY_TYPE+x} ]; then echo "'${VIASH_PAR_ACCURACY_TYPE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'retention_time_begin': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_BEGIN+x} ]; then echo "int('${VIASH_PAR_RETENTION_TIME_BEGIN//\\'/\\\\\\'}')"; else echo None; fi ),
+        'retention_time_end': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_END+x} ]; then echo "int('${VIASH_PAR_RETENTION_TIME_END//\\'/\\\\\\'}')"; else echo None; fi ),
+        'mass_range_begin': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_BEGIN+x} ]; then echo "int('${VIASH_PAR_MASS_RANGE_BEGIN//\\'/\\\\\\'}')"; else echo None; fi ),
+        'mass_range_end': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_END+x} ]; then echo "int('${VIASH_PAR_MASS_RANGE_END//\\'/\\\\\\'}')"; else echo None; fi ),
+        'smoothing_method': $( if [ ! -z ${VIASH_PAR_SMOOTHING_METHOD+x} ]; then echo "'${VIASH_PAR_SMOOTHING_METHOD//\\'/\\\\\\'}'"; else echo None; fi ),
+        'smoothing_level': $( if [ ! -z ${VIASH_PAR_SMOOTHING_LEVEL+x} ]; then echo "int('${VIASH_PAR_SMOOTHING_LEVEL//\\'/\\\\\\'}')"; else echo None; fi ),
+        'average_peak_width': $( if [ ! -z ${VIASH_PAR_AVERAGE_PEAK_WIDTH+x} ]; then echo "int('${VIASH_PAR_AVERAGE_PEAK_WIDTH//\\'/\\\\\\'}')"; else echo None; fi ),
+        'minimum_peak_height': $( if [ ! -z ${VIASH_PAR_MINIMUM_PEAK_HEIGHT+x} ]; then echo "int('${VIASH_PAR_MINIMUM_PEAK_HEIGHT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'mass_slice_width': $( if [ ! -z ${VIASH_PAR_MASS_SLICE_WIDTH+x} ]; then echo "float('${VIASH_PAR_MASS_SLICE_WIDTH//\\'/\\\\\\'}')"; else echo None; fi ),
+        'mass_accuracy': $( if [ ! -z ${VIASH_PAR_MASS_ACCURACY+x} ]; then echo "float('${VIASH_PAR_MASS_ACCURACY//\\'/\\\\\\'}')"; else echo None; fi ),
+        'sigma_window_value': $( if [ ! -z ${VIASH_PAR_SIGMA_WINDOW_VALUE+x} ]; then echo "float('${VIASH_PAR_SIGMA_WINDOW_VALUE//\\'/\\\\\\'}')"; else echo None; fi ),
+        'amplitude_cutoff': $( if [ ! -z ${VIASH_PAR_AMPLITUDE_CUTOFF+x} ]; then echo "int('${VIASH_PAR_AMPLITUDE_CUTOFF//\\'/\\\\\\'}')"; else echo None; fi ),
+        'msp_file': $( if [ ! -z ${VIASH_PAR_MSP_FILE+x} ]; then echo "'${VIASH_PAR_MSP_FILE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'ri_index_file': $( if [ ! -z ${VIASH_PAR_RI_INDEX_FILE+x} ]; then echo "'${VIASH_PAR_RI_INDEX_FILE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'retention_type': $( if [ ! -z ${VIASH_PAR_RETENTION_TYPE+x} ]; then echo "'${VIASH_PAR_RETENTION_TYPE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'ri_compound': $( if [ ! -z ${VIASH_PAR_RI_COMPOUND+x} ]; then echo "'${VIASH_PAR_RI_COMPOUND//\\'/\\\\\\'}'"; else echo None; fi ),
+        'retention_time_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
+        'retention_index_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "int('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
+        'ei_similarity_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "int('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
+        'identification_score_cutoff': $( if [ ! -z ${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF+x} ]; then echo "int('${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF//\\'/\\\\\\'}')"; else echo None; fi ),
+        'alignment_index_type': $( if [ ! -z ${VIASH_PAR_ALIGNMENT_INDEX_TYPE+x} ]; then echo "'${VIASH_PAR_ALIGNMENT_INDEX_TYPE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'retention_time_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'retention_index_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "int('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'ei_similarity_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "int('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'retention_time_factor_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'ei_similarity_factor_for_alignment': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_FACTOR_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_EI_SIMILARITY_FACTOR_FOR_ALIGNMENT//\\'/\\\\\\'}')"; else echo None; fi ),
+        'peak_count_filter': $( if [ ! -z ${VIASH_PAR_PEAK_COUNT_FILTER+x} ]; then echo "int('${VIASH_PAR_PEAK_COUNT_FILTER//\\'/\\\\\\'}')"; else echo None; fi ),
+        'qc_at_least_filter': $( if [ ! -z ${VIASH_PAR_QC_AT_LEAST_FILTER+x} ]; then echo "'${VIASH_PAR_QC_AT_LEAST_FILTER//\\'/\\\\\\'}'.lower() == 'true'"; else echo None; fi )
+      }
+      meta = {
+        'functionality_name': '$VIASH_META_FUNCTIONALITY_NAME',
+        'resources_dir': '$VIASH_META_RESOURCES_DIR',
+        'temp_dir': '$VIASH_TEMP'
+      }
+      
+      resources_dir = '$VIASH_META_RESOURCES_DIR'
       
       ## VIASH END
+         
+      # Create params file
+      param_file = os.path.join(par["output"], "params.txt")
+      ri_index_file = os.path.join(par["output"], "ri_index_paths.txt")
       
-      extra_params=( )
+      param_content = f"""# Data type
+      Data type: {par["data_type"]}
+      Ion mode: {par["ion_mode"]}
+      Accuracy type: {par["accuracy_type"]}
       
-      if [ "\\$par_quiet" == "true" ]; then
-        extra_params+=( "--quiet" )
-      fi
-      if [ "\\$par_dryrun" == "true" ]; then
-        extra_params+=( "--dryrun" )
-      fi
-      if [ "\\$par_delete" == "true" ]; then
-        extra_params+=( "--delete" )
-      fi
+      # Data collection parameters
+      Retention time begin: {par["retention_time_begin"]}
+      Retention time end: {par["retention_time_end"]}
+      Mass range begin: {par["mass_range_begin"]}
+      Mass range end: {par["mass_range_end"]}
       
-      if [ ! -z \\${par_exclude+x} ]; then
-        IFS=":"
-        for var in \\$par_exclude; do
-          unset IFS
-          extra_params+=( "--exclude" "\\$var" )
-        done
-      fi
+      # Peak detection parameters
+      Smoothing method: {par["smoothing_method"]}
+      Smoothing level: {par["smoothing_level"]}
+      Average peak width: {par["average_peak_width"]}
+      Minimum peak height: {par["minimum_peak_height"]}
+      Mass slice width: {par["mass_slice_width"]}
+      Mass accuracy: {par["mass_accuracy"]}
       
+      # MS1Dec parameters
+      Sigma window value: {par["sigma_window_value"]}
+      Amplitude cut off: {par["amplitude_cutoff"]}
       
-      # Disable the use of the Amazon EC2 instance metadata service (IMDS).
-      # see https://florian.ec/blog/github-actions-awscli-errors/
-      # or https://github.com/aws/aws-cli/issues/5234#issuecomment-705831465
-      export AWS_EC2_METADATA_DISABLED=true
+      # Identification
+      {"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
+      {"RI index file pathes: " + ri_index_file if par["ri_index_file"] else "# RI index file pathes: none"}
+      Retention type: {par["retention_type"]}
+      RI compound: {par["ri_compound"]}
+      Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
+      Retention index tolerance for identification: {par["retention_index_tolerance_for_identification"]}
+      EI similarity tolerance for identification: {par["ei_similarity_tolerance_for_identification"]}
+      Identification score cut off: {par["identification_score_cutoff"]}
       
-      aws s3 sync "\\$par_input" "\\$par_output" --no-sign-request "\\${extra_params[@]}"
+      # Alignment parameters setting
+      Alignment index type: {par["alignment_index_type"]}
+      Retention time tolerance for alignment: {par["retention_time_tolerance_for_alignment"]}
+      Retention index tolerance for alignment: {par["retention_index_tolerance_for_alignment"]}
+      EI similarity tolerance for alignment: {par["ei_similarity_tolerance_for_alignment"]}
+      Retention time factor for alignment: {par["retention_time_factor_for_alignment"]}
+      EI similarity factor for alignment: {par["ei_similarity_factor_for_alignment"]}
+      Peak count filter: {par["peak_count_filter"]}
+      QC at least filter: {par["qc_at_least_filter"]}
+      """
+      
+      with tempfile.TemporaryDirectory() as temp_dir:
+         # copy input files to tempdir
+         # because MSDial otherwise generates a lot
+         # of temporary files in the input dir.
+         shutil.copytree(par["input"], temp_dir, dirs_exist_ok=True)
+         par["input"] = temp_dir
+      
+         # create output dir if not exists
+         if not os.path.exists(par["output"]):
+            os.makedirs(par["output"])
+         
+         # create ri index file paths file
+         # (if needed)
+         if par["ri_index_file"]:
+            with open(ri_index_file, 'w') as out_file:
+               tsv_writer = csv.writer(out_file, delimiter="\\\\t")
+      
+               for top, dirs, files in os.walk(par["input"]):
+                  input_files = [ os.path.join(top, file) for file in files if re.match('.*\\\\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)\\$', file)]
+                  tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
+      
+         # write params file
+         with open(param_file, "w") as f:
+            f.write(param_content)
+      
+         # run msdial
+         p = subprocess.Popen(
+            [
+               f"{msdial_path}/MsdialConsoleApp", 
+               "gcms", 
+               "-i", par["input"],
+               "-o", par["output"],
+               "-m", param_file,
+               "-p"
+            ]
+         )
+         p.wait()
+      
+      if p.returncode != 0:
+         raise Exception(f"MS-DIAL finished with exit code {p.returncode}") 
       VIASHMAIN
-      bash "$tempscript"
+      python "$tempscript"
       '''
       
       thisDefaultProcessArgs = [
@@ -257,7 +1007,7 @@ functionality:
         directives: jsonSlurper.parseText("""{
         "container" : {
           "registry" : "ghcr.io",
-          "image" : "czbiohub/mspipelines/download_sync_test_resources",
+          "image" : "czbiohub/mspipelines/msdial_msdial_gcms",
           "tag" : "main_build"
         }
       }"""),
@@ -1220,11 +1970,10 @@ functionality:
   - type: "file"
     text: |
       manifest {
-        name = 'sync_test_resources'
+        name = 'msdial_gcms'
         mainScript = 'main.nf'
         nextflowVersion = '!>=20.12.1-edge'
         version = 'main_build'
-        description = 'Synchronise the test resources from s3://czbiohub-pipelines/resources_test_ms to resources_test'
         author = 'Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}'
       }
       
@@ -1281,14 +2030,12 @@ functionality:
       }
 
     dest: "nextflow.config"
-  description: "Synchronise the test resources from s3://czbiohub-pipelines/resources_test_ms\
-    \ to resources_test"
-  usage: "sync_test_resources\nsync_test_resources --input s3://czbiohub-pipelines/resources_test_ms\
-    \ --output resources_test\n"
   tests:
   - type: "bash_script"
     path: "run_test.sh"
     is_executable: true
+  - type: "file"
+    path: "../../../resources_test/msdial_demo_files/raw/GCMS"
   info: {}
   dummy_arguments: []
   set_wd_to_resources_dir: false
@@ -1314,9 +2061,9 @@ platform:
   container: "docker"
 platforms: []
 info:
-  config: "src/download/sync_test_resources/config.vsh.yaml"
+  config: "src/msdial/msdial_gcms/config.vsh.yaml"
   platform: "nextflow"
-  output: "target/nextflow/download/sync_test_resources"
+  output: "target/nextflow/msdial/msdial_gcms"
   viash_version: "0.5.12"
   git_commit: "75aa3441caacf61e6632f519829a0966f09df310"
   git_remote: "https://github.com/czbiohub/mspipelines"

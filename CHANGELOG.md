@@ -1,5 +1,9 @@
 # mspipeline 0.3.0
 
+Added components:
+
+* `msdial/msdial_gcms`: Added MSDial GC/MS component.
+
 Minor changes:
 
 * `convert/thermo_to_mzml`: Allow also processing whole directories instead of 

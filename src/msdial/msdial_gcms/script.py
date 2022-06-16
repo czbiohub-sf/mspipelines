@@ -1,25 +1,55 @@
 import os
+import csv
 import re
 import tempfile
 import shutil
 import subprocess
-import pandas as pd
 
+msdial_path="/msdial"
 ## VIASH START
 par = {
-   "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
-   "output": "output/",
-   "analysis_type": "gcms"
+  'input': '/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS',
+  'output': '/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS_output',
+  'data_type': 'Centroid',
+  'ion_mode': 'Positive',
+  'accuracy_type': 'IsNominal',
+  'retention_time_begin': int('4'),
+  'retention_time_end': int('25'),
+  'mass_range_begin': int('85'),
+  'mass_range_end': int('600'),
+  'smoothing_method': 'LinearWeightedMovingAverage',
+  'smoothing_level': int('3'),
+  'average_peak_width': int('20'),
+  'minimum_peak_height': int('200'),
+  'mass_slice_width': float('0.5'),
+  'mass_accuracy': float('0.5'),
+  'sigma_window_value': float('0.5'),
+  'amplitude_cutoff': int('50'),
+  'msp_file': None,
+  'ri_index': None,
+  'retention_type': 'RI',
+  'ri_compound': 'Alkanes',
+  'retention_time_tolerance_for_identification': float('0.5'),
+  'retention_index_tolerance_for_identification': int('20'),
+  'ei_similarity_tolerance_for_identification': int('70'),
+  'identification_score_cutoff': int('70'),
+  'alignment_index_type': 'RT',
+  'retention_time_tolerance_for_alignment': float('0.075'),
+  'retention_index_tolerance_for_alignment': int('20'),
+  'ei_similarity_tolerance_for_alignment': int('70'),
+  'retention_time_factor_for_alignment': float('0.5'),
+  'ei_similarity_factor_for_alignment': float('0.5'),
+  'peak_count_filter': int('0'),
+  'qc_at_least_filter': 'true'.lower() == 'true'
 }
-meta = {
-   "resources_dir": "src/maxquant/maxquant/"
-}
+msdial_path="../msdial_build"
+
 ## VIASH END
-
-templ = os.path.join(meta["resources_dir"], "templates/gcms.txt")
-
+   
 # Create params file
 param_file = os.path.join(par["output"], "params.txt")
+ri_index_file = os.path.join(par["output"], "ri_index_paths.txt")
+
 param_content = f"""# Data type
 Data type: {par["data_type"]}
 Ion mode: {par["ion_mode"]}
@@ -44,8 +74,8 @@ Sigma window value: {par["sigma_window_value"]}
 Amplitude cut off: {par["amplitude_cutoff"]}
 
 # Identification
-{"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file:"}
-{"RI index file pathes: " + par["ri_index"] if par["ri_index"] else "# RI index file pathes:"}
+{"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
+{"RI index file pathes: " + ri_index_file if par["ri_index_file"] else "# RI index file pathes: none"}
 Retention type: {par["retention_type"]}
 RI compound: {par["ri_compound"]}
 Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
@@ -56,7 +86,7 @@ Identification score cut off: {par["identification_score_cutoff"]}
 # Alignment parameters setting
 Alignment index type: {par["alignment_index_type"]}
 Retention time tolerance for alignment: {par["retention_time_tolerance_for_alignment"]}
-#Retention index tolerance for alignment: {par["retention_index_tolerance_for_alignment"]}
+Retention index tolerance for alignment: {par["retention_index_tolerance_for_alignment"]}
 EI similarity tolerance for alignment: {par["ei_similarity_tolerance_for_alignment"]}
 Retention time factor for alignment: {par["retention_time_factor_for_alignment"]}
 EI similarity factor for alignment: {par["ei_similarity_factor_for_alignment"]}
@@ -64,22 +94,35 @@ Peak count filter: {par["peak_count_filter"]}
 QC at least filter: {par["qc_at_least_filter"]}
 """
 
-# copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
+   # copy input files to tempdir
+   # because MSDial otherwise generates a lot
+   # of temporary files in the input dir.
    shutil.copytree(par["input"], temp_dir, dirs_exist_ok=True)
    par["input"] = temp_dir
 
    # create output dir if not exists
    if not os.path.exists(par["output"]):
       os.makedirs(par["output"])
+   
+   # create ri index file paths file
+   # (if needed)
+   if par["ri_index_file"]:
+      with open(ri_index_file, 'w') as out_file:
+         tsv_writer = csv.writer(out_file, delimiter="\t")
 
-      with open(param_file, "w") as f:
-         f.write(param_content)
+         for top, dirs, files in os.walk(par["input"]):
+            input_files = [ os.path.join(top, file) for file in files if re.match('.*\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)$', file)]
+            tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
+
+   # write params file
+   with open(param_file, "w") as f:
+      f.write(param_content)
 
    # run msdial
    p = subprocess.Popen(
       [
-         "/msdial/MsdialConsoleApp", 
+         f"{msdial_path}/MsdialConsoleApp", 
          "gcms", 
          "-i", par["input"],
          "-o", par["output"],
@@ -89,5 +132,5 @@ with tempfile.TemporaryDirectory() as temp_dir:
    )
    p.wait()
 
-   if p.returncode != 0:
-      raise Exception(f"MS-DIAL finished with exit code {p.returncode}") 
+if p.returncode != 0:
+   raise Exception(f"MS-DIAL finished with exit code {p.returncode}") 

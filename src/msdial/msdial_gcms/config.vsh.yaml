@@ -84,7 +84,7 @@ functionality:
       type: file
       required: false
       example: file.msp
-    - name: "--ri_index"
+    - name: "--ri_index_file"
       type: file
       required: false
       example: ri_index.txt
@@ -138,35 +138,31 @@ functionality:
   resources:
     - type: python_script
       path: script.py
+  tests:
+    - type: bash_script
+      path: run_test.sh
+    - path: ../../../resources_test/msdial_demo_files/raw/GCMS
 platforms:
   - type: docker
     image: python:3.10
     setup:
-      # - type: apt
-      #   packages: [ wget, unzip, apt-transport-https ]
-      # - type: apt
-      #   packages: [ python3, python-is-python3, python3-pandas ]
       - type: apt
         packages: [ libnetcdf-dev ] # dependency of msdial
       - type: docker
         run: 
+          # - mkdir /tmp/msdial && cd /tmp/msdial &&
+          #   wget "http://prime.psc.riken.jp/compms/msdial/download/repository/Linux/MSDIAL%20ver.4.90%20Linux.zip" -O "msdial.zip" &&
+          #   unzip "msdial.zip" && 
+          #   mv "MSDIAL ver.4.90 Linux" /msdial &&
+          #   rm -rf /tmp/msdial &&
+          #   chmod +x /msdial/MsdialConsoleApp
+            #
           - mkdir /tmp/msdial && cd /tmp/msdial &&
-            wget "http://prime.psc.riken.jp/compms/msdial/download/repository/Linux/MSDIAL%20ver.4.90%20Linux.zip" -O "msdial.zip" &&
-            unzip "msdial.zip" && 
-            mv "MSDIAL ver.4.90 Linux" /msdial &&
+            wget https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" &&
+            unzip "msdial.zip" -d /msdial && 
             rm -rf /tmp/msdial &&
             chmod +x /msdial/MsdialConsoleApp
       - type: python
         pypi: pandas
-
-      # - type: docker
-      #   run: 
-      #     - wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb &&
-      #         dpkg -i packages-microsoft-prod.deb &&
-      #         rm packages-microsoft-prod.deb
-      # - type: apt
-      #   packages: [ dotnet-sdk-2.1, aspnetcore-runtime-2.1, dotnet-sdk-3.1, aspnetcore-runtime-3.1 ]
-
   - type: nextflow
-    publish: true
-    labels: [ highmem, highcpu ]
+    variant: vdsl3

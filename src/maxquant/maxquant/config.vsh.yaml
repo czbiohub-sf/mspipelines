@@ -86,10 +86,6 @@ functionality:
     - path: settings
 platforms:
   - type: docker
-    # image: quay.io/biocontainers/maxquant:2.0.3.0--py310hdfd78af_1
-    # setup:
-    #   - type: python
-    #     pypi: pandas
     image: python:3.10
     setup:
       - type: apt
@@ -112,5 +108,6 @@ platforms:
       - type: python
         pypi: pandas
   - type: nextflow
-    publish: true
-    labels: [ highmem, highcpu ]
+    variant: vdsl3
+    directives: 
+      label: [ highmem, highcpu ]

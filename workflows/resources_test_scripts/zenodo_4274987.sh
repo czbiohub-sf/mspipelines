@@ -48,5 +48,3 @@ if [ ! -f "$h5ad_file" ]; then
     --input "$maxquant_out" \
     --output "$h5ad_file"
 fi
-
-# aws s3 sync --profile czb "$DIR" "$S3DIR"
