@@ -1,8 +1,20 @@
+# mspipeline 0.3.1
+
+Bug fixes:
+
+* `maxquant/maxquant`: Fix refactoring error in script.
+
 # mspipeline 0.3.0
 
 Added components:
 
 * `msdial/msdial_gcms`: Added MSDial GC/MS component.
+
+Major changes:
+
+* `maxquant/maxquant`: Refactored Bash script into a Python script.
+
+* `maxquant/maxquant`: Added parameters to tweak the analysis.
 
 Minor changes:
 

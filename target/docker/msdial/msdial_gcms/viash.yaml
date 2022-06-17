@@ -27,7 +27,7 @@ functionality:
   - type: "file"
     name: "--output"
     alternatives: []
-    description: "An output directory to store the 'mqpar.xml' and 'combined' outputs."
+    description: "An output directory to store the '*.mdsdial' outputs."
     example:
     - "output_dir"
     default: []
@@ -52,7 +52,7 @@ functionality:
   - type: "file"
     name: "--output"
     alternatives: []
-    description: "An output directory to store the 'mqpar.xml' and 'combined' outputs."
+    description: "An output directory to store the '*.mdsdial' outputs."
     example:
     - "output_dir"
     default: []
@@ -579,7 +579,7 @@ functionality:
         echo "    --output"
         echo "        type: file, required parameter, output"
         echo "        example: output_dir"
-        echo "        An output directory to store the 'mqpar.xml' and 'combined' outputs."
+        echo "        An output directory to store the '*.mdsdial' outputs."
         echo ""
         echo "    --input"
         echo "        type: file, required parameter, multiple values allowed"
@@ -589,7 +589,7 @@ functionality:
         echo "    --output"
         echo "        type: file, required parameter, output"
         echo "        example: output_dir"
-        echo "        An output directory to store the 'mqpar.xml' and 'combined' outputs."
+        echo "        An output directory to store the '*.mdsdial' outputs."
         echo ""
         echo "    --data_type"
         echo "        type: string"
@@ -2149,5 +2149,5 @@ info:
   output: "target/docker/msdial/msdial_gcms"
   executable: "target/docker/msdial/msdial_gcms/msdial_gcms"
   viash_version: "0.5.12"
-  git_commit: "e4205703f6ca23ca1ef89c89e5c0a9f63e83e9fd"
+  git_commit: "b3e87b6cedbc0857e59d93832e3fcd30b91ad85f"
   git_remote: "https://github.com/czbiohub/mspipelines"

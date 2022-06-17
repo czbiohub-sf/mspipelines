@@ -134,7 +134,8 @@ functionality:
       \ ion MS2'. In case the isobaric labeling reporters should be read from MS3\
       \ spectra, please select 'Reporter ion MS3'."
     example: []
-    default: []
+    default:
+    - "Standard"
     required: true
     choices:
     - "Standard"
@@ -290,6 +291,7 @@ functionality:
             'type': 'string',
             'direction': 'input',
             'description': 'The type of LC-MS run. Select \'Standard\' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select \'Reporter ion MS2\'. In case the isobaric labeling reporters should be read from MS3 spectra, please select \'Reporter ion MS3\'.',
+            'default': 'Standard',
             'multiple': false
           ],
           [
@@ -391,6 +393,7 @@ functionality:
       
           --lcms_run_type
               type: string, required parameter
+              default: Standard
               choices:
                   - Standard
                   - Reporter ion MS2
@@ -464,6 +467,10 @@ functionality:
       # if par_input is a directory, look for raw files
       if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
          par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\\\\.raw', f) ]
+      
+      # set taxonomy id to empty string if not specified
+      if not par["ref_taxonomy_id"]:
+         par["ref_taxonomy_id"] = [ "" for ref in par["reference"] ]
       
       # use absolute paths
       par["input"] = [ os.path.abspath(f) for f in par["input"] ]
@@ -675,7 +682,7 @@ functionality:
          <profilePerformance>False</profilePerformance>
          <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
          </filePaths>
-         <experiments>{''.join([ f"{endl}      <string>{experiment}</string>" for exp in experiment_names ])}
+         <experiments>{''.join([ f"{endl}      <string>{exp}</string>" for exp in experiment_names ])}
          </experiments>
          <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
          </fractions>
@@ -2137,5 +2144,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/maxquant/maxquant"
   viash_version: "0.5.12"
-  git_commit: "e4205703f6ca23ca1ef89c89e5c0a9f63e83e9fd"
+  git_commit: "b3e87b6cedbc0857e59d93832e3fcd30b91ad85f"
   git_remote: "https://github.com/czbiohub/mspipelines"

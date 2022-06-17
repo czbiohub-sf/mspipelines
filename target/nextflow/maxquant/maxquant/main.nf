@@ -101,6 +101,7 @@ thisFunctionality = [
       'type': 'string',
       'direction': 'input',
       'description': 'The type of LC-MS run. Select \'Standard\' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select \'Reporter ion MS2\'. In case the isobaric labeling reporters should be read from MS3 spectra, please select \'Reporter ion MS3\'.',
+      'default': 'Standard',
       'multiple': false
     ],
     [
@@ -202,6 +203,7 @@ there is no need for the user to adjust the sub-parameters.
 
     --lcms_run_type
         type: string, required parameter
+        default: Standard
         choices:
             - Standard
             - Reporter ion MS2
@@ -275,6 +277,10 @@ resources_dir = '$VIASH_META_RESOURCES_DIR'
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
    par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\\\\.raw', f) ]
+
+# set taxonomy id to empty string if not specified
+if not par["ref_taxonomy_id"]:
+   par["ref_taxonomy_id"] = [ "" for ref in par["reference"] ]
 
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
@@ -486,7 +492,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <profilePerformance>False</profilePerformance>
    <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>{''.join([ f"{endl}      <string>{experiment}</string>" for exp in experiment_names ])}
+   <experiments>{''.join([ f"{endl}      <string>{exp}</string>" for exp in experiment_names ])}
    </experiments>
    <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>

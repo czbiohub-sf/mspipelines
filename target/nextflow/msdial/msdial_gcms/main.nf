@@ -42,7 +42,7 @@ thisFunctionality = [
       'required': true,
       'type': 'file',
       'direction': 'output',
-      'description': 'An output directory to store the \'mqpar.xml\' and \'combined\' outputs.',
+      'description': 'An output directory to store the \'*.mdsdial\' outputs.',
       'default': '$id.$key.output',
       'example': 'output_dir',
       'multiple': false
@@ -309,7 +309,7 @@ Options:
     --output
         type: file, required parameter, output
         example: output_dir
-        An output directory to store the 'mqpar.xml' and 'combined' outputs.
+        An output directory to store the '*.mdsdial' outputs.
 
     --data_type
         type: string
