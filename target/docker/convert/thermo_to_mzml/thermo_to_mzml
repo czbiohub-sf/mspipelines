@@ -172,7 +172,7 @@ function ViashHelp {
   echo "    --input"
   echo "        type: file, required parameter"
   echo "        example: input.raw"
-  echo "        One or more Thermo Raw file(s)."
+  echo "        A Thermo Raw file."
   echo ""
   echo "    --output"
   echo "        type: file, required parameter, output"
@@ -388,9 +388,9 @@ rm ThermoRawFileParser.zip
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component convert thermo_to_mzml"
-LABEL org.opencontainers.image.created="2022-07-01T15:06:42Z"
+LABEL org.opencontainers.image.created="2022-07-01T18:20:05Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="65dc99f83014b8ea03319f78aca30bbb520a7a74"
+LABEL org.opencontainers.image.revision="593739691fceef1811350f118089e289c9a85f22"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
@@ -684,7 +684,6 @@ resources_dir="$VIASH_META_RESOURCES_DIR"
 
 ## VIASH END
 
-
 # need to copy file because tool doesn't work with symlinks
 
 # create tempdir
@@ -695,21 +694,16 @@ function clean_up {
 }
 trap clean_up EXIT
 
-tmp_input="\$TMPDIR/\`basename "\$par_input"\`"
-cp -r "\$par_input" "\$tmp_input"
+# copy input files to tempdir
+cp "\$par_input" "\$TMPDIR"
+new_input="\$TMPDIR/"\$(basename "\$par_input")
 
-if [[ -d "\$par_input" ]]; then
-  mkdir -p "\$par_output"
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=\$tmp_input" "-o=\$par_output"
-else
-  if [[ \$par_output == *.mzML ]]; then
-    out_path="\$par_output"
-  else
-    out_path="\$par_output/\$(basename -- "\$par_input" .raw).mzML"
-  fi
-  mkdir -p \`dirname "\$out_path"\`
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\$tmp_input" "-b=\$out_path"
-fi
+# create output directory if not exists
+out_dir=\`dirname "\$par_output"\`
+[ -d "\$out_dir" ] || mkdir -p "\$out_dir"
+
+# run converter
+mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\$new_input" "-b=\$par_output"
 
 VIASHMAIN
 bash "\$tempscript" &

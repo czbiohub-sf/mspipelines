@@ -46,7 +46,7 @@ thisConfig = processConfig([
     {
       "type" : "file",
       "name" : "--input",
-      "description" : "One or more Thermo Raw file(s).",
+      "description" : "A Thermo Raw file.",
       "example" : [
         "input.raw"
       ],
@@ -116,7 +116,6 @@ resources_dir="$VIASH_META_RESOURCES_DIR"
 
 ## VIASH END
 
-
 # need to copy file because tool doesn't work with symlinks
 
 # create tempdir
@@ -127,21 +126,16 @@ function clean_up {
 }
 trap clean_up EXIT
 
-tmp_input="\\$TMPDIR/\\`basename "\\$par_input"\\`"
-cp -r "\\$par_input" "\\$tmp_input"
+# copy input files to tempdir
+cp "\\$par_input" "\\$TMPDIR"
+new_input="\\$TMPDIR/"\\$(basename "\\$par_input")
 
-if [[ -d "\\$par_input" ]]; then
-  mkdir -p "\\$par_output"
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-d=\\$tmp_input" "-o=\\$par_output"
-else
-  if [[ \\$par_output == *.mzML ]]; then
-    out_path="\\$par_output"
-  else
-    out_path="\\$par_output/\\$(basename -- "\\$par_input" .raw).mzML"
-  fi
-  mkdir -p \\`dirname "\\$out_path"\\`
-  mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\\$tmp_input" "-b=\\$out_path"
-fi
+# create output directory if not exists
+out_dir=\\`dirname "\\$par_output"\\`
+[ -d "\\$out_dir" ] || mkdir -p "\\$out_dir"
+
+# run converter
+mono /var/local/thermorawfileparser/ThermoRawFileParser.exe "-i=\\$new_input" "-b=\\$par_output"
 
 VIASHMAIN
 bash "$tempscript"

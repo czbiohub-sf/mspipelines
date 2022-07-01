@@ -12,7 +12,7 @@ functionality:
     - name: "--input"
       type: file
       required: true
-      description: One or more Thermo Raw file(s).
+      description: A Thermo Raw file.
       example: input.raw
     - name: "--output"
       type: file

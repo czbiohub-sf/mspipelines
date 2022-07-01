@@ -2506,5 +2506,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/msdial/msdial_gcms"
   viash_version: "0.5.14"
-  git_commit: "65dc99f83014b8ea03319f78aca30bbb520a7a74"
+  git_commit: "593739691fceef1811350f118089e289c9a85f22"
   git_remote: "https://github.com/czbiohub/mspipelines"

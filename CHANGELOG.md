@@ -1,3 +1,10 @@
+# mspipeline 0.3.2
+
+# Minor changes
+
+* `convert/thermo_to_mzml`: Revert being able to process input directories. Only allow
+  processing individual input files.
+
 # mspipeline 0.3.1
 
 Bug fixes:
