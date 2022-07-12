@@ -168,7 +168,7 @@ function ViashHelp {
   echo "Usage:"
   echo "rawbeans --input file1.mzML --output out_qc/"
   echo ""
-  echo "Options:"
+  echo "Arguments:"
   echo "    --input"
   echo "        type: file, required parameter, multiple values allowed"
   echo "        example: input.mzML"
@@ -182,7 +182,7 @@ function ViashHelp {
   echo "    --batch"
   echo "        type: boolean_true"
   echo "        When specified, will generate one report per sample instead of one"
-  echo "report for all samples."
+  echo "        report for all samples."
   echo ""
   echo "    --no_report"
   echo "        type: boolean_true"
@@ -191,7 +191,7 @@ function ViashHelp {
   echo "    --mass"
   echo "        type: double, multiple values allowed"
   echo "        List of masses to follow. Example: '--mass 371.10124 --mass 445.12003'"
-  echo "or '--mass 371.10124:445.12003'."
+  echo "        or '--mass 371.10124:445.12003'."
 }
 ######## Helper functions for setting up Docker images for viash ########
 # expects: ViashDockerBuild
@@ -401,9 +401,9 @@ python setup.py install
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component qc rawbeans"
-LABEL org.opencontainers.image.created="2022-07-01T18:20:05Z"
+LABEL org.opencontainers.image.created="2022-07-12T12:49:10Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="593739691fceef1811350f118089e289c9a85f22"
+LABEL org.opencontainers.image.revision="215a2a3965cdb1384be3483e53c589cabc63b4d5"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }

@@ -12,7 +12,7 @@ functionality:
       type: file
       required: true
       multiple: true
-      description: One or more ABF files. Can also be a directory of ABF files.
+      description: One or more ABF files.
       example: input.abf
   outputs:
     - name: "--output"
@@ -20,8 +20,47 @@ functionality:
       direction: output
       required: true
       example: output_dir
-      description: An output directory to store the '*.mdsdial' outputs.
+      description: An output directory to store the '*.msdial' outputs.
   arguments:
+    # input parameters
+    - name: "--name"
+      type: string
+      required: false
+      multiple: true
+      example: [foo, bar, baz]
+      description: Sample name, must be of same length as the input files.
+    - name: "--type"
+      type: string
+      required: false
+      multiple: true
+      example: Sample
+      description: Sample type, must be of same length as the input files.
+      choices: [Sample, Standard, QC, Blank]
+    - name: "--class_id"
+      type: string
+      required: false
+      multiple: true
+      example: ["1", "2", "3"]
+      description: Sample class, must be of same length as the input files.
+    - name: "--batch"
+      type: integer
+      required: false
+      multiple: true
+      example: [1,2,3]
+      description: Sample batch, must be of same length as the input files.
+    - name: "--analytical_order"
+      type: integer
+      required: false
+      multiple: true
+      example: [2,1,3]
+      description: Sample analytical order, must be of same length as the input files.
+    - name: "--inject_volume"
+      type: double
+      required: false
+      multiple: true
+      example: [1.0, 0.9, 1.1]
+      description: Sample injection volume in µL, must be of same length as the input files.
+      
     # data type args
     - name: "--data_type"
       type: string
@@ -135,6 +174,21 @@ functionality:
     - name: "--qc_at_least_filter"
       type: boolean
       default: true
+  argument_groups:
+    - name: Inputs
+      arguments: [ input, name, type, class_id, batch, analytical_order, inject_volume ]
+    - name: Data type arguments
+      arguments: [ data_type, ion_mode, accuracy_type ]
+    - name: Data collection arguments
+      arguments: [ retention_time_begin, retention_time_end, mass_range_begin, mass_range_end ]
+    - name: Peak detection arguments
+      arguments: [ smoothing_method, smoothing_level, average_peak_width, minimum_peak_height, mass_slice_width, mass_accuracy ]
+    - name: MS1Dec arguments
+      arguments: [ sigma_window_value, amplitude_cutoff ]
+    - name: Identification arguments
+      arguments: [ msp_file, ri_index_file, retention_type, ri_compound, retention_time_tolerance_for_identification, retention_index_tolerance_for_identification, ei_similarity_tolerance_for_identification, identification_score_cutoff]
+    - name: Alignment arguments
+      arguments: [ alignment_index_type, retention_time_tolerance_for_alignment, retention_index_tolerance_for_alignment, ei_similarity_tolerance_for_alignment, retention_time_factor_for_alignment, ei_similarity_factor_for_alignment, peak_count_filter, qc_at_least_filter ]
   resources:
     - type: python_script
       path: script.py
@@ -156,11 +210,10 @@ platforms:
           #   mv "MSDIAL ver.4.90 Linux" /msdial &&
           #   rm -rf /tmp/msdial &&
           #   chmod +x /msdial/MsdialConsoleApp
-            #
           - mkdir /tmp/msdial && cd /tmp/msdial &&
-            wget -q https://www.dropbox.com/s/dx5fakz4sy2xgha/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" &&
+            wget -q https://www.dropbox.com/s/zebtsivwrqt2dre/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" &&
             unzip "msdial.zip" -d /msdial && 
-            rm -rf /tmp/msdial &&
+            rm -rf /tmp/msdial && 
             chmod +x /msdial/MsdialConsoleApp
       - type: python
         pypi: pandas
