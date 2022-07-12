@@ -4,12 +4,20 @@ import re
 import tempfile
 import shutil
 import subprocess
+import pandas as pd
 
 msdial_path="/msdial"
 ## VIASH START
+input_dir='resources_test/msdial_demo_files/raw/GCMS/'
 par = {
-  'input': ['/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS'],
-  'output': '/home/rcannood/Data Intuitive Dropbox/Robrecht Cannoodt/msdial/demo/GCMS_output',
+  'input': [f'{input_dir}/140428actsa25_1.cdf', f'{input_dir}/140428actsa26_1.cdf'],
+  'output': 'output_test/GCMS_output',
+  'name': ['foo', 'bar'],
+  'type': ['Sample', 'Sample'],
+  'class_id': ['1', '2'],
+  'batch': [1, 1],
+  'analytical_order': [1, 2],
+  'inject_volume': [1.0, 1.0],
   'data_type': 'Centroid',
   'ion_mode': 'Positive',
   'accuracy_type': 'IsNominal',
@@ -43,16 +51,24 @@ par = {
   'qc_at_least_filter': 'true'.lower() == 'true'
 }
 msdial_path="../msdial_build"
-
 ## VIASH END
 
 assert len(par["input"]) > 0, "Need to specify at least one --input."
-is_dir = [ os.path.isdir(file) for file in par["input"] ]
 
-if len(par["input"]) > 1:   
-   assert not any(is_dir), "Either pass to --input a single directory or a set of files."
+# Create input csv file
+csv_vars = {
+  'file_path': 'input', 
+  'file_name': 'name', 
+  'type': 'type', 
+  'class_id': 'class_id',
+  'batch': 'batch', 
+  'analytical_order': 'analytical_order', 
+  'inject_volume': 'inject_volume',
+}
 
-dir_mode=all(is_dir)
+csv_file = os.path.join(par["output"], "input.csv")
+for par_key, par_name in csv_vars.items():
+   assert par.get(par_name) is None or len(par["input"]) == len(par[par_name]), f"--{par_name} should be of same length as --input"
 
 # Create params file
 param_file = os.path.join(par["output"], "params.txt")
@@ -106,17 +122,23 @@ with tempfile.TemporaryDirectory() as temp_dir:
    # copy input files to tempdir
    # because MSDial otherwise generates a lot
    # of temporary files in the input dir.
-   if dir_mode:
-      shutil.copytree(par["input"][0], temp_dir, dirs_exist_ok=True)
-   else:
-      for file in par["input"]:
-         dest = os.path.join(temp_dir, os.path.basename(file))
-         print(f"Copying {file} to {dest}")
-         shutil.copyfile(file, dest)
+   sources = par["input"]
+   dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
+
+   for src,dst in zip(par["input"], dests):
+      print(f"Copying {src} to {dst}")
+      shutil.copyfile(src, dst)
+
+   par["input"] = dests
 
    # create output dir if not exists
    if not os.path.exists(par["output"]):
       os.makedirs(par["output"])
+   
+   # write input csv file
+   data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
+   data_df = pd.DataFrame(data)
+   data_df.to_csv(csv_file, index=False)
    
    # create ri index file paths file
    # (if needed)
@@ -137,7 +159,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
       [
          f"{msdial_path}/MsdialConsoleApp", 
          "gcms", 
-         "-i", temp_dir,
+         "-i", csv_file,
          "-o", par["output"],
          "-m", param_file,
          "-p"

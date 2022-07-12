@@ -1,13 +1,20 @@
-# mspipeline 0.3.2
+# mspipeline 0.3.1
 
-# Minor changes
+## Breaking changes
+
+* `msdial/msdial_gcms`: Now only accepts one or more input files. Directories are
+  no longer accepted.
+
+## Major changes
+
+* `msdial/msdial_gcms`: Added support for setting the name, type, class_id, batch, analytical_order and inject_volume of input files.
+
+## Minor changes
 
 * `convert/thermo_to_mzml`: Revert being able to process input directories. Only allow
   processing individual input files.
 
-# mspipeline 0.3.1
-
-Bug fixes:
+## Bug fixes
 
 * `maxquant/maxquant`: Fix refactoring error in script.
 
