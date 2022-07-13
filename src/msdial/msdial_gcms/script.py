@@ -126,7 +126,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
 
    for src,dst in zip(par["input"], dests):
-      print(f"Copying {src} to {dst}")
+      print(f"Copying {src} to {dst}", flush=True)
       shutil.copyfile(src, dst)
 
    par["input"] = dests
@@ -147,8 +147,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
          tsv_writer = csv.writer(out_file, delimiter="\t")
 
          for top, dirs, files in os.walk(temp_dir):
-            input_files = [ os.path.join(top, file) for file in files if re.match('.*\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)$', file)]
-            tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
+            # input_files = [ os.path.join(top, file) for file in files if re.match('.*\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)$', file)]
+            tsv_writer.writerows([[file, par["ri_index_file"]] for file in dests])
 
    # write params file
    with open(param_file, "w") as f:

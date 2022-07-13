@@ -546,15 +546,15 @@ RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y libnetcdf-dev && \
   rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /tmp/msdial && cd /tmp/msdial && wget -q https://www.dropbox.com/s/zebtsivwrqt2dre/MSDIAL%20build%20Linux.zip?dl=1 -O "msdial.zip" && unzip "msdial.zip" -d /msdial && rm -rf /tmp/msdial && chmod +x /msdial/MsdialConsoleApp
+RUN mkdir /tmp/msdial && cd /tmp/msdial && wget -q https://www.dropbox.com/s/5aahjfka32xmpu7/foo.zip?dl=1 -O "msdial.zip" && unzip "msdial.zip" -d /msdial && rm -rf /tmp/msdial && chmod +x /msdial/MsdialConsoleApp
 RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "pandas"
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_gcms"
-LABEL org.opencontainers.image.created="2022-07-13T11:57:42Z"
+LABEL org.opencontainers.image.created="2022-07-13T13:40:28Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="a68b3868305a8730cd026f01c44a914c2994f493"
+LABEL org.opencontainers.image.revision="b20e8e4420123214820a4232c4df219d009c5f19"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
@@ -1794,7 +1794,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
 
    for src,dst in zip(par["input"], dests):
-      print(f"Copying {src} to {dst}")
+      print(f"Copying {src} to {dst}", flush=True)
       shutil.copyfile(src, dst)
 
    par["input"] = dests
@@ -1815,8 +1815,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
          tsv_writer = csv.writer(out_file, delimiter="\\t")
 
          for top, dirs, files in os.walk(temp_dir):
-            input_files = [ os.path.join(top, file) for file in files if re.match('.*\\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)\$', file)]
-            tsv_writer.writerows([[file, par["ri_index_file"]] for file in input_files])
+            # input_files = [ os.path.join(top, file) for file in files if re.match('.*\\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)\$', file)]
+            tsv_writer.writerows([[file, par["ri_index_file"]] for file in dests])
 
    # write params file
    with open(param_file, "w") as f:
