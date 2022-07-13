@@ -475,9 +475,9 @@ functionality:
       RUN :
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component download sync_test_resources"
-      LABEL org.opencontainers.image.created="2022-07-12T12:49:10Z"
+      LABEL org.opencontainers.image.created="2022-07-13T11:57:41Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="215a2a3965cdb1384be3483e53c589cabc63b4d5"
+      LABEL org.opencontainers.image.revision="a68b3868305a8730cd026f01c44a914c2994f493"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -913,5 +913,5 @@ info:
   output: "target/docker/download/sync_test_resources"
   executable: "target/docker/download/sync_test_resources/sync_test_resources"
   viash_version: "0.5.14"
-  git_commit: "215a2a3965cdb1384be3483e53c589cabc63b4d5"
+  git_commit: "a68b3868305a8730cd026f01c44a914c2994f493"
   git_remote: "https://github.com/czbiohub/mspipelines"

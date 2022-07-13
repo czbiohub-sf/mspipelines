@@ -14,6 +14,7 @@ functionality:
       multiple: true
       description: One or more ABF files.
       example: input.abf
+      multiple_sep: ";"
   outputs:
     - name: "--output"
       type: file
@@ -29,6 +30,7 @@ functionality:
       multiple: true
       example: [foo, bar, baz]
       description: Sample name, must be of same length as the input files.
+      multiple_sep: ";"
     - name: "--type"
       type: string
       required: false
@@ -36,30 +38,35 @@ functionality:
       example: Sample
       description: Sample type, must be of same length as the input files.
       choices: [Sample, Standard, QC, Blank]
+      multiple_sep: ";"
     - name: "--class_id"
       type: string
       required: false
       multiple: true
       example: ["1", "2", "3"]
       description: Sample class, must be of same length as the input files.
+      multiple_sep: ";"
     - name: "--batch"
       type: integer
       required: false
       multiple: true
       example: [1,2,3]
       description: Sample batch, must be of same length as the input files.
+      multiple_sep: ";"
     - name: "--analytical_order"
       type: integer
       required: false
       multiple: true
       example: [2,1,3]
       description: Sample analytical order, must be of same length as the input files.
+      multiple_sep: ";"
     - name: "--inject_volume"
       type: double
       required: false
       multiple: true
       example: [1.0, 0.9, 1.1]
       description: Sample injection volume in µL, must be of same length as the input files.
+      multiple_sep: ";"
       
     # data type args
     - name: "--data_type"
