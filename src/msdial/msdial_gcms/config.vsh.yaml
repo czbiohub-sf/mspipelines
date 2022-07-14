@@ -13,8 +13,8 @@ functionality:
       type: file
       required: true
       multiple: true
-      description: One or more ABF files.
-      example: input.abf
+      description: One or more input files.
+      example: [input1.abf, input2.abf, input3.abf]
       multiple_sep: ";"
   outputs:
     - name: "--output"

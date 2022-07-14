@@ -12,8 +12,8 @@ functionality:
       type: file
       required: true
       multiple: true
-      description: One or more ABF files.
-      example: input.abf
+      description: One or more input files.
+      example: [input1.abf, input2.abf, input3.abf]
       multiple_sep: ";"
   outputs:
     - name: "--output"
@@ -132,15 +132,15 @@ functionality:
       default: 0
     - name: "--rt_diff_calc_method"
       type: string
-      # default: SampleMinusSampleAverage # not sure about this default, debug to make sure
+      example: SampleMinusSampleAverage
       choices: [ SampleMinusSampleAverage, SampleMinusReference ]
     - name: "--extrapolation_method_begin"
       type: string
-      # default: UserSetting # not sure about this default, debug to make sure
+      example: UserSetting
       choices: [ UserSetting, FirstPoint, LinearExtrapolation ]
     - name: "--extrapolation_method_end"
       type: string
-      # default: lastpoint # not sure about this default, debug to make sure
+      example: lastpoint
       choices: [ lastpoint, LinearExtrapolation ]
     - name: "--istd_file"
       type: file
