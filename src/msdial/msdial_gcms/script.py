@@ -79,7 +79,7 @@ Data type: {par["data_type"]}
 Ion mode: {par["ion_mode"]}
 Accuracy type: {par["accuracy_type"]}
 
-# Data collection parameters
+# Data correction parameters
 Retention time begin: {par["retention_time_begin"]}
 Retention time end: {par["retention_time_end"]}
 Mass range begin: {par["mass_range_begin"]}
@@ -152,12 +152,14 @@ with tempfile.TemporaryDirectory() as temp_dir:
    # create ri index file paths file
    # (if needed)
    if par["ri_index_file"]:
+      assert len(par["ri_index_file"]) == 1 or len(par["ri_index_file"]) == len(par["input"]), "Length of --ri_index_file must be one or equal to the length of --input"
+      if len(par["ri_index_file"]) == 1:
+         par["ri_index_file"] = len(par["input"]) * par["ri_index_file"]
+
       with open(ri_index_file, 'w') as out_file:
          tsv_writer = csv.writer(out_file, delimiter="\t")
-
-         for top, dirs, files in os.walk(temp_dir):
-            # input_files = [ os.path.join(top, file) for file in files if re.match('.*\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)$', file)]
-            tsv_writer.writerows([[file, par["ri_index_file"]] for file in dests])
+         ri_file_data = zip(dests, par["ri_index_file"])
+         tsv_writer.writerows(ri_file_data)
 
    # write params file
    with open(param_file, "w") as f:

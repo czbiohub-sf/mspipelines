@@ -7,6 +7,7 @@ $meta_executable \
   --input "$resources_dir/GCMS/140428actsa27_1.cdf" \
   --class_id foo \
   --class_id bar \
+  --ri_index_file "$resources_dir/GCMS/FAMEs RT.txt" \
   --output "output2" | \
   tee output2.txt
 
@@ -22,6 +23,6 @@ if ls output2/140428actsa26_* > /dev/null 2>&1; then echo "Output file 26 found!
 if ! ls output2/140428actsa27_* > /dev/null 2>&1; then echo "Output file 27 could not be found!"; exit 1; fi
 if ! ls output2/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresult could not be found!"; exit 1; fi
 [[ ! -f output2/params.txt ]] && echo "Param file could not be found!" && exit 1
-[[ -f output2/ri_index_paths.txt ]] && echo "RI Index file found!" && exit 1
+[[ ! -f output2/ri_index_paths.txt ]] && echo "RI Index file could not be found!" && exit 1
 
 echo ">> All test succeeded!"

@@ -118,7 +118,7 @@ functionality:
       type: double
       default: 0.025
 
-    # MS1Dec parameters
+    # Deconvolution parameters
     - name: "--sigma_window_value"
       type: double
       default: 0.5
@@ -135,8 +135,8 @@ functionality:
       type: file
       required: false
       example: ri_index.txt
-      # multiple: true
-      # multiple_sep: true
+      multiple: true
+      multiple_sep: ";"
     - name: "--retention_type"
       type: string
       choices: [RI, RT]
@@ -243,7 +243,7 @@ functionality:
         - minimum_peak_height 
         - mass_slice_width 
         - mass_accuracy
-    - name: MS1Dec arguments
+    - name: Deconvolution arguments
       arguments:
         - sigma_window_value 
         - amplitude_cutoff
