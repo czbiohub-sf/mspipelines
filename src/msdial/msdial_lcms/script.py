@@ -1,5 +1,4 @@
 import os
-import csv
 import tempfile
 import shutil
 import subprocess
@@ -17,37 +16,7 @@ par = {
   'batch': [1, 1],
   'analytical_order': [1, 2],
   'inject_volume': [1.0, 1.0],
-  'data_type': 'Centroid',
-  'ion_mode': 'Positive',
-  'accuracy_type': 'IsNominal',
-  'retention_time_begin': int('4'),
-  'retention_time_end': int('25'),
-  'mass_range_begin': int('85'),
-  'mass_range_end': int('600'),
-  'smoothing_method': 'LinearWeightedMovingAverage',
-  'smoothing_level': int('3'),
-  'average_peak_width': int('20'),
-  'minimum_peak_height': int('200'),
-  'mass_slice_width': float('0.5'),
-  'mass_accuracy': float('0.5'),
-  'sigma_window_value': float('0.5'),
-  'amplitude_cutoff': int('50'),
-  'msp_file': None,
-  'ri_index_file': None,
-  'retention_type': 'RI',
-  'ri_compound': 'Alkanes',
-  'retention_time_tolerance_for_identification': float('0.5'),
-  'retention_index_tolerance_for_identification': int('20'),
-  'ei_similarity_tolerance_for_identification': int('70'),
-  'identification_score_cutoff': int('70'),
-  'alignment_index_type': 'RT',
-  'retention_time_tolerance_for_alignment': float('0.075'),
-  'retention_index_tolerance_for_alignment': int('20'),
-  'ei_similarity_tolerance_for_alignment': int('70'),
-  'retention_time_factor_for_alignment': float('0.5'),
-  'ei_similarity_factor_for_alignment': float('0.5'),
-  'peak_count_filter': int('0'),
-  'qc_at_least_filter': 'true'.lower() == 'true'
+  '...': '...'
 }
 msdial_path="../msdial_build"
 ## VIASH END
@@ -74,49 +43,74 @@ param_file = os.path.join(par["output"], "params.txt")
 ri_index_file = os.path.join(par["output"], "ri_index_paths.txt")
 
 param_content = f"""# Data type
-Data type: {par["data_type"]}
+Ms1 data type: {par["ms1_data_type"]}
+Ms2 data type: {par["ms2_data_type"]}
 Ion mode: {par["ion_mode"]}
-Accuracy type: {par["accuracy_type"]}
+{ "Dia file: " + par["dia_file"] if par["dia_file"] else "# Dia file: none"}
 
 # Data correction parameters
 Retention time begin: {par["retention_time_begin"]}
 Retention time end: {par["retention_time_end"]}
-Mass range begin: {par["mass_range_begin"]}
-Mass range end: {par["mass_range_end"]}
+Mass range begin: {par["ms1_mass_range_begin"]}
+Mass range end: {par["ms1_mass_range_end"]}
+Ms2 mass range begin: {par["ms2_mass_range_begin"]}
+Ms2 mass range end: {par["ms2_mass_range_end"]}
+
+# Centroid arguments
+ms1 tolerance for centroid: {par["ms1_tolerance_for_centroid"]}
+ms2 tolerance for centroid: {par["ms2_tolerance_for_centroid"]}
+
+# Isotope arguments
+maximum charged number: {par["max_charged_number"]}
+
+# Retention time correction arguments
+excute rt correction: {par["execute_rt_correction"]}
+rt correction with smoothing for rt diff: {par["rt_correction_smoothing"]}
+user setting intercept: {par["user_setting_intercept"]}
+{ "rd diff calc method: " + par["rt_diff_calc_method"] if par["rt_diff_calc_method"] else "# rd diff calc method: none"}
+{ "extrapolation method (begin): " + par["extrapolation_method_begin"] if par["extrapolation_method_begin"] else "# extrapolation method (begin): none"}
+{ "extrapolation method (end): " + par["extrapolation_method_end"] if par["extrapolation_method_end"] else "# extrapolation method (end): "}
+{ "istd file: " + par["istd_file"] if par["istd_file"] else "# istd file: none"}
 
 # Peak detection parameters
 Smoothing method: {par["smoothing_method"]}
 Smoothing level: {par["smoothing_level"]}
-Average peak width: {par["average_peak_width"]}
+Minimum peak width: {par["minimum_peak_width"]}
 Minimum peak height: {par["minimum_peak_height"]}
 Mass slice width: {par["mass_slice_width"]}
-Mass accuracy: {par["mass_accuracy"]}
 
-# MS1Dec parameters
+# Deconvolution parameters
 Sigma window value: {par["sigma_window_value"]}
 Amplitude cut off: {par["amplitude_cutoff"]}
+exclude after precursor: {par["exclude_after_precursor"]}
+keep isotope until: {par["amplitude_cutoff"]}
+keep original precursor isotopes: {par["amplitude_cutoff"]}
+
+# Adduct list
+Adduct list: {','.join(par["adduct_list"])}
 
 # Identification
-{"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
-{"RI index file pathes: " + ri_index_file if par["ri_index_file"] else "# RI index file pathes: none"}
-Retention type: {par["retention_type"]}
-RI compound: {par["ri_compound"]}
 Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
-Retention index tolerance for identification: {par["retention_index_tolerance_for_identification"]}
-EI similarity tolerance for identification: {par["ei_similarity_tolerance_for_identification"]}
+accurate ms1 tolerance for identification: {par["accurate_ms1_tolerance_for_identification"]}
+accurate ms2 tolerance for identification: {par["accurate_ms2_tolerance_for_identification"]}
 Identification score cut off: {par["identification_score_cutoff"]}
 Use retention information for identification scoring: {par["use_retention_information_for_identification_scoring"]}
 Use retention information for identification filtering: {par["use_retention_information_for_identification_filtering"]}
-Only report top hit: {par["only_report_top_hit"]}
 
-# Alignment parameters setting
-Alignment index type: {par["alignment_index_type"]}
+# Post identification
+{ "text file: " + par["post_identification_library_file"] if par["post_identification_library_file"] else "# text file: none"}
+retention time tolerance for post identification: {par["retention_time_tolerance_for_post_identification"]}
+accurate ms1 tolerance for post identification: {par["accurate_ms1_tolerance_for_post_identification"]}
+post identification score cut off: {par["post_identification_score_cutoff"]}
+
+# Alignment arguments
 Retention time tolerance for alignment: {par["retention_time_tolerance_for_alignment"]}
-Retention index tolerance for alignment: {par["retention_index_tolerance_for_alignment"]}
-EI similarity tolerance for alignment: {par["ei_similarity_tolerance_for_alignment"]}
+Ms1 tolerance for alignment: {par["ms1_tolerance_for_alignment"]}
 Retention time factor for alignment: {par["retention_time_factor_for_alignment"]}
-EI similarity factor for alignment: {par["ei_similarity_factor_for_alignment"]}
+Ms1 factor for alignment: {par["ms1_factor_for_alignment"]}
 Peak count filter: {par["peak_count_filter"]}
+Gap filling by compulsion: {par["gap_filling_by_compulsion"]}
+alignment reference file id: {par["alignment_reference_file_id"]}
 Remove feature based on peak height fold-change: {par["remove_feature_based_on_peak_height_fold_change"]}
 N% detected in at least one group: {par["pct_detected_in_at_least_one_group"]}
 Sample max / blank average: {par["sample_max_over_blank_average"]}
@@ -124,6 +118,33 @@ Sample average / blank average: {par["sample_average_over_blank_average"]}
 Keep identified and annotated metabolites: {par["keep_identified_metabolites"]}
 Keep removable features and assign the tag for checking: {par["keep_removable_features"]}
 Replace true zero values with 1/10 of minimum peak height over all samples: {par["replace_true_zero"]}
+
+# isotope tracking arguments
+tracking isotope label: {par["tracking_isotope_label"]}
+set fully labeled reference file: {par["set_fully_labeled_reference_file"]}
+non labeled reference id: {par["non_labeled_reference_id"]}
+fully labeled reference id: {par["fully_labeled_reference_id"]}
+isotope tracking dictionary id: {par["isotope_tracking_dictionary_id"]}
+
+# corrdec arguments
+corrdec excute: {par["corrdec_execute"]}
+corrdec ms2 tolerance: {par["corrdec_ms2_tolerance"]}
+corrdec minimum ms2 peak height: {par["corrdec_minimum_ms2_peak_height"]}
+corrdec minimum number of detected samples: {par["corrdec_min_detected_samples"]}
+corrdec exclude highly correlated spots: {par["corrdec_exclude_highly_correlated_spots"]}
+corrdec minimum correlation coefficient (ms2): {par["corrdec_min_corr_ms2"]}
+corrdec margin 1 (target precursor): {par["corrdec_margin_1"]}
+corrdec margin 2 (coeluted precursor): {par["corrdec_margin_2"]}
+corrdec minimum detected rate: {par["corrdec_min_detected_rate"]}
+corrdec minimum ms2 relative intensity: {par["corrdec_min_ms2_relative_intensity"]}
+corrdec remove peaks larger than precursor: {par["corrdec_remove_peaks_larger_than_precursor"]}
+
+# ion mobility arguments
+accumulated rt ragne: {par["accumulated_rt_range"]}
+ccs search tolerance: {par["ccs_search_tolerance"]}
+mobility axis alignment tolerance: {par["mobility_axis_alignment_tolerance"]}
+use ccs for identification scoring: {par["use_ccs_for_identification_scoring"]}
+use ccs for identification filtering: {par["use_ccs_for_identification_filtering"]}
 """
 
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -147,18 +168,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
    data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
    data_df = pd.DataFrame(data)
    data_df.to_csv(csv_file, index=False)
-   
-   # create ri index file paths file
-   # (if needed)
-   if par["ri_index_file"]:
-      assert len(par["ri_index_file"]) == 1 or len(par["ri_index_file"]) == len(par["input"]), "Length of --ri_index_file must be one or equal to the length of --input"
-      if len(par["ri_index_file"]) == 1:
-         par["ri_index_file"] = len(par["input"]) * par["ri_index_file"]
-
-      with open(ri_index_file, 'w') as out_file:
-         tsv_writer = csv.writer(out_file, delimiter="\t")
-         ri_file_data = zip(dests, par["ri_index_file"])
-         tsv_writer.writerows(ri_file_data)
 
    # write params file
    with open(param_file, "w") as f:

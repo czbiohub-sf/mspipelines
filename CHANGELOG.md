@@ -5,6 +5,10 @@
 * `msdial/msdial_gcms`: Now only accepts one or more input files. Directories are
   no longer accepted.
 
+## Breaking changes
+
+* `msdial/msdial_lcms`: Added MSDial LC/MS DDA/DIA component.
+
 ## Major changes
 
 * `msdial/msdial_gcms`: Added support for setting the name, type, class_id, batch, analytical_order and inject_volume of input files.
