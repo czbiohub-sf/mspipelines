@@ -106,6 +106,9 @@ Retention time tolerance for identification: {par["retention_time_tolerance_for_
 Retention index tolerance for identification: {par["retention_index_tolerance_for_identification"]}
 EI similarity tolerance for identification: {par["ei_similarity_tolerance_for_identification"]}
 Identification score cut off: {par["identification_score_cutoff"]}
+Use retention information for identification scoring: {par["use_retention_information_for_identification_scoring"]}
+Use retention information for identification filtering: {par["use_retention_information_for_identification_filtering"]}
+Only report top hit: {par["only_report_top_hit"]}
 
 # Alignment parameters setting
 Alignment index type: {par["alignment_index_type"]}
@@ -115,7 +118,13 @@ EI similarity tolerance for alignment: {par["ei_similarity_tolerance_for_alignme
 Retention time factor for alignment: {par["retention_time_factor_for_alignment"]}
 EI similarity factor for alignment: {par["ei_similarity_factor_for_alignment"]}
 Peak count filter: {par["peak_count_filter"]}
-QC at least filter: {par["qc_at_least_filter"]}
+Remove feature based on peak height fold-change: {par["remove_feature_based_on_peak_height_fold_change"]}
+N% detected in at least one group: {par["pct_detected_in_at_least_one_group"]}
+Sample max / blank average: {par["sample_max_over_blank_average"]}
+Sample average / blank average: {par["sample_average_over_blank_average"]}
+Keep identified and annotated metabolites: {par["keep_identified_metabolites"]}
+Keep removable features and assign the tag for checking: {par["keep_removable_features"]}
+Replace true zero values with 1/10 of minimum peak height over all samples: {par["replace_true_zero"]}
 """
 
 with tempfile.TemporaryDirectory() as temp_dir:

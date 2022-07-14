@@ -1,6 +1,7 @@
 # built for MSDIAL 4.9.0 635b1bf90092a1a0631bf2da122c69787511a11b
 functionality:
   name: msdial_gcms
+  description: MS-DIAL GC/MS
   namespace: msdial
   authors:
     - name: Robrecht Cannoodt
@@ -82,18 +83,18 @@ functionality:
       choices: [IsNominal, IsAccurate]
       default: IsNominal
     
-    # data collection parameters
+    # data correction parameters
     - name: "--retention_time_begin"
-      type: integer
+      type: double
       default: 0
     - name: "--retention_time_end"
-      type: integer
+      type: double
       default: 25
     - name: "--mass_range_begin"
-      type: integer
+      type: double
       default: 0
     - name: "--mass_range_end"
-      type: integer
+      type: double
       default: 1000
     
     # peak detection parameters
@@ -122,7 +123,7 @@ functionality:
       type: double
       default: 0.5
     - name: "--amplitude_cutoff"
-      type: integer
+      type: double
       default: 10
 
     # identification parameters
@@ -134,6 +135,8 @@ functionality:
       type: file
       required: false
       example: ri_index.txt
+      # multiple: true
+      # multiple_sep: true
     - name: "--retention_type"
       type: string
       choices: [RI, RT]
@@ -146,14 +149,23 @@ functionality:
       type: double
       default: 0.5
     - name: "--retention_index_tolerance_for_identification"
-      type: integer
+      type: double
       default: 20
     - name: "--ei_similarity_tolerance_for_identification"
-      type: integer
+      type: double
       default: 70
     - name: "--identification_score_cutoff"
-      type: integer
+      type: double
       default: 70
+    - name: "--use_retention_information_for_identification_scoring"
+      type: boolean
+      default: false
+    - name: "--use_retention_information_for_identification_filtering"
+      type: boolean
+      default: false
+    - name: "--only_report_top_hit"
+      type: boolean
+      default: true
 
     # alignment parameters
     - name: "--alignment_index_type"
@@ -164,10 +176,10 @@ functionality:
       type: double
       default: 0.075
     - name: "--retention_index_tolerance_for_alignment"
-      type: integer
+      type: double
       default: 20
     - name: "--ei_similarity_tolerance_for_alignment"
-      type: integer
+      type: double
       default: 70
     - name: "--retention_time_factor_for_alignment"
       type: double
@@ -176,26 +188,94 @@ functionality:
       type: double
       default: 0.5
     - name: "--peak_count_filter"
-      type: integer
+      type: double
       default: 0
-    - name: "--qc_at_least_filter"
+    - name: "--remove_feature_based_on_peak_height_fold_change"
+      type: boolean
+      default: false
+    - name: "--pct_detected_in_at_least_one_group"
+      type: double
+      default: 0
+    - name: "--sample_max_over_blank_average"
+      type: double
+      default: 5
+    - name: "--sample_average_over_blank_average"
+      type: double
+      default: 5
+    - name: "--keep_identified_metabolites"
       type: boolean
       default: true
+    - name: "--keep_removable_features"
+      type: boolean
+      description: "Keep removable features and assign the tag for checking."
+      default: true
+    - name: "--replace_true_zero"
+      type: boolean
+      description: "Replace true zero values with 1/10 of minimum peak height over all samples"
+      default: false
+
   argument_groups:
     - name: Inputs
-      arguments: [ input, name, type, class_id, batch, analytical_order, inject_volume ]
+      arguments:
+        - input 
+        - name 
+        - type 
+        - class_id 
+        - batch 
+        - analytical_order 
+        - inject_volume
     - name: Data type arguments
-      arguments: [ data_type, ion_mode, accuracy_type ]
-    - name: Data collection arguments
-      arguments: [ retention_time_begin, retention_time_end, mass_range_begin, mass_range_end ]
+      arguments:
+        - data_type 
+        - ion_mode 
+        - accuracy_type
+    - name: Data correction arguments
+      arguments:
+        - retention_time_begin 
+        - retention_time_end 
+        - mass_range_begin 
+        - mass_range_end
     - name: Peak detection arguments
-      arguments: [ smoothing_method, smoothing_level, average_peak_width, minimum_peak_height, mass_slice_width, mass_accuracy ]
+      arguments:
+        - smoothing_method 
+        - smoothing_level 
+        - average_peak_width 
+        - minimum_peak_height 
+        - mass_slice_width 
+        - mass_accuracy
     - name: MS1Dec arguments
-      arguments: [ sigma_window_value, amplitude_cutoff ]
+      arguments:
+        - sigma_window_value 
+        - amplitude_cutoff
     - name: Identification arguments
-      arguments: [ msp_file, ri_index_file, retention_type, ri_compound, retention_time_tolerance_for_identification, retention_index_tolerance_for_identification, ei_similarity_tolerance_for_identification, identification_score_cutoff]
+      arguments: 
+        - msp_file
+        - ri_index_file
+        - retention_type 
+        - ri_compound 
+        - retention_time_tolerance_for_identification 
+        - retention_index_tolerance_for_identification 
+        - ei_similarity_tolerance_for_identification 
+        - identification_score_cutoff
+        - use_retention_information_for_identification_scoring
+        - use_retention_information_for_identification_filtering
+        - only_report_top_hit
     - name: Alignment arguments
-      arguments: [ alignment_index_type, retention_time_tolerance_for_alignment, retention_index_tolerance_for_alignment, ei_similarity_tolerance_for_alignment, retention_time_factor_for_alignment, ei_similarity_factor_for_alignment, peak_count_filter, qc_at_least_filter ]
+      arguments: 
+        - alignment_index_type 
+        - retention_time_tolerance_for_alignment 
+        - retention_index_tolerance_for_alignment 
+        - ei_similarity_tolerance_for_alignment 
+        - retention_time_factor_for_alignment 
+        - ei_similarity_factor_for_alignment 
+        - peak_count_filter
+        - remove_feature_based_on_peak_height_fold_change
+        - pct_detected_in_at_least_one_group
+        - sample_max_over_blank_average
+        - sample_average_over_blank_average
+        - keep_identified_metabolites
+        - keep_removable_features
+        - replace_true_zero
   resources:
     - type: python_script
       path: script.py
