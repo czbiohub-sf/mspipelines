@@ -1324,6 +1324,10 @@ resources_dir = '$VIASH_META_RESOURCES_DIR'
 
 ## VIASH END
 
+mode = "lcmsdia" if par["dia_file"] else "lcmsdda"
+
+print(f"Running MS-DIAL {mode}", flush=True)
+
 assert len(par["input"]) > 0, "Need to specify at least one --input."
 
 # Create input csv file
@@ -1480,7 +1484,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    p = subprocess.Popen(
       [
          f"{msdial_path}/MsdialConsoleApp", 
-         "gcms", 
+         mode,
          "-i", csv_file,
          "-o", par["output"],
          "-m", param_file,

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo ">> Running MSDial LCMS DDA"
+echo ">> Testing MS-DIAL LCMS DDA"
 $meta_executable \
   --input "$resources_dir/LCMS_DDA/Nega_Ida_QC_1_1.mzML" \
   --input "$resources_dir/LCMS_DDA/Nega_Ida_QC_1_9.mzML" \
@@ -18,7 +18,7 @@ $meta_executable \
   tee output2.txt
 
 echo ">>> Checking contents of stdout"
-if ! grep -q 'All processing finished' output2.txt; then
+if ! grep -q 'Finalization finished' output2.txt; then
   echo Could not find content
   exit 1
 fi
@@ -31,11 +31,11 @@ if ! ls output2/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresu
 [[ ! -f output2/params.txt ]] && echo "Param file could not be found!" && exit 1
 
 
-echo ">> Running MSDial LCMS DIA"
+echo ">> Running MS-DIAL LCMS DIA"
 $meta_executable \
   --input "$resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S01.abf" \
   --input "$resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S03.abf" \
-  --dia_file "$resources_test/LCMS_DIA/Plasma-HILIC-SWATH-Experiment.txt" \
+  --dia_file "$resources_dir/LCMS_DIA/Plasma-HILIC-SWATH-Experiment.txt" \
   --ms1_data_type Profile \
   --ms2_data_type Profile \
   --ion_mode Positive \
@@ -55,7 +55,7 @@ $meta_executable \
   tee output3.txt
 
 echo ">>> Checking contents of stdout"
-if ! grep -q 'All processing finished' output3.txt; then
+if ! grep -q 'Finalization finished' output3.txt; then
   echo Could not find content
   exit 1
 fi
