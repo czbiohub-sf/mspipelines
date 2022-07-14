@@ -649,9 +649,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component maxquant maxquant"
-      LABEL org.opencontainers.image.created="2022-07-13T13:40:28Z"
+      LABEL org.opencontainers.image.created="2022-07-14T04:54:30Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="b20e8e4420123214820a4232c4df219d009c5f19"
+      LABEL org.opencontainers.image.revision="b3a80a5fe4400a18bf92f6dec394b4968e091db0"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -1893,5 +1893,5 @@ info:
   output: "target/docker/maxquant/maxquant"
   executable: "target/docker/maxquant/maxquant/maxquant"
   viash_version: "0.5.14"
-  git_commit: "b20e8e4420123214820a4232c4df219d009c5f19"
+  git_commit: "b3a80a5fe4400a18bf92f6dec394b4968e091db0"
   git_remote: "https://github.com/czbiohub/mspipelines"

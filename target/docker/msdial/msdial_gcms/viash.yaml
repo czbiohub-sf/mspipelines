@@ -162,47 +162,43 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--retention_time_begin"
     alternatives: []
     example: []
     default:
-    - 0
+    - 0.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--retention_time_end"
     alternatives: []
     example: []
     default:
-    - 25
+    - 25.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--mass_range_begin"
     alternatives: []
     example: []
     default:
-    - 0
+    - 0.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--mass_range_end"
     alternatives: []
     example: []
     default:
-    - 1000
+    - 1000.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
@@ -284,14 +280,13 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--amplitude_cutoff"
     alternatives: []
     example: []
     default:
-    - 10
+    - 10.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
@@ -315,8 +310,8 @@ functionality:
     must_exist: false
     required: false
     direction: "input"
-    multiple: false
-    multiple_sep: ":"
+    multiple: true
+    multiple_sep: ";"
   - type: "string"
     name: "--retention_type"
     alternatives: []
@@ -353,36 +348,63 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--retention_index_tolerance_for_identification"
     alternatives: []
     example: []
     default:
-    - 20
+    - 20.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--ei_similarity_tolerance_for_identification"
     alternatives: []
     example: []
     default:
-    - 70
+    - 70.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--identification_score_cutoff"
     alternatives: []
     example: []
     default:
-    - 70
+    - 70.0
     required: false
-    choices: []
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--use_retention_information_for_identification_scoring"
+    alternatives: []
+    example: []
+    default:
+    - false
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--use_retention_information_for_identification_filtering"
+    alternatives: []
+    example: []
+    default:
+    - false
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--only_report_top_hit"
+    alternatives: []
+    example: []
+    default:
+    - true
+    required: false
     direction: "input"
     multiple: false
     multiple_sep: ":"
@@ -409,25 +431,23 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--retention_index_tolerance_for_alignment"
     alternatives: []
     example: []
     default:
-    - 20
+    - 20.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--ei_similarity_tolerance_for_alignment"
     alternatives: []
     example: []
     default:
-    - 70
+    - 70.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
@@ -451,23 +471,85 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
-  - type: "integer"
+  - type: "double"
     name: "--peak_count_filter"
     alternatives: []
     example: []
     default:
-    - 0
+    - 0.0
     required: false
-    choices: []
     direction: "input"
     multiple: false
     multiple_sep: ":"
   - type: "boolean"
-    name: "--qc_at_least_filter"
+    name: "--remove_feature_based_on_peak_height_fold_change"
+    alternatives: []
+    example: []
+    default:
+    - false
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--pct_detected_in_at_least_one_group"
+    alternatives: []
+    example: []
+    default:
+    - 0.0
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--sample_max_over_blank_average"
+    alternatives: []
+    example: []
+    default:
+    - 5.0
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "double"
+    name: "--sample_average_over_blank_average"
+    alternatives: []
+    example: []
+    default:
+    - 5.0
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--keep_identified_metabolites"
     alternatives: []
     example: []
     default:
     - true
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--keep_removable_features"
+    alternatives: []
+    description: "Keep removable features and assign the tag for checking."
+    example: []
+    default:
+    - true
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
+  - type: "boolean"
+    name: "--replace_true_zero"
+    alternatives: []
+    description: "Replace true zero values with 1/10 of minimum peak height over all\
+      \ samples"
+    example: []
+    default:
+    - false
     required: false
     direction: "input"
     multiple: false
@@ -487,7 +569,7 @@ functionality:
     - "data_type"
     - "ion_mode"
     - "accuracy_type"
-  - name: "Data collection arguments"
+  - name: "Data correction arguments"
     arguments:
     - "retention_time_begin"
     - "retention_time_end"
@@ -501,7 +583,7 @@ functionality:
     - "minimum_peak_height"
     - "mass_slice_width"
     - "mass_accuracy"
-  - name: "MS1Dec arguments"
+  - name: "Deconvolution arguments"
     arguments:
     - "sigma_window_value"
     - "amplitude_cutoff"
@@ -515,6 +597,9 @@ functionality:
     - "retention_index_tolerance_for_identification"
     - "ei_similarity_tolerance_for_identification"
     - "identification_score_cutoff"
+    - "use_retention_information_for_identification_scoring"
+    - "use_retention_information_for_identification_filtering"
+    - "only_report_top_hit"
   - name: "Alignment arguments"
     arguments:
     - "alignment_index_type"
@@ -524,7 +609,13 @@ functionality:
     - "retention_time_factor_for_alignment"
     - "ei_similarity_factor_for_alignment"
     - "peak_count_filter"
-    - "qc_at_least_filter"
+    - "remove_feature_based_on_peak_height_fold_change"
+    - "pct_detected_in_at_least_one_group"
+    - "sample_max_over_blank_average"
+    - "sample_average_over_blank_average"
+    - "keep_identified_metabolites"
+    - "keep_removable_features"
+    - "replace_true_zero"
   resources:
   - type: "bash_script"
     text: |
@@ -693,6 +784,8 @@ functionality:
       function ViashHelp {
         echo "msdial_gcms main_build"
         echo ""
+        echo "MS-DIAL GC/MS"
+        echo ""
         echo "Inputs:"
         echo "    --input"
         echo "        type: file, required parameter, multiple values allowed"
@@ -753,22 +846,22 @@ functionality:
         echo "        default: IsNominal"
         echo "        choices: [ IsNominal, IsAccurate ]"
         echo ""
-        echo "Data collection arguments:"
+        echo "Data correction arguments:"
         echo "    --retention_time_begin"
-        echo "        type: integer"
-        echo "        default: 0"
+        echo "        type: double"
+        echo "        default: 0.0"
         echo ""
         echo "    --retention_time_end"
-        echo "        type: integer"
-        echo "        default: 25"
+        echo "        type: double"
+        echo "        default: 25.0"
         echo ""
         echo "    --mass_range_begin"
-        echo "        type: integer"
-        echo "        default: 0"
+        echo "        type: double"
+        echo "        default: 0.0"
         echo ""
         echo "    --mass_range_end"
-        echo "        type: integer"
-        echo "        default: 1000"
+        echo "        type: double"
+        echo "        default: 1000.0"
         echo ""
         echo "Peak detection arguments:"
         echo "    --smoothing_method"
@@ -797,14 +890,14 @@ functionality:
         echo "        type: double"
         echo "        default: 0.025"
         echo ""
-        echo "MS1Dec arguments:"
+        echo "Deconvolution arguments:"
         echo "    --sigma_window_value"
         echo "        type: double"
         echo "        default: 0.5"
         echo ""
         echo "    --amplitude_cutoff"
-        echo "        type: integer"
-        echo "        default: 10"
+        echo "        type: double"
+        echo "        default: 10.0"
         echo ""
         echo "Identification arguments:"
         echo "    --msp_file"
@@ -812,7 +905,7 @@ functionality:
         echo "        example: file.msp"
         echo ""
         echo "    --ri_index_file"
-        echo "        type: file"
+        echo "        type: file, multiple values allowed"
         echo "        example: ri_index.txt"
         echo ""
         echo "    --retention_type"
@@ -830,16 +923,28 @@ functionality:
         echo "        default: 0.5"
         echo ""
         echo "    --retention_index_tolerance_for_identification"
-        echo "        type: integer"
-        echo "        default: 20"
+        echo "        type: double"
+        echo "        default: 20.0"
         echo ""
         echo "    --ei_similarity_tolerance_for_identification"
-        echo "        type: integer"
-        echo "        default: 70"
+        echo "        type: double"
+        echo "        default: 70.0"
         echo ""
         echo "    --identification_score_cutoff"
-        echo "        type: integer"
-        echo "        default: 70"
+        echo "        type: double"
+        echo "        default: 70.0"
+        echo ""
+        echo "    --use_retention_information_for_identification_scoring"
+        echo "        type: boolean"
+        echo "        default: false"
+        echo ""
+        echo "    --use_retention_information_for_identification_filtering"
+        echo "        type: boolean"
+        echo "        default: false"
+        echo ""
+        echo "    --only_report_top_hit"
+        echo "        type: boolean"
+        echo "        default: true"
         echo ""
         echo "Alignment arguments:"
         echo "    --alignment_index_type"
@@ -852,12 +957,12 @@ functionality:
         echo "        default: 0.075"
         echo ""
         echo "    --retention_index_tolerance_for_alignment"
-        echo "        type: integer"
-        echo "        default: 20"
+        echo "        type: double"
+        echo "        default: 20.0"
         echo ""
         echo "    --ei_similarity_tolerance_for_alignment"
-        echo "        type: integer"
-        echo "        default: 70"
+        echo "        type: double"
+        echo "        default: 70.0"
         echo ""
         echo "    --retention_time_factor_for_alignment"
         echo "        type: double"
@@ -868,12 +973,39 @@ functionality:
         echo "        default: 0.5"
         echo ""
         echo "    --peak_count_filter"
-        echo "        type: integer"
-        echo "        default: 0"
+        echo "        type: double"
+        echo "        default: 0.0"
         echo ""
-        echo "    --qc_at_least_filter"
+        echo "    --remove_feature_based_on_peak_height_fold_change"
+        echo "        type: boolean"
+        echo "        default: false"
+        echo ""
+        echo "    --pct_detected_in_at_least_one_group"
+        echo "        type: double"
+        echo "        default: 0.0"
+        echo ""
+        echo "    --sample_max_over_blank_average"
+        echo "        type: double"
+        echo "        default: 5.0"
+        echo ""
+        echo "    --sample_average_over_blank_average"
+        echo "        type: double"
+        echo "        default: 5.0"
+        echo ""
+        echo "    --keep_identified_metabolites"
         echo "        type: boolean"
         echo "        default: true"
+        echo ""
+        echo "    --keep_removable_features"
+        echo "        type: boolean"
+        echo "        default: true"
+        echo "        Keep removable features and assign the tag for checking."
+        echo ""
+        echo "    --replace_true_zero"
+        echo "        type: boolean"
+        echo "        default: false"
+        echo "        Replace true zero values with 1/10 of minimum peak height over all"
+        echo "        samples"
       }
       ######## Helper functions for setting up Docker images for viash ########
       # expects: ViashDockerBuild
@@ -1082,9 +1214,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_gcms"
-      LABEL org.opencontainers.image.created="2022-07-13T13:40:28Z"
+      LABEL org.opencontainers.image.created="2022-07-14T04:54:29Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="b20e8e4420123214820a4232c4df219d009c5f19"
+      LABEL org.opencontainers.image.revision="b3a80a5fe4400a18bf92f6dec394b4968e091db0"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -1504,12 +1636,20 @@ functionality:
                   shift 1
                   ;;
               --ri_index_file)
-                  VIASH_PAR_RI_INDEX_FILE="$2"
+                  if [ -z "$VIASH_PAR_RI_INDEX_FILE" ]; then
+                    VIASH_PAR_RI_INDEX_FILE="$2"
+                  else
+                    VIASH_PAR_RI_INDEX_FILE="$VIASH_PAR_RI_INDEX_FILE;""$2"
+                  fi
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ri_index_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ri_index_file=*)
-                  VIASH_PAR_RI_INDEX_FILE=$(ViashRemoveFlags "$1")
+                  if [ -z "$VIASH_PAR_RI_INDEX_FILE" ]; then
+                    VIASH_PAR_RI_INDEX_FILE=$(ViashRemoveFlags "$1")
+                  else
+                    VIASH_PAR_RI_INDEX_FILE="$VIASH_PAR_RI_INDEX_FILE;"$(ViashRemoveFlags "$1")
+                  fi
                   shift 1
                   ;;
               --retention_type)
@@ -1564,6 +1704,33 @@ functionality:
                   ;;
               --identification_score_cutoff=*)
                   VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --use_retention_information_for_identification_scoring)
+                  VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_retention_information_for_identification_scoring. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --use_retention_information_for_identification_scoring=*)
+                  VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --use_retention_information_for_identification_filtering)
+                  VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_retention_information_for_identification_filtering. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --use_retention_information_for_identification_filtering=*)
+                  VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --only_report_top_hit)
+                  VIASH_PAR_ONLY_REPORT_TOP_HIT="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --only_report_top_hit. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --only_report_top_hit=*)
+                  VIASH_PAR_ONLY_REPORT_TOP_HIT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --alignment_index_type)
@@ -1629,13 +1796,67 @@ functionality:
                   VIASH_PAR_PEAK_COUNT_FILTER=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
-              --qc_at_least_filter)
-                  VIASH_PAR_QC_AT_LEAST_FILTER="$2"
-                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --qc_at_least_filter. Use "--help" to get more information on the parameters. && exit 1
+              --remove_feature_based_on_peak_height_fold_change)
+                  VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --remove_feature_based_on_peak_height_fold_change. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
-              --qc_at_least_filter=*)
-                  VIASH_PAR_QC_AT_LEAST_FILTER=$(ViashRemoveFlags "$1")
+              --remove_feature_based_on_peak_height_fold_change=*)
+                  VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --pct_detected_in_at_least_one_group)
+                  VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --pct_detected_in_at_least_one_group. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --pct_detected_in_at_least_one_group=*)
+                  VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --sample_max_over_blank_average)
+                  VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --sample_max_over_blank_average. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --sample_max_over_blank_average=*)
+                  VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --sample_average_over_blank_average)
+                  VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --sample_average_over_blank_average. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --sample_average_over_blank_average=*)
+                  VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --keep_identified_metabolites)
+                  VIASH_PAR_KEEP_IDENTIFIED_METABOLITES="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_identified_metabolites. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --keep_identified_metabolites=*)
+                  VIASH_PAR_KEEP_IDENTIFIED_METABOLITES=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --keep_removable_features)
+                  VIASH_PAR_KEEP_REMOVABLE_FEATURES="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_removable_features. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --keep_removable_features=*)
+                  VIASH_PAR_KEEP_REMOVABLE_FEATURES=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              --replace_true_zero)
+                  VIASH_PAR_REPLACE_TRUE_ZERO="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --replace_true_zero. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --replace_true_zero=*)
+                  VIASH_PAR_REPLACE_TRUE_ZERO=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               ---setup)
@@ -1710,16 +1931,16 @@ functionality:
         VIASH_PAR_ACCURACY_TYPE="IsNominal"
       fi
       if [ -z "$VIASH_PAR_RETENTION_TIME_BEGIN" ]; then
-        VIASH_PAR_RETENTION_TIME_BEGIN="0"
+        VIASH_PAR_RETENTION_TIME_BEGIN="0.0"
       fi
       if [ -z "$VIASH_PAR_RETENTION_TIME_END" ]; then
-        VIASH_PAR_RETENTION_TIME_END="25"
+        VIASH_PAR_RETENTION_TIME_END="25.0"
       fi
       if [ -z "$VIASH_PAR_MASS_RANGE_BEGIN" ]; then
-        VIASH_PAR_MASS_RANGE_BEGIN="0"
+        VIASH_PAR_MASS_RANGE_BEGIN="0.0"
       fi
       if [ -z "$VIASH_PAR_MASS_RANGE_END" ]; then
-        VIASH_PAR_MASS_RANGE_END="1000"
+        VIASH_PAR_MASS_RANGE_END="1000.0"
       fi
       if [ -z "$VIASH_PAR_SMOOTHING_METHOD" ]; then
         VIASH_PAR_SMOOTHING_METHOD="LinearWeightedMovingAverage"
@@ -1743,7 +1964,7 @@ functionality:
         VIASH_PAR_SIGMA_WINDOW_VALUE="0.5"
       fi
       if [ -z "$VIASH_PAR_AMPLITUDE_CUTOFF" ]; then
-        VIASH_PAR_AMPLITUDE_CUTOFF="10"
+        VIASH_PAR_AMPLITUDE_CUTOFF="10.0"
       fi
       if [ -z "$VIASH_PAR_RETENTION_TYPE" ]; then
         VIASH_PAR_RETENTION_TYPE="RI"
@@ -1755,13 +1976,22 @@ functionality:
         VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION="0.5"
       fi
       if [ -z "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION" ]; then
-        VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION="20"
+        VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION="20.0"
       fi
       if [ -z "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION" ]; then
-        VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION="70"
+        VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION="70.0"
       fi
       if [ -z "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" ]; then
-        VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF="70"
+        VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF="70.0"
+      fi
+      if [ -z "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" ]; then
+        VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING="false"
+      fi
+      if [ -z "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" ]; then
+        VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING="false"
+      fi
+      if [ -z "$VIASH_PAR_ONLY_REPORT_TOP_HIT" ]; then
+        VIASH_PAR_ONLY_REPORT_TOP_HIT="true"
       fi
       if [ -z "$VIASH_PAR_ALIGNMENT_INDEX_TYPE" ]; then
         VIASH_PAR_ALIGNMENT_INDEX_TYPE="RT"
@@ -1770,10 +2000,10 @@ functionality:
         VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT="0.075"
       fi
       if [ -z "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT" ]; then
-        VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT="20"
+        VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT="20.0"
       fi
       if [ -z "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT" ]; then
-        VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT="70"
+        VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT="70.0"
       fi
       if [ -z "$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT" ]; then
         VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT="0.5"
@@ -1782,10 +2012,28 @@ functionality:
         VIASH_PAR_EI_SIMILARITY_FACTOR_FOR_ALIGNMENT="0.5"
       fi
       if [ -z "$VIASH_PAR_PEAK_COUNT_FILTER" ]; then
-        VIASH_PAR_PEAK_COUNT_FILTER="0"
+        VIASH_PAR_PEAK_COUNT_FILTER="0.0"
       fi
-      if [ -z "$VIASH_PAR_QC_AT_LEAST_FILTER" ]; then
-        VIASH_PAR_QC_AT_LEAST_FILTER="true"
+      if [ -z "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" ]; then
+        VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE="false"
+      fi
+      if [ -z "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" ]; then
+        VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP="0.0"
+      fi
+      if [ -z "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" ]; then
+        VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE="5.0"
+      fi
+      if [ -z "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" ]; then
+        VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE="5.0"
+      fi
+      if [ -z "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" ]; then
+        VIASH_PAR_KEEP_IDENTIFIED_METABOLITES="true"
+      fi
+      if [ -z "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" ]; then
+        VIASH_PAR_KEEP_REMOVABLE_FEATURES="true"
+      fi
+      if [ -z "$VIASH_PAR_REPLACE_TRUE_ZERO" ]; then
+        VIASH_PAR_REPLACE_TRUE_ZERO="false"
       fi
       
       
@@ -1838,29 +2086,29 @@ functionality:
       
       
       if [[ -n "$VIASH_PAR_RETENTION_TIME_BEGIN" ]]; then
-        if ! [[ "$VIASH_PAR_RETENTION_TIME_BEGIN" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--retention_time_begin' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_RETENTION_TIME_BEGIN" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--retention_time_begin' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_RETENTION_TIME_END" ]]; then
-        if ! [[ "$VIASH_PAR_RETENTION_TIME_END" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--retention_time_end' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_RETENTION_TIME_END" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--retention_time_end' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_MASS_RANGE_BEGIN" ]]; then
-        if ! [[ "$VIASH_PAR_MASS_RANGE_BEGIN" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--mass_range_begin' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_MASS_RANGE_BEGIN" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--mass_range_begin' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_MASS_RANGE_END" ]]; then
-        if ! [[ "$VIASH_PAR_MASS_RANGE_END" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--mass_range_end' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_MASS_RANGE_END" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--mass_range_end' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
@@ -1909,8 +2157,8 @@ functionality:
       fi
       
       if [[ -n "$VIASH_PAR_AMPLITUDE_CUTOFF" ]]; then
-        if ! [[ "$VIASH_PAR_AMPLITUDE_CUTOFF" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--amplitude_cutoff' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_AMPLITUDE_CUTOFF" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--amplitude_cutoff' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
@@ -1927,22 +2175,43 @@ functionality:
       fi
       
       if [[ -n "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION" ]]; then
-        if ! [[ "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--retention_index_tolerance_for_identification' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--retention_index_tolerance_for_identification' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION" ]]; then
-        if ! [[ "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--ei_similarity_tolerance_for_identification' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--ei_similarity_tolerance_for_identification' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" ]]; then
-        if ! [[ "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--identification_score_cutoff' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--identification_score_cutoff' has to be a double. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" ]]; then
+        if ! [[ "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--use_retention_information_for_identification_scoring' has to be a boolean. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" ]]; then
+        if ! [[ "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--use_retention_information_for_identification_filtering' has to be a boolean. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_ONLY_REPORT_TOP_HIT" ]]; then
+        if ! [[ "$VIASH_PAR_ONLY_REPORT_TOP_HIT" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--only_report_top_hit' has to be a boolean. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
@@ -1956,15 +2225,15 @@ functionality:
       fi
       
       if [[ -n "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT" ]]; then
-        if ! [[ "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--retention_index_tolerance_for_alignment' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--retention_index_tolerance_for_alignment' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
       if [[ -n "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT" ]]; then
-        if ! [[ "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--ei_similarity_tolerance_for_alignment' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--ei_similarity_tolerance_for_alignment' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
@@ -1984,15 +2253,57 @@ functionality:
       fi
       
       if [[ -n "$VIASH_PAR_PEAK_COUNT_FILTER" ]]; then
-        if ! [[ "$VIASH_PAR_PEAK_COUNT_FILTER" =~ ^[-+]?[0-9]+$ ]]; then
-          ViashError '--peak_count_filter' has to be an integer. Use "--help" to get more information on the parameters.
+        if ! [[ "$VIASH_PAR_PEAK_COUNT_FILTER" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--peak_count_filter' has to be a double. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
       
-      if [[ -n "$VIASH_PAR_QC_AT_LEAST_FILTER" ]]; then
-        if ! [[ "$VIASH_PAR_QC_AT_LEAST_FILTER" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
-          ViashError '--qc_at_least_filter' has to be a boolean. Use "--help" to get more information on the parameters.
+      if [[ -n "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" ]]; then
+        if ! [[ "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--remove_feature_based_on_peak_height_fold_change' has to be a boolean. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" ]]; then
+        if ! [[ "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--pct_detected_in_at_least_one_group' has to be a double. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" ]]; then
+        if ! [[ "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--sample_max_over_blank_average' has to be a double. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" ]]; then
+        if ! [[ "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
+          ViashError '--sample_average_over_blank_average' has to be a double. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" ]]; then
+        if ! [[ "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--keep_identified_metabolites' has to be a boolean. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" ]]; then
+        if ! [[ "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--keep_removable_features' has to be a boolean. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_PAR_REPLACE_TRUE_ZERO" ]]; then
+        if ! [[ "$VIASH_PAR_REPLACE_TRUE_ZERO" =~ ^(true|True|TRUE|false|False|FALSE|yes|Yes|YES|no|No|NO)$ ]]; then
+          ViashError '--replace_true_zero' has to be a boolean. Use "--help" to get more information on the parameters.
           exit 1
         fi
       fi
@@ -2109,6 +2420,9 @@ functionality:
       
       
       
+      
+      
+      
       if [ ! -z "$VIASH_PAR_ALIGNMENT_INDEX_TYPE" ]; then
         VIASH_PAR_ALIGNMENT_INDEX_TYPE_CHOICES=("RI:RT")
         IFS=:
@@ -2120,6 +2434,12 @@ functionality:
         set +f
         unset IFS
       fi
+      
+      
+      
+      
+      
+      
       
       
       
@@ -2152,8 +2472,17 @@ functionality:
         VIASH_PAR_MSP_FILE=$(ViashAutodetectMount "$VIASH_PAR_MSP_FILE")
       fi
       if [ ! -z "$VIASH_PAR_RI_INDEX_FILE" ]; then
-        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_RI_INDEX_FILE")"
-        VIASH_PAR_RI_INDEX_FILE=$(ViashAutodetectMount "$VIASH_PAR_RI_INDEX_FILE")
+        IFS=";"
+        for var in $VIASH_PAR_RI_INDEX_FILE; do
+          unset IFS
+          VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$var")"
+          if [ -z "$VIASH_TEST_RI_INDEX_FILE" ]; then
+            VIASH_TEST_RI_INDEX_FILE="$(ViashAutodetectMount "$var")"
+          else
+            VIASH_TEST_RI_INDEX_FILE="$VIASH_TEST_RI_INDEX_FILE;""$(ViashAutodetectMount "$var")"
+          fi
+        done
+        VIASH_PAR_RI_INDEX_FILE="$VIASH_TEST_RI_INDEX_FILE"
       fi
       
       # Always mount the resource directory
@@ -2190,7 +2519,6 @@ functionality:
       
       import os
       import csv
-      import re
       import tempfile
       import shutil
       import subprocess
@@ -2211,10 +2539,10 @@ functionality:
         'data_type': $( if [ ! -z ${VIASH_PAR_DATA_TYPE+x} ]; then echo "'${VIASH_PAR_DATA_TYPE//\'/\\\'}'"; else echo None; fi ),
         'ion_mode': $( if [ ! -z ${VIASH_PAR_ION_MODE+x} ]; then echo "'${VIASH_PAR_ION_MODE//\'/\\\'}'"; else echo None; fi ),
         'accuracy_type': $( if [ ! -z ${VIASH_PAR_ACCURACY_TYPE+x} ]; then echo "'${VIASH_PAR_ACCURACY_TYPE//\'/\\\'}'"; else echo None; fi ),
-        'retention_time_begin': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_BEGIN+x} ]; then echo "int('${VIASH_PAR_RETENTION_TIME_BEGIN//\'/\\\'}')"; else echo None; fi ),
-        'retention_time_end': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_END+x} ]; then echo "int('${VIASH_PAR_RETENTION_TIME_END//\'/\\\'}')"; else echo None; fi ),
-        'mass_range_begin': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_BEGIN+x} ]; then echo "int('${VIASH_PAR_MASS_RANGE_BEGIN//\'/\\\'}')"; else echo None; fi ),
-        'mass_range_end': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_END+x} ]; then echo "int('${VIASH_PAR_MASS_RANGE_END//\'/\\\'}')"; else echo None; fi ),
+        'retention_time_begin': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_BEGIN+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_BEGIN//\'/\\\'}')"; else echo None; fi ),
+        'retention_time_end': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_END+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_END//\'/\\\'}')"; else echo None; fi ),
+        'mass_range_begin': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_BEGIN+x} ]; then echo "float('${VIASH_PAR_MASS_RANGE_BEGIN//\'/\\\'}')"; else echo None; fi ),
+        'mass_range_end': $( if [ ! -z ${VIASH_PAR_MASS_RANGE_END+x} ]; then echo "float('${VIASH_PAR_MASS_RANGE_END//\'/\\\'}')"; else echo None; fi ),
         'smoothing_method': $( if [ ! -z ${VIASH_PAR_SMOOTHING_METHOD+x} ]; then echo "'${VIASH_PAR_SMOOTHING_METHOD//\'/\\\'}'"; else echo None; fi ),
         'smoothing_level': $( if [ ! -z ${VIASH_PAR_SMOOTHING_LEVEL+x} ]; then echo "int('${VIASH_PAR_SMOOTHING_LEVEL//\'/\\\'}')"; else echo None; fi ),
         'average_peak_width': $( if [ ! -z ${VIASH_PAR_AVERAGE_PEAK_WIDTH+x} ]; then echo "int('${VIASH_PAR_AVERAGE_PEAK_WIDTH//\'/\\\'}')"; else echo None; fi ),
@@ -2222,23 +2550,32 @@ functionality:
         'mass_slice_width': $( if [ ! -z ${VIASH_PAR_MASS_SLICE_WIDTH+x} ]; then echo "float('${VIASH_PAR_MASS_SLICE_WIDTH//\'/\\\'}')"; else echo None; fi ),
         'mass_accuracy': $( if [ ! -z ${VIASH_PAR_MASS_ACCURACY+x} ]; then echo "float('${VIASH_PAR_MASS_ACCURACY//\'/\\\'}')"; else echo None; fi ),
         'sigma_window_value': $( if [ ! -z ${VIASH_PAR_SIGMA_WINDOW_VALUE+x} ]; then echo "float('${VIASH_PAR_SIGMA_WINDOW_VALUE//\'/\\\'}')"; else echo None; fi ),
-        'amplitude_cutoff': $( if [ ! -z ${VIASH_PAR_AMPLITUDE_CUTOFF+x} ]; then echo "int('${VIASH_PAR_AMPLITUDE_CUTOFF//\'/\\\'}')"; else echo None; fi ),
+        'amplitude_cutoff': $( if [ ! -z ${VIASH_PAR_AMPLITUDE_CUTOFF+x} ]; then echo "float('${VIASH_PAR_AMPLITUDE_CUTOFF//\'/\\\'}')"; else echo None; fi ),
         'msp_file': $( if [ ! -z ${VIASH_PAR_MSP_FILE+x} ]; then echo "'${VIASH_PAR_MSP_FILE//\'/\\\'}'"; else echo None; fi ),
-        'ri_index_file': $( if [ ! -z ${VIASH_PAR_RI_INDEX_FILE+x} ]; then echo "'${VIASH_PAR_RI_INDEX_FILE//\'/\\\'}'"; else echo None; fi ),
+        'ri_index_file': $( if [ ! -z ${VIASH_PAR_RI_INDEX_FILE+x} ]; then echo "'${VIASH_PAR_RI_INDEX_FILE//\'/\\\'}'.split(';')"; else echo None; fi ),
         'retention_type': $( if [ ! -z ${VIASH_PAR_RETENTION_TYPE+x} ]; then echo "'${VIASH_PAR_RETENTION_TYPE//\'/\\\'}'"; else echo None; fi ),
         'ri_compound': $( if [ ! -z ${VIASH_PAR_RI_COMPOUND+x} ]; then echo "'${VIASH_PAR_RI_COMPOUND//\'/\\\'}'"; else echo None; fi ),
         'retention_time_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
-        'retention_index_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "int('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
-        'ei_similarity_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "int('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
-        'identification_score_cutoff': $( if [ ! -z ${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF+x} ]; then echo "int('${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF//\'/\\\'}')"; else echo None; fi ),
+        'retention_index_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
+        'ei_similarity_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
+        'identification_score_cutoff': $( if [ ! -z ${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF+x} ]; then echo "float('${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF//\'/\\\'}')"; else echo None; fi ),
+        'use_retention_information_for_identification_scoring': $( if [ ! -z ${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING+x} ]; then echo "'${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
+        'use_retention_information_for_identification_filtering': $( if [ ! -z ${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING+x} ]; then echo "'${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
+        'only_report_top_hit': $( if [ ! -z ${VIASH_PAR_ONLY_REPORT_TOP_HIT+x} ]; then echo "'${VIASH_PAR_ONLY_REPORT_TOP_HIT//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
         'alignment_index_type': $( if [ ! -z ${VIASH_PAR_ALIGNMENT_INDEX_TYPE+x} ]; then echo "'${VIASH_PAR_ALIGNMENT_INDEX_TYPE//\'/\\\'}'"; else echo None; fi ),
         'retention_time_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
-        'retention_index_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "int('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
-        'ei_similarity_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "int('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
+        'retention_index_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_RETENTION_INDEX_TOLERANCE_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
+        'ei_similarity_tolerance_for_alignment': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_EI_SIMILARITY_TOLERANCE_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
         'retention_time_factor_for_alignment': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
         'ei_similarity_factor_for_alignment': $( if [ ! -z ${VIASH_PAR_EI_SIMILARITY_FACTOR_FOR_ALIGNMENT+x} ]; then echo "float('${VIASH_PAR_EI_SIMILARITY_FACTOR_FOR_ALIGNMENT//\'/\\\'}')"; else echo None; fi ),
-        'peak_count_filter': $( if [ ! -z ${VIASH_PAR_PEAK_COUNT_FILTER+x} ]; then echo "int('${VIASH_PAR_PEAK_COUNT_FILTER//\'/\\\'}')"; else echo None; fi ),
-        'qc_at_least_filter': $( if [ ! -z ${VIASH_PAR_QC_AT_LEAST_FILTER+x} ]; then echo "'${VIASH_PAR_QC_AT_LEAST_FILTER//\'/\\\'}'.lower() == 'true'"; else echo None; fi )
+        'peak_count_filter': $( if [ ! -z ${VIASH_PAR_PEAK_COUNT_FILTER+x} ]; then echo "float('${VIASH_PAR_PEAK_COUNT_FILTER//\'/\\\'}')"; else echo None; fi ),
+        'remove_feature_based_on_peak_height_fold_change': $( if [ ! -z ${VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE+x} ]; then echo "'${VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
+        'pct_detected_in_at_least_one_group': $( if [ ! -z ${VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP+x} ]; then echo "float('${VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP//\'/\\\'}')"; else echo None; fi ),
+        'sample_max_over_blank_average': $( if [ ! -z ${VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE+x} ]; then echo "float('${VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE//\'/\\\'}')"; else echo None; fi ),
+        'sample_average_over_blank_average': $( if [ ! -z ${VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE+x} ]; then echo "float('${VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE//\'/\\\'}')"; else echo None; fi ),
+        'keep_identified_metabolites': $( if [ ! -z ${VIASH_PAR_KEEP_IDENTIFIED_METABOLITES+x} ]; then echo "'${VIASH_PAR_KEEP_IDENTIFIED_METABOLITES//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
+        'keep_removable_features': $( if [ ! -z ${VIASH_PAR_KEEP_REMOVABLE_FEATURES+x} ]; then echo "'${VIASH_PAR_KEEP_REMOVABLE_FEATURES//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
+        'replace_true_zero': $( if [ ! -z ${VIASH_PAR_REPLACE_TRUE_ZERO+x} ]; then echo "'${VIASH_PAR_REPLACE_TRUE_ZERO//\'/\\\'}'.lower() == 'true'"; else echo None; fi )
       }
       meta = {
         'functionality_name': '$VIASH_META_FUNCTIONALITY_NAME',
@@ -2277,7 +2614,7 @@ functionality:
       Ion mode: {par["ion_mode"]}
       Accuracy type: {par["accuracy_type"]}
       
-      # Data collection parameters
+      # Data correction parameters
       Retention time begin: {par["retention_time_begin"]}
       Retention time end: {par["retention_time_end"]}
       Mass range begin: {par["mass_range_begin"]}
@@ -2304,6 +2641,9 @@ functionality:
       Retention index tolerance for identification: {par["retention_index_tolerance_for_identification"]}
       EI similarity tolerance for identification: {par["ei_similarity_tolerance_for_identification"]}
       Identification score cut off: {par["identification_score_cutoff"]}
+      Use retention information for identification scoring: {par["use_retention_information_for_identification_scoring"]}
+      Use retention information for identification filtering: {par["use_retention_information_for_identification_filtering"]}
+      Only report top hit: {par["only_report_top_hit"]}
       
       # Alignment parameters setting
       Alignment index type: {par["alignment_index_type"]}
@@ -2313,7 +2653,13 @@ functionality:
       Retention time factor for alignment: {par["retention_time_factor_for_alignment"]}
       EI similarity factor for alignment: {par["ei_similarity_factor_for_alignment"]}
       Peak count filter: {par["peak_count_filter"]}
-      QC at least filter: {par["qc_at_least_filter"]}
+      Remove feature based on peak height fold-change: {par["remove_feature_based_on_peak_height_fold_change"]}
+      N% detected in at least one group: {par["pct_detected_in_at_least_one_group"]}
+      Sample max / blank average: {par["sample_max_over_blank_average"]}
+      Sample average / blank average: {par["sample_average_over_blank_average"]}
+      Keep identified and annotated metabolites: {par["keep_identified_metabolites"]}
+      Keep removable features and assign the tag for checking: {par["keep_removable_features"]}
+      Replace true zero values with 1/10 of minimum peak height over all samples: {par["replace_true_zero"]}
       """
       
       with tempfile.TemporaryDirectory() as temp_dir:
@@ -2341,12 +2687,14 @@ functionality:
          # create ri index file paths file
          # (if needed)
          if par["ri_index_file"]:
+            assert len(par["ri_index_file"]) == 1 or len(par["ri_index_file"]) == len(par["input"]), "Length of --ri_index_file must be one or equal to the length of --input"
+            if len(par["ri_index_file"]) == 1:
+               par["ri_index_file"] = len(par["input"]) * par["ri_index_file"]
+      
             with open(ri_index_file, 'w') as out_file:
                tsv_writer = csv.writer(out_file, delimiter="\\t")
-      
-               for top, dirs, files in os.walk(temp_dir):
-                  # input_files = [ os.path.join(top, file) for file in files if re.match('.*\\.(abf|cdf|mzml|ibf|wiff|wiff2|raw|d)\$', file)]
-                  tsv_writer.writerows([[file, par["ri_index_file"]] for file in dests])
+               ri_file_data = zip(dests, par["ri_index_file"])
+               tsv_writer.writerows(ri_file_data)
       
          # write params file
          with open(param_file, "w") as f:
@@ -2377,6 +2725,7 @@ functionality:
 
     dest: "msdial_gcms"
     is_executable: true
+  description: "MS-DIAL GC/MS"
   test_resources:
   - type: "bash_script"
     path: "run_test.sh"
@@ -2440,5 +2789,5 @@ info:
   output: "target/docker/msdial/msdial_gcms"
   executable: "target/docker/msdial/msdial_gcms/msdial_gcms"
   viash_version: "0.5.14"
-  git_commit: "b20e8e4420123214820a4232c4df219d009c5f19"
+  git_commit: "b3a80a5fe4400a18bf92f6dec394b4968e091db0"
   git_remote: "https://github.com/czbiohub/mspipelines"
