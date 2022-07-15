@@ -306,3 +306,5 @@ platforms:
         pypi: pandas
   - type: nextflow
     variant: vdsl3
+    directives: 
+      label: [ midmem, midcpu ]
