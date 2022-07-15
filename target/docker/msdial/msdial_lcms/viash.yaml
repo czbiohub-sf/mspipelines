@@ -467,6 +467,17 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ","
+  - type: "file"
+    name: "--msp_file"
+    alternatives: []
+    example:
+    - "file.msp"
+    default: []
+    must_exist: false
+    required: false
+    direction: "input"
+    multiple: false
+    multiple_sep: ":"
   - type: "double"
     name: "--retention_time_tolerance_for_identification"
     alternatives: []
@@ -990,6 +1001,7 @@ functionality:
     - "keep_original_precursor_isotopes"
   - name: "Identification arguments"
     arguments:
+    - "msp_file"
     - "retention_time_tolerance_for_identification"
     - "accurate_ms1_tolerance_for_identification"
     - "accurate_ms2_tolerance_for_identification"
@@ -1393,6 +1405,10 @@ functionality:
         echo "        default: false"
         echo ""
         echo "Identification arguments:"
+        echo "    --msp_file"
+        echo "        type: file"
+        echo "        example: file.msp"
+        echo ""
         echo "    --retention_time_tolerance_for_identification"
         echo "        type: double"
         echo "        default: 100.0"
@@ -1802,9 +1818,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_lcms"
-      LABEL org.opencontainers.image.created="2022-07-14T08:54:44Z"
+      LABEL org.opencontainers.image.created="2022-07-15T17:39:23Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="e6579273c81af6ca3eac3a24b3569bfa7ad31782"
+      LABEL org.opencontainers.image.revision="f17b688cf82626bc5248ee4d8cdec5fff1dec32f"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -2364,6 +2380,15 @@ functionality:
                   else
                     VIASH_PAR_ADDUCT_LIST="$VIASH_PAR_ADDUCT_LIST,"$(ViashRemoveFlags "$1")
                   fi
+                  shift 1
+                  ;;
+              --msp_file)
+                  VIASH_PAR_MSP_FILE="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to --msp_file. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              --msp_file=*)
+                  VIASH_PAR_MSP_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_tolerance_for_identification)
@@ -3248,6 +3273,7 @@ functionality:
       fi
       
       
+      
       if [[ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" ]]; then
         if ! [[ "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
           ViashError '--retention_time_tolerance_for_identification' has to be a double. Use "--help" to get more information on the parameters.
@@ -3734,6 +3760,7 @@ functionality:
       
       
       
+      
       # detect volumes from file arguments
       if [ ! -z "$VIASH_PAR_INPUT" ]; then
         IFS=";"
@@ -3759,6 +3786,10 @@ functionality:
       if [ ! -z "$VIASH_PAR_ISTD_FILE" ]; then
         VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_ISTD_FILE")"
         VIASH_PAR_ISTD_FILE=$(ViashAutodetectMount "$VIASH_PAR_ISTD_FILE")
+      fi
+      if [ ! -z "$VIASH_PAR_MSP_FILE" ]; then
+        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_MSP_FILE")"
+        VIASH_PAR_MSP_FILE=$(ViashAutodetectMount "$VIASH_PAR_MSP_FILE")
       fi
       if [ ! -z "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE" ]; then
         VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE")"
@@ -3846,6 +3877,7 @@ functionality:
         'keep_isotope_until': $( if [ ! -z ${VIASH_PAR_KEEP_ISOTOPE_UNTIL+x} ]; then echo "float('${VIASH_PAR_KEEP_ISOTOPE_UNTIL//\'/\\\'}')"; else echo None; fi ),
         'keep_original_precursor_isotopes': $( if [ ! -z ${VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES+x} ]; then echo "'${VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES//\'/\\\'}'.lower() == 'true'"; else echo None; fi ),
         'adduct_list': $( if [ ! -z ${VIASH_PAR_ADDUCT_LIST+x} ]; then echo "'${VIASH_PAR_ADDUCT_LIST//\'/\\\'}'.split(',')"; else echo None; fi ),
+        'msp_file': $( if [ ! -z ${VIASH_PAR_MSP_FILE+x} ]; then echo "'${VIASH_PAR_MSP_FILE//\'/\\\'}'"; else echo None; fi ),
         'retention_time_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
         'accurate_ms1_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
         'accurate_ms2_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION//\'/\\\'}')"; else echo None; fi ),
@@ -3976,6 +4008,7 @@ functionality:
       Adduct list: {','.join(par["adduct_list"])}
       
       # Identification
+      {"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
       Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
       accurate ms1 tolerance for identification: {par["accurate_ms1_tolerance_for_identification"]}
       accurate ms2 tolerance for identification: {par["accurate_ms2_tolerance_for_identification"]}
@@ -4149,5 +4182,5 @@ info:
   output: "target/docker/msdial/msdial_lcms"
   executable: "target/docker/msdial/msdial_lcms/msdial_lcms"
   viash_version: "0.5.15"
-  git_commit: "e6579273c81af6ca3eac3a24b3569bfa7ad31782"
+  git_commit: "f17b688cf82626bc5248ee4d8cdec5fff1dec32f"
   git_remote: "https://github.com/czbiohub/mspipelines"

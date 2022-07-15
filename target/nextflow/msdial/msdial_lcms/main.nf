@@ -539,6 +539,18 @@ thisConfig = processConfig([
       "multiple_sep" : ","
     },
     {
+      "type" : "file",
+      "name" : "--msp_file",
+      "example" : [
+        "file.msp"
+      ],
+      "must_exist" : false,
+      "required" : false,
+      "direction" : "input",
+      "multiple" : false,
+      "multiple_sep" : ":"
+    },
+    {
       "type" : "double",
       "name" : "--retention_time_tolerance_for_identification",
       "default" : [
@@ -1122,6 +1134,7 @@ thisConfig = processConfig([
     {
       "name" : "Identification arguments",
       "arguments" : [
+        "msp_file",
         "retention_time_tolerance_for_identification",
         "accurate_ms1_tolerance_for_identification",
         "accurate_ms2_tolerance_for_identification",
@@ -1278,6 +1291,7 @@ par = {
   'keep_isotope_until': $( if [ ! -z ${VIASH_PAR_KEEP_ISOTOPE_UNTIL+x} ]; then echo "float('${VIASH_PAR_KEEP_ISOTOPE_UNTIL//\\'/\\\\\\'}')"; else echo None; fi ),
   'keep_original_precursor_isotopes': $( if [ ! -z ${VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES+x} ]; then echo "'${VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES//\\'/\\\\\\'}'.lower() == 'true'"; else echo None; fi ),
   'adduct_list': $( if [ ! -z ${VIASH_PAR_ADDUCT_LIST+x} ]; then echo "'${VIASH_PAR_ADDUCT_LIST//\\'/\\\\\\'}'.split(',')"; else echo None; fi ),
+  'msp_file': $( if [ ! -z ${VIASH_PAR_MSP_FILE+x} ]; then echo "'${VIASH_PAR_MSP_FILE//\\'/\\\\\\'}'"; else echo None; fi ),
   'retention_time_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
   'accurate_ms1_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
   'accurate_ms2_tolerance_for_identification': $( if [ ! -z ${VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION+x} ]; then echo "float('${VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION//\\'/\\\\\\'}')"; else echo None; fi ),
@@ -1408,6 +1422,7 @@ keep original precursor isotopes: {par["amplitude_cutoff"]}
 Adduct list: {','.join(par["adduct_list"])}
 
 # Identification
+{"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
 Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
 accurate ms1 tolerance for identification: {par["accurate_ms1_tolerance_for_identification"]}
 accurate ms2 tolerance for identification: {par["accurate_ms2_tolerance_for_identification"]}
@@ -2238,7 +2253,8 @@ def processDirectives(Map drctv) {
       def m = drctv["container"]
       assertMapKeys(m, [ "registry", "image", "tag" ], ["image"], "container")
       def part1 = 
-        params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : 
+        System.getenv('OVERRIDE_CONTAINER_REGISTRY') ? System.getenv('OVERRIDE_CONTAINER_REGISTRY') "/" : 
+        params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : // todo: remove?
         m.registry ? m.registry + "/" : 
         ""
       def part2 = m.image

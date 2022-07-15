@@ -980,7 +980,8 @@ functionality:
             def m = drctv["container"]
             assertMapKeys(m, [ "registry", "image", "tag" ], ["image"], "container")
             def part1 = 
-              params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : 
+              System.getenv('OVERRIDE_CONTAINER_REGISTRY') ? System.getenv('OVERRIDE_CONTAINER_REGISTRY') "/" : 
+              params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : // todo: remove?
               m.registry ? m.registry + "/" : 
               ""
             def part2 = m.image
@@ -1938,5 +1939,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/download/sync_test_resources"
   viash_version: "0.5.15"
-  git_commit: "e6579273c81af6ca3eac3a24b3569bfa7ad31782"
+  git_commit: "f17b688cf82626bc5248ee4d8cdec5fff1dec32f"
   git_remote: "https://github.com/czbiohub/mspipelines"
