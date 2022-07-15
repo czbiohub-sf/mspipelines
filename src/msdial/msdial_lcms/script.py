@@ -94,6 +94,7 @@ keep original precursor isotopes: {par["amplitude_cutoff"]}
 Adduct list: {','.join(par["adduct_list"])}
 
 # Identification
+{"MSP file: " + par["msp_file"] if par["msp_file"] else "# MSP file: none"}
 Retention time tolerance for identification: {par["retention_time_tolerance_for_identification"]}
 accurate ms1 tolerance for identification: {par["accurate_ms1_tolerance_for_identification"]}
 accurate ms2 tolerance for identification: {par["accurate_ms2_tolerance_for_identification"]}

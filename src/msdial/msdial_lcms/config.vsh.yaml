@@ -190,6 +190,10 @@ functionality:
       multiple_sep: ","
 
     # identification parameters
+    - name: "--msp_file"
+      type: file
+      required: false
+      example: file.msp
     - name: "--retention_time_tolerance_for_identification"
       type: double
       default: 100
@@ -399,6 +403,7 @@ functionality:
         - keep_original_precursor_isotopes
     - name: Identification arguments
       arguments: 
+        - msp_file
         - retention_time_tolerance_for_identification
         - accurate_ms1_tolerance_for_identification
         - accurate_ms2_tolerance_for_identification
