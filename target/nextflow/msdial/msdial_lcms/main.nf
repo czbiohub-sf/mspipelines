@@ -1537,7 +1537,11 @@ thisDefaultProcessArgs = [
     "registry" : "ghcr.io",
     "image" : "czbiohub/mspipelines/msdial_msdial_lcms",
     "tag" : "main_build"
-  }
+  },
+  "label" : [
+    "midmem",
+    "midcpu"
+  ]
 }'''),
   // auto settings
   auto: jsonSlurper.parseText('''{
