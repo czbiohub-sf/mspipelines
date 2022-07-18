@@ -64,7 +64,6 @@ functionality:
       description: "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters."
     - name: "--lcms_run_type"
       type: string
-      required: true
       choices: [Standard, "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"]
       description: "The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'."
       default: Standard
@@ -77,7 +76,7 @@ functionality:
     - name: "--num_cores"
       type: integer
       example: 30
-      description: ""
+      description: "Number of cores to use during the analysis."
     - name: "--dryrun"
       type: boolean_true
       description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
