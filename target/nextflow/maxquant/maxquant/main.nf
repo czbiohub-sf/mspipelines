@@ -169,7 +169,7 @@ thisConfig = processConfig([
       "default" : [
         "Standard"
       ],
-      "required" : true,
+      "required" : false,
       "choices" : [
         "Standard",
         "Reporter ion MS2",
@@ -204,7 +204,7 @@ thisConfig = processConfig([
     {
       "type" : "integer",
       "name" : "--num_cores",
-      "description" : "",
+      "description" : "Number of cores to use during the analysis.",
       "example" : [
         30
       ],

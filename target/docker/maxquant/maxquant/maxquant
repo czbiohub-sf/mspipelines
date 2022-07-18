@@ -219,7 +219,7 @@ function ViashHelp {
   echo "        sub-parameters."
   echo ""
   echo "    --lcms_run_type"
-  echo "        type: string, required parameter"
+  echo "        type: string"
   echo "        default: Standard"
   echo "        choices: [ Standard, Reporter ion MS2, Reporter ion MS3, NeuCode,"
   echo "BoxCar, TIMS-DDA, MaxDIA, TIMS MaxDIA, BoxCar MaxDIA ]"
@@ -241,6 +241,7 @@ function ViashHelp {
   echo "    --num_cores"
   echo "        type: integer"
   echo "        example: 30"
+  echo "        Number of cores to use during the analysis."
   echo ""
   echo "    --dryrun"
   echo "        type: boolean_true"
@@ -458,9 +459,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component maxquant maxquant"
-LABEL org.opencontainers.image.created="2022-07-15T18:27:32Z"
+LABEL org.opencontainers.image.created="2022-07-18T19:06:04Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="83e7ed438679c2970cc37186fe67d6f8021d8b3d"
+LABEL org.opencontainers.image.revision="9b082992b0d379aeee2a558d3230aed5834b9da0"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
@@ -799,10 +800,6 @@ if [ -z "$VIASH_PAR_OUTPUT" ]; then
   ViashError '--output' is a required argument. Use "--help" to get more information on the parameters.
   exit 1
 fi
-if [ -z "$VIASH_PAR_LCMS_RUN_TYPE" ]; then
-  ViashError '--lcms_run_type' is a required argument. Use "--help" to get more information on the parameters.
-  exit 1
-fi
 if [ -z "$VIASH_PAR_MATCH_BETWEEN_RUNS" ]; then
   VIASH_PAR_MATCH_BETWEEN_RUNS="false"
 fi
@@ -811,6 +808,9 @@ if [ -z "$VIASH_PAR_WRITE_TABLES" ]; then
 fi
 if [ -z "$VIASH_PAR_MS_INSTRUMENT" ]; then
   VIASH_PAR_MS_INSTRUMENT="Bruker TIMS"
+fi
+if [ -z "$VIASH_PAR_LCMS_RUN_TYPE" ]; then
+  VIASH_PAR_LCMS_RUN_TYPE="Standard"
 fi
 if [ -z "$VIASH_PAR_LFQ_MODE" ]; then
   VIASH_PAR_LFQ_MODE="LFQ"

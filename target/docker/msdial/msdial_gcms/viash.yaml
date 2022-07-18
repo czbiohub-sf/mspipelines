@@ -1216,9 +1216,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_gcms"
-      LABEL org.opencontainers.image.created="2022-07-15T18:27:31Z"
+      LABEL org.opencontainers.image.created="2022-07-18T19:06:03Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="83e7ed438679c2970cc37186fe67d6f8021d8b3d"
+      LABEL org.opencontainers.image.revision="9b082992b0d379aeee2a558d3230aed5834b9da0"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -2791,5 +2791,5 @@ info:
   output: "target/docker/msdial/msdial_gcms"
   executable: "target/docker/msdial/msdial_gcms/msdial_gcms"
   viash_version: "0.5.15"
-  git_commit: "83e7ed438679c2970cc37186fe67d6f8021d8b3d"
+  git_commit: "9b082992b0d379aeee2a558d3230aed5834b9da0"
   git_remote: "https://github.com/czbiohub/mspipelines"

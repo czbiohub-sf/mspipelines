@@ -136,7 +136,7 @@ functionality:
     example: []
     default:
     - "Standard"
-    required: true
+    required: false
     choices:
     - "Standard"
     - "Reporter ion MS2"
@@ -171,7 +171,7 @@ functionality:
   - type: "integer"
     name: "--num_cores"
     alternatives: []
-    description: ""
+    description: "Number of cores to use during the analysis."
     example:
     - 30
     default: []
@@ -360,7 +360,7 @@ functionality:
             "default" : [
               "Standard"
             ],
-            "required" : true,
+            "required" : false,
             "choices" : [
               "Standard",
               "Reporter ion MS2",
@@ -395,7 +395,7 @@ functionality:
           {
             "type" : "integer",
             "name" : "--num_cores",
-            "description" : "",
+            "description" : "Number of cores to use during the analysis.",
             "example" : [
               30
             ],
@@ -2765,5 +2765,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/maxquant/maxquant"
   viash_version: "0.5.15"
-  git_commit: "83e7ed438679c2970cc37186fe67d6f8021d8b3d"
+  git_commit: "9b082992b0d379aeee2a558d3230aed5834b9da0"
   git_remote: "https://github.com/czbiohub/mspipelines"
