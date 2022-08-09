@@ -8,7 +8,6 @@ jobs:
     env:
       s3_bucket: s3://czbiohub-pipelines/resources_test_ms/
     runs-on: ubuntu-latest
-    # if: "contains(github.event.head_commit.message, '#integration')"
 
     steps:
     - uses: actions/checkout@v2
@@ -78,7 +77,6 @@ jobs:
     needs: list_components
 
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     strategy:
       fail-fast: false
@@ -113,7 +111,6 @@ jobs:
   # phase 3
   integration_test:
     needs: [ build_containers, list_components ]
-    if: "${{ needs.list_components.outputs.workflow_matrix != '' }"
 
     runs-on: ubuntu-latest
 
