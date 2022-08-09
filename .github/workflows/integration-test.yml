@@ -109,10 +109,11 @@ jobs:
       run: |
         bin/viash_push -m release -t integration_build --force
 
-  ###################################3
+  ###################################
   # phase 3
   integration_test:
     needs: [ build_containers, list_components ]
+    if: "${{ needs.list_components.outputs.workflow_matrix != '' }"
 
     runs-on: ubuntu-latest
 
