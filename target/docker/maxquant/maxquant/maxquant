@@ -459,9 +459,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component maxquant maxquant"
-LABEL org.opencontainers.image.created="2022-08-09T04:04:09Z"
+LABEL org.opencontainers.image.created="2022-08-09T04:29:55Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="b0bacbf6eebc79710dba2bdd698ea41cf1565ec9"
+LABEL org.opencontainers.image.revision="9082f742100901e40556dfcf72ca11092ffe09fa"
 LABEL org.opencontainers.image.version="0.3.1"
 VIASHDOCKER
 }
