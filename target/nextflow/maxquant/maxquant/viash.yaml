@@ -2765,5 +2765,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/maxquant/maxquant"
   viash_version: "0.5.15"
-  git_commit: "0a87ef3e3ded730007fad48831f2dccf4da7f71b"
+  git_commit: "d9b5f92ce0d7756d7c3efb976adad4456c4ece3d"
   git_remote: "https://github.com/czbiohub/mspipelines"
