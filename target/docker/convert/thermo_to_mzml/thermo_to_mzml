@@ -388,9 +388,9 @@ rm ThermoRawFileParser.zip
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component convert thermo_to_mzml"
-LABEL org.opencontainers.image.created="2022-07-18T19:06:03Z"
+LABEL org.opencontainers.image.created="2022-08-09T04:04:07Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="9b082992b0d379aeee2a558d3230aed5834b9da0"
+LABEL org.opencontainers.image.revision="b0bacbf6eebc79710dba2bdd698ea41cf1565ec9"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }

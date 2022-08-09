@@ -218,7 +218,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <name>session1</name>
    <maxQuantVersion>2.0.3.0</maxQuantVersion>
    <pluginFolder></pluginFolder>
-   <numThreads>30</numThreads>
+   <numThreads>{par["num_cores"]}</numThreads>
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>

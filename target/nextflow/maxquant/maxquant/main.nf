@@ -478,7 +478,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <name>session1</name>
    <maxQuantVersion>2.0.3.0</maxQuantVersion>
    <pluginFolder></pluginFolder>
-   <numThreads>30</numThreads>
+   <numThreads>{par["num_cores"]}</numThreads>
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
@@ -1202,7 +1202,7 @@ def addGlobalParams(config) {
       ],
       "argument_groups": [
         [
-          "name": "Nextflow input/output arguments",
+          "name": "Nextflow input-output arguments",
           "arguments" : [ "publish_dir", "param_list", "param_list_format" ]
         ]
       ]

@@ -669,7 +669,7 @@ functionality:
          <name>session1</name>
          <maxQuantVersion>2.0.3.0</maxQuantVersion>
          <pluginFolder></pluginFolder>
-         <numThreads>30</numThreads>
+         <numThreads>{par["num_cores"]}</numThreads>
          <emailAddress></emailAddress>
          <smtpHost></smtpHost>
          <emailFromAddress></emailFromAddress>
@@ -1393,7 +1393,7 @@ functionality:
             ],
             "argument_groups": [
               [
-                "name": "Nextflow input/output arguments",
+                "name": "Nextflow input-output arguments",
                 "arguments" : [ "publish_dir", "param_list", "param_list_format" ]
               ]
             ]
@@ -2765,5 +2765,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/maxquant/maxquant"
   viash_version: "0.5.15"
-  git_commit: "9b082992b0d379aeee2a558d3230aed5834b9da0"
+  git_commit: "b0bacbf6eebc79710dba2bdd698ea41cf1565ec9"
   git_remote: "https://github.com/czbiohub/mspipelines"
