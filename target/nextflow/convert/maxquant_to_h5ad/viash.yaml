@@ -1898,5 +1898,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/convert/maxquant_to_h5ad"
   viash_version: "0.5.15"
-  git_commit: "b0bacbf6eebc79710dba2bdd698ea41cf1565ec9"
+  git_commit: "79b137a8f38e708f73d6c0eb514f80c8ecf2cab1"
   git_remote: "https://github.com/czbiohub/mspipelines"
