@@ -431,9 +431,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component convert thermo_to_mzml"
-      LABEL org.opencontainers.image.created="2022-08-09T04:29:55Z"
+      LABEL org.opencontainers.image.created="2022-08-09T06:25:06Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="9082f742100901e40556dfcf72ca11092ffe09fa"
+      LABEL org.opencontainers.image.revision="8a12c5c8d2600d3a79b834ba69ac6f68c0d23b16"
       LABEL org.opencontainers.image.version="0.3.1"
       VIASHDOCKER
       }
@@ -808,5 +808,5 @@ info:
   output: "target/docker/convert/thermo_to_mzml"
   executable: "target/docker/convert/thermo_to_mzml/thermo_to_mzml"
   viash_version: "0.5.15"
-  git_commit: "9082f742100901e40556dfcf72ca11092ffe09fa"
+  git_commit: "8a12c5c8d2600d3a79b834ba69ac6f68c0d23b16"
   git_remote: "https://github.com/czbiohub/mspipelines"
