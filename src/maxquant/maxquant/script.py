@@ -21,6 +21,10 @@ meta = {
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
    par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
 
+# set taxonomy id to empty string if not specified
+if not par["ref_taxonomy_id"]:
+   par["ref_taxonomy_id"] = [ "" for ref in par["reference"] ]
+
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
 par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
@@ -214,7 +218,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <name>session1</name>
    <maxQuantVersion>2.0.3.0</maxQuantVersion>
    <pluginFolder></pluginFolder>
-   <numThreads>30</numThreads>
+   <numThreads>{par["num_cores"]}</numThreads>
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
@@ -231,7 +235,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <profilePerformance>False</profilePerformance>
    <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
    </filePaths>
-   <experiments>{''.join([ f"{endl}      <string>{experiment}</string>" for exp in experiment_names ])}
+   <experiments>{''.join([ f"{endl}      <string>{exp}</string>" for exp in experiment_names ])}
    </experiments>
    <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
    </fractions>
