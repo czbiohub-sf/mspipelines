@@ -64,7 +64,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: .
         publish_branch: release
-        full_commit_message: "Deploy for release ${{ github.event.inputs.version_tag }} from ${GITHUB_SHA}"
+        full_commit_message: "Deploy for release ${{ github.event.inputs.version_tag }} from ${{ github.sha }}"
 
     # store component locations
     - id: set_matrix
