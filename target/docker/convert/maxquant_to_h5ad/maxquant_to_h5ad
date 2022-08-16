@@ -377,9 +377,9 @@ FROM dataintuitive/randpy:r4.0_py3.8_bioc3.12
 RUN :
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component convert maxquant_to_h5ad"
-LABEL org.opencontainers.image.created="2022-08-09T06:20:40Z"
+LABEL org.opencontainers.image.created="2022-08-16T07:17:43Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="d9b5f92ce0d7756d7c3efb976adad4456c4ece3d"
+LABEL org.opencontainers.image.revision="0acc28e75c0608ba7a282947dcd4ccc4aaf1d11d"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
