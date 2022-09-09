@@ -401,9 +401,9 @@ python setup.py install
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
 LABEL org.opencontainers.image.description="Companion container for running component qc rawbeans"
-LABEL org.opencontainers.image.created="2022-08-16T07:17:43Z"
+LABEL org.opencontainers.image.created="2022-09-09T13:33:41Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="0acc28e75c0608ba7a282947dcd4ccc4aaf1d11d"
+LABEL org.opencontainers.image.revision="9c0d7a9d5945a9fc8bbde247779901623ea253bd"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
