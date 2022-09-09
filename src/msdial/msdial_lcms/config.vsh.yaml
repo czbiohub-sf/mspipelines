@@ -482,7 +482,7 @@ platforms:
           #   rm -rf /tmp/msdial &&
           #   chmod +x /msdial/MsdialConsoleApp
           - mkdir /tmp/msdial && cd /tmp/msdial &&
-            wget -q https://www.dropbox.com/s/5aahjfka32xmpu7/foo.zip?dl=1 -O "msdial.zip" &&
+            wget -q https://www.dropbox.com/s/6fn2tjfyudbrg3o/foo.zip?dl=1 -O "msdial.zip" &&
             unzip "msdial.zip" -d /msdial && 
             rm -rf /tmp/msdial && 
             chmod +x /msdial/MsdialConsoleApp
