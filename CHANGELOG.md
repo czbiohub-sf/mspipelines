@@ -1,3 +1,11 @@
+# mspipeline 0.3.2
+
+## Minor changes
+
+* `msdial/msdial_gcms`: Uses parallel processing for processing input files.
+
+* `msdial/msdial_lcms`: Uses parallel processing for processing input files.
+
 # mspipeline 0.3.1
 
 ## Breaking changes
@@ -5,7 +13,7 @@
 * `msdial/msdial_gcms`: Now only accepts one or more input files. Directories are
   no longer accepted.
 
-## Breaking changes
+## New functionality
 
 * `msdial/msdial_lcms`: Added MSDial LC/MS DDA/DIA component.
 
