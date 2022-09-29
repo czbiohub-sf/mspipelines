@@ -25,6 +25,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   outputs:
   - type: "file"
     name: "--output"
@@ -38,6 +39,7 @@ functionality:
     direction: "output"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   arguments:
   - type: "string"
     name: "--name"
@@ -53,6 +55,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--type"
     alternatives: []
@@ -69,6 +72,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--class_id"
     alternatives: []
@@ -83,6 +87,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "integer"
     name: "--batch"
     alternatives: []
@@ -97,6 +102,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "integer"
     name: "--analytical_order"
     alternatives: []
@@ -111,6 +117,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "double"
     name: "--inject_volume"
     alternatives: []
@@ -125,6 +132,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--ms1_data_type"
     alternatives: []
@@ -138,6 +146,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--ms2_data_type"
     alternatives: []
@@ -151,6 +160,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--ion_mode"
     alternatives: []
@@ -164,6 +174,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "file"
     name: "--dia_file"
     alternatives: []
@@ -175,6 +186,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_begin"
     alternatives: []
@@ -185,6 +197,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_end"
     alternatives: []
@@ -195,6 +208,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms1_mass_range_begin"
     alternatives: []
@@ -205,6 +219,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms1_mass_range_end"
     alternatives: []
@@ -215,6 +230,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms2_mass_range_begin"
     alternatives: []
@@ -225,6 +241,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms2_mass_range_end"
     alternatives: []
@@ -235,6 +252,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms1_tolerance_for_centroid"
     alternatives: []
@@ -245,6 +263,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms2_tolerance_for_centroid"
     alternatives: []
@@ -255,6 +274,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--max_charged_number"
     alternatives: []
@@ -266,6 +286,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--execute_rt_correction"
     alternatives: []
@@ -276,6 +297,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--rt_correction_smoothing"
     alternatives: []
@@ -287,6 +309,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--user_setting_intercept"
     alternatives: []
@@ -297,6 +320,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--rt_diff_calc_method"
     alternatives: []
@@ -310,6 +334,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--extrapolation_method_begin"
     alternatives: []
@@ -324,6 +349,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--extrapolation_method_end"
     alternatives: []
@@ -337,6 +363,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "file"
     name: "--istd_file"
     alternatives: []
@@ -348,6 +375,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--smoothing_method"
     alternatives: []
@@ -363,6 +391,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--smoothing_level"
     alternatives: []
@@ -374,6 +403,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--minimum_peak_width"
     alternatives: []
@@ -385,6 +415,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--minimum_peak_height"
     alternatives: []
@@ -396,6 +427,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mass_slice_width"
     alternatives: []
@@ -406,6 +438,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sigma_window_value"
     alternatives: []
@@ -416,6 +449,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--amplitude_cutoff"
     alternatives: []
@@ -426,6 +460,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--exclude_after_precursor"
     alternatives: []
@@ -436,6 +471,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--keep_isotope_until"
     alternatives: []
@@ -446,6 +482,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--keep_original_precursor_isotopes"
     alternatives: []
@@ -456,6 +493,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--adduct_list"
     alternatives: []
@@ -467,6 +505,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ","
+    dest: "par"
   - type: "file"
     name: "--msp_file"
     alternatives: []
@@ -478,6 +517,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_tolerance_for_identification"
     alternatives: []
@@ -488,6 +528,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--accurate_ms1_tolerance_for_identification"
     alternatives: []
@@ -498,6 +539,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--accurate_ms2_tolerance_for_identification"
     alternatives: []
@@ -508,6 +550,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--identification_score_cutoff"
     alternatives: []
@@ -518,6 +561,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_retention_information_for_identification_scoring"
     alternatives: []
@@ -528,6 +572,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_retention_information_for_identification_filtering"
     alternatives: []
@@ -538,6 +583,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "file"
     name: "--post_identification_library_file"
     alternatives: []
@@ -549,6 +595,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_tolerance_for_post_identification"
     alternatives: []
@@ -559,6 +606,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--accurate_ms1_tolerance_for_post_identification"
     alternatives: []
@@ -569,6 +617,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--post_identification_score_cutoff"
     alternatives: []
@@ -579,6 +628,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_tolerance_for_alignment"
     alternatives: []
@@ -589,6 +639,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms1_tolerance_for_alignment"
     alternatives: []
@@ -599,6 +650,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_factor_for_alignment"
     alternatives: []
@@ -609,6 +661,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ms1_factor_for_alignment"
     alternatives: []
@@ -619,6 +672,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--peak_count_filter"
     alternatives: []
@@ -629,6 +683,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--gap_filling_by_compulsion"
     alternatives: []
@@ -639,6 +694,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--alignment_reference_file_id"
     alternatives: []
@@ -650,6 +706,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--remove_feature_based_on_peak_height_fold_change"
     alternatives: []
@@ -660,6 +717,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--pct_detected_in_at_least_one_group"
     alternatives: []
@@ -670,6 +728,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sample_max_over_blank_average"
     alternatives: []
@@ -680,6 +739,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sample_average_over_blank_average"
     alternatives: []
@@ -690,6 +750,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--keep_identified_metabolites"
     alternatives: []
@@ -700,6 +761,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--keep_removable_features"
     alternatives: []
@@ -711,6 +773,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--replace_true_zero"
     alternatives: []
@@ -723,6 +786,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--tracking_isotope_label"
     alternatives: []
@@ -733,6 +797,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--set_fully_labeled_reference_file"
     alternatives: []
@@ -743,6 +808,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--non_labeled_reference_id"
     alternatives: []
@@ -754,6 +820,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--fully_labeled_reference_id"
     alternatives: []
@@ -765,6 +832,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--isotope_tracking_dictionary_id"
     alternatives: []
@@ -776,6 +844,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--corrdec_execute"
     alternatives: []
@@ -786,6 +855,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_ms2_tolerance"
     alternatives: []
@@ -796,6 +866,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_minimum_ms2_peak_height"
     alternatives: []
@@ -806,6 +877,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_min_detected_samples"
     alternatives: []
@@ -816,6 +888,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_exclude_highly_correlated_spots"
     alternatives: []
@@ -828,6 +901,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_min_corr_ms2"
     alternatives: []
@@ -839,6 +913,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_margin_1"
     alternatives: []
@@ -852,6 +927,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_margin_2"
     alternatives: []
@@ -865,6 +941,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_min_detected_rate"
     alternatives: []
@@ -875,6 +952,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--corrdec_min_ms2_relative_intensity"
     alternatives: []
@@ -885,6 +963,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--corrdec_remove_peaks_larger_than_precursor"
     alternatives: []
@@ -895,6 +974,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--accumulated_rt_range"
     alternatives: []
@@ -905,6 +985,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ccs_search_tolerance"
     alternatives: []
@@ -915,6 +996,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mobility_axis_alignment_tolerance"
     alternatives: []
@@ -925,6 +1007,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_ccs_for_identification_scoring"
     alternatives: []
@@ -935,6 +1018,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_ccs_for_identification_filtering"
     alternatives: []
@@ -945,6 +1029,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   argument_groups:
   - name: "Inputs"
     arguments:
@@ -1063,7 +1148,7 @@ functionality:
       
       # msdial_lcms main_build
       # 
-      # This wrapper script is auto-generated by viash 0.5.15 and is thus a derivative
+      # This wrapper script is auto-generated by viash 0.6.0 and is thus a derivative
       # work thereof. This software comes with ABSOLUTELY NO WARRANTY from Data
       # Intuitive.
       # 
@@ -1157,67 +1242,65 @@ functionality:
       # usage: ViashEmergency Oh no something went wrong.
       # stdout: Your input, prepended by '[emergency] '.
       function ViashEmergency {
-        ViashLog $VIASH_LOGCODE_EMERGENCY emergency $@
+        ViashLog $VIASH_LOGCODE_EMERGENCY emergency "$@"
       }
       
       # ViashAlert: log events when actions must be taken immediately (e.g. corrupted system database)
       # usage: ViashAlert Oh no something went wrong.
       # stdout: Your input, prepended by '[alert] '.
       function ViashAlert {
-        ViashLog $VIASH_LOGCODE_ALERT alert $@
+        ViashLog $VIASH_LOGCODE_ALERT alert "$@"
       }
       
       # ViashCritical: log events when a critical condition occurs
       # usage: ViashCritical Oh no something went wrong.
       # stdout: Your input, prepended by '[critical] '.
       function ViashCritical {
-        ViashLog $VIASH_LOGCODE_CRITICAL critical $@
+        ViashLog $VIASH_LOGCODE_CRITICAL critical "$@"
       }
       
       # ViashError: log events when an error condition occurs
       # usage: ViashError Oh no something went wrong.
       # stdout: Your input, prepended by '[error] '.
       function ViashError {
-        ViashLog $VIASH_LOGCODE_ERROR error $@
+        ViashLog $VIASH_LOGCODE_ERROR error "$@"
       }
       
       # ViashWarning: log potentially abnormal events
       # usage: ViashWarning Something may have gone wrong.
       # stdout: Your input, prepended by '[warning] '.
       function ViashWarning {
-        ViashLog $VIASH_LOGCODE_WARNING warning $@
+        ViashLog $VIASH_LOGCODE_WARNING warning "$@"
       }
       
       # ViashNotice: log significant but normal events
       # usage: ViashNotice This just happened.
       # stdout: Your input, prepended by '[notice] '.
       function ViashNotice {
-        ViashLog $VIASH_LOGCODE_NOTICE notice $@
+        ViashLog $VIASH_LOGCODE_NOTICE notice "$@"
       }
       
       # ViashInfo: log normal events
       # usage: ViashInfo This just happened.
       # stdout: Your input, prepended by '[info] '.
       function ViashInfo {
-        ViashLog $VIASH_LOGCODE_INFO info $@
+        ViashLog $VIASH_LOGCODE_INFO info "$@"
       }
       
       # ViashDebug: log all events, for debugging purposes
       # usage: ViashDebug This just happened.
       # stdout: Your input, prepended by '[debug] '.
       function ViashDebug {
-        ViashLog $VIASH_LOGCODE_DEBUG debug $@
+        ViashLog $VIASH_LOGCODE_DEBUG debug "$@"
       }
       
       # find source folder of this component
       VIASH_META_RESOURCES_DIR=`ViashSourceDir ${BASH_SOURCE[0]}`
       
-      # backwards compatibility
-      VIASH_RESOURCES_DIR="$VIASH_META_RESOURCES_DIR"
-      
       # define meta fields
       VIASH_META_FUNCTIONALITY_NAME="msdial_lcms"
       VIASH_META_EXECUTABLE="$VIASH_META_RESOURCES_DIR/$VIASH_META_FUNCTIONALITY_NAME"
+      VIASH_META_TEMP_DIR="$VIASH_TEMP"
       
       
       # ViashHelp: Display helpful explanation about this executable
@@ -1267,6 +1350,15 @@ functionality:
         echo "        type: file, required parameter, output"
         echo "        example: output_dir"
         echo "        An output directory to store the '*.msdial' outputs."
+        echo ""
+        echo "Arguments:"
+        echo "    --adduct_list"
+        echo "        type: string, required parameter, multiple values allowed"
+        echo "        example: [M+H]+,[M+Na]+,[M+NH4]+"
+        echo ""
+        echo "    --post_identification_library_file"
+        echo "        type: file"
+        echo "        example: file.txt"
         echo ""
         echo "Data type arguments:"
         echo "    --ms1_data_type"
@@ -1601,15 +1693,6 @@ functionality:
         echo "    --use_ccs_for_identification_filtering"
         echo "        type: boolean"
         echo "        default: true"
-        echo ""
-        echo "Arguments:"
-        echo "    --adduct_list"
-        echo "        type: string, required parameter, multiple values allowed"
-        echo "        example: [M+H]+,[M+Na]+,[M+NH4]+"
-        echo ""
-        echo "    --post_identification_library_file"
-        echo "        type: file"
-        echo "        example: file.txt"
       }
       ######## Helper functions for setting up Docker images for viash ########
       # expects: ViashDockerBuild
@@ -1797,6 +1880,26 @@ functionality:
         fi
       }
       
+      # ViashDockerCheckCommands: Check whether a docker container has the required commands
+      #
+      # $1                  : image identifier with format `[registry/]image[:tag]`
+      # $@                  : commands to verify being present
+      # examples:
+      #   ViashDockerCheckCommands bash:4.0 bash ps foo
+      function ViashDockerCheckCommands {
+        tag=$1
+        shift 1
+        commands="$@"
+        save=$-; set +e
+        missing=$(docker run --rm --entrypoint=sh $tag -c "for command in $commands; do command -v \$command >/dev/null 2>&1; if [ \$? -ne 0 ]; then echo \$command; exit 1; fi; done")
+        outCheck=$?
+        [[ $save =~ e ]] && set -e
+        if [ $outCheck -ne 0 ]; then
+        	ViashError "Docker container '$tag' does not contain command '$missing'."
+        	exit 1
+        fi
+      }
+      
       
       ######## End of helper functions for setting up Docker images for viash ########
       
@@ -1818,9 +1921,9 @@ functionality:
       
       LABEL org.opencontainers.image.authors="Robrecht Cannoodt <rcannood@gmail.com> (maintainer) {github: rcannood, orcid: 0000-0003-3641-729X}"
       LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_lcms"
-      LABEL org.opencontainers.image.created="2022-09-28T14:12:18Z"
+      LABEL org.opencontainers.image.created="2022-09-29T12:28:04Z"
       LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-      LABEL org.opencontainers.image.revision="6f5d05a1e29442be761b10e84b88f267e3a84eda"
+      LABEL org.opencontainers.image.revision="93085e6e2e3b182b7087264d0ba0566f847ec3ea"
       LABEL org.opencontainers.image.version="main_build"
       VIASHDOCKER
       }
@@ -1830,7 +1933,7 @@ functionality:
       # exit code $?    : whether or not the image was built
       function ViashDockerBuild {
         # create temporary directory to store dockerfile & optional resources in
-        tmpdir=$(mktemp -d "$VIASH_TEMP/viashsetupdocker-msdial_lcms-XXXXXX")
+        tmpdir=$(mktemp -d "$VIASH_META_TEMP_DIR/viashsetupdocker-msdial_lcms-XXXXXX")
         function clean_up {
           rm -rf "$tmpdir"
         }
@@ -1860,6 +1963,7 @@ functionality:
           fi
           exit 1
         fi
+        ViashDockerCheckCommands "$1" 'bash'
       }
       # ViashAbsolutePath: generate absolute path from relative path
       # borrowed from https://stackoverflow.com/a/21951256
@@ -1985,11 +2089,13 @@ functionality:
                   shift 1
                   ;;
               --output)
+                  [ -n "$VIASH_PAR_OUTPUT" ] && ViashError Bad arguments for option \'--output\': \'$VIASH_PAR_OUTPUT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_OUTPUT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --output. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --output=*)
+                  [ -n "$VIASH_PAR_OUTPUT" ] && ViashError Bad arguments for option \'--output=*\': \'$VIASH_PAR_OUTPUT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_OUTPUT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
@@ -2096,272 +2202,332 @@ functionality:
                   shift 1
                   ;;
               --ms1_data_type)
+                  [ -n "$VIASH_PAR_MS1_DATA_TYPE" ] && ViashError Bad arguments for option \'--ms1_data_type\': \'$VIASH_PAR_MS1_DATA_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_DATA_TYPE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_data_type. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_data_type=*)
+                  [ -n "$VIASH_PAR_MS1_DATA_TYPE" ] && ViashError Bad arguments for option \'--ms1_data_type=*\': \'$VIASH_PAR_MS1_DATA_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_DATA_TYPE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms2_data_type)
+                  [ -n "$VIASH_PAR_MS2_DATA_TYPE" ] && ViashError Bad arguments for option \'--ms2_data_type\': \'$VIASH_PAR_MS2_DATA_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_DATA_TYPE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms2_data_type. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms2_data_type=*)
+                  [ -n "$VIASH_PAR_MS2_DATA_TYPE" ] && ViashError Bad arguments for option \'--ms2_data_type=*\': \'$VIASH_PAR_MS2_DATA_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_DATA_TYPE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ion_mode)
+                  [ -n "$VIASH_PAR_ION_MODE" ] && ViashError Bad arguments for option \'--ion_mode\': \'$VIASH_PAR_ION_MODE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ION_MODE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ion_mode. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ion_mode=*)
+                  [ -n "$VIASH_PAR_ION_MODE" ] && ViashError Bad arguments for option \'--ion_mode=*\': \'$VIASH_PAR_ION_MODE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ION_MODE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --dia_file)
+                  [ -n "$VIASH_PAR_DIA_FILE" ] && ViashError Bad arguments for option \'--dia_file\': \'$VIASH_PAR_DIA_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_DIA_FILE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --dia_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --dia_file=*)
+                  [ -n "$VIASH_PAR_DIA_FILE" ] && ViashError Bad arguments for option \'--dia_file=*\': \'$VIASH_PAR_DIA_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_DIA_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_begin)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_BEGIN" ] && ViashError Bad arguments for option \'--retention_time_begin\': \'$VIASH_PAR_RETENTION_TIME_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_BEGIN="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_begin. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_begin=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_BEGIN" ] && ViashError Bad arguments for option \'--retention_time_begin=*\': \'$VIASH_PAR_RETENTION_TIME_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_BEGIN=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_end)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_END" ] && ViashError Bad arguments for option \'--retention_time_end\': \'$VIASH_PAR_RETENTION_TIME_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_END="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_end. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_end=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_END" ] && ViashError Bad arguments for option \'--retention_time_end=*\': \'$VIASH_PAR_RETENTION_TIME_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_END=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms1_mass_range_begin)
+                  [ -n "$VIASH_PAR_MS1_MASS_RANGE_BEGIN" ] && ViashError Bad arguments for option \'--ms1_mass_range_begin\': \'$VIASH_PAR_MS1_MASS_RANGE_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_MASS_RANGE_BEGIN="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_mass_range_begin. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_mass_range_begin=*)
+                  [ -n "$VIASH_PAR_MS1_MASS_RANGE_BEGIN" ] && ViashError Bad arguments for option \'--ms1_mass_range_begin=*\': \'$VIASH_PAR_MS1_MASS_RANGE_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_MASS_RANGE_BEGIN=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms1_mass_range_end)
+                  [ -n "$VIASH_PAR_MS1_MASS_RANGE_END" ] && ViashError Bad arguments for option \'--ms1_mass_range_end\': \'$VIASH_PAR_MS1_MASS_RANGE_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_MASS_RANGE_END="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_mass_range_end. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_mass_range_end=*)
+                  [ -n "$VIASH_PAR_MS1_MASS_RANGE_END" ] && ViashError Bad arguments for option \'--ms1_mass_range_end=*\': \'$VIASH_PAR_MS1_MASS_RANGE_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_MASS_RANGE_END=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms2_mass_range_begin)
+                  [ -n "$VIASH_PAR_MS2_MASS_RANGE_BEGIN" ] && ViashError Bad arguments for option \'--ms2_mass_range_begin\': \'$VIASH_PAR_MS2_MASS_RANGE_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_MASS_RANGE_BEGIN="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms2_mass_range_begin. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms2_mass_range_begin=*)
+                  [ -n "$VIASH_PAR_MS2_MASS_RANGE_BEGIN" ] && ViashError Bad arguments for option \'--ms2_mass_range_begin=*\': \'$VIASH_PAR_MS2_MASS_RANGE_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_MASS_RANGE_BEGIN=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms2_mass_range_end)
+                  [ -n "$VIASH_PAR_MS2_MASS_RANGE_END" ] && ViashError Bad arguments for option \'--ms2_mass_range_end\': \'$VIASH_PAR_MS2_MASS_RANGE_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_MASS_RANGE_END="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms2_mass_range_end. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms2_mass_range_end=*)
+                  [ -n "$VIASH_PAR_MS2_MASS_RANGE_END" ] && ViashError Bad arguments for option \'--ms2_mass_range_end=*\': \'$VIASH_PAR_MS2_MASS_RANGE_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_MASS_RANGE_END=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms1_tolerance_for_centroid)
+                  [ -n "$VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID" ] && ViashError Bad arguments for option \'--ms1_tolerance_for_centroid\': \'$VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_tolerance_for_centroid. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_tolerance_for_centroid=*)
+                  [ -n "$VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID" ] && ViashError Bad arguments for option \'--ms1_tolerance_for_centroid=*\': \'$VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms2_tolerance_for_centroid)
+                  [ -n "$VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID" ] && ViashError Bad arguments for option \'--ms2_tolerance_for_centroid\': \'$VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms2_tolerance_for_centroid. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms2_tolerance_for_centroid=*)
+                  [ -n "$VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID" ] && ViashError Bad arguments for option \'--ms2_tolerance_for_centroid=*\': \'$VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --max_charged_number)
+                  [ -n "$VIASH_PAR_MAX_CHARGED_NUMBER" ] && ViashError Bad arguments for option \'--max_charged_number\': \'$VIASH_PAR_MAX_CHARGED_NUMBER\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MAX_CHARGED_NUMBER="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --max_charged_number. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --max_charged_number=*)
+                  [ -n "$VIASH_PAR_MAX_CHARGED_NUMBER" ] && ViashError Bad arguments for option \'--max_charged_number=*\': \'$VIASH_PAR_MAX_CHARGED_NUMBER\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MAX_CHARGED_NUMBER=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --execute_rt_correction)
+                  [ -n "$VIASH_PAR_EXECUTE_RT_CORRECTION" ] && ViashError Bad arguments for option \'--execute_rt_correction\': \'$VIASH_PAR_EXECUTE_RT_CORRECTION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXECUTE_RT_CORRECTION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --execute_rt_correction. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --execute_rt_correction=*)
+                  [ -n "$VIASH_PAR_EXECUTE_RT_CORRECTION" ] && ViashError Bad arguments for option \'--execute_rt_correction=*\': \'$VIASH_PAR_EXECUTE_RT_CORRECTION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXECUTE_RT_CORRECTION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --rt_correction_smoothing)
+                  [ -n "$VIASH_PAR_RT_CORRECTION_SMOOTHING" ] && ViashError Bad arguments for option \'--rt_correction_smoothing\': \'$VIASH_PAR_RT_CORRECTION_SMOOTHING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RT_CORRECTION_SMOOTHING="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --rt_correction_smoothing. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --rt_correction_smoothing=*)
+                  [ -n "$VIASH_PAR_RT_CORRECTION_SMOOTHING" ] && ViashError Bad arguments for option \'--rt_correction_smoothing=*\': \'$VIASH_PAR_RT_CORRECTION_SMOOTHING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RT_CORRECTION_SMOOTHING=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --user_setting_intercept)
+                  [ -n "$VIASH_PAR_USER_SETTING_INTERCEPT" ] && ViashError Bad arguments for option \'--user_setting_intercept\': \'$VIASH_PAR_USER_SETTING_INTERCEPT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USER_SETTING_INTERCEPT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --user_setting_intercept. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --user_setting_intercept=*)
+                  [ -n "$VIASH_PAR_USER_SETTING_INTERCEPT" ] && ViashError Bad arguments for option \'--user_setting_intercept=*\': \'$VIASH_PAR_USER_SETTING_INTERCEPT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USER_SETTING_INTERCEPT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --rt_diff_calc_method)
+                  [ -n "$VIASH_PAR_RT_DIFF_CALC_METHOD" ] && ViashError Bad arguments for option \'--rt_diff_calc_method\': \'$VIASH_PAR_RT_DIFF_CALC_METHOD\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RT_DIFF_CALC_METHOD="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --rt_diff_calc_method. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --rt_diff_calc_method=*)
+                  [ -n "$VIASH_PAR_RT_DIFF_CALC_METHOD" ] && ViashError Bad arguments for option \'--rt_diff_calc_method=*\': \'$VIASH_PAR_RT_DIFF_CALC_METHOD\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RT_DIFF_CALC_METHOD=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --extrapolation_method_begin)
+                  [ -n "$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN" ] && ViashError Bad arguments for option \'--extrapolation_method_begin\': \'$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --extrapolation_method_begin. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --extrapolation_method_begin=*)
+                  [ -n "$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN" ] && ViashError Bad arguments for option \'--extrapolation_method_begin=*\': \'$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --extrapolation_method_end)
+                  [ -n "$VIASH_PAR_EXTRAPOLATION_METHOD_END" ] && ViashError Bad arguments for option \'--extrapolation_method_end\': \'$VIASH_PAR_EXTRAPOLATION_METHOD_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXTRAPOLATION_METHOD_END="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --extrapolation_method_end. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --extrapolation_method_end=*)
+                  [ -n "$VIASH_PAR_EXTRAPOLATION_METHOD_END" ] && ViashError Bad arguments for option \'--extrapolation_method_end=*\': \'$VIASH_PAR_EXTRAPOLATION_METHOD_END\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXTRAPOLATION_METHOD_END=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --istd_file)
+                  [ -n "$VIASH_PAR_ISTD_FILE" ] && ViashError Bad arguments for option \'--istd_file\': \'$VIASH_PAR_ISTD_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ISTD_FILE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --istd_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --istd_file=*)
+                  [ -n "$VIASH_PAR_ISTD_FILE" ] && ViashError Bad arguments for option \'--istd_file=*\': \'$VIASH_PAR_ISTD_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ISTD_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --smoothing_method)
+                  [ -n "$VIASH_PAR_SMOOTHING_METHOD" ] && ViashError Bad arguments for option \'--smoothing_method\': \'$VIASH_PAR_SMOOTHING_METHOD\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SMOOTHING_METHOD="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --smoothing_method. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --smoothing_method=*)
+                  [ -n "$VIASH_PAR_SMOOTHING_METHOD" ] && ViashError Bad arguments for option \'--smoothing_method=*\': \'$VIASH_PAR_SMOOTHING_METHOD\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SMOOTHING_METHOD=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --smoothing_level)
+                  [ -n "$VIASH_PAR_SMOOTHING_LEVEL" ] && ViashError Bad arguments for option \'--smoothing_level\': \'$VIASH_PAR_SMOOTHING_LEVEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SMOOTHING_LEVEL="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --smoothing_level. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --smoothing_level=*)
+                  [ -n "$VIASH_PAR_SMOOTHING_LEVEL" ] && ViashError Bad arguments for option \'--smoothing_level=*\': \'$VIASH_PAR_SMOOTHING_LEVEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SMOOTHING_LEVEL=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --minimum_peak_width)
+                  [ -n "$VIASH_PAR_MINIMUM_PEAK_WIDTH" ] && ViashError Bad arguments for option \'--minimum_peak_width\': \'$VIASH_PAR_MINIMUM_PEAK_WIDTH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MINIMUM_PEAK_WIDTH="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --minimum_peak_width. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --minimum_peak_width=*)
+                  [ -n "$VIASH_PAR_MINIMUM_PEAK_WIDTH" ] && ViashError Bad arguments for option \'--minimum_peak_width=*\': \'$VIASH_PAR_MINIMUM_PEAK_WIDTH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MINIMUM_PEAK_WIDTH=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --minimum_peak_height)
+                  [ -n "$VIASH_PAR_MINIMUM_PEAK_HEIGHT" ] && ViashError Bad arguments for option \'--minimum_peak_height\': \'$VIASH_PAR_MINIMUM_PEAK_HEIGHT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MINIMUM_PEAK_HEIGHT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --minimum_peak_height. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --minimum_peak_height=*)
+                  [ -n "$VIASH_PAR_MINIMUM_PEAK_HEIGHT" ] && ViashError Bad arguments for option \'--minimum_peak_height=*\': \'$VIASH_PAR_MINIMUM_PEAK_HEIGHT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MINIMUM_PEAK_HEIGHT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --mass_slice_width)
+                  [ -n "$VIASH_PAR_MASS_SLICE_WIDTH" ] && ViashError Bad arguments for option \'--mass_slice_width\': \'$VIASH_PAR_MASS_SLICE_WIDTH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MASS_SLICE_WIDTH="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --mass_slice_width. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --mass_slice_width=*)
+                  [ -n "$VIASH_PAR_MASS_SLICE_WIDTH" ] && ViashError Bad arguments for option \'--mass_slice_width=*\': \'$VIASH_PAR_MASS_SLICE_WIDTH\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MASS_SLICE_WIDTH=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --sigma_window_value)
+                  [ -n "$VIASH_PAR_SIGMA_WINDOW_VALUE" ] && ViashError Bad arguments for option \'--sigma_window_value\': \'$VIASH_PAR_SIGMA_WINDOW_VALUE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SIGMA_WINDOW_VALUE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --sigma_window_value. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --sigma_window_value=*)
+                  [ -n "$VIASH_PAR_SIGMA_WINDOW_VALUE" ] && ViashError Bad arguments for option \'--sigma_window_value=*\': \'$VIASH_PAR_SIGMA_WINDOW_VALUE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SIGMA_WINDOW_VALUE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --amplitude_cutoff)
+                  [ -n "$VIASH_PAR_AMPLITUDE_CUTOFF" ] && ViashError Bad arguments for option \'--amplitude_cutoff\': \'$VIASH_PAR_AMPLITUDE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_AMPLITUDE_CUTOFF="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --amplitude_cutoff. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --amplitude_cutoff=*)
+                  [ -n "$VIASH_PAR_AMPLITUDE_CUTOFF" ] && ViashError Bad arguments for option \'--amplitude_cutoff=*\': \'$VIASH_PAR_AMPLITUDE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_AMPLITUDE_CUTOFF=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --exclude_after_precursor)
+                  [ -n "$VIASH_PAR_EXCLUDE_AFTER_PRECURSOR" ] && ViashError Bad arguments for option \'--exclude_after_precursor\': \'$VIASH_PAR_EXCLUDE_AFTER_PRECURSOR\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXCLUDE_AFTER_PRECURSOR="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --exclude_after_precursor. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --exclude_after_precursor=*)
+                  [ -n "$VIASH_PAR_EXCLUDE_AFTER_PRECURSOR" ] && ViashError Bad arguments for option \'--exclude_after_precursor=*\': \'$VIASH_PAR_EXCLUDE_AFTER_PRECURSOR\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_EXCLUDE_AFTER_PRECURSOR=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --keep_isotope_until)
+                  [ -n "$VIASH_PAR_KEEP_ISOTOPE_UNTIL" ] && ViashError Bad arguments for option \'--keep_isotope_until\': \'$VIASH_PAR_KEEP_ISOTOPE_UNTIL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_ISOTOPE_UNTIL="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_isotope_until. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --keep_isotope_until=*)
+                  [ -n "$VIASH_PAR_KEEP_ISOTOPE_UNTIL" ] && ViashError Bad arguments for option \'--keep_isotope_until=*\': \'$VIASH_PAR_KEEP_ISOTOPE_UNTIL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_ISOTOPE_UNTIL=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --keep_original_precursor_isotopes)
+                  [ -n "$VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES" ] && ViashError Bad arguments for option \'--keep_original_precursor_isotopes\': \'$VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_original_precursor_isotopes. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --keep_original_precursor_isotopes=*)
+                  [ -n "$VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES" ] && ViashError Bad arguments for option \'--keep_original_precursor_isotopes=*\': \'$VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
@@ -2383,416 +2549,508 @@ functionality:
                   shift 1
                   ;;
               --msp_file)
+                  [ -n "$VIASH_PAR_MSP_FILE" ] && ViashError Bad arguments for option \'--msp_file\': \'$VIASH_PAR_MSP_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MSP_FILE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --msp_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --msp_file=*)
+                  [ -n "$VIASH_PAR_MSP_FILE" ] && ViashError Bad arguments for option \'--msp_file=*\': \'$VIASH_PAR_MSP_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MSP_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_tolerance_for_identification)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_identification\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_tolerance_for_identification. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_tolerance_for_identification=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_identification=*\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --accurate_ms1_tolerance_for_identification)
+                  [ -n "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms1_tolerance_for_identification\': \'$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --accurate_ms1_tolerance_for_identification. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --accurate_ms1_tolerance_for_identification=*)
+                  [ -n "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms1_tolerance_for_identification=*\': \'$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --accurate_ms2_tolerance_for_identification)
+                  [ -n "$VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms2_tolerance_for_identification\': \'$VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --accurate_ms2_tolerance_for_identification. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --accurate_ms2_tolerance_for_identification=*)
+                  [ -n "$VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms2_tolerance_for_identification=*\': \'$VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --identification_score_cutoff)
+                  [ -n "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" ] && ViashError Bad arguments for option \'--identification_score_cutoff\': \'$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --identification_score_cutoff. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --identification_score_cutoff=*)
+                  [ -n "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" ] && ViashError Bad arguments for option \'--identification_score_cutoff=*\': \'$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --use_retention_information_for_identification_scoring)
+                  [ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" ] && ViashError Bad arguments for option \'--use_retention_information_for_identification_scoring\': \'$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_retention_information_for_identification_scoring. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --use_retention_information_for_identification_scoring=*)
+                  [ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" ] && ViashError Bad arguments for option \'--use_retention_information_for_identification_scoring=*\': \'$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --use_retention_information_for_identification_filtering)
+                  [ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" ] && ViashError Bad arguments for option \'--use_retention_information_for_identification_filtering\': \'$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_retention_information_for_identification_filtering. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --use_retention_information_for_identification_filtering=*)
+                  [ -n "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" ] && ViashError Bad arguments for option \'--use_retention_information_for_identification_filtering=*\': \'$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --post_identification_library_file)
+                  [ -n "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE" ] && ViashError Bad arguments for option \'--post_identification_library_file\': \'$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --post_identification_library_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --post_identification_library_file=*)
+                  [ -n "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE" ] && ViashError Bad arguments for option \'--post_identification_library_file=*\': \'$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_tolerance_for_post_identification)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_post_identification\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_tolerance_for_post_identification. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_tolerance_for_post_identification=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_post_identification=*\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --accurate_ms1_tolerance_for_post_identification)
+                  [ -n "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms1_tolerance_for_post_identification\': \'$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --accurate_ms1_tolerance_for_post_identification. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --accurate_ms1_tolerance_for_post_identification=*)
+                  [ -n "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION" ] && ViashError Bad arguments for option \'--accurate_ms1_tolerance_for_post_identification=*\': \'$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --post_identification_score_cutoff)
+                  [ -n "$VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF" ] && ViashError Bad arguments for option \'--post_identification_score_cutoff\': \'$VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --post_identification_score_cutoff. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --post_identification_score_cutoff=*)
+                  [ -n "$VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF" ] && ViashError Bad arguments for option \'--post_identification_score_cutoff=*\': \'$VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_tolerance_for_alignment)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_alignment\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_tolerance_for_alignment. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_tolerance_for_alignment=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--retention_time_tolerance_for_alignment=*\': \'$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms1_tolerance_for_alignment)
+                  [ -n "$VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--ms1_tolerance_for_alignment\': \'$VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_tolerance_for_alignment. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_tolerance_for_alignment=*)
+                  [ -n "$VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--ms1_tolerance_for_alignment=*\': \'$VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --retention_time_factor_for_alignment)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--retention_time_factor_for_alignment\': \'$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --retention_time_factor_for_alignment. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --retention_time_factor_for_alignment=*)
+                  [ -n "$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--retention_time_factor_for_alignment=*\': \'$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ms1_factor_for_alignment)
+                  [ -n "$VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--ms1_factor_for_alignment\': \'$VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ms1_factor_for_alignment. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ms1_factor_for_alignment=*)
+                  [ -n "$VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT" ] && ViashError Bad arguments for option \'--ms1_factor_for_alignment=*\': \'$VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --peak_count_filter)
+                  [ -n "$VIASH_PAR_PEAK_COUNT_FILTER" ] && ViashError Bad arguments for option \'--peak_count_filter\': \'$VIASH_PAR_PEAK_COUNT_FILTER\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_PEAK_COUNT_FILTER="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --peak_count_filter. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --peak_count_filter=*)
+                  [ -n "$VIASH_PAR_PEAK_COUNT_FILTER" ] && ViashError Bad arguments for option \'--peak_count_filter=*\': \'$VIASH_PAR_PEAK_COUNT_FILTER\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_PEAK_COUNT_FILTER=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --gap_filling_by_compulsion)
+                  [ -n "$VIASH_PAR_GAP_FILLING_BY_COMPULSION" ] && ViashError Bad arguments for option \'--gap_filling_by_compulsion\': \'$VIASH_PAR_GAP_FILLING_BY_COMPULSION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_GAP_FILLING_BY_COMPULSION="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --gap_filling_by_compulsion. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --gap_filling_by_compulsion=*)
+                  [ -n "$VIASH_PAR_GAP_FILLING_BY_COMPULSION" ] && ViashError Bad arguments for option \'--gap_filling_by_compulsion=*\': \'$VIASH_PAR_GAP_FILLING_BY_COMPULSION\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_GAP_FILLING_BY_COMPULSION=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --alignment_reference_file_id)
+                  [ -n "$VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID" ] && ViashError Bad arguments for option \'--alignment_reference_file_id\': \'$VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --alignment_reference_file_id. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --alignment_reference_file_id=*)
+                  [ -n "$VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID" ] && ViashError Bad arguments for option \'--alignment_reference_file_id=*\': \'$VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --remove_feature_based_on_peak_height_fold_change)
+                  [ -n "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" ] && ViashError Bad arguments for option \'--remove_feature_based_on_peak_height_fold_change\': \'$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --remove_feature_based_on_peak_height_fold_change. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --remove_feature_based_on_peak_height_fold_change=*)
+                  [ -n "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" ] && ViashError Bad arguments for option \'--remove_feature_based_on_peak_height_fold_change=*\': \'$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --pct_detected_in_at_least_one_group)
+                  [ -n "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" ] && ViashError Bad arguments for option \'--pct_detected_in_at_least_one_group\': \'$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --pct_detected_in_at_least_one_group. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --pct_detected_in_at_least_one_group=*)
+                  [ -n "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" ] && ViashError Bad arguments for option \'--pct_detected_in_at_least_one_group=*\': \'$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --sample_max_over_blank_average)
+                  [ -n "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" ] && ViashError Bad arguments for option \'--sample_max_over_blank_average\': \'$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --sample_max_over_blank_average. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --sample_max_over_blank_average=*)
+                  [ -n "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" ] && ViashError Bad arguments for option \'--sample_max_over_blank_average=*\': \'$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --sample_average_over_blank_average)
+                  [ -n "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" ] && ViashError Bad arguments for option \'--sample_average_over_blank_average\': \'$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --sample_average_over_blank_average. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --sample_average_over_blank_average=*)
+                  [ -n "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" ] && ViashError Bad arguments for option \'--sample_average_over_blank_average=*\': \'$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --keep_identified_metabolites)
+                  [ -n "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" ] && ViashError Bad arguments for option \'--keep_identified_metabolites\': \'$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_IDENTIFIED_METABOLITES="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_identified_metabolites. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --keep_identified_metabolites=*)
+                  [ -n "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" ] && ViashError Bad arguments for option \'--keep_identified_metabolites=*\': \'$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_IDENTIFIED_METABOLITES=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --keep_removable_features)
+                  [ -n "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" ] && ViashError Bad arguments for option \'--keep_removable_features\': \'$VIASH_PAR_KEEP_REMOVABLE_FEATURES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_REMOVABLE_FEATURES="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --keep_removable_features. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --keep_removable_features=*)
+                  [ -n "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" ] && ViashError Bad arguments for option \'--keep_removable_features=*\': \'$VIASH_PAR_KEEP_REMOVABLE_FEATURES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_KEEP_REMOVABLE_FEATURES=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --replace_true_zero)
+                  [ -n "$VIASH_PAR_REPLACE_TRUE_ZERO" ] && ViashError Bad arguments for option \'--replace_true_zero\': \'$VIASH_PAR_REPLACE_TRUE_ZERO\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_REPLACE_TRUE_ZERO="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --replace_true_zero. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --replace_true_zero=*)
+                  [ -n "$VIASH_PAR_REPLACE_TRUE_ZERO" ] && ViashError Bad arguments for option \'--replace_true_zero=*\': \'$VIASH_PAR_REPLACE_TRUE_ZERO\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_REPLACE_TRUE_ZERO=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --tracking_isotope_label)
+                  [ -n "$VIASH_PAR_TRACKING_ISOTOPE_LABEL" ] && ViashError Bad arguments for option \'--tracking_isotope_label\': \'$VIASH_PAR_TRACKING_ISOTOPE_LABEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_TRACKING_ISOTOPE_LABEL="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --tracking_isotope_label. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --tracking_isotope_label=*)
+                  [ -n "$VIASH_PAR_TRACKING_ISOTOPE_LABEL" ] && ViashError Bad arguments for option \'--tracking_isotope_label=*\': \'$VIASH_PAR_TRACKING_ISOTOPE_LABEL\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_TRACKING_ISOTOPE_LABEL=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --set_fully_labeled_reference_file)
+                  [ -n "$VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE" ] && ViashError Bad arguments for option \'--set_fully_labeled_reference_file\': \'$VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --set_fully_labeled_reference_file. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --set_fully_labeled_reference_file=*)
+                  [ -n "$VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE" ] && ViashError Bad arguments for option \'--set_fully_labeled_reference_file=*\': \'$VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --non_labeled_reference_id)
+                  [ -n "$VIASH_PAR_NON_LABELED_REFERENCE_ID" ] && ViashError Bad arguments for option \'--non_labeled_reference_id\': \'$VIASH_PAR_NON_LABELED_REFERENCE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_NON_LABELED_REFERENCE_ID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --non_labeled_reference_id. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --non_labeled_reference_id=*)
+                  [ -n "$VIASH_PAR_NON_LABELED_REFERENCE_ID" ] && ViashError Bad arguments for option \'--non_labeled_reference_id=*\': \'$VIASH_PAR_NON_LABELED_REFERENCE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_NON_LABELED_REFERENCE_ID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --fully_labeled_reference_id)
+                  [ -n "$VIASH_PAR_FULLY_LABELED_REFERENCE_ID" ] && ViashError Bad arguments for option \'--fully_labeled_reference_id\': \'$VIASH_PAR_FULLY_LABELED_REFERENCE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_FULLY_LABELED_REFERENCE_ID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --fully_labeled_reference_id. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --fully_labeled_reference_id=*)
+                  [ -n "$VIASH_PAR_FULLY_LABELED_REFERENCE_ID" ] && ViashError Bad arguments for option \'--fully_labeled_reference_id=*\': \'$VIASH_PAR_FULLY_LABELED_REFERENCE_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_FULLY_LABELED_REFERENCE_ID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --isotope_tracking_dictionary_id)
+                  [ -n "$VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID" ] && ViashError Bad arguments for option \'--isotope_tracking_dictionary_id\': \'$VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --isotope_tracking_dictionary_id. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --isotope_tracking_dictionary_id=*)
+                  [ -n "$VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID" ] && ViashError Bad arguments for option \'--isotope_tracking_dictionary_id=*\': \'$VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_execute)
+                  [ -n "$VIASH_PAR_CORRDEC_EXECUTE" ] && ViashError Bad arguments for option \'--corrdec_execute\': \'$VIASH_PAR_CORRDEC_EXECUTE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_EXECUTE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_execute. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_execute=*)
+                  [ -n "$VIASH_PAR_CORRDEC_EXECUTE" ] && ViashError Bad arguments for option \'--corrdec_execute=*\': \'$VIASH_PAR_CORRDEC_EXECUTE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_EXECUTE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_ms2_tolerance)
+                  [ -n "$VIASH_PAR_CORRDEC_MS2_TOLERANCE" ] && ViashError Bad arguments for option \'--corrdec_ms2_tolerance\': \'$VIASH_PAR_CORRDEC_MS2_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MS2_TOLERANCE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_ms2_tolerance. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_ms2_tolerance=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MS2_TOLERANCE" ] && ViashError Bad arguments for option \'--corrdec_ms2_tolerance=*\': \'$VIASH_PAR_CORRDEC_MS2_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MS2_TOLERANCE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_minimum_ms2_peak_height)
+                  [ -n "$VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT" ] && ViashError Bad arguments for option \'--corrdec_minimum_ms2_peak_height\': \'$VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_minimum_ms2_peak_height. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_minimum_ms2_peak_height=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT" ] && ViashError Bad arguments for option \'--corrdec_minimum_ms2_peak_height=*\': \'$VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_min_detected_samples)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES" ] && ViashError Bad arguments for option \'--corrdec_min_detected_samples\': \'$VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_min_detected_samples. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_min_detected_samples=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES" ] && ViashError Bad arguments for option \'--corrdec_min_detected_samples=*\': \'$VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_exclude_highly_correlated_spots)
+                  [ -n "$VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS" ] && ViashError Bad arguments for option \'--corrdec_exclude_highly_correlated_spots\': \'$VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_exclude_highly_correlated_spots. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_exclude_highly_correlated_spots=*)
+                  [ -n "$VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS" ] && ViashError Bad arguments for option \'--corrdec_exclude_highly_correlated_spots=*\': \'$VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_min_corr_ms2)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_CORR_MS2" ] && ViashError Bad arguments for option \'--corrdec_min_corr_ms2\': \'$VIASH_PAR_CORRDEC_MIN_CORR_MS2\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_CORR_MS2="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_min_corr_ms2. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_min_corr_ms2=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_CORR_MS2" ] && ViashError Bad arguments for option \'--corrdec_min_corr_ms2=*\': \'$VIASH_PAR_CORRDEC_MIN_CORR_MS2\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_CORR_MS2=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_margin_1)
+                  [ -n "$VIASH_PAR_CORRDEC_MARGIN_1" ] && ViashError Bad arguments for option \'--corrdec_margin_1\': \'$VIASH_PAR_CORRDEC_MARGIN_1\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MARGIN_1="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_margin_1. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_margin_1=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MARGIN_1" ] && ViashError Bad arguments for option \'--corrdec_margin_1=*\': \'$VIASH_PAR_CORRDEC_MARGIN_1\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MARGIN_1=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_margin_2)
+                  [ -n "$VIASH_PAR_CORRDEC_MARGIN_2" ] && ViashError Bad arguments for option \'--corrdec_margin_2\': \'$VIASH_PAR_CORRDEC_MARGIN_2\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MARGIN_2="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_margin_2. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_margin_2=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MARGIN_2" ] && ViashError Bad arguments for option \'--corrdec_margin_2=*\': \'$VIASH_PAR_CORRDEC_MARGIN_2\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MARGIN_2=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_min_detected_rate)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_DETECTED_RATE" ] && ViashError Bad arguments for option \'--corrdec_min_detected_rate\': \'$VIASH_PAR_CORRDEC_MIN_DETECTED_RATE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_DETECTED_RATE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_min_detected_rate. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_min_detected_rate=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_DETECTED_RATE" ] && ViashError Bad arguments for option \'--corrdec_min_detected_rate=*\': \'$VIASH_PAR_CORRDEC_MIN_DETECTED_RATE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_DETECTED_RATE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_min_ms2_relative_intensity)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY" ] && ViashError Bad arguments for option \'--corrdec_min_ms2_relative_intensity\': \'$VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_min_ms2_relative_intensity. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_min_ms2_relative_intensity=*)
+                  [ -n "$VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY" ] && ViashError Bad arguments for option \'--corrdec_min_ms2_relative_intensity=*\': \'$VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --corrdec_remove_peaks_larger_than_precursor)
+                  [ -n "$VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR" ] && ViashError Bad arguments for option \'--corrdec_remove_peaks_larger_than_precursor\': \'$VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --corrdec_remove_peaks_larger_than_precursor. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --corrdec_remove_peaks_larger_than_precursor=*)
+                  [ -n "$VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR" ] && ViashError Bad arguments for option \'--corrdec_remove_peaks_larger_than_precursor=*\': \'$VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --accumulated_rt_range)
+                  [ -n "$VIASH_PAR_ACCUMULATED_RT_RANGE" ] && ViashError Bad arguments for option \'--accumulated_rt_range\': \'$VIASH_PAR_ACCUMULATED_RT_RANGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCUMULATED_RT_RANGE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --accumulated_rt_range. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --accumulated_rt_range=*)
+                  [ -n "$VIASH_PAR_ACCUMULATED_RT_RANGE" ] && ViashError Bad arguments for option \'--accumulated_rt_range=*\': \'$VIASH_PAR_ACCUMULATED_RT_RANGE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_ACCUMULATED_RT_RANGE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --ccs_search_tolerance)
+                  [ -n "$VIASH_PAR_CCS_SEARCH_TOLERANCE" ] && ViashError Bad arguments for option \'--ccs_search_tolerance\': \'$VIASH_PAR_CCS_SEARCH_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CCS_SEARCH_TOLERANCE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --ccs_search_tolerance. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --ccs_search_tolerance=*)
+                  [ -n "$VIASH_PAR_CCS_SEARCH_TOLERANCE" ] && ViashError Bad arguments for option \'--ccs_search_tolerance=*\': \'$VIASH_PAR_CCS_SEARCH_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_CCS_SEARCH_TOLERANCE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --mobility_axis_alignment_tolerance)
+                  [ -n "$VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE" ] && ViashError Bad arguments for option \'--mobility_axis_alignment_tolerance\': \'$VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --mobility_axis_alignment_tolerance. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --mobility_axis_alignment_tolerance=*)
+                  [ -n "$VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE" ] && ViashError Bad arguments for option \'--mobility_axis_alignment_tolerance=*\': \'$VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --use_ccs_for_identification_scoring)
+                  [ -n "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING" ] && ViashError Bad arguments for option \'--use_ccs_for_identification_scoring\': \'$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_ccs_for_identification_scoring. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --use_ccs_for_identification_scoring=*)
+                  [ -n "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING" ] && ViashError Bad arguments for option \'--use_ccs_for_identification_scoring=*\': \'$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
               --use_ccs_for_identification_filtering)
+                  [ -n "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING" ] && ViashError Bad arguments for option \'--use_ccs_for_identification_filtering\': \'$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING="$2"
                   [ $# -lt 2 ] && ViashError Not enough arguments passed to --use_ccs_for_identification_filtering. Use "--help" to get more information on the parameters. && exit 1
                   shift 2
                   ;;
               --use_ccs_for_identification_filtering=*)
+                  [ -n "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING" ] && ViashError Bad arguments for option \'--use_ccs_for_identification_filtering=*\': \'$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
                   VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING=$(ViashRemoveFlags "$1")
                   shift 1
                   ;;
@@ -2822,9 +3080,32 @@ functionality:
                   VIASH_MODE='docker_debug'
                   shift 1
                   ;;
+              ---n_proc)
+                  [ -n "$VIASH_META_N_PROC" ] && ViashError Bad arguments for option \'---n_proc\': \'$VIASH_META_N_PROC\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+                  VIASH_META_N_PROC="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to ---n_proc. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              ---n_proc=*)
+                  [ -n "$VIASH_META_N_PROC" ] && ViashError Bad arguments for option \'---n_proc=*\': \'$VIASH_META_N_PROC\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+                  VIASH_META_N_PROC=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
+              ---memory)
+                  [ -n "$VIASH_META_MEMORY" ] && ViashError Bad arguments for option \'---memory\': \'$VIASH_META_MEMORY\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+                  VIASH_META_MEMORY="$2"
+                  [ $# -lt 2 ] && ViashError Not enough arguments passed to ---memory. Use "--help" to get more information on the parameters. && exit 1
+                  shift 2
+                  ;;
+              ---memory=*)
+                  [ -n "$VIASH_META_MEMORY" ] && ViashError Bad arguments for option \'---memory=*\': \'$VIASH_META_MEMORY\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+                  VIASH_META_MEMORY=$(ViashRemoveFlags "$1")
+                  shift 1
+                  ;;
               *)  # positional arg or unknown option
                   # since the positional args will be eval'd, can we always quote, instead of using ViashQuote
                   VIASH_POSITIONAL_ARGS="$VIASH_POSITIONAL_ARGS '$1'"
+                  [[ $1 == -* ]] && ViashWarning $1 looks like a parameter but is not a defined parameter and will instead be treated as a positional argument. Use "--help" to get more information on the parameters.
                   shift # past argument
                   ;;
           esac
@@ -2846,239 +3127,332 @@ functionality:
         exit 0
       fi
       
+      # helper function for parsing memory strings
+      function ViashMemoryAsBytes {
+        local memory=`echo "$1" | tr '[:upper:]' '[:lower:]' | tr -d '[:space:]'`
+        local memory_regex='^([0-9]+)([kmgtp]b?|b)$'
+        if [[ $memory =~ $memory_regex ]]; then
+          local number=${memory/[^0-9]*/}
+          local symbol=${memory/*[0-9]/}
+          
+          case $symbol in
+            b)      memory_b=$number ;;
+            kb|k)   memory_b=$(( $number * 1024 )) ;;
+            mb|m)   memory_b=$(( $number * 1024 * 1024 )) ;;
+            gb|g)   memory_b=$(( $number * 1024 * 1024 * 1024 )) ;;
+            tb|t)   memory_b=$(( $number * 1024 * 1024 * 1024 * 1024 )) ;;
+            pb|p)   memory_b=$(( $number * 1024 * 1024 * 1024 * 1024 * 1024 )) ;;
+          esac
+          echo "$memory_b"
+        fi
+      }
+      # compute memory in different units
+      if [ ! -z ${VIASH_META_MEMORY+x} ]; then
+        VIASH_META_MEMORY_B=`ViashMemoryAsBytes $VIASH_META_MEMORY`
+        # do not define other variables if memory_b is an empty string
+        if [ ! -z "$VIASH_META_MEMORY_B" ]; then
+          VIASH_META_MEMORY_KB=$(( ($VIASH_META_MEMORY_B+1023) / 1024 ))
+          VIASH_META_MEMORY_MB=$(( ($VIASH_META_MEMORY_KB+1023) / 1024 ))
+          VIASH_META_MEMORY_GB=$(( ($VIASH_META_MEMORY_MB+1023) / 1024 ))
+          VIASH_META_MEMORY_TB=$(( ($VIASH_META_MEMORY_GB+1023) / 1024 ))
+          VIASH_META_MEMORY_PB=$(( ($VIASH_META_MEMORY_TB+1023) / 1024 ))
+        else
+          # unset memory if string is empty
+          unset $VIASH_META_MEMORY_B
+        fi
+      fi
+      # unset nproc if string is empty
+      if [ -z "$VIASH_META_N_PROC" ]; then
+        unset $VIASH_META_N_PROC
+      fi
       
       
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_FUNCTIONALITY_NAME="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_RESOURCES_DIR="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_EXECUTABLE="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_TEMP_DIR="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_N_PROC="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_B="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_KB="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_MB="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_GB="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_TB="$1"
+        shift 1
+      fi
+      if [[ $# -gt 0 ]]; then
+        VIASH_META_MEMORY_PB="$1"
+        shift 1
+      fi
       
       # check whether required parameters exist
-      if [ -z "$VIASH_PAR_INPUT" ]; then
+      if [ -z ${VIASH_PAR_INPUT+x} ]; then
         ViashError '--input' is a required argument. Use "--help" to get more information on the parameters.
         exit 1
       fi
-      if [ -z "$VIASH_PAR_OUTPUT" ]; then
+      if [ -z ${VIASH_PAR_OUTPUT+x} ]; then
         ViashError '--output' is a required argument. Use "--help" to get more information on the parameters.
         exit 1
       fi
-      if [ -z "$VIASH_PAR_ADDUCT_LIST" ]; then
+      if [ -z ${VIASH_PAR_ADDUCT_LIST+x} ]; then
         ViashError '--adduct_list' is a required argument. Use "--help" to get more information on the parameters.
         exit 1
       fi
-      if [ -z "$VIASH_PAR_MS1_DATA_TYPE" ]; then
+      if [ -z ${VIASH_META_FUNCTIONALITY_NAME+x} ]; then
+        ViashError 'functionality_name' is a required argument. Use "--help" to get more information on the parameters.
+        exit 1
+      fi
+      if [ -z ${VIASH_META_RESOURCES_DIR+x} ]; then
+        ViashError 'resources_dir' is a required argument. Use "--help" to get more information on the parameters.
+        exit 1
+      fi
+      if [ -z ${VIASH_META_EXECUTABLE+x} ]; then
+        ViashError 'executable' is a required argument. Use "--help" to get more information on the parameters.
+        exit 1
+      fi
+      if [ -z ${VIASH_META_TEMP_DIR+x} ]; then
+        ViashError 'temp_dir' is a required argument. Use "--help" to get more information on the parameters.
+        exit 1
+      fi
+      if [ -z ${VIASH_PAR_MS1_DATA_TYPE+x} ]; then
         VIASH_PAR_MS1_DATA_TYPE="Profile"
       fi
-      if [ -z "$VIASH_PAR_MS2_DATA_TYPE" ]; then
+      if [ -z ${VIASH_PAR_MS2_DATA_TYPE+x} ]; then
         VIASH_PAR_MS2_DATA_TYPE="Profile"
       fi
-      if [ -z "$VIASH_PAR_ION_MODE" ]; then
+      if [ -z ${VIASH_PAR_ION_MODE+x} ]; then
         VIASH_PAR_ION_MODE="Positive"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_BEGIN" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_BEGIN+x} ]; then
         VIASH_PAR_RETENTION_TIME_BEGIN="0.0"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_END" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_END+x} ]; then
         VIASH_PAR_RETENTION_TIME_END="100.0"
       fi
-      if [ -z "$VIASH_PAR_MS1_MASS_RANGE_BEGIN" ]; then
+      if [ -z ${VIASH_PAR_MS1_MASS_RANGE_BEGIN+x} ]; then
         VIASH_PAR_MS1_MASS_RANGE_BEGIN="0.0"
       fi
-      if [ -z "$VIASH_PAR_MS1_MASS_RANGE_END" ]; then
+      if [ -z ${VIASH_PAR_MS1_MASS_RANGE_END+x} ]; then
         VIASH_PAR_MS1_MASS_RANGE_END="2000.0"
       fi
-      if [ -z "$VIASH_PAR_MS2_MASS_RANGE_BEGIN" ]; then
+      if [ -z ${VIASH_PAR_MS2_MASS_RANGE_BEGIN+x} ]; then
         VIASH_PAR_MS2_MASS_RANGE_BEGIN="0.0"
       fi
-      if [ -z "$VIASH_PAR_MS2_MASS_RANGE_END" ]; then
+      if [ -z ${VIASH_PAR_MS2_MASS_RANGE_END+x} ]; then
         VIASH_PAR_MS2_MASS_RANGE_END="2000.0"
       fi
-      if [ -z "$VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID" ]; then
+      if [ -z ${VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID+x} ]; then
         VIASH_PAR_MS1_TOLERANCE_FOR_CENTROID="0.01"
       fi
-      if [ -z "$VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID" ]; then
+      if [ -z ${VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID+x} ]; then
         VIASH_PAR_MS2_TOLERANCE_FOR_CENTROID="0.025"
       fi
-      if [ -z "$VIASH_PAR_MAX_CHARGED_NUMBER" ]; then
+      if [ -z ${VIASH_PAR_MAX_CHARGED_NUMBER+x} ]; then
         VIASH_PAR_MAX_CHARGED_NUMBER="2"
       fi
-      if [ -z "$VIASH_PAR_EXECUTE_RT_CORRECTION" ]; then
+      if [ -z ${VIASH_PAR_EXECUTE_RT_CORRECTION+x} ]; then
         VIASH_PAR_EXECUTE_RT_CORRECTION="false"
       fi
-      if [ -z "$VIASH_PAR_RT_CORRECTION_SMOOTHING" ]; then
+      if [ -z ${VIASH_PAR_RT_CORRECTION_SMOOTHING+x} ]; then
         VIASH_PAR_RT_CORRECTION_SMOOTHING="false"
       fi
-      if [ -z "$VIASH_PAR_USER_SETTING_INTERCEPT" ]; then
+      if [ -z ${VIASH_PAR_USER_SETTING_INTERCEPT+x} ]; then
         VIASH_PAR_USER_SETTING_INTERCEPT="0.0"
       fi
-      if [ -z "$VIASH_PAR_SMOOTHING_METHOD" ]; then
+      if [ -z ${VIASH_PAR_SMOOTHING_METHOD+x} ]; then
         VIASH_PAR_SMOOTHING_METHOD="LinearWeightedMovingAverage"
       fi
-      if [ -z "$VIASH_PAR_SMOOTHING_LEVEL" ]; then
+      if [ -z ${VIASH_PAR_SMOOTHING_LEVEL+x} ]; then
         VIASH_PAR_SMOOTHING_LEVEL="3"
       fi
-      if [ -z "$VIASH_PAR_MINIMUM_PEAK_WIDTH" ]; then
+      if [ -z ${VIASH_PAR_MINIMUM_PEAK_WIDTH+x} ]; then
         VIASH_PAR_MINIMUM_PEAK_WIDTH="5"
       fi
-      if [ -z "$VIASH_PAR_MINIMUM_PEAK_HEIGHT" ]; then
+      if [ -z ${VIASH_PAR_MINIMUM_PEAK_HEIGHT+x} ]; then
         VIASH_PAR_MINIMUM_PEAK_HEIGHT="1000"
       fi
-      if [ -z "$VIASH_PAR_MASS_SLICE_WIDTH" ]; then
+      if [ -z ${VIASH_PAR_MASS_SLICE_WIDTH+x} ]; then
         VIASH_PAR_MASS_SLICE_WIDTH="0.1"
       fi
-      if [ -z "$VIASH_PAR_SIGMA_WINDOW_VALUE" ]; then
+      if [ -z ${VIASH_PAR_SIGMA_WINDOW_VALUE+x} ]; then
         VIASH_PAR_SIGMA_WINDOW_VALUE="0.5"
       fi
-      if [ -z "$VIASH_PAR_AMPLITUDE_CUTOFF" ]; then
+      if [ -z ${VIASH_PAR_AMPLITUDE_CUTOFF+x} ]; then
         VIASH_PAR_AMPLITUDE_CUTOFF="0.0"
       fi
-      if [ -z "$VIASH_PAR_EXCLUDE_AFTER_PRECURSOR" ]; then
+      if [ -z ${VIASH_PAR_EXCLUDE_AFTER_PRECURSOR+x} ]; then
         VIASH_PAR_EXCLUDE_AFTER_PRECURSOR="true"
       fi
-      if [ -z "$VIASH_PAR_KEEP_ISOTOPE_UNTIL" ]; then
+      if [ -z ${VIASH_PAR_KEEP_ISOTOPE_UNTIL+x} ]; then
         VIASH_PAR_KEEP_ISOTOPE_UNTIL="0.5"
       fi
-      if [ -z "$VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES" ]; then
+      if [ -z ${VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES+x} ]; then
         VIASH_PAR_KEEP_ORIGINAL_PRECURSOR_ISOTOPES="false"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION+x} ]; then
         VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION="100.0"
       fi
-      if [ -z "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION" ]; then
+      if [ -z ${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION+x} ]; then
         VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_IDENTIFICATION="0.01"
       fi
-      if [ -z "$VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION" ]; then
+      if [ -z ${VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION+x} ]; then
         VIASH_PAR_ACCURATE_MS2_TOLERANCE_FOR_IDENTIFICATION="0.05"
       fi
-      if [ -z "$VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF" ]; then
+      if [ -z ${VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF+x} ]; then
         VIASH_PAR_IDENTIFICATION_SCORE_CUTOFF="80.0"
       fi
-      if [ -z "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING" ]; then
+      if [ -z ${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING+x} ]; then
         VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_SCORING="false"
       fi
-      if [ -z "$VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING" ]; then
+      if [ -z ${VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING+x} ]; then
         VIASH_PAR_USE_RETENTION_INFORMATION_FOR_IDENTIFICATION_FILTERING="false"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION+x} ]; then
         VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION="0.1"
       fi
-      if [ -z "$VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION" ]; then
+      if [ -z ${VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION+x} ]; then
         VIASH_PAR_ACCURATE_MS1_TOLERANCE_FOR_POST_IDENTIFICATION="0.01"
       fi
-      if [ -z "$VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF" ]; then
+      if [ -z ${VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF+x} ]; then
         VIASH_PAR_POST_IDENTIFICATION_SCORE_CUTOFF="85.0"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT+x} ]; then
         VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_ALIGNMENT="0.05"
       fi
-      if [ -z "$VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT" ]; then
+      if [ -z ${VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT+x} ]; then
         VIASH_PAR_MS1_TOLERANCE_FOR_ALIGNMENT="0.015"
       fi
-      if [ -z "$VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT" ]; then
+      if [ -z ${VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT+x} ]; then
         VIASH_PAR_RETENTION_TIME_FACTOR_FOR_ALIGNMENT="0.5"
       fi
-      if [ -z "$VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT" ]; then
+      if [ -z ${VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT+x} ]; then
         VIASH_PAR_MS1_FACTOR_FOR_ALIGNMENT="0.5"
       fi
-      if [ -z "$VIASH_PAR_PEAK_COUNT_FILTER" ]; then
+      if [ -z ${VIASH_PAR_PEAK_COUNT_FILTER+x} ]; then
         VIASH_PAR_PEAK_COUNT_FILTER="0.0"
       fi
-      if [ -z "$VIASH_PAR_GAP_FILLING_BY_COMPULSION" ]; then
+      if [ -z ${VIASH_PAR_GAP_FILLING_BY_COMPULSION+x} ]; then
         VIASH_PAR_GAP_FILLING_BY_COMPULSION="true"
       fi
-      if [ -z "$VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID" ]; then
+      if [ -z ${VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID+x} ]; then
         VIASH_PAR_ALIGNMENT_REFERENCE_FILE_ID="0"
       fi
-      if [ -z "$VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE" ]; then
+      if [ -z ${VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE+x} ]; then
         VIASH_PAR_REMOVE_FEATURE_BASED_ON_PEAK_HEIGHT_FOLD_CHANGE="false"
       fi
-      if [ -z "$VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP" ]; then
+      if [ -z ${VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP+x} ]; then
         VIASH_PAR_PCT_DETECTED_IN_AT_LEAST_ONE_GROUP="0.0"
       fi
-      if [ -z "$VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE" ]; then
+      if [ -z ${VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE+x} ]; then
         VIASH_PAR_SAMPLE_MAX_OVER_BLANK_AVERAGE="5.0"
       fi
-      if [ -z "$VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE" ]; then
+      if [ -z ${VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE+x} ]; then
         VIASH_PAR_SAMPLE_AVERAGE_OVER_BLANK_AVERAGE="5.0"
       fi
-      if [ -z "$VIASH_PAR_KEEP_IDENTIFIED_METABOLITES" ]; then
+      if [ -z ${VIASH_PAR_KEEP_IDENTIFIED_METABOLITES+x} ]; then
         VIASH_PAR_KEEP_IDENTIFIED_METABOLITES="true"
       fi
-      if [ -z "$VIASH_PAR_KEEP_REMOVABLE_FEATURES" ]; then
+      if [ -z ${VIASH_PAR_KEEP_REMOVABLE_FEATURES+x} ]; then
         VIASH_PAR_KEEP_REMOVABLE_FEATURES="true"
       fi
-      if [ -z "$VIASH_PAR_REPLACE_TRUE_ZERO" ]; then
+      if [ -z ${VIASH_PAR_REPLACE_TRUE_ZERO+x} ]; then
         VIASH_PAR_REPLACE_TRUE_ZERO="false"
       fi
-      if [ -z "$VIASH_PAR_TRACKING_ISOTOPE_LABEL" ]; then
+      if [ -z ${VIASH_PAR_TRACKING_ISOTOPE_LABEL+x} ]; then
         VIASH_PAR_TRACKING_ISOTOPE_LABEL="false"
       fi
-      if [ -z "$VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE" ]; then
+      if [ -z ${VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE+x} ]; then
         VIASH_PAR_SET_FULLY_LABELED_REFERENCE_FILE="false"
       fi
-      if [ -z "$VIASH_PAR_NON_LABELED_REFERENCE_ID" ]; then
+      if [ -z ${VIASH_PAR_NON_LABELED_REFERENCE_ID+x} ]; then
         VIASH_PAR_NON_LABELED_REFERENCE_ID="0"
       fi
-      if [ -z "$VIASH_PAR_FULLY_LABELED_REFERENCE_ID" ]; then
+      if [ -z ${VIASH_PAR_FULLY_LABELED_REFERENCE_ID+x} ]; then
         VIASH_PAR_FULLY_LABELED_REFERENCE_ID="0"
       fi
-      if [ -z "$VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID" ]; then
+      if [ -z ${VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID+x} ]; then
         VIASH_PAR_ISOTOPE_TRACKING_DICTIONARY_ID="0"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_EXECUTE" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_EXECUTE+x} ]; then
         VIASH_PAR_CORRDEC_EXECUTE="true"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MS2_TOLERANCE" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MS2_TOLERANCE+x} ]; then
         VIASH_PAR_CORRDEC_MS2_TOLERANCE="0.01"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT+x} ]; then
         VIASH_PAR_CORRDEC_MINIMUM_MS2_PEAK_HEIGHT="1000.0"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES+x} ]; then
         VIASH_PAR_CORRDEC_MIN_DETECTED_SAMPLES="3.0"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS+x} ]; then
         VIASH_PAR_CORRDEC_EXCLUDE_HIGHLY_CORRELATED_SPOTS="0.9"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MIN_CORR_MS2" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MIN_CORR_MS2+x} ]; then
         VIASH_PAR_CORRDEC_MIN_CORR_MS2="0.7"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MARGIN_1" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MARGIN_1+x} ]; then
         VIASH_PAR_CORRDEC_MARGIN_1="0.2"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MARGIN_2" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MARGIN_2+x} ]; then
         VIASH_PAR_CORRDEC_MARGIN_2="0.7"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MIN_DETECTED_RATE" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MIN_DETECTED_RATE+x} ]; then
         VIASH_PAR_CORRDEC_MIN_DETECTED_RATE="0.5"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY+x} ]; then
         VIASH_PAR_CORRDEC_MIN_MS2_RELATIVE_INTENSITY="2.0"
       fi
-      if [ -z "$VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR" ]; then
+      if [ -z ${VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR+x} ]; then
         VIASH_PAR_CORRDEC_REMOVE_PEAKS_LARGER_THAN_PRECURSOR="true"
       fi
-      if [ -z "$VIASH_PAR_ACCUMULATED_RT_RANGE" ]; then
+      if [ -z ${VIASH_PAR_ACCUMULATED_RT_RANGE+x} ]; then
         VIASH_PAR_ACCUMULATED_RT_RANGE="0.2"
       fi
-      if [ -z "$VIASH_PAR_CCS_SEARCH_TOLERANCE" ]; then
+      if [ -z ${VIASH_PAR_CCS_SEARCH_TOLERANCE+x} ]; then
         VIASH_PAR_CCS_SEARCH_TOLERANCE="10.0"
       fi
-      if [ -z "$VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE" ]; then
+      if [ -z ${VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE+x} ]; then
         VIASH_PAR_MOBILITY_AXIS_ALIGNMENT_TOLERANCE="0.02"
       fi
-      if [ -z "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING" ]; then
+      if [ -z ${VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING+x} ]; then
         VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_SCORING="false"
       fi
-      if [ -z "$VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING" ]; then
+      if [ -z ${VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING+x} ]; then
         VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING="true"
       fi
       
       
       # check whether parameters values are of the right type
-      
-      
-      
-      
-      
       if [ -n "$VIASH_PAR_BATCH" ]; then
-        IFS=;
+        IFS=';'
         set -f
         for val in $VIASH_PAR_BATCH; do
           if ! [[ "${val}" =~ ^[-+]?[0-9]+$ ]]; then
@@ -3091,7 +3465,7 @@ functionality:
       fi
       
       if [ -n "$VIASH_PAR_ANALYTICAL_ORDER" ]; then
-        IFS=;
+        IFS=';'
         set -f
         for val in $VIASH_PAR_ANALYTICAL_ORDER; do
           if ! [[ "${val}" =~ ^[-+]?[0-9]+$ ]]; then
@@ -3104,7 +3478,7 @@ functionality:
       fi
       
       if [ -n "$VIASH_PAR_INJECT_VOLUME" ]; then
-        IFS=;
+        IFS=';'
         set -f
         for val in $VIASH_PAR_INJECT_VOLUME; do
           if ! [[ "${val}" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
@@ -3115,10 +3489,6 @@ functionality:
         set +f
         unset IFS
       fi
-      
-      
-      
-      
       
       if [[ -n "$VIASH_PAR_RETENTION_TIME_BEGIN" ]]; then
         if ! [[ "$VIASH_PAR_RETENTION_TIME_BEGIN" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
@@ -3204,11 +3574,6 @@ functionality:
         fi
       fi
       
-      
-      
-      
-      
-      
       if [[ -n "$VIASH_PAR_SMOOTHING_LEVEL" ]]; then
         if ! [[ "$VIASH_PAR_SMOOTHING_LEVEL" =~ ^[-+]?[0-9]+$ ]]; then
           ViashError '--smoothing_level' has to be an integer. Use "--help" to get more information on the parameters.
@@ -3272,8 +3637,6 @@ functionality:
         fi
       fi
       
-      
-      
       if [[ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" ]]; then
         if ! [[ "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_IDENTIFICATION" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
           ViashError '--retention_time_tolerance_for_identification' has to be a double. Use "--help" to get more information on the parameters.
@@ -3315,7 +3678,6 @@ functionality:
           exit 1
         fi
       fi
-      
       
       if [[ -n "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION" ]]; then
         if ! [[ "$VIASH_PAR_RETENTION_TIME_TOLERANCE_FOR_POST_IDENTIFICATION" =~ ^[-+]?(\.[0-9]+|[0-9]+(\.[0-9]*)?)([eE][-+]?[0-9]+)?$ ]]; then
@@ -3583,6 +3945,55 @@ functionality:
         fi
       fi
       
+      if [[ -n "$VIASH_META_N_PROC" ]]; then
+        if ! [[ "$VIASH_META_N_PROC" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'n_proc' has to be an integer. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_B" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_B" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_b' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_KB" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_KB" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_kb' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_MB" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_MB" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_mb' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_GB" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_GB" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_gb' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_TB" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_TB" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_tb' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
+      if [[ -n "$VIASH_META_MEMORY_PB" ]]; then
+        if ! [[ "$VIASH_META_MEMORY_PB" =~ ^[-+]?[0-9]+$ ]]; then
+          ViashError 'memory_pb' has to be a long. Use "--help" to get more information on the parameters.
+          exit 1
+        fi
+      fi
+      
       
       # check whether parameters values are of the right type
       
@@ -3590,7 +4001,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_TYPE" ]; then
         VIASH_PAR_TYPE_CHOICES=("Sample;Standard;QC;Blank")
-        IFS=;
+        IFS=';'
         set -f
         for val in $VIASH_PAR_TYPE; do
           if ! [[ ";${VIASH_PAR_TYPE_CHOICES[*]};" =~ ";${val};" ]]; then
@@ -3608,7 +4019,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_MS1_DATA_TYPE" ]; then
         VIASH_PAR_MS1_DATA_TYPE_CHOICES=("Centroid:Profile")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_MS1_DATA_TYPE_CHOICES[*]}:" =~ ":$VIASH_PAR_MS1_DATA_TYPE:" ]]; then
           ViashError '--ms1_data_type' specified value of \'$VIASH_PAR_MS1_DATA_TYPE\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3620,7 +4031,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_MS2_DATA_TYPE" ]; then
         VIASH_PAR_MS2_DATA_TYPE_CHOICES=("Centroid:Profile")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_MS2_DATA_TYPE_CHOICES[*]}:" =~ ":$VIASH_PAR_MS2_DATA_TYPE:" ]]; then
           ViashError '--ms2_data_type' specified value of \'$VIASH_PAR_MS2_DATA_TYPE\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3632,7 +4043,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_ION_MODE" ]; then
         VIASH_PAR_ION_MODE_CHOICES=("Positive:Negative")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_ION_MODE_CHOICES[*]}:" =~ ":$VIASH_PAR_ION_MODE:" ]]; then
           ViashError '--ion_mode' specified value of \'$VIASH_PAR_ION_MODE\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3657,7 +4068,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_RT_DIFF_CALC_METHOD" ]; then
         VIASH_PAR_RT_DIFF_CALC_METHOD_CHOICES=("SampleMinusSampleAverage:SampleMinusReference")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_RT_DIFF_CALC_METHOD_CHOICES[*]}:" =~ ":$VIASH_PAR_RT_DIFF_CALC_METHOD:" ]]; then
           ViashError '--rt_diff_calc_method' specified value of \'$VIASH_PAR_RT_DIFF_CALC_METHOD\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3669,7 +4080,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN" ]; then
         VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN_CHOICES=("UserSetting:FirstPoint:LinearExtrapolation")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN_CHOICES[*]}:" =~ ":$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN:" ]]; then
           ViashError '--extrapolation_method_begin' specified value of \'$VIASH_PAR_EXTRAPOLATION_METHOD_BEGIN\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3681,7 +4092,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_EXTRAPOLATION_METHOD_END" ]; then
         VIASH_PAR_EXTRAPOLATION_METHOD_END_CHOICES=("lastpoint:LinearExtrapolation")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_EXTRAPOLATION_METHOD_END_CHOICES[*]}:" =~ ":$VIASH_PAR_EXTRAPOLATION_METHOD_END:" ]]; then
           ViashError '--extrapolation_method_end' specified value of \'$VIASH_PAR_EXTRAPOLATION_METHOD_END\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3694,7 +4105,7 @@ functionality:
       
       if [ ! -z "$VIASH_PAR_SMOOTHING_METHOD" ]; then
         VIASH_PAR_SMOOTHING_METHOD_CHOICES=("SimpleMovingAverage:LinearWeightedMovingAverage:SavitzkyGolayFilter:BinomialFilter")
-        IFS=:
+        IFS=':'
         set -f
         if ! [[ ":${VIASH_PAR_SMOOTHING_METHOD_CHOICES[*]}:" =~ ":$VIASH_PAR_SMOOTHING_METHOD:" ]]; then
           ViashError '--smoothing_method' specified value of \'$VIASH_PAR_SMOOTHING_METHOD\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
@@ -3703,6 +4114,17 @@ functionality:
         set +f
         unset IFS
       fi
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       
       
       
@@ -3795,15 +4217,18 @@ functionality:
         VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE")"
         VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE=$(ViashAutodetectMount "$VIASH_PAR_POST_IDENTIFICATION_LIBRARY_FILE")
       fi
-      
-      # Always mount the resource directory
-      VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_META_RESOURCES_DIR")"
-      VIASH_META_RESOURCES_DIR=$(ViashAutodetectMount "$VIASH_META_RESOURCES_DIR")
-      VIASH_META_EXECUTABLE=$(ViashAutodetectMount "$VIASH_META_EXECUTABLE")
-      
-      # Always mount the VIASH_TEMP directory
-      VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_TEMP")"
-      VIASH_TEMP=$(ViashAutodetectMount "$VIASH_TEMP")
+      if [ ! -z "$VIASH_META_RESOURCES_DIR" ]; then
+        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_META_RESOURCES_DIR")"
+        VIASH_META_RESOURCES_DIR=$(ViashAutodetectMount "$VIASH_META_RESOURCES_DIR")
+      fi
+      if [ ! -z "$VIASH_META_EXECUTABLE" ]; then
+        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_META_EXECUTABLE")"
+        VIASH_META_EXECUTABLE=$(ViashAutodetectMount "$VIASH_META_EXECUTABLE")
+      fi
+      if [ ! -z "$VIASH_META_TEMP_DIR" ]; then
+        VIASH_EXTRA_MOUNTS="$VIASH_EXTRA_MOUNTS $(ViashAutodetectMountArg "$VIASH_META_TEMP_DIR")"
+        VIASH_META_TEMP_DIR=$(ViashAutodetectMount "$VIASH_META_TEMP_DIR")
+      fi
       # change file ownership
       function ViashPerformChown {
         
@@ -3813,10 +4238,18 @@ functionality:
       }
       trap ViashPerformChown EXIT
       
+      # helper function for filling in extra docker args
+      VIASH_EXTRA_DOCKER_ARGS=""
+      if [ ! -z "$VIASH_META_MEMORY_MB" ]; then
+        VIASH_EXTRA_DOCKER_ARGS="$VIASH_EXTRA_DOCKER_ARGS --memory=${VIASH_META_MEMORY_MB}m"
+      fi
+      if [ ! -z "$VIASH_META_N_PROC" ]; then
+        VIASH_EXTRA_DOCKER_ARGS="$VIASH_EXTRA_DOCKER_ARGS --cpus=${VIASH_META_N_PROC}"
+      fi
       
-      cat << VIASHEOF | eval docker run --entrypoint=bash -i --rm $VIASH_EXTRA_MOUNTS ghcr.io/czbiohub/mspipelines/msdial_msdial_lcms:main_build
+      cat << VIASHEOF | eval docker run --entrypoint=bash -i --rm $VIASH_EXTRA_MOUNTS $VIASH_EXTRA_DOCKER_ARGS ghcr.io/czbiohub/mspipelines/msdial_msdial_lcms:main_build
       set -e
-      tempscript=\$(mktemp "$VIASH_TEMP/viash-run-msdial_lcms-XXXXXX")
+      tempscript=\$(mktemp "$VIASH_META_TEMP_DIR/viash-run-msdial_lcms-XXXXXX")
       function clean_up {
         rm "\$tempscript"
       }
@@ -3925,13 +4358,18 @@ functionality:
         'use_ccs_for_identification_filtering': $( if [ ! -z ${VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING+x} ]; then echo "'${VIASH_PAR_USE_CCS_FOR_IDENTIFICATION_FILTERING//\'/\\\'}'.lower() == 'true'"; else echo None; fi )
       }
       meta = {
-        'functionality_name': '$VIASH_META_FUNCTIONALITY_NAME',
-        'resources_dir': '$VIASH_META_RESOURCES_DIR',
-        'executable': '$VIASH_META_EXECUTABLE',
-        'temp_dir': '$VIASH_TEMP'
+        'functionality_name': $( if [ ! -z ${VIASH_META_FUNCTIONALITY_NAME+x} ]; then echo "'${VIASH_META_FUNCTIONALITY_NAME//\'/\\\'}'"; else echo None; fi ),
+        'resources_dir': $( if [ ! -z ${VIASH_META_RESOURCES_DIR+x} ]; then echo "'${VIASH_META_RESOURCES_DIR//\'/\\\'}'"; else echo None; fi ),
+        'executable': $( if [ ! -z ${VIASH_META_EXECUTABLE+x} ]; then echo "'${VIASH_META_EXECUTABLE//\'/\\\'}'"; else echo None; fi ),
+        'temp_dir': $( if [ ! -z ${VIASH_META_TEMP_DIR+x} ]; then echo "'${VIASH_META_TEMP_DIR//\'/\\\'}'"; else echo None; fi ),
+        'n_proc': $( if [ ! -z ${VIASH_META_N_PROC+x} ]; then echo "int('${VIASH_META_N_PROC//\'/\\\'}')"; else echo None; fi ),
+        'memory_b': $( if [ ! -z ${VIASH_META_MEMORY_B+x} ]; then echo "int('${VIASH_META_MEMORY_B//\'/\\\'}')"; else echo None; fi ),
+        'memory_kb': $( if [ ! -z ${VIASH_META_MEMORY_KB+x} ]; then echo "int('${VIASH_META_MEMORY_KB//\'/\\\'}')"; else echo None; fi ),
+        'memory_mb': $( if [ ! -z ${VIASH_META_MEMORY_MB+x} ]; then echo "int('${VIASH_META_MEMORY_MB//\'/\\\'}')"; else echo None; fi ),
+        'memory_gb': $( if [ ! -z ${VIASH_META_MEMORY_GB+x} ]; then echo "int('${VIASH_META_MEMORY_GB//\'/\\\'}')"; else echo None; fi ),
+        'memory_tb': $( if [ ! -z ${VIASH_META_MEMORY_TB+x} ]; then echo "int('${VIASH_META_MEMORY_TB//\'/\\\'}')"; else echo None; fi ),
+        'memory_pb': $( if [ ! -z ${VIASH_META_MEMORY_PB+x} ]; then echo "int('${VIASH_META_MEMORY_PB//\'/\\\'}')"; else echo None; fi )
       }
-      
-      resources_dir = '$VIASH_META_RESOURCES_DIR'
       
       ## VIASH END
       
@@ -4126,9 +4564,10 @@ functionality:
   - type: "file"
     path: "../../../resources_test/msdial_demo_files/raw/LCMS_DIA"
   info: {}
-  dummy_arguments: []
+  status: "enabled"
+  requirements:
+    commands: []
   set_wd_to_resources_dir: false
-  enabled: true
 platform:
   type: "docker"
   id: "docker"
@@ -4181,6 +4620,6 @@ info:
   platform: "docker"
   output: "target/docker/msdial/msdial_lcms"
   executable: "target/docker/msdial/msdial_lcms/msdial_lcms"
-  viash_version: "0.5.15"
-  git_commit: "6f5d05a1e29442be761b10e84b88f267e3a84eda"
+  viash_version: "0.6.0"
+  git_commit: "93085e6e2e3b182b7087264d0ba0566f847ec3ea"
   git_remote: "https://github.com/czbiohub/mspipelines"

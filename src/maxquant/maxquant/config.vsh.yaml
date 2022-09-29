@@ -8,82 +8,86 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
-  inputs:
-    - name: "--input"
-      type: file
-      required: true
-      multiple: true
-      description: One or more Thermo Raw files.
-      example: input.raw
-    # - name: "--input_meta"
-    #   type: file
-    #   required: true
-    #   example: input_meta.csv
-    #   description: "CSV file containing columns 'id', 'path', 'fractions', 'ptms', 'paramGroupIndices', 'referenceChannel'."
-    - name: "--reference"
-      type: file
-      required: true
-      multiple: true
-      example: reference.fasta
-      description: A reference file in fasta format.
-  outputs:
-    - name: "--output"
-      type: file
-      direction: output
-      required: true
-      example: output_dir
-      description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
-  arguments:
-    # input related
-    # global > sequences
-    - name: "--ref_taxonomy_id"
-      type: string
-      multiple: true
-      example: "9606"
-      description: |
-        Taxonomy ID. Length must match --reference parameter. 
-        Common taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.
-    # other
-    - name: "--match_between_runs"
-      type: boolean
-      default: false
-      description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
-    # global > tables
-    ## if DDA, DIA doesn't need to be returned
-    - name: "--write_tables"
-      type: string
-      multiple: true
-      default: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
-      choices: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
-      description: "Which tables to write out."
-    # group-specific parameters
-    - name: "--ms_instrument"
-      type: string
-      default: "Bruker TIMS"
-      choices: ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"]
-      description: "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters."
-    - name: "--lcms_run_type"
-      type: string
-      choices: [Standard, "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"]
-      description: "The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'."
-      default: Standard
-    - name: "--lfq_mode"
-      type: string
-      choices: ["None", "LFQ"]
-      default: "LFQ"
-      description: "Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'."
-    # platform 
-    - name: "--num_cores"
-      type: integer
-      example: 30
-      description: "Number of cores to use during the analysis."
-    - name: "--dryrun"
-      type: boolean_true
-      description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+  argument_groups:
+    - name: Inputs
+      arguments:
+        - name: "--input"
+          type: file
+          required: true
+          multiple: true
+          description: One or more Thermo Raw files.
+          example: input.raw
+        # - name: "--input_meta"
+        #   type: file
+        #   required: true
+        #   example: input_meta.csv
+        #   description: "CSV file containing columns 'id', 'path', 'fractions', 'ptms', 'paramGroupIndices', 'referenceChannel'."
+        - name: "--reference"
+          type: file
+          required: true
+          multiple: true
+          example: reference.fasta
+          description: A reference file in fasta format.
+    - name: Outputs
+      arguments:
+        - name: "--output"
+          type: file
+          direction: output
+          required: true
+          example: output_dir
+          description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
+    - name: Arguments
+      arguments:
+        # input related
+        # global > sequences
+        - name: "--ref_taxonomy_id"
+          type: string
+          multiple: true
+          example: "9606"
+          description: |
+            Taxonomy ID. Length must match --reference parameter. 
+            Common taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.
+        # other
+        - name: "--match_between_runs"
+          type: boolean
+          default: false
+          description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
+        # global > tables
+        ## if DDA, DIA doesn't need to be returned
+        - name: "--write_tables"
+          type: string
+          multiple: true
+          default: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+          choices: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+          description: "Which tables to write out."
+        # group-specific parameters
+        - name: "--ms_instrument"
+          type: string
+          default: "Bruker TIMS"
+          choices: ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"]
+          description: "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters."
+        - name: "--lcms_run_type"
+          type: string
+          choices: [Standard, "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"]
+          description: "The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'."
+          default: Standard
+        - name: "--lfq_mode"
+          type: string
+          choices: ["None", "LFQ"]
+          default: "LFQ"
+          description: "Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'."
+        # platform 
+        - name: "--dryrun"
+          type: boolean_true
+          description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
   resources:
     - type: python_script
       path: script.py
     - path: settings
+  test_resources:
+    - type: bash_script
+      path: test.py
+    - path: ../../../resources_test/zenodo_4274987
 platforms:
   - type: docker
     image: python:3.10

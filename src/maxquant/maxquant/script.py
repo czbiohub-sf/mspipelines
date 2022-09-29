@@ -218,7 +218,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    <name>session1</name>
    <maxQuantVersion>2.0.3.0</maxQuantVersion>
    <pluginFolder></pluginFolder>
-   <numThreads>{par["num_cores"]}</numThreads>
+   <numThreads>{meta["n_proc"] if meta["n_proc"] else "1"}</numThreads>
    <emailAddress></emailAddress>
    <smtpHost></smtpHost>
    <emailFromAddress></emailFromAddress>
@@ -237,13 +237,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
    </filePaths>
    <experiments>{''.join([ f"{endl}      <string>{exp}</string>" for exp in experiment_names ])}
    </experiments>
-   <fractions>{''.join([ f"{endl}      <short>32767</short>" for file in par["input"] ])}
+   <fractions>{''.join([ f"{endl}      <short>32767</short>" for _ in par["input"] ])}
    </fractions>
-   <ptms>{''.join([ f"{endl}      <boolean>False</boolean>" for file in par["input"] ])}
+   <ptms>{''.join([ f"{endl}      <boolean>False</boolean>" for _ in par["input"] ])}
    </ptms>
-   <paramGroupIndices>{''.join([ f"{endl}      <int>0</int>" for file in par["input"] ])}
+   <paramGroupIndices>{''.join([ f"{endl}      <int>0</int>" for _ in par["input"] ])}
    </paramGroupIndices>
-   <referenceChannel>{''.join([ f"{endl}      <string></string>" for file in par["input"] ])}
+   <referenceChannel>{''.join([ f"{endl}      <string></string>" for _ in par["input"] ])}
    </referenceChannel>
    <intensPred>False</intensPred>
    <intensPredModelReTrain>False</intensPredModelReTrain>

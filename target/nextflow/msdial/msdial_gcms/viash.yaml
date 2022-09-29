@@ -25,6 +25,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   outputs:
   - type: "file"
     name: "--output"
@@ -38,6 +39,7 @@ functionality:
     direction: "output"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   arguments:
   - type: "string"
     name: "--name"
@@ -53,6 +55,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--type"
     alternatives: []
@@ -69,6 +72,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--class_id"
     alternatives: []
@@ -83,6 +87,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "integer"
     name: "--batch"
     alternatives: []
@@ -97,6 +102,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "integer"
     name: "--analytical_order"
     alternatives: []
@@ -111,6 +117,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "double"
     name: "--inject_volume"
     alternatives: []
@@ -125,6 +132,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--data_type"
     alternatives: []
@@ -138,6 +146,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--ion_mode"
     alternatives: []
@@ -151,6 +160,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--accuracy_type"
     alternatives: []
@@ -164,6 +174,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_begin"
     alternatives: []
@@ -174,6 +185,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_end"
     alternatives: []
@@ -184,6 +196,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mass_range_begin"
     alternatives: []
@@ -194,6 +207,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mass_range_end"
     alternatives: []
@@ -204,6 +218,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--smoothing_method"
     alternatives: []
@@ -219,6 +234,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--smoothing_level"
     alternatives: []
@@ -230,6 +246,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--average_peak_width"
     alternatives: []
@@ -241,6 +258,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "integer"
     name: "--minimum_peak_height"
     alternatives: []
@@ -252,6 +270,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mass_slice_width"
     alternatives: []
@@ -262,6 +281,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--mass_accuracy"
     alternatives: []
@@ -272,6 +292,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sigma_window_value"
     alternatives: []
@@ -282,6 +303,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--amplitude_cutoff"
     alternatives: []
@@ -292,6 +314,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "file"
     name: "--msp_file"
     alternatives: []
@@ -303,6 +326,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "file"
     name: "--ri_index_file"
     alternatives: []
@@ -314,6 +338,7 @@ functionality:
     direction: "input"
     multiple: true
     multiple_sep: ";"
+    dest: "par"
   - type: "string"
     name: "--retention_type"
     alternatives: []
@@ -327,6 +352,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--ri_compound"
     alternatives: []
@@ -340,6 +366,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_tolerance_for_identification"
     alternatives: []
@@ -350,6 +377,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_index_tolerance_for_identification"
     alternatives: []
@@ -360,6 +388,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ei_similarity_tolerance_for_identification"
     alternatives: []
@@ -370,6 +399,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--identification_score_cutoff"
     alternatives: []
@@ -380,6 +410,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_retention_information_for_identification_scoring"
     alternatives: []
@@ -390,6 +421,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--use_retention_information_for_identification_filtering"
     alternatives: []
@@ -400,6 +432,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--only_report_top_hit"
     alternatives: []
@@ -410,6 +443,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "string"
     name: "--alignment_index_type"
     alternatives: []
@@ -423,6 +457,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_tolerance_for_alignment"
     alternatives: []
@@ -433,6 +468,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_index_tolerance_for_alignment"
     alternatives: []
@@ -443,6 +479,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ei_similarity_tolerance_for_alignment"
     alternatives: []
@@ -453,6 +490,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--retention_time_factor_for_alignment"
     alternatives: []
@@ -463,6 +501,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--ei_similarity_factor_for_alignment"
     alternatives: []
@@ -473,6 +512,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--peak_count_filter"
     alternatives: []
@@ -483,6 +523,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--remove_feature_based_on_peak_height_fold_change"
     alternatives: []
@@ -493,6 +534,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--pct_detected_in_at_least_one_group"
     alternatives: []
@@ -503,6 +545,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sample_max_over_blank_average"
     alternatives: []
@@ -513,6 +556,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "double"
     name: "--sample_average_over_blank_average"
     alternatives: []
@@ -523,6 +567,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--keep_identified_metabolites"
     alternatives: []
@@ -533,6 +578,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--keep_removable_features"
     alternatives: []
@@ -544,6 +590,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   - type: "boolean"
     name: "--replace_true_zero"
     alternatives: []
@@ -556,6 +603,7 @@ functionality:
     direction: "input"
     multiple: false
     multiple_sep: ":"
+    dest: "par"
   argument_groups:
   - name: "Inputs"
     arguments:
@@ -623,7 +671,7 @@ functionality:
     text: |
       // msdial_gcms main_build
       // 
-      // This wrapper script is auto-generated by viash 0.5.15 and is thus a derivative
+      // This wrapper script is auto-generated by viash 0.6.0 and is thus a derivative
       // work thereof. This software comes with ABSOLUTELY NO WARRANTY from Data
       // Intuitive.
       // 
@@ -679,7 +727,8 @@ functionality:
             "required" : true,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           }
         ],
         "outputs" : [
@@ -694,7 +743,8 @@ functionality:
             "required" : true,
             "direction" : "output",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           }
         ],
         "arguments" : [
@@ -710,7 +760,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -728,7 +779,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -742,7 +794,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "integer",
@@ -756,7 +809,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "integer",
@@ -770,7 +824,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -784,7 +839,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -799,7 +855,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -814,7 +871,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -829,7 +887,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -840,7 +899,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -851,7 +911,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -862,7 +923,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -873,7 +935,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -890,7 +953,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "integer",
@@ -901,7 +965,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "integer",
@@ -912,7 +977,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "integer",
@@ -923,7 +989,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -934,7 +1001,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -945,7 +1013,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -956,7 +1025,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -967,7 +1037,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "file",
@@ -979,7 +1050,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "file",
@@ -991,7 +1063,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : true,
-            "multiple_sep" : ";"
+            "multiple_sep" : ";",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -1006,7 +1079,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -1021,7 +1095,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1032,7 +1107,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1043,7 +1119,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1054,7 +1131,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1065,7 +1143,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1076,7 +1155,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1087,7 +1167,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1098,7 +1179,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "string",
@@ -1113,7 +1195,8 @@ functionality:
             ],
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1124,7 +1207,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1135,7 +1219,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1146,7 +1231,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1157,7 +1243,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1168,7 +1255,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1179,7 +1267,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1190,7 +1279,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1201,7 +1291,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1212,7 +1303,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "double",
@@ -1223,7 +1315,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1234,7 +1327,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1246,7 +1340,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           },
           {
             "type" : "boolean",
@@ -1258,7 +1353,8 @@ functionality:
             "required" : false,
             "direction" : "input",
             "multiple" : false,
-            "multiple_sep" : ":"
+            "multiple_sep" : ":",
+            "dest" : "par"
           }
         ],
         "argument_groups" : [
@@ -1367,8 +1463,8 @@ functionality:
             "parent" : "file:/home/runner/work/mspipelines/mspipelines/src/msdial/msdial_gcms/config.vsh.yaml"
           }
         ],
-        "set_wd_to_resources_dir" : false,
-        "enabled" : true
+        "status" : "enabled",
+        "set_wd_to_resources_dir" : false
       }''')
       ])
       
@@ -1437,13 +1533,18 @@ functionality:
         'replace_true_zero': $( if [ ! -z ${VIASH_PAR_REPLACE_TRUE_ZERO+x} ]; then echo "'${VIASH_PAR_REPLACE_TRUE_ZERO//\\'/\\\\\\'}'.lower() == 'true'"; else echo None; fi )
       }
       meta = {
-        'functionality_name': '$VIASH_META_FUNCTIONALITY_NAME',
-        'resources_dir': '$VIASH_META_RESOURCES_DIR',
-        'executable': '$VIASH_META_EXECUTABLE',
-        'temp_dir': '$VIASH_TEMP'
+        'functionality_name': $( if [ ! -z ${VIASH_META_FUNCTIONALITY_NAME+x} ]; then echo "'${VIASH_META_FUNCTIONALITY_NAME//\\'/\\\\\\'}'"; else echo None; fi ),
+        'resources_dir': $( if [ ! -z ${VIASH_META_RESOURCES_DIR+x} ]; then echo "'${VIASH_META_RESOURCES_DIR//\\'/\\\\\\'}'"; else echo None; fi ),
+        'executable': $( if [ ! -z ${VIASH_META_EXECUTABLE+x} ]; then echo "'${VIASH_META_EXECUTABLE//\\'/\\\\\\'}'"; else echo None; fi ),
+        'temp_dir': $( if [ ! -z ${VIASH_META_TEMP_DIR+x} ]; then echo "'${VIASH_META_TEMP_DIR//\\'/\\\\\\'}'"; else echo None; fi ),
+        'n_proc': $( if [ ! -z ${VIASH_META_N_PROC+x} ]; then echo "int('${VIASH_META_N_PROC//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_b': $( if [ ! -z ${VIASH_META_MEMORY_B+x} ]; then echo "int('${VIASH_META_MEMORY_B//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_kb': $( if [ ! -z ${VIASH_META_MEMORY_KB+x} ]; then echo "int('${VIASH_META_MEMORY_KB//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_mb': $( if [ ! -z ${VIASH_META_MEMORY_MB+x} ]; then echo "int('${VIASH_META_MEMORY_MB//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_gb': $( if [ ! -z ${VIASH_META_MEMORY_GB+x} ]; then echo "int('${VIASH_META_MEMORY_GB//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_tb': $( if [ ! -z ${VIASH_META_MEMORY_TB+x} ]; then echo "int('${VIASH_META_MEMORY_TB//\\'/\\\\\\'}')"; else echo None; fi ),
+        'memory_pb': $( if [ ! -z ${VIASH_META_MEMORY_PB+x} ]; then echo "int('${VIASH_META_MEMORY_PB//\\'/\\\\\\'}')"; else echo None; fi )
       }
-      
-      resources_dir = '$VIASH_META_RESOURCES_DIR'
       
       ## VIASH END
       
@@ -1775,22 +1876,27 @@ functionality:
       
       // based on how Functionality.scala is implemented
       def processArgumentGroup(argumentGroups, name, arguments) {
-        def argNamesInGroups = argumentGroups.collect{it.arguments}.flatten().toSet()
+        def argNamesInGroups = argumentGroups.collectMany{it.arguments.findAll{it instanceof String}}.toSet()
       
         // Check if 'arguments' is in 'argumentGroups'. 
-        def argumentsNotInGroup = arguments.collect{it.plainName}.findAll{argName -> !argNamesInGroups.contains(argName)}
+        def argumentsNotInGroup = arguments.findAll{arg -> !(argNamesInGroups.contains(arg.plainName))}
       
         // Check whether an argument group of 'name' exists.
         def existing = argumentGroups.find{gr -> name == gr.name}
       
+        // if there are no arguments missing from the argument group, just return the existing group (if any)
         if (argumentsNotInGroup.isEmpty()) {
           return existing == null ? [] : [existing]
+        
+        // if there are missing arguments and there is an existing group, add the missing arguments to it
         } else if (existing != null) {
           def newEx = existing.clone()
-          newEx.arguments.addAll(argumentsNotInGroup)
+          newEx.arguments.addAll(argumentsNotInGroup.findAll{it !instanceof String})
           return [newEx]
+      
+        // else create a new group
         } else {
-          def newEx = [name: name, arguments: argumentsNotInGroup]
+          def newEx = [name: name, arguments: argumentsNotInGroup.findAll{it !instanceof String}]
           return [newEx]
         }
       }
@@ -1798,6 +1904,12 @@ functionality:
       // based on how Functionality.scala is implemented
       def processConfig(config) {
         // TODO: assert .functionality etc.
+        if (config.functionality.inputs) {
+          System.err.println("Warning: .functionality.inputs is deprecated. Please use .functionality.arguments instead.")
+        }
+        if (config.functionality.outputs) {
+          System.err.println("Warning: .functionality.outputs is deprecated. Please use .functionality.arguments instead.")
+        }
       
         // set defaults for inputs
         config.functionality.inputs = 
@@ -1818,25 +1930,31 @@ functionality:
           (config.functionality.arguments ?: []).collect{arg ->
             processArgument(arg)
           }
+        // set defaults for argument_group arguments
+        config.functionality.argument_groups =
+          (config.functionality.argument_groups ?: []).collect{grp ->
+            grp.arguments = (grp.arguments ?: []).collect{arg ->
+              arg instanceof String ? arg.replaceAll("^-*", "") : processArgument(arg)
+            }
+            grp
+          }
+      
         // create combined arguments list
         config.functionality.allArguments = 
           config.functionality.inputs +
           config.functionality.outputs +
-          config.functionality.arguments
-        
-        // remove leading dashes for argument names in argument groups
-        def argGroups = 
-          (config.functionality.argument_groups ?: []).collect{grp ->
-            grp.arguments = (grp.arguments ?: []).collect{arg_name -> arg_name.replaceAll("^-*", "")}
-            grp
+          config.functionality.arguments +
+          config.functionality.argument_groups.collectMany{ group ->
+            group.arguments.findAll{ it !instanceof String }
           }
         
         // add missing argument groups (based on Functionality::allArgumentGroups())
+        def argGroups = config.functionality.argument_groups
         def inputGroup = processArgumentGroup(argGroups, "Inputs", config.functionality.inputs)
         def outputGroup = processArgumentGroup(argGroups, "Outputs", config.functionality.outputs)
         def defaultGroup = processArgumentGroup(argGroups, "Arguments", config.functionality.arguments)
         def groupsFiltered = argGroups.findAll(gr -> !(["Inputs", "Outputs", "Arguments"].contains(gr.name)))
-        config.functionality.argument_groups = inputGroup + outputGroup + groupsFiltered + defaultGroup
+        config.functionality.allArgumentGroups = inputGroup + outputGroup + defaultGroup + groupsFiltered
       
         config
       }
@@ -1863,42 +1981,36 @@ functionality:
       def addGlobalParams(config) {
         def localConfig = [
           "functionality" : [
-            "arguments": [
-              [
-                'name': '--publish_dir',
-                'required': true,
-                'type': 'string',
-                'description': 'Path to an output directory.',
-                'example': 'output/',
-                'multiple': false
-              ],
-              [
-                'name': '--param_list',
-                'required': false,
-                'type': 'string',
-                'description': '''Allows inputting multiple parameter sets to initialise a Nextflow channel. Possible formats are csv, json, yaml, or simply a yaml_blob.
-                |A csv should have column names which correspond to the different arguments of this pipeline.
-                |A json or a yaml file should be a list of maps, each of which has keys corresponding to the arguments of the pipeline.
-                |A yaml blob can also be passed directly as a parameter.
-                |Inside the Nextflow pipeline code, params.params_list can also be used to directly a list of parameter sets.
-                |When passing a csv, json or yaml, relative path names are relativized to the location of the parameter file.'''.stripMargin(),
-                'example': 'my_params.yaml',
-                'multiple': false
-              ],
-              [
-                'name': '--param_list_format',
-                'required': false,
-                'type': 'string',
-                'description': 'Manually specify the param_list_format. Must be one of \'csv\', \'json\', \'yaml\', \'yaml_blob\', \'asis\' or \'none\'.',
-                'example': 'yaml',
-                'choices': ['csv', 'json', 'yaml', 'yaml_blob', 'asis', 'none'],
-                'multiple': false
-              ],
-            ],
             "argument_groups": [
               [
-                "name": "Nextflow input/output arguments",
-                "arguments" : [ "publish_dir", "param_list", "param_list_format" ]
+                "name": "Nextflow input-output arguments",
+                "description": "Input/output parameters for Nextflow itself. Please note that both publishDir and publish_dir are supported but at least one has to be configured.",
+                "arguments" : [
+                  [
+                    'name': '--publish_dir',
+                    'required': true,
+                    'type': 'string',
+                    'description': 'Path to an output directory.',
+                    'example': 'output/',
+                    'multiple': false
+                  ],
+                  [
+                    'name': '--param_list',
+                    'required': false,
+                    'type': 'string',
+                    'description': '''Allows inputting multiple parameter sets to initialise a Nextflow channel. A `param_list` can either be a list of maps, a csv file, a json file, a yaml file, or simply a yaml blob.
+                    |
+                    |* A list of maps (as-is) where the keys of each map corresponds to the arguments of the pipeline. Example: in a `nextflow.config` file: `param_list: [ ['id': 'foo', 'input': 'foo.txt'], ['id': 'bar', 'input': 'bar.txt'] ]`.
+                    |* A csv file should have column names which correspond to the different arguments of this pipeline. Example: `--param_list data.csv` with columns `id,input`.
+                    |* A json or a yaml file should be a list of maps, each of which has keys corresponding to the arguments of the pipeline. Example: `--param_list data.json` with contents `[ {'id': 'foo', 'input': 'foo.txt'}, {'id': 'bar', 'input': 'bar.txt'} ]`.
+                    |* A yaml blob can also be passed directly as a string. Example: `--param_list "[ {'id': 'foo', 'input': 'foo.txt'}, {'id': 'bar', 'input': 'bar.txt'} ]"`.
+                    |
+                    |When passing a csv, json or yaml file, relative path names are relativized to the location of the parameter file. No relativation is performed when `param_list` is a list of maps (as-is) or a yaml blob.'''.stripMargin(),
+                    'example': 'my_params.yaml',
+                    'multiple': false,
+                    'hidden': true
+                  ],
+                ]
               ]
             ]
           ]
@@ -2015,6 +2127,7 @@ functionality:
           descStr
       }
       
+      // Based on Helper.generateHelp() in Helper.scala
       def generateHelp(config) {
         def fun = config.functionality
       
@@ -2033,13 +2146,13 @@ functionality:
           "\n\nUsage:\n" + fun.usage.trim()
       
         // PART 4: Options
-        def argGroupStrs = fun.argument_groups.collect{argGroup ->
+        def argGroupStrs = fun.allArgumentGroups.collect{argGroup ->
           def name = argGroup.name
           def descriptionStr = argGroup.description == null ?
             "" :
             "\n    " + paragraphWrap(argGroup.description.trim(), 80-4).join("\n    ") + "\n"
-          def arguments = argGroup.arguments.collect{argName -> 
-            fun.allArguments.find{it.plainName == argName}
+          def arguments = argGroup.arguments.collect{arg -> 
+            arg instanceof String ? fun.allArguments.find{it.plainName == arg} : arg
           }.findAll{it != null}
           def argumentStrs = arguments.collect{param -> generateArgumentHelp(param)}
           
@@ -2069,8 +2182,6 @@ functionality:
       def guessMultiParamFormat(params) {
         if (!params.containsKey("param_list") || params.param_list == null) {
           "none"
-        } else if (params.containsKey("multiParamsFormat")) {
-          params.multiParamsFormat
         } else {
           def param_list = params.param_list
       
@@ -2310,7 +2421,8 @@ functionality:
             def m = drctv["container"]
             assertMapKeys(m, [ "registry", "image", "tag" ], ["image"], "container")
             def part1 = 
-              params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : 
+              System.getenv('OVERRIDE_CONTAINER_REGISTRY') ? System.getenv('OVERRIDE_CONTAINER_REGISTRY') + "/" : 
+              params.containsKey("override_container_registry") ? params["override_container_registry"] + "/" : // todo: remove?
               m.registry ? m.registry + "/" : 
               ""
             def part2 = m.image
@@ -2662,37 +2774,46 @@ functionality:
       
         // auto define publish, if so desired
         if (processArgs.auto.publish == true && (processArgs.directives.publishDir ?: [:]).isEmpty()) {
-          assert params.containsKey("publishDir") || params.containsKey("publish_dir") : 
-            "Error in module '${processArgs['key']}': if auto.publish is true, params.publish_dir needs to be defined.\n" +
-            "  Example: params.publish_dir = \"./output/\""
-          def publishDir = params.containsKey("publish_dir") ? params.publish_dir : params.publishDir
+          // can't assert at this level thanks to the no_publish profile
+          // assert params.containsKey("publishDir") || params.containsKey("publish_dir") : 
+          //   "Error in module '${processArgs['key']}': if auto.publish is true, params.publish_dir needs to be defined.\n" +
+          //   "  Example: params.publish_dir = \"./output/\""
+          def publishDir = 
+            params.containsKey("publish_dir") ? params.publish_dir : 
+            params.containsKey("publishDir") ? params.publishDir : 
+            null
           
-          // TODO: more asserts on publishDir?
-          processArgs.directives.publishDir = [[ 
-            path: publishDir, 
-            saveAs: "{ it.startsWith('.') ? null : it }", // don't publish hidden files, by default
-            mode: "copy"
-          ]]
+          if (publishDir != null) {
+            processArgs.directives.publishDir = [[ 
+              path: publishDir, 
+              saveAs: "{ it.startsWith('.') ? null : it }", // don't publish hidden files, by default
+              mode: "copy"
+            ]]
+          }
         }
       
         // auto define transcript, if so desired
         if (processArgs.auto.transcript == true) {
-          assert params.containsKey("transcriptsDir") || params.containsKey("transcripts_dir") || params.containsKey("publishDir") || params.containsKey("publish_dir") : 
-            "Error in module '${processArgs['key']}': if auto.transcript is true, either params.transcripts_dir or params.publish_dir needs to be defined.\n" +
-            "  Example: params.transcripts_dir = \"./transcripts/\""
+          // can't assert at this level thanks to the no_publish profile
+          // assert params.containsKey("transcriptsDir") || params.containsKey("transcripts_dir") || params.containsKey("publishDir") || params.containsKey("publish_dir") : 
+          //   "Error in module '${processArgs['key']}': if auto.transcript is true, either params.transcripts_dir or params.publish_dir needs to be defined.\n" +
+          //   "  Example: params.transcripts_dir = \"./transcripts/\""
           def transcriptsDir = 
             params.containsKey("transcripts_dir") ? params.transcripts_dir : 
             params.containsKey("transcriptsDir") ? params.transcriptsDir : 
             params.containsKey("publish_dir") ? params.publish_dir + "/_transcripts" :
-            params.publishDir + "/_transcripts"
-          def timestamp = Nextflow.getSession().getWorkflowMetadata().start.format('yyyy-MM-dd_HH-mm-ss')
-          def transcriptsPublishDir = [ 
-            path: "$transcriptsDir/$timestamp/\${task.process.replaceAll(':', '-')}/\${id}/", 
-            saveAs: "{ it.startsWith('.') ? it.replaceAll('^.', '') : null }", 
-            mode: "copy"
-          ]
-          def publishDirs = processArgs.directives.publishDir ?: []
-          processArgs.directives.publishDir = publishDirs + transcriptsPublishDir
+            params.containsKey("publishDir") ? params.publishDir + "/_transcripts" : 
+            null
+          if (transcriptsDir != null) {
+            def timestamp = Nextflow.getSession().getWorkflowMetadata().start.format('yyyy-MM-dd_HH-mm-ss')
+            def transcriptsPublishDir = [ 
+              path: "$transcriptsDir/$timestamp/\${task.process.replaceAll(':', '-')}/\${id}/",
+              saveAs: "{ it.startsWith('.') ? it.replaceAll('^.', '') : null }", 
+              mode: "copy"
+            ]
+            def publishDirs = processArgs.directives.publishDir ?: []
+            processArgs.directives.publishDir = publishDirs + transcriptsPublishDir
+          }
         }
       
         for (nam in [ "map", "mapId", "mapData", "mapPassthrough" ]) {
@@ -2706,8 +2827,6 @@ functionality:
       }
       
       def processFactory(Map processArgs) {
-        def tripQuo = "\"\"\""
-      
         // autodetect process key
         def wfKey = processArgs["key"]
         def procKeyPrefix = "${wfKey}_process"
@@ -2746,12 +2865,15 @@ functionality:
             val.inspect()
           }
         }
+      
         // multiple entries allowed: label, publishdir
         def drctvStrs = drctv.collect { key, value ->
           if (key in ["label", "publishDir"]) {
             value.collect{ val ->
               if (val instanceof Map) {
                 "\n$key " + val.collect{ k, v -> k + ": " + valueToStr(v) }.join(", ")
+              } else if (val == null) {
+                ""
               } else {
                 "\n$key " + valueToStr(val)
               }
@@ -2813,12 +2935,17 @@ functionality:
         def stub = thisConfig.functionality.allArguments
           .findAll { it.type == "file" && it.direction == "output" }
           .collect { par -> 
-            'touch "${viash_par_' + par.plainName + '.join(\'" "\')}"'
+            "\${ args.containsKey(\"${par.plainName}\") ? \"touch \\\"\" + (args[\"${par.plainName}\"] instanceof String ? args[\"${par.plainName}\"].replace(\"_*\", \"_0\") : args[\"${par.plainName}\"].join('\" \"')) + \"\\\"\" : \"\" }"
           }
           .join("\n")
       
         // escape script
         def escapedScript = thisScript.replace('\\', '\\\\').replace('$', '\\$').replace('"""', '\\"\\"\\"')
+      
+        // publishdir assert
+        def assertStr = processArgs.auto.publish || processArgs.auto.transcript ? 
+          """\nassert task.publishDir.size() > 0: "if auto.publish is true, params.publish_dir needs to be defined.\\n  Example: --publish_dir './output/'" """ :
+          ""
       
         // generate process string
         def procStr = 
@@ -2830,24 +2957,32 @@ functionality:
         |output:
         |  tuple val("\$id"), val(passthrough)$outputPaths, optional: true
         |stub:
-        |$tripQuo
+        |\"\"\"
         |$stub
-        |$tripQuo
-        |script:
+        |\"\"\"
+        |script:$assertStr
         |def escapeText = { s -> s.toString().replaceAll('([`"])', '\\\\\\\\\$1') }
         |def parInject = args
         |  .findAll{key, value -> value != null}
         |  .collect{key, value -> "export VIASH_PAR_\${key.toUpperCase()}=\\\"\${escapeText(value)}\\\""}
         |  .join("\\n")
-        |$tripQuo
+        |\"\"\"
         |# meta exports
         |export VIASH_META_RESOURCES_DIR="\${resourcesDir.toRealPath().toAbsolutePath()}"
         |export VIASH_META_TEMP_DIR="${['docker', 'podman', 'charliecloud'].any{ it == workflow.containerEngine } ? '/tmp' : tmpDir}"
         |export VIASH_META_FUNCTIONALITY_NAME="${thisConfig.functionality.name}"
         |export VIASH_META_EXECUTABLE="\\\$VIASH_META_RESOURCES_DIR/\\\$VIASH_META_FUNCTIONALITY_NAME"
+        |\${task.cpus ? "export VIASH_META_N_PROC=\$task.cpus" : "" }
+        |\${task.memory?.bytes != null ? "export VIASH_META_MEMORY_B=\$task.memory.bytes" : "" }
+        |if [ ! -z \\\${VIASH_META_MEMORY_B+x} ]; then
+        |  export VIASH_META_MEMORY_KB=\\\$(( (\\\$VIASH_META_MEMORY_B+1023) / 1024 ))
+        |  export VIASH_META_MEMORY_MB=\\\$(( (\\\$VIASH_META_MEMORY_KB+1023) / 1024 ))
+        |  export VIASH_META_MEMORY_GB=\\\$(( (\\\$VIASH_META_MEMORY_MB+1023) / 1024 ))
+        |  export VIASH_META_MEMORY_TB=\\\$(( (\\\$VIASH_META_MEMORY_GB+1023) / 1024 ))
+        |  export VIASH_META_MEMORY_PB=\\\$(( (\\\$VIASH_META_MEMORY_TB+1023) / 1024 ))
+        |fi
         |
         |# meta synonyms
-        |export VIASH_RESOURCES_DIR="\\\$VIASH_META_RESOURCES_DIR"
         |export VIASH_TEMP="\\\$VIASH_META_TEMP_DIR"
         |export TEMP_DIR="\\\$VIASH_META_TEMP_DIR"
         |
@@ -2856,7 +2991,7 @@ functionality:
         |
         |# process script
         |${escapedScript}
-        |$tripQuo
+        |\"\"\"
         |}
         |""".stripMargin()
       
@@ -3185,6 +3320,15 @@ functionality:
       ).toAbsolutePath()
       
       profiles {
+        no_publish {
+          process {
+            withName: '.*' {
+              publishDir = [
+                enabled: false
+              ]
+            }
+          }
+        }
         mount_temp {
           docker.temp            = tempDir
           podman.temp            = tempDir
@@ -3238,9 +3382,10 @@ functionality:
   - type: "file"
     path: "../../../resources_test/msdial_demo_files/raw/GCMS"
   info: {}
-  dummy_arguments: []
+  status: "enabled"
+  requirements:
+    commands: []
   set_wd_to_resources_dir: false
-  enabled: true
 platform:
   type: "nextflow"
   id: "nextflow"
@@ -3268,6 +3413,6 @@ info:
   config: "src/msdial/msdial_gcms/config.vsh.yaml"
   platform: "nextflow"
   output: "target/nextflow/msdial/msdial_gcms"
-  viash_version: "0.5.15"
-  git_commit: "6f5d05a1e29442be761b10e84b88f267e3a84eda"
+  viash_version: "0.6.0"
+  git_commit: "93085e6e2e3b182b7087264d0ba0566f847ec3ea"
   git_remote: "https://github.com/czbiohub/mspipelines"
