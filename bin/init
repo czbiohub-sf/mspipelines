@@ -19,10 +19,15 @@ REPO_ROOT=$(git rev-parse --show-toplevel)
 cd "$REPO_ROOT"
 
 curl -fsSL get.viash.io | bash -s -- \
-  --tag 0.5.15 \
+  --tag develop \
   --registry ghcr.io \
   --organization czbiohub/mspipelines \
   --target_image_source https://github.com/czbiohub/mspipelines
+
+# automatically export the workflow helper
+[[ -d workflows/utils ]] || mkdir -p workflows/utils
+bin/viash export resource platforms/nextflow/ProfilesHelper.config > workflows/utils/ProfilesHelper.config
+bin/viash export resource platforms/nextflow/WorkflowHelper.nf > workflows/utils/WorkflowHelper.nf
 
 cd bin
 
