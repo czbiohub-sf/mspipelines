@@ -8,274 +8,212 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
-  inputs:
-    - name: "--input"
-      type: file
-      required: true
-      multiple: true
-      description: One or more input files.
-      example: [input1.abf, input2.abf, input3.abf]
-      multiple_sep: ";"
-  outputs:
-    - name: "--output"
-      type: file
-      direction: output
-      required: true
-      example: output_dir
-      description: An output directory to store the '*.msdial' outputs.
-  arguments:
-    # input parameters
-    - name: "--name"
-      type: string
-      required: false
-      multiple: true
-      example: [foo, bar, baz]
-      description: Sample name, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--type"
-      type: string
-      required: false
-      multiple: true
-      example: Sample
-      description: Sample type, must be of same length as the input files.
-      choices: [Sample, Standard, QC, Blank]
-      multiple_sep: ";"
-    - name: "--class_id"
-      type: string
-      required: false
-      multiple: true
-      example: ["1", "2", "3"]
-      description: Sample class, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--batch"
-      type: integer
-      required: false
-      multiple: true
-      example: [1,2,3]
-      description: Sample batch, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--analytical_order"
-      type: integer
-      required: false
-      multiple: true
-      example: [2,1,3]
-      description: Sample analytical order, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--inject_volume"
-      type: double
-      required: false
-      multiple: true
-      example: [1.0, 0.9, 1.1]
-      description: Sample injection volume in µL, must be of same length as the input files.
-      multiple_sep: ";"
-      
-    # data type args
-    - name: "--data_type"
-      type: string
-      choices: [Centroid, Profile]
-      default: Centroid
-    - name: "--ion_mode"
-      type: string
-      choices: [Positive, Negative]
-      default: Positive
-    - name: "--accuracy_type"
-      type: string
-      choices: [IsNominal, IsAccurate]
-      default: IsNominal
-    
-    # data correction parameters
-    - name: "--retention_time_begin"
-      type: double
-      default: 0
-    - name: "--retention_time_end"
-      type: double
-      default: 25
-    - name: "--mass_range_begin"
-      type: double
-      default: 0
-    - name: "--mass_range_end"
-      type: double
-      default: 1000
-    
-    # peak detection parameters
-    - name: "--smoothing_method"
-      type: string
-      choices: [SimpleMovingAverage, LinearWeightedMovingAverage, SavitzkyGolayFilter, BinomialFilter]
-      default: LinearWeightedMovingAverage
-    - name: "--smoothing_level"
-      type: integer
-      default: 3
-    - name: "--average_peak_width"
-      type: integer
-      default: 20
-    - name: "--minimum_peak_height"
-      type: integer
-      default: 1000
-    - name: "--mass_slice_width"
-      type: double
-      default: 0.1
-    - name: "--mass_accuracy"
-      type: double
-      default: 0.025
-
-    # Deconvolution parameters
-    - name: "--sigma_window_value"
-      type: double
-      default: 0.5
-    - name: "--amplitude_cutoff"
-      type: double
-      default: 10
-
-    # identification parameters
-    - name: "--msp_file"
-      type: file
-      required: false
-      example: file.msp
-    - name: "--ri_index_file"
-      type: file
-      required: false
-      example: ri_index.txt
-      multiple: true
-      multiple_sep: ";"
-    - name: "--retention_type"
-      type: string
-      choices: [RI, RT]
-      default: RI
-    - name: "--ri_compound"
-      type: string
-      choices: [Fames, Alkanes]
-      default: Alkanes
-    - name: "--retention_time_tolerance_for_identification"
-      type: double
-      default: 0.5
-    - name: "--retention_index_tolerance_for_identification"
-      type: double
-      default: 20
-    - name: "--ei_similarity_tolerance_for_identification"
-      type: double
-      default: 70
-    - name: "--identification_score_cutoff"
-      type: double
-      default: 70
-    - name: "--use_retention_information_for_identification_scoring"
-      type: boolean
-      default: false
-    - name: "--use_retention_information_for_identification_filtering"
-      type: boolean
-      default: false
-    - name: "--only_report_top_hit"
-      type: boolean
-      default: true
-
-    # alignment parameters
-    - name: "--alignment_index_type"
-      type: string
-      choices: [RI, RT]
-      default: RT
-    - name: "--retention_time_tolerance_for_alignment"
-      type: double
-      default: 0.075
-    - name: "--retention_index_tolerance_for_alignment"
-      type: double
-      default: 20
-    - name: "--ei_similarity_tolerance_for_alignment"
-      type: double
-      default: 70
-    - name: "--retention_time_factor_for_alignment"
-      type: double
-      default: 0.5
-    - name: "--ei_similarity_factor_for_alignment"
-      type: double
-      default: 0.5
-    - name: "--peak_count_filter"
-      type: double
-      default: 0
-    - name: "--remove_feature_based_on_peak_height_fold_change"
-      type: boolean
-      default: false
-    - name: "--pct_detected_in_at_least_one_group"
-      type: double
-      default: 0
-    - name: "--sample_max_over_blank_average"
-      type: double
-      default: 5
-    - name: "--sample_average_over_blank_average"
-      type: double
-      default: 5
-    - name: "--keep_identified_metabolites"
-      type: boolean
-      default: true
-    - name: "--keep_removable_features"
-      type: boolean
-      description: "Keep removable features and assign the tag for checking."
-      default: true
-    - name: "--replace_true_zero"
-      type: boolean
-      description: "Replace true zero values with 1/10 of minimum peak height over all samples"
-      default: false
-
   argument_groups:
     - name: Inputs
       arguments:
-        - input 
-        - name 
-        - type 
-        - class_id 
-        - batch 
-        - analytical_order 
-        - inject_volume
+        - name: "--input"
+          type: file
+          required: true
+          multiple: true
+          description: One or more input files.
+          example: [input1.abf, input2.abf, input3.abf]
+          multiple_sep: ";"
+        - name: "--name"
+          type: string
+          required: false
+          multiple: true
+          example: [foo, bar, baz]
+          description: Sample name, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--type"
+          type: string
+          required: false
+          multiple: true
+          example: Sample
+          description: Sample type, must be of same length as the input files.
+          choices: [Sample, Standard, QC, Blank]
+          multiple_sep: ";"
+        - name: "--class_id"
+          type: string
+          required: false
+          multiple: true
+          example: ["1", "2", "3"]
+          description: Sample class, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--batch"
+          type: integer
+          required: false
+          multiple: true
+          example: [1,2,3]
+          description: Sample batch, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--analytical_order"
+          type: integer
+          required: false
+          multiple: true
+          example: [2,1,3]
+          description: Sample analytical order, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--inject_volume"
+          type: double
+          required: false
+          multiple: true
+          example: [1.0, 0.9, 1.1]
+          description: Sample injection volume in µL, must be of same length as the input files.
+          multiple_sep: ";"
+    - name: Outputs
+      arguments:
+        - name: "--output"
+          type: file
+          direction: output
+          required: true
+          example: output_dir
+          description: An output directory to store the '*.msdial' outputs.
     - name: Data type arguments
       arguments:
-        - data_type 
-        - ion_mode 
-        - accuracy_type
+        - name: "--data_type"
+          type: string
+          choices: [Centroid, Profile]
+          default: Centroid
+        - name: "--ion_mode"
+          type: string
+          choices: [Positive, Negative]
+          default: Positive
+        - name: "--accuracy_type"
+          type: string
+          choices: [IsNominal, IsAccurate]
+          default: IsNominal
     - name: Data correction arguments
       arguments:
-        - retention_time_begin 
-        - retention_time_end 
-        - mass_range_begin 
-        - mass_range_end
+        - name: "--retention_time_begin"
+          type: double
+          default: 0
+        - name: "--retention_time_end"
+          type: double
+          default: 25
+        - name: "--mass_range_begin"
+          type: double
+          default: 0
+        - name: "--mass_range_end"
+          type: double
+          default: 1000
     - name: Peak detection arguments
       arguments:
-        - smoothing_method 
-        - smoothing_level 
-        - average_peak_width 
-        - minimum_peak_height 
-        - mass_slice_width 
-        - mass_accuracy
+        - name: "--smoothing_method"
+          type: string
+          choices: [SimpleMovingAverage, LinearWeightedMovingAverage, SavitzkyGolayFilter, BinomialFilter]
+          default: LinearWeightedMovingAverage
+        - name: "--smoothing_level"
+          type: integer
+          default: 3
+        - name: "--average_peak_width"
+          type: integer
+          default: 20
+        - name: "--minimum_peak_height"
+          type: integer
+          default: 1000
+        - name: "--mass_slice_width"
+          type: double
+          default: 0.1
+        - name: "--mass_accuracy"
+          type: double
+          default: 0.025
     - name: Deconvolution arguments
       arguments:
-        - sigma_window_value 
-        - amplitude_cutoff
+        - name: "--sigma_window_value"
+          type: double
+          default: 0.5
+        - name: "--amplitude_cutoff"
+          type: double
+          default: 10
     - name: Identification arguments
       arguments: 
-        - msp_file
-        - ri_index_file
-        - retention_type 
-        - ri_compound 
-        - retention_time_tolerance_for_identification 
-        - retention_index_tolerance_for_identification 
-        - ei_similarity_tolerance_for_identification 
-        - identification_score_cutoff
-        - use_retention_information_for_identification_scoring
-        - use_retention_information_for_identification_filtering
-        - only_report_top_hit
+        - name: "--msp_file"
+          type: file
+          required: false
+          example: file.msp
+        - name: "--ri_index_file"
+          type: file
+          required: false
+          example: ri_index.txt
+          multiple: true
+          multiple_sep: ";"
+        - name: "--retention_type"
+          type: string
+          choices: [RI, RT]
+          default: RI
+        - name: "--ri_compound"
+          type: string
+          choices: [Fames, Alkanes]
+          default: Alkanes
+        - name: "--retention_time_tolerance_for_identification"
+          type: double
+          default: 0.5
+        - name: "--retention_index_tolerance_for_identification"
+          type: double
+          default: 20
+        - name: "--ei_similarity_tolerance_for_identification"
+          type: double
+          default: 70
+        - name: "--identification_score_cutoff"
+          type: double
+          default: 70
+        - name: "--use_retention_information_for_identification_scoring"
+          type: boolean
+          default: false
+        - name: "--use_retention_information_for_identification_filtering"
+          type: boolean
+          default: false
+        - name: "--only_report_top_hit"
+          type: boolean
+          default: true
     - name: Alignment arguments
       arguments: 
-        - alignment_index_type 
-        - retention_time_tolerance_for_alignment 
-        - retention_index_tolerance_for_alignment 
-        - ei_similarity_tolerance_for_alignment 
-        - retention_time_factor_for_alignment 
-        - ei_similarity_factor_for_alignment 
-        - peak_count_filter
-        - remove_feature_based_on_peak_height_fold_change
-        - pct_detected_in_at_least_one_group
-        - sample_max_over_blank_average
-        - sample_average_over_blank_average
-        - keep_identified_metabolites
-        - keep_removable_features
-        - replace_true_zero
+        - name: "--alignment_index_type"
+          type: string
+          choices: [RI, RT]
+          default: RT
+        - name: "--retention_time_tolerance_for_alignment"
+          type: double
+          default: 0.075
+        - name: "--retention_index_tolerance_for_alignment"
+          type: double
+          default: 20
+        - name: "--ei_similarity_tolerance_for_alignment"
+          type: double
+          default: 70
+        - name: "--retention_time_factor_for_alignment"
+          type: double
+          default: 0.5
+        - name: "--ei_similarity_factor_for_alignment"
+          type: double
+          default: 0.5
+        - name: "--peak_count_filter"
+          type: double
+          default: 0
+        - name: "--remove_feature_based_on_peak_height_fold_change"
+          type: boolean
+          default: false
+        - name: "--pct_detected_in_at_least_one_group"
+          type: double
+          default: 0
+        - name: "--sample_max_over_blank_average"
+          type: double
+          default: 5
+        - name: "--sample_average_over_blank_average"
+          type: double
+          default: 5
+        - name: "--keep_identified_metabolites"
+          type: boolean
+          default: true
+        - name: "--keep_removable_features"
+          type: boolean
+          description: "Keep removable features and assign the tag for checking."
+          default: true
+        - name: "--replace_true_zero"
+          type: boolean
+          description: "Replace true zero values with 1/10 of minimum peak height over all samples"
+          default: false
   resources:
     - type: python_script
       path: script.py

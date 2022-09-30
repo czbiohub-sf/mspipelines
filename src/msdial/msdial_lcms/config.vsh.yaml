@@ -7,458 +7,346 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
-  inputs:
-    - name: "--input"
-      type: file
-      required: true
-      multiple: true
-      description: One or more input files.
-      example: [input1.abf, input2.abf, input3.abf]
-      multiple_sep: ";"
-  outputs:
-    - name: "--output"
-      type: file
-      direction: output
-      required: true
-      example: output_dir
-      description: An output directory to store the '*.msdial' outputs.
-  arguments:
-    # input parameters
-    - name: "--name"
-      type: string
-      required: false
-      multiple: true
-      example: [foo, bar, baz]
-      description: Sample name, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--type"
-      type: string
-      required: false
-      multiple: true
-      example: Sample
-      description: Sample type, must be of same length as the input files.
-      choices: [Sample, Standard, QC, Blank]
-      multiple_sep: ";"
-    - name: "--class_id"
-      type: string
-      required: false
-      multiple: true
-      example: ["1", "2", "3"]
-      description: Sample class, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--batch"
-      type: integer
-      required: false
-      multiple: true
-      example: [1,2,3]
-      description: Sample batch, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--analytical_order"
-      type: integer
-      required: false
-      multiple: true
-      example: [2,1,3]
-      description: Sample analytical order, must be of same length as the input files.
-      multiple_sep: ";"
-    - name: "--inject_volume"
-      type: double
-      required: false
-      multiple: true
-      example: [1.0, 0.9, 1.1]
-      description: Sample injection volume in µL, must be of same length as the input files.
-      multiple_sep: ";"
-      
-    # data type args
-    - name: "--ms1_data_type"
-      type: string
-      choices: [Centroid, Profile]
-      default: Profile
-    - name: "--ms2_data_type"
-      type: string
-      choices: [Centroid, Profile]
-      default: Profile
-    - name: "--ion_mode"
-      type: string
-      choices: [Positive, Negative]
-      default: Positive
-    - name: "--dia_file"
-      type: file
-      required: false
-      example: path/to/file.dia
-    
-    # Data correction parameters
-    - name: "--retention_time_begin"
-      type: double
-      default: 0
-    - name: "--retention_time_end"
-      type: double
-      default: 100
-    - name: "--ms1_mass_range_begin"
-      type: double
-      default: 0
-    - name: "--ms1_mass_range_end"
-      type: double
-      default: 2000
-    - name: "--ms2_mass_range_begin"
-      type: double
-      default: 0
-    - name: "--ms2_mass_range_end"
-      type: double
-      default: 2000
-    
-    # centroid parameters
-    - name: "--ms1_tolerance_for_centroid"
-      type: double
-      default: 0.01
-    - name: "--ms2_tolerance_for_centroid"
-      type: double
-      default: 0.025
-    
-    # isotope parameters
-    - name: "--max_charged_number"
-      type: integer
-      default: 2
-    
-    # retentiontime correction parameters
-    - name: "--execute_rt_correction"
-      type: boolean
-      default: false
-    - name: "--rt_correction_smoothing"
-      type: boolean
-      description: "RT correction with smoothing for RT diff."
-      default: false
-    - name: "--user_setting_intercept"
-      type: double
-      default: 0
-    - name: "--rt_diff_calc_method"
-      type: string
-      example: SampleMinusSampleAverage
-      choices: [ SampleMinusSampleAverage, SampleMinusReference ]
-    - name: "--extrapolation_method_begin"
-      type: string
-      example: UserSetting
-      choices: [ UserSetting, FirstPoint, LinearExtrapolation ]
-    - name: "--extrapolation_method_end"
-      type: string
-      example: lastpoint
-      choices: [ lastpoint, LinearExtrapolation ]
-    - name: "--istd_file"
-      type: file
-      example: path/to/file.istd
-    
-    # peak detection parameters
-    - name: "--smoothing_method"
-      type: string
-      choices: [SimpleMovingAverage, LinearWeightedMovingAverage, SavitzkyGolayFilter, BinomialFilter]
-      default: LinearWeightedMovingAverage
-    - name: "--smoothing_level"
-      type: integer
-      default: 3
-    - name: "--minimum_peak_width"
-      type: integer
-      default: 5
-    - name: "--minimum_peak_height"
-      type: integer
-      default: 1000
-    - name: "--mass_slice_width"
-      type: double
-      default: 0.1
-
-    # Deconvolution parameters
-    - name: "--sigma_window_value"
-      type: double
-      default: 0.5
-    - name: "--amplitude_cutoff"
-      type: double
-      default: 0
-    - name: "--exclude_after_precursor"
-      type: boolean
-      default: true
-    - name: "--keep_isotope_until"
-      type: double
-      default: 0.5
-    - name: "--keep_original_precursor_isotopes"
-      type: boolean
-      default: false
-
-    # Adduct arguments
-    - name: "--adduct_list"
-      type: string
-      required: true
-      example: "[M+H]+,[M+Na]+,[M+NH4]+"
-      multiple: true
-      multiple_sep: ","
-
-    # identification parameters
-    - name: "--msp_file"
-      type: file
-      required: false
-      example: file.msp
-    - name: "--retention_time_tolerance_for_identification"
-      type: double
-      default: 100
-    - name: "--accurate_ms1_tolerance_for_identification"
-      type: double
-      default: 0.01
-    - name: "--accurate_ms2_tolerance_for_identification"
-      type: double
-      default: 0.05
-    - name: "--identification_score_cutoff"
-      type: double
-      default: 80
-    - name: "--use_retention_information_for_identification_scoring"
-      type: boolean
-      default: false
-    - name: "--use_retention_information_for_identification_filtering"
-      type: boolean
-      default: false
-
-    # post identification parameters
-    - name: "--post_identification_library_file"
-      type: file
-      example: file.txt
-      required: false
-    - name: "--retention_time_tolerance_for_post_identification"
-      type: double
-      default: 0.1
-    - name: "--accurate_ms1_tolerance_for_post_identification"
-      type: double
-      default: 0.01
-    - name: "--post_identification_score_cutoff"
-      type: double
-      default: 85
-
-    # alignment parameters
-    - name: "--retention_time_tolerance_for_alignment"
-      type: double
-      default: 0.05
-    - name: "--ms1_tolerance_for_alignment"
-      type: double
-      default: 0.015
-    - name: "--retention_time_factor_for_alignment"
-      type: double
-      default: 0.5
-    - name: "--ms1_factor_for_alignment"
-      type: double
-      default: 0.5
-    - name: "--peak_count_filter"
-      type: double
-      default: 0
-    - name: "--gap_filling_by_compulsion"
-      type: boolean
-      default: true
-    - name: "--alignment_reference_file_id"
-      type: integer
-      default: 0
-    - name: "--remove_feature_based_on_peak_height_fold_change"
-      type: boolean
-      default: false
-    - name: "--pct_detected_in_at_least_one_group"
-      type: double
-      default: 0
-    - name: "--sample_max_over_blank_average"
-      type: double
-      default: 5
-    - name: "--sample_average_over_blank_average"
-      type: double
-      default: 5
-    - name: "--keep_identified_metabolites"
-      type: boolean
-      default: true
-    - name: "--keep_removable_features"
-      type: boolean
-      description: "Keep removable features and assign the tag for checking."
-      default: true
-    - name: "--replace_true_zero"
-      type: boolean
-      description: "Replace true zero values with 1/10 of minimum peak height over all samples"
-      default: false
-
-    # isotope tracking arguments
-    - name: "--tracking_isotope_label"
-      type: boolean
-      default: false
-    - name: "--set_fully_labeled_reference_file"
-      type: boolean
-      default: false
-    - name: "--non_labeled_reference_id"
-      type: integer
-      default: 0
-    - name: "--fully_labeled_reference_id"
-      type: integer
-      default: 0
-    - name: "--isotope_tracking_dictionary_id"
-      type: integer
-      default: 0
-
-    # corrdec settings
-    - name: "--corrdec_execute"
-      type: boolean
-      default: true
-    - name: "--corrdec_ms2_tolerance"
-      type: double
-      default: 0.01
-    - name: "--corrdec_minimum_ms2_peak_height"
-      type: double
-      default: 1000
-    - name: "--corrdec_min_detected_samples"
-      type: double
-      default: 3
-    - name: "--corrdec_exclude_highly_correlated_spots"
-      type: double
-      description: To ignore highly correlated precursor ions (related ions e.g. adducts and isotopes); 0.8-0.9
-      default: 0.9
-    - name: "--corrdec_min_corr_ms2"
-      type: double
-      description: A cutoff value to remove not correlated MS2 peaks
-      default: 0.7
-    - name: "--corrdec_margin_1"
-      type: double
-      description: "Minimum correlation cutoff value: max correlation (vs. a target precursor) - this value. Criterion 2 in the method paper, it should be published soon."
-      default: 0.2
-    - name: "--corrdec_margin_2"
-      type: double
-      description: "Minimum correlation cutoff value: max correlation (vs. coeluted precursors) - this value. Criterion 3 in the method paper, it should be published soon."
-      default: 0.7
-    - name: "--corrdec_min_detected_rate"
-      type: double
-      default: 0.5
-    - name: "--corrdec_min_ms2_relative_intensity"
-      type: double
-      default: 2
-    - name: "--corrdec_remove_peaks_larger_than_precursor"
-      type: boolean
-      default: true
-  
-  # ion mobility settings
-    - name: "--accumulated_rt_range"
-      type: double
-      default: 0.2
-    - name: "--ccs_search_tolerance"
-      type: double
-      default: 10
-    - name: "--mobility_axis_alignment_tolerance"
-      type: double
-      default: 0.02
-    - name: "--use_ccs_for_identification_scoring"
-      type: boolean
-      default: false
-    - name: "--use_ccs_for_identification_filtering"
-      type: boolean
-      default: true
-
   argument_groups:
     - name: Inputs
       arguments:
-        - input 
-        - name 
-        - type 
-        - class_id 
-        - batch 
-        - analytical_order 
-        - inject_volume
+        - name: "--input"
+          type: file
+          required: true
+          multiple: true
+          description: One or more input files.
+          example: [input1.abf, input2.abf, input3.abf]
+          multiple_sep: ";"
+        - name: "--name"
+          type: string
+          required: false
+          multiple: true
+          example: [foo, bar, baz]
+          description: Sample name, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--type"
+          type: string
+          required: false
+          multiple: true
+          example: Sample
+          description: Sample type, must be of same length as the input files.
+          choices: [Sample, Standard, QC, Blank]
+          multiple_sep: ";"
+        - name: "--class_id"
+          type: string
+          required: false
+          multiple: true
+          example: ["1", "2", "3"]
+          description: Sample class, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--batch"
+          type: integer
+          required: false
+          multiple: true
+          example: [1,2,3]
+          description: Sample batch, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--analytical_order"
+          type: integer
+          required: false
+          multiple: true
+          example: [2,1,3]
+          description: Sample analytical order, must be of same length as the input files.
+          multiple_sep: ";"
+        - name: "--inject_volume"
+          type: double
+          required: false
+          multiple: true
+          example: [1.0, 0.9, 1.1]
+          description: Sample injection volume in µL, must be of same length as the input files.
+          multiple_sep: ";"
+    - name: Outputs
+      arguments:
+        - name: "--output"
+          type: file
+          direction: output
+          required: true
+          example: output_dir
+          description: An output directory to store the '*.msdial' outputs.
     - name: Data type arguments
       arguments:
-        - ms1_data_type 
-        - ms2_data_type 
-        - ion_mode
-        - dia_file
+        - name: "--ms1_data_type"
+          type: string
+          choices: [Centroid, Profile]
+          default: Profile
+        - name: "--ms2_data_type"
+          type: string
+          choices: [Centroid, Profile]
+          default: Profile
+        - name: "--ion_mode"
+          type: string
+          choices: [Positive, Negative]
+          default: Positive
+        - name: "--dia_file"
+          type: file
+          required: false
+          example: path/to/file.dia
     - name: Data correction arguments
       arguments:
-        - retention_time_begin 
-        - retention_time_end 
-        - ms1_mass_range_begin 
-        - ms1_mass_range_end
-        - ms2_mass_range_begin 
-        - ms2_mass_range_end
+        - name: "--retention_time_begin"
+          type: double
+          default: 0
+        - name: "--retention_time_end"
+          type: double
+          default: 100
+        - name: "--ms1_mass_range_begin"
+          type: double
+          default: 0
+        - name: "--ms1_mass_range_end"
+          type: double
+          default: 2000
+        - name: "--ms2_mass_range_begin"
+          type: double
+          default: 0
+        - name: "--ms2_mass_range_end"
+          type: double
+          default: 2000
     - name: Centroid arguments
       arguments:
-        - ms1_tolerance_for_centroid 
-        - ms2_tolerance_for_centroid
+        - name: "--ms1_tolerance_for_centroid"
+          type: double
+          default: 0.01
+        - name: "--ms2_tolerance_for_centroid"
+          type: double
+          default: 0.025
     - name: Isotope arguments
       arguments:
-        - max_charged_number
+        - name: "--max_charged_number"
+          type: integer
+          default: 2
     - name: Retention time correction arguments
       arguments:
-        - execute_rt_correction 
-        - rt_correction_smoothing
-        - user_setting_intercept
-        - rt_diff_calc_method
-        - extrapolation_method_begin
-        - extrapolation_method_end
-        - istd_file
+        - name: "--execute_rt_correction"
+          type: boolean
+          default: false
+        - name: "--rt_correction_smoothing"
+          type: boolean
+          description: "RT correction with smoothing for RT diff."
+          default: false
+        - name: "--user_setting_intercept"
+          type: double
+          default: 0
+        - name: "--rt_diff_calc_method"
+          type: string
+          example: SampleMinusSampleAverage
+          choices: [ SampleMinusSampleAverage, SampleMinusReference ]
+        - name: "--extrapolation_method_begin"
+          type: string
+          example: UserSetting
+          choices: [ UserSetting, FirstPoint, LinearExtrapolation ]
+        - name: "--extrapolation_method_end"
+          type: string
+          example: lastpoint
+          choices: [ lastpoint, LinearExtrapolation ]
+        - name: "--istd_file"
+          type: file
+          example: path/to/file.istd
     - name: Peak detection arguments
       arguments:
-        - smoothing_method
-        - smoothing_level
-        - minimum_peak_width
-        - minimum_peak_height
-        - mass_slice_width
+        - name: "--smoothing_method"
+          type: string
+          choices: [SimpleMovingAverage, LinearWeightedMovingAverage, SavitzkyGolayFilter, BinomialFilter]
+          default: LinearWeightedMovingAverage
+        - name: "--smoothing_level"
+          type: integer
+          default: 3
+        - name: "--minimum_peak_width"
+          type: integer
+          default: 5
+        - name: "--minimum_peak_height"
+          type: integer
+          default: 1000
+        - name: "--mass_slice_width"
+          type: double
+          default: 0.1
     - name: Deconvolution arguments
       arguments:
-        - sigma_window_value
-        - amplitude_cutoff
-        - exclude_after_precursor 
-        - keep_isotope_until 
-        - keep_original_precursor_isotopes
+        - name: "--sigma_window_value"
+          type: double
+          default: 0.5
+        - name: "--amplitude_cutoff"
+          type: double
+          default: 0
+        - name: "--exclude_after_precursor"
+          type: boolean
+          default: true
+        - name: "--keep_isotope_until"
+          type: double
+          default: 0.5
+        - name: "--keep_original_precursor_isotopes"
+          type: boolean
+          default: false
+    - name: Adduct arguments
+      arguments:
+        - name: "--adduct_list"
+          type: string
+          required: true
+          example: "[M+H]+,[M+Na]+,[M+NH4]+"
+          multiple: true
+          multiple_sep: ","
     - name: Identification arguments
       arguments: 
-        - msp_file
-        - retention_time_tolerance_for_identification
-        - accurate_ms1_tolerance_for_identification
-        - accurate_ms2_tolerance_for_identification
-        - identification_score_cutoff
-        - use_retention_information_for_identification_scoring
-        - use_retention_information_for_identification_filtering
+        - name: "--msp_file"
+          type: file
+          required: false
+          example: file.msp
+        - name: "--retention_time_tolerance_for_identification"
+          type: double
+          default: 100
+        - name: "--accurate_ms1_tolerance_for_identification"
+          type: double
+          default: 0.01
+        - name: "--accurate_ms2_tolerance_for_identification"
+          type: double
+          default: 0.05
+        - name: "--identification_score_cutoff"
+          type: double
+          default: 80
+        - name: "--use_retention_information_for_identification_scoring"
+          type: boolean
+          default: false
+        - name: "--use_retention_information_for_identification_filtering"
+          type: boolean
+          default: false
     - name: Post-identification arguments
       arguments: 
-        - retention_time_tolerance_for_post_identification
-        - accurate_ms1_tolerance_for_post_identification
-        - post_identification_score_cutoff
+        - name: "--post_identification_library_file"
+          type: file
+          example: file.txt
+          required: false
+        - name: "--retention_time_tolerance_for_post_identification"
+          type: double
+          default: 0.1
+        - name: "--accurate_ms1_tolerance_for_post_identification"
+          type: double
+          default: 0.01
+        - name: "--post_identification_score_cutoff"
+          type: double
+          default: 85
     - name: Alignment arguments
       arguments: 
-        - retention_time_tolerance_for_alignment 
-        - ms1_tolerance_for_alignment 
-        - retention_time_factor_for_alignment 
-        - ms1_factor_for_alignment 
-        - peak_count_filter
-        - gap_filling_by_compulsion
-        - alignment_reference_file_id
-        - remove_feature_based_on_peak_height_fold_change
-        - pct_detected_in_at_least_one_group
-        - sample_max_over_blank_average
-        - sample_average_over_blank_average
-        - keep_identified_metabolites
-        - keep_removable_features
-        - replace_true_zero
+        - name: "--retention_time_tolerance_for_alignment"
+          type: double
+          default: 0.05
+        - name: "--ms1_tolerance_for_alignment"
+          type: double
+          default: 0.015
+        - name: "--retention_time_factor_for_alignment"
+          type: double
+          default: 0.5
+        - name: "--ms1_factor_for_alignment"
+          type: double
+          default: 0.5
+        - name: "--peak_count_filter"
+          type: double
+          default: 0
+        - name: "--gap_filling_by_compulsion"
+          type: boolean
+          default: true
+        - name: "--alignment_reference_file_id"
+          type: integer
+          default: 0
+        - name: "--remove_feature_based_on_peak_height_fold_change"
+          type: boolean
+          default: false
+        - name: "--pct_detected_in_at_least_one_group"
+          type: double
+          default: 0
+        - name: "--sample_max_over_blank_average"
+          type: double
+          default: 5
+        - name: "--sample_average_over_blank_average"
+          type: double
+          default: 5
+        - name: "--keep_identified_metabolites"
+          type: boolean
+          default: true
+        - name: "--keep_removable_features"
+          type: boolean
+          description: "Keep removable features and assign the tag for checking."
+          default: true
+        - name: "--replace_true_zero"
+          type: boolean
+          description: "Replace true zero values with 1/10 of minimum peak height over all samples"
+          default: false
     - name: Isotope tracking arguments
       arguments: 
-        - tracking_isotope_label 
-        - set_fully_labeled_reference_file 
-        - non_labeled_reference_id 
-        - fully_labeled_reference_id 
-        - isotope_tracking_dictionary_id
+        - name: "--tracking_isotope_label"
+          type: boolean
+          default: false
+        - name: "--set_fully_labeled_reference_file"
+          type: boolean
+          default: false
+        - name: "--non_labeled_reference_id"
+          type: integer
+          default: 0
+        - name: "--fully_labeled_reference_id"
+          type: integer
+          default: 0
+        - name: "--isotope_tracking_dictionary_id"
+          type: integer
+          default: 0
     - name: Corrdec arguments
       arguments: 
-        - corrdec_execute
-        - corrdec_ms2_tolerance
-        - corrdec_minimum_ms2_peak_height
-        - corrdec_min_detected_samples
-        - corrdec_exclude_highly_correlated_spots
-        - corrdec_min_corr_ms2
-        - corrdec_margin_1
-        - corrdec_margin_2
-        - corrdec_min_detected_rate
-        - corrdec_min_ms2_relative_intensity
-        - corrdec_remove_peaks_larger_than_precursor
+        - name: "--corrdec_execute"
+          type: boolean
+          default: true
+        - name: "--corrdec_ms2_tolerance"
+          type: double
+          default: 0.01
+        - name: "--corrdec_minimum_ms2_peak_height"
+          type: double
+          default: 1000
+        - name: "--corrdec_min_detected_samples"
+          type: double
+          default: 3
+        - name: "--corrdec_exclude_highly_correlated_spots"
+          type: double
+          description: To ignore highly correlated precursor ions (related ions e.g. adducts and isotopes); 0.8-0.9
+          default: 0.9
+        - name: "--corrdec_min_corr_ms2"
+          type: double
+          description: A cutoff value to remove not correlated MS2 peaks
+          default: 0.7
+        - name: "--corrdec_margin_1"
+          type: double
+          description: "Minimum correlation cutoff value: max correlation (vs. a target precursor) - this value. Criterion 2 in the method paper, it should be published soon."
+          default: 0.2
+        - name: "--corrdec_margin_2"
+          type: double
+          description: "Minimum correlation cutoff value: max correlation (vs. coeluted precursors) - this value. Criterion 3 in the method paper, it should be published soon."
+          default: 0.7
+        - name: "--corrdec_min_detected_rate"
+          type: double
+          default: 0.5
+        - name: "--corrdec_min_ms2_relative_intensity"
+          type: double
+          default: 2
+        - name: "--corrdec_remove_peaks_larger_than_precursor"
+          type: boolean
+          default: true
     - name: Ion mobility arguments
       arguments: 
-        - accumulated_rt_range
-        - ccs_search_tolerance
-        - mobility_axis_alignment_tolerance
-        - use_ccs_for_identification_scoring
-        - use_ccs_for_identification_filtering
-    # todo: adduct
+        - name: "--accumulated_rt_range"
+          type: double
+          default: 0.2
+        - name: "--ccs_search_tolerance"
+          type: double
+          default: 10
+        - name: "--mobility_axis_alignment_tolerance"
+          type: double
+          default: 0.02
+        - name: "--use_ccs_for_identification_scoring"
+          type: boolean
+          default: false
+        - name: "--use_ccs_for_identification_filtering"
+          type: boolean
+          default: true
   resources:
     - type: python_script
       path: script.py
