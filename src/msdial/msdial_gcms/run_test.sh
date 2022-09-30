@@ -3,11 +3,11 @@
 # testing individual files
 echo ">> Running MSDial"
 $meta_executable \
-  --input "$resources_dir/GCMS/140428actsa25_1.cdf" \
-  --input "$resources_dir/GCMS/140428actsa27_1.cdf" \
+  --input "$meta_resources_dir/GCMS/140428actsa25_1.cdf" \
+  --input "$meta_resources_dir/GCMS/140428actsa27_1.cdf" \
   --class_id foo \
   --class_id bar \
-  --ri_index_file "$resources_dir/GCMS/FAMEs RT.txt" \
+  --ri_index_file "$meta_resources_dir/GCMS/FAMEs RT.txt" \
   --output "output2" | \
   tee output2.txt
 

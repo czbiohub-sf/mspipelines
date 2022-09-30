@@ -4,7 +4,7 @@
 # testing individual files
 echo ">> Running $meta_functionality_name (file mode)"
 $meta_executable \
-  --input "$resources_dir/raw/Sample2.raw" \
+  --input "$meta_resources_dir/raw/Sample2.raw" \
   --output "output2/Sample2.mzML" 2>&1 | \
   tee output2.txt
 
