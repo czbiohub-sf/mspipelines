@@ -10,6 +10,9 @@ set -eo pipefail
     --ms_instrument "Orbitrap" \
     --lcms_run_type "Standard" \
     --lfq_mode "LFQ" \
-    --publishDir "test/"
+    --output "output"
+
+[ -f "output/mqpar.xml" ] || { echo "Output mqpar.xml does not exist" && exit 1 }
+[ -f "output/combined/txt/proteinGroups.txt" ] || { echo "Output proteinGroups.txt does not exist" && exit 1 }
 
 echo ">> Run succeeded"
