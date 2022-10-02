@@ -23,4 +23,4 @@ echo ">>> Checking whether output files can be found"
 [[ -f output2/Sample1.mzML ]] && echo "Sample1 found!" && exit 1
 [[ ! -f output2/Sample2.mzML ]] && echo "Sample2 file could not be found!" && exit 1
 
-echo ">> All test succeeded!"
+echo ">> All tests succeeded!"

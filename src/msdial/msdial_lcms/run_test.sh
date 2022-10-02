@@ -68,4 +68,4 @@ if ! ls output3/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresu
 [[ ! -f output3/params.txt ]] && echo "Param file could not be found!" && exit 1
 
 
-echo ">> All test succeeded!"
+echo ">> All tests succeeded!"
