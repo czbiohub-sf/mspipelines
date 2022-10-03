@@ -40,11 +40,7 @@ platforms:
     setup:
       - type: apt
         packages: [ cython3, git ]
-      - type: docker
-        run: |
-          cd / && \
-          git clone https://bitbucket.org/incpm/prot-qc.git && \
-          cd prot-qc && \
-          python setup.py install
+      - type: python
+        git: https://bitbucket.org/incpm/prot-qc.git
   - type: nextflow
     variant: vdsl3
