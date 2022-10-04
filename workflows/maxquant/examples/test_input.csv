@@ -1,2 +1,0 @@
-id,input,reference
-run0,resources_test/zenodo_4274987/raw/*.raw,resources_test/zenodo_4274987/raw/reference.fasta

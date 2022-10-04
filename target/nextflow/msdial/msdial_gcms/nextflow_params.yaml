@@ -1,0 +1,68 @@
+# Inputs
+input: # please fill in - example: ["input1.abf", "input2.abf", "input3.abf"]
+# name: ["foo", "bar", "baz"]
+# type: ["Sample"]
+# class_id: ["1", "2", "3"]
+# batch: [1, 2, 3]
+# analytical_order: [2, 1, 3]
+# inject_volume: [1.0, 0.9, 1.1]
+
+# Outputs
+# output: "$id.$key.output.output"
+
+# Data type arguments
+data_type: "Centroid"
+ion_mode: "Positive"
+accuracy_type: "IsNominal"
+
+# Data correction arguments
+retention_time_begin: 0
+retention_time_end: 25
+mass_range_begin: 0
+mass_range_end: 1000
+
+# Peak detection arguments
+smoothing_method: "LinearWeightedMovingAverage"
+smoothing_level: 3
+average_peak_width: 20
+minimum_peak_height: 1000
+mass_slice_width: 0.1
+mass_accuracy: 0.025
+
+# Deconvolution arguments
+sigma_window_value: 0.5
+amplitude_cutoff: 10
+
+# Identification arguments
+# msp_file: "file.msp"
+# ri_index_file: ["ri_index.txt"]
+retention_type: "RI"
+ri_compound: "Alkanes"
+retention_time_tolerance_for_identification: 0.5
+retention_index_tolerance_for_identification: 20
+ei_similarity_tolerance_for_identification: 70
+identification_score_cutoff: 70
+use_retention_information_for_identification_scoring: false
+use_retention_information_for_identification_filtering: false
+only_report_top_hit: true
+
+# Alignment arguments
+alignment_index_type: "RT"
+retention_time_tolerance_for_alignment: 0.075
+retention_index_tolerance_for_alignment: 20
+ei_similarity_tolerance_for_alignment: 70
+retention_time_factor_for_alignment: 0.5
+ei_similarity_factor_for_alignment: 0.5
+peak_count_filter: 0
+remove_feature_based_on_peak_height_fold_change: false
+pct_detected_in_at_least_one_group: 0
+sample_max_over_blank_average: 5
+sample_average_over_blank_average: 5
+keep_identified_metabolites: true
+keep_removable_features: true
+replace_true_zero: false
+
+# Nextflow input-output arguments
+publish_dir: # please fill in - example: "output/"
+# param_list: "my_params.yaml"
+# param_list_format: "yaml"

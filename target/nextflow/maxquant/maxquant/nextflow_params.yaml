@@ -1,0 +1,20 @@
+# Inputs
+input: # please fill in - example: ["input.raw"]
+reference: # please fill in - example: ["reference.fasta"]
+
+# Outputs
+# output: "$id.$key.output.output"
+
+# Arguments
+# ref_taxonomy_id: ["9606"]
+match_between_runs: false
+write_tables: ["msScans", "msmsScans", "ms3Scans", "allPeptides", "mzRange", "mzTab", "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+ms_instrument: "Bruker TIMS"
+lcms_run_type: "Standard"
+lfq_mode: "LFQ"
+dryrun: false
+
+# Nextflow input-output arguments
+publish_dir: # please fill in - example: "output/"
+# param_list: "my_params.yaml"
+# param_list_format: "yaml"

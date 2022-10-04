@@ -1,0 +1,146 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "maxquant",
+    "description": "Perform a MaxQuant analysis with mostly default parameters.",
+    "type": "object",
+    "definitions": {
+      "inputs" : {
+        "title": "Inputs",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {
+          "input": {
+            "type":"string",
+            "description": "One or more Thermo Raw files.",
+            
+            
+            "default": ""
+          },
+          "reference": {
+            "type":"string",
+            "description": "A reference file in fasta format.",
+            
+            
+            "default": ""
+          }
+        }
+      },
+      "outputs" : {
+        "title": "Outputs",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {
+          "output": {
+            "type":"string",
+            "description": "An output directory to store the \u0027mqpar.xml\u0027 and \u0027combined\u0027 outputs.",
+            
+            
+            "default": "$id.$key.output.output"
+          }
+        }
+      },
+      "arguments" : {
+        "title": "Arguments",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {
+          "ref_taxonomy_id": {
+            "type":"string",
+            "description": "Taxonomy ID. Length must match --reference parameter. \nCommon taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.\n",
+            
+            
+            "default": ""
+          },
+          "match_between_runs": {
+            "type":"boolean",
+            "description": "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.",
+            
+            
+            "default": "False"
+          },
+          "write_tables": {
+            "type":"string",
+            "description": "Which tables to write out.",
+            
+            "enum": ["msScans", "msmsScans", "ms3Scans", "allPeptides", "mzRange", "mzTab", "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"],
+            "default": "['msScans', 'msmsScans', 'ms3Scans', 'allPeptides', 'mzRange', 'mzTab', 'DIA fragments', 'DIA fragments quant', 'pasefMsmsScans', 'accumulatedMsmsScans']"
+          },
+          "ms_instrument": {
+            "type":"string",
+            "description": "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters.",
+            
+            "enum": ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"],
+            "default": "Bruker TIMS"
+          },
+          "lcms_run_type": {
+            "type":"string",
+            "description": "The type of LC-MS run. Select \u0027Standard\u0027 for label free and MS1 labeled samples. For conventional isobaric labeling samples, select \u0027Reporter ion MS2\u0027. In case the isobaric labeling reporters should be read from MS3 spectra, please select \u0027Reporter ion MS3\u0027.",
+            
+            "enum": ["Standard", "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"],
+            "default": "Standard"
+          },
+          "lfq_mode": {
+            "type":"string",
+            "description": "Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with \u0027LFQ Intensity\u0027.",
+            
+            "enum": ["None", "LFQ"],
+            "default": "LFQ"
+          },
+          "dryrun": {
+            "type":"boolean",
+            "description": "If true, will only generate the mqpar.xml file and not run MaxQuant.",
+            
+            
+            "default": "False"
+          }
+        }
+      },
+      "nextflow input-output arguments" : {
+        "title": "Nextflow input-output arguments",
+        "type": "object",
+        "description": "Input/output parameters for Nextflow itself. Please note that both publishDir and publish_dir are supported but at least one has to be configured.",
+        "default": "",
+        "properties": {
+          "publish_dir": {
+            "type":"string",
+            "description": "Path to an output directory.",
+            
+            
+            "default": ""
+          },
+          "param_list": {
+            "type":"string",
+            "description": "Allows inputting multiple parameter sets to initialise a Nextflow channel. Possible formats are csv, json, yaml, or simply a yaml_blob.\nA csv should have column names which correspond to the different arguments of this pipeline.\nA json or a yaml file should be a list of maps, each of which has keys corresponding to the arguments of the pipeline.\nA yaml blob can also be passed directly as a parameter.\nInside the Nextflow pipeline code, params.params_list can also be used to directly a list of parameter sets.\nWhen passing a csv, json or yaml, relative path names are relativized to the location of the parameter file.",
+            "hidden": true,
+            
+            "default": ""
+          },
+          "param_list_format": {
+            "type":"string",
+            "description": "Manually specify the param_list_format. Must be one of \u0027csv\u0027, \u0027json\u0027, \u0027yaml\u0027, \u0027yaml_blob\u0027, \u0027asis\u0027 or \u0027none\u0027.",
+            "hidden": true,
+            "enum": ["csv", "json", "yaml", "yaml_blob", "asis", "none"],
+            "default": ""
+          }
+        }
+      }
+    },
+    "allOf": [
+      {
+        "$ref": "#/definitions/inputs"
+      },
+      {
+        "$ref": "#/definitions/outputs"
+      },
+      {
+        "$ref": "#/definitions/arguments"
+      },
+      {
+        "$ref": "#/definitions/nextflow input-output arguments"
+      }
+      
+    ]
+}

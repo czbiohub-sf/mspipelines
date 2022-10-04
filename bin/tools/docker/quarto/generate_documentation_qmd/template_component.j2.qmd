@@ -1,0 +1,71 @@
+---
+title: "{{functionality.info.name}}"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `{{functionality.name}}`{{'  '}}
+{%- if functionality.namespace is defined %}
+Namespace: `{{functionality.namespace}}`
+{%- endif %}
+
+### Command
+
+```bash
+nextflow run {{par.git_repo}} -r {{par.git_tag}} -main-script {{render.nf_path}} --help
+```
+
+{%- if render.source_url is defined %}
+
+### Links
+[Source]({{render.source_url}}){.btn-action .btn-sm .btn-info .btn role="button"}
+{%- endif %}
+
+:::
+
+{{functionality.description}}
+
+## Argument group{% if render.argument_groups|length > 1 %}s{% endif %}
+
+{%- for group in render.argument_groups %}
+
+### {{group.name}}
+
+{%- if group.description is defined %}
+
+{{group.description}}
+{% endif %}
+
+{{group.table_md}}
+{% endfor %}
+
+{%- if functionality.authors is defined %}
+## Authors
+{% for author in functionality.authors %}
+  * {{author.name}}
+    {%- if author.props.github is defined -%}
+      {% raw %} [{{< fa brands github >}}{% endraw %}](https://github.com/{{author.props.github}})
+    {%- endif -%}
+    {%- if author.props.orcid is defined -%}
+      {% raw %} [{{< fa brands orcid >}}{% endraw %}](https://orcid.org/{{author.props.orcid}})
+    {%- endif -%}
+    {%- if author.roles is defined and author.roles is not string -%}
+      {{' '}}({{author.roles|join(", ")}})
+    {%- endif -%}
+    {%- if author.roles is defined and author.roles is string -%}
+      {{' '}}({{author.roles}})
+    {%- endif -%}
+{% endfor %}
+{% endif %}
+
+{%- if render.graph is defined %}
+## Visualisation
+
+```{mermaid}
+%%| column: screen-inset-shaded
+{{render.graph}}
+```
+{%endif %}

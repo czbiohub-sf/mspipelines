@@ -86,7 +86,7 @@ functionality:
     - path: settings
   test_resources:
     - type: bash_script
-      path: test.py
+      path: test.sh
     - path: ../../../resources_test/zenodo_4274987
 platforms:
   - type: docker

@@ -1,0 +1,15 @@
+---
+title: "{{title}}"
+---
+
+## Workflows
+
+:::{.column-body-outset}
+{{table_workflows}}
+:::
+
+## Modules
+
+:::{.column-body-outset}
+{{table_modules}}
+:::

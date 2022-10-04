@@ -11,4 +11,4 @@ if ! grep -q '(dryrun) download: s3://czbiohub.*to.*raw' output.txt; then
   exit 1
 fi
 
-echo Test succeeded!
+echo ">> All tests succeeded!"
