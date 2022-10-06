@@ -15,6 +15,7 @@ functionality:
           type: file
           required: true
           multiple: true
+          multiple_sep: ";"
           description: One or more Thermo Raw files.
           example: input.raw
         # - name: "--input_meta"
@@ -26,6 +27,7 @@ functionality:
           type: file
           required: true
           multiple: true
+          multiple_sep: ";"
           example: reference.fasta
           description: A reference file in fasta format.
     - name: Outputs
