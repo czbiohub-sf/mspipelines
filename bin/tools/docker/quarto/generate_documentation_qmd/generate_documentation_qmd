@@ -408,9 +408,9 @@ RUN pip install --upgrade pip && \
   pip install --upgrade --no-cache-dir "jinja-cli"
 
 LABEL org.opencontainers.image.description="Companion container for running component quarto generate_documentation_qmd"
-LABEL org.opencontainers.image.created="2022-10-04T04:26:55Z"
-LABEL org.opencontainers.image.source="https://rcannood/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@github.com/viash-io/viash_tools.git"
-LABEL org.opencontainers.image.revision="2b7972265fdff9fccd65790fa2c9b1452f42a478"
+LABEL org.opencontainers.image.created="2022-10-06T06:26:22Z"
+LABEL org.opencontainers.image.source="https://rcannood/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@github.com/viash-io/viash_tools.git"
+LABEL org.opencontainers.image.revision="39f8249e93aa5e96ae3c2a5f85b4f020790a3060"
 LABEL org.opencontainers.image.version="dev"
 VIASHDOCKER
 }
@@ -1103,10 +1103,10 @@ for (i in seq_along(components_processed)) {
         attrs <- c(attrs, "required")
       }
       if (length(arg\$default) > 0) {
-        attrs <- c(attrs, paste0("default: ", value_render(arg\$default, arg\$type)))
+        attrs <- c(attrs, paste0("default: \`", value_render(arg\$default, arg\$type), "\`"))
       }
       if (length(arg\$example) > 0) {
-        attrs <- c(attrs, paste0("example: ", value_render(arg\$example, arg\$type)))
+        attrs <- c(attrs, paste0("example: \`", value_render(arg\$example, arg\$type), "\`"))
       }
       tibble(
         Name = paste0("\`", arg\$name, "\`"),
@@ -1131,17 +1131,49 @@ for (i in seq_along(components_processed)) {
       paste0("target/nextflow/", comp\$functionality\$namespace, "/", comp\$functionality\$name, "/main.nf")
     }
   
+  params_file <- paste0(par\$input, "/", dirname(render\$nf_path), "/nextflow_params.yaml")
+  if (file.exists(params_file)) {
+    render\$params_yaml <- paste(read_lines(params_file), collapse = "\\n")
+  }
+  
   # find source url
   if (!is.null(par\$git_browse_url)) {
     render\$source_url <- paste0(par\$git_browse_url, dirname(comp\$info\$rel_config))
   }
 
   # render graph
-  graph_path <- paste0(dirname(comp\$info\$config), "/graph.dot")
-  if (file.exists(graph_path)) {
-    graph_lines <- process_dot(graph_path, "mermaid")
+  tests <- comp\$functionality\$test_resources %>% keep(~ .\$type == "nextflow_script")
+  
+  if (length(tests) > 0) {
+    test <- tests[[1]] # just need one test
 
-    render\$graph <- graph_lines %>% paste0("\\n") %>% paste(collapse = "")
+    graph_path <- tempfile("graph", fileext = ".dot")
+
+    args <- c(
+      "run", ".",
+      "-main-script", paste0(par\$input, "/", render\$nf_path),
+      "-entry", test\$entrypoint,
+      "-stub",
+      "-profile", "no_publish",
+      "-with-dag", graph_path
+    )
+    
+    out <- processx::run(
+      "nextflow",
+      args = args,
+      error_on_status = FALSE
+    )
+
+    if (out\$status > 0) {
+      warning("Stub run of '", render\$nf_path, "' failed! Defaulting to existing graph.dot file.")
+      graph_path <- paste0(dirname(comp\$info\$config), "/graph.dot")
+    }
+
+    if (file.exists(graph_path)) {
+      graph_lines <- process_dot(graph_path, "mermaid")
+
+      render\$graph <- graph_lines %>% paste0("\\n") %>% paste(collapse = "")
+    }
   }
 
   # store render and par

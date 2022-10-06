@@ -12,12 +12,6 @@ ID: `{{functionality.name}}`{{'  '}}
 Namespace: `{{functionality.namespace}}`
 {%- endif %}
 
-### Command
-
-```bash
-nextflow run {{par.git_repo}} -r {{par.git_tag}} -main-script {{render.nf_path}} --help
-```
-
 {%- if render.source_url is defined %}
 
 ### Links
@@ -27,6 +21,42 @@ nextflow run {{par.git_repo}} -r {{par.git_tag}} -main-script {{render.nf_path}}
 :::
 
 {{functionality.description}}
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run {{par.git_repo}} \
+  -r {{par.git_tag}} -latest \
+  -main-script {{render.nf_path}} \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+{{render.params_yaml}}
+```
+</details>
+
+```bash
+nextflow run {{par.git_repo}} \
+  -r {{par.git_tag}} -latest \
+  -profile docker \
+  -main-script {{render.nf_path}} \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
 
 ## Argument group{% if render.argument_groups|length > 1 %}s{% endif %}
 

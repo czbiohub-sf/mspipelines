@@ -393,9 +393,9 @@ FROM dataintuitive/viash:0.4.0-rc1
 
 RUN :
 LABEL org.opencontainers.image.description="Companion container for running component docs generate_test_report"
-LABEL org.opencontainers.image.created="2022-10-04T04:26:56Z"
-LABEL org.opencontainers.image.source="https://rcannood/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@github.com/viash-io/viash_tools.git"
-LABEL org.opencontainers.image.revision="2b7972265fdff9fccd65790fa2c9b1452f42a478"
+LABEL org.opencontainers.image.created="2022-10-06T06:26:23Z"
+LABEL org.opencontainers.image.source="https://rcannood/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@github.com/viash-io/viash_tools.git"
+LABEL org.opencontainers.image.revision="39f8249e93aa5e96ae3c2a5f85b4f020790a3060"
 VIASHDOCKER
 }
 

@@ -611,9 +611,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt"
 LABEL org.opencontainers.image.description="Companion container for running component msdial msdial_gcms"
-LABEL org.opencontainers.image.created="2022-10-04T04:27:46Z"
+LABEL org.opencontainers.image.created="2022-10-06T06:27:33Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="096b016f64c19a6973e7baeac1346ac3e6c7e439"
+LABEL org.opencontainers.image.revision="cf071e225c1e6aa1aeb78178fce2904dc8080c8b"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
