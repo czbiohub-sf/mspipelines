@@ -4,6 +4,9 @@ import subprocess
 import tempfile
 import shutil
 import pandas as pd
+from xml.dom import minidom as xmlbuilder
+
+
 
 ## VIASH START
 par = {
@@ -16,6 +19,474 @@ meta = {
    "resources_dir": "src/maxquant/maxquant/"
 }
 ## VIASH END
+
+#########################################################################################################################################
+#TODO MOVE IN OWN FILE?
+
+def generateMaxquantParametersXML():
+    global xml
+    xml = xmlbuilder.Document() 
+    global parameters
+    parameters={}
+    global fastas
+    fastas=[]
+
+    #CREATE ROOT STRUCTURE
+    global maxQuantParams
+    maxQuantParams = xml.createElement('MaxQuantParams') 
+    maxQuantParams.setAttribute('xmlns:xsd','http://www.w3.org/2001/XMLSchema')
+    maxQuantParams.setAttribute('xmlns:xsi','http://www.w3.org/2001/XMLSchema-instance')
+    xml.appendChild(maxQuantParams)
+    
+    #CREATE FASTA SECTION
+    global fastaFileParamsEl
+    fastaFileParamsEl = xml.createElement('fastaFiles') 
+    maxQuantParams.appendChild(fastaFileParamsEl)
+ 
+    #CREATE DEFAULT PARAMETERS
+    addDefaultParameters(maxQuantParams)
+
+    #CREATE PARAMETER GROUPS
+    global parameterGroupsEl
+    parameterGroupsEl = xml.createElement('parameterGroups')
+    maxQuantParams.appendChild(parameterGroupsEl) 
+    addParameterGroup()
+    
+    #CREATE MSMS PARAMETER ARRAY
+    global msmsParamArrayEl 
+    msmsParamArrayEl= xml.createElement('msmsParamsArray')
+    maxQuantParams.appendChild(msmsParamArrayEl) 
+    addMassSpecType('FTMS',[20,True,7,True,25,True,True,12,100,True,True,True,True,False])
+    addMassSpecType('ITMS',[0.5,False,0.15,False,0.5,False,False,8,100,True,True,True,True,False])
+    addMassSpecType('TOF',[40,True,0.01,False,25,True,True,10,100,True,True,True,True,False])
+    addMassSpecType('Unknown',[20,True,7,True,25,True,True,12,100,True,True,True,True,False])
+
+    #CREATE FRAGMENTATION PARAMETER ARRAY
+    global fragParamArrayEl 
+    fragParamArrayEl= xml.createElement('fragmentationParamsArray')
+    maxQuantParams.appendChild(fragParamArrayEl) 
+    addFragmentationType('CID',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('HCD',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('ETD',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('PQD',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('ETHCD',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('ETCID',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('UVPD',[False,1,1,1,False,1,'KRH'])
+    addFragmentationType('Unknown',[False,1,1,1,False,1,'KRH'])
+
+def createParameter(parameterParent,parameterName,parameterValue,parameterPrefix=''):
+    parameterEL=xml.createElement(parameterName)
+    parameterElValue=xml.createTextNode(str(parameterValue))
+    parameterEL.appendChild(parameterElValue)
+    parameterParent.appendChild(parameterEL)
+    parameters[parameterPrefix+parameterName]=parameterEL
+
+def updateParameter(parameterName,parameterValue):
+    if(not parameterName in parameters):
+     createParameter(maxQuantParams,parameterName,parameterValue)
+    parameters[parameterName].firstChild.replaceWholeText(parameterValue)
+       
+def addFastaFile(fastaFilePath,taxonomyId=""):
+    fastaFileIndex=len(fastas)
+    fastas.append(fastaFilePath)
+    fastaFileInfoEl = xml.createElement('FastaFileInfo')
+    fastaFileParamsEl.appendChild(fastaFileInfoEl) 
+    prefix=str(fastaFileIndex)+"_"
+    createParameter(fastaFileInfoEl,'fastaFilePath',fastaFilePath,prefix)
+    createParameter(fastaFileInfoEl,'identifierParseRule','>.*\|(.*)\|',prefix)
+    createParameter(fastaFileInfoEl,'descriptionParseRule','>(.*)',prefix)
+    createParameter(fastaFileInfoEl,'taxonomyParseRule',"",prefix)
+    createParameter(fastaFileInfoEl,'variationParseRule',"",prefix)
+    createParameter(fastaFileInfoEl,'modificationParseRule',"",prefix)
+    createParameter(fastaFileInfoEl,'taxonomyId',taxonomyId,prefix)
+
+def addDefaultParameters(parameterParent):
+   createParameter(parameterParent,"fastaFilesProteogenomics","")
+   createParameter(parameterParent,"fastaFilesFirstSearch","")
+   createParameter(parameterParent,"fixedSearchFolder","")
+   createParameter(parameterParent,'andromedaCacheSize','350000')
+   createParameter(parameterParent,'advancedRatios','True')
+   createParameter(parameterParent,'pvalThres','0.005')
+   createParameter(parameterParent,'rtShift','False')
+   createParameter(parameterParent,'separateLfq','False')
+   createParameter(parameterParent,'lfqStabilizeLargeRatios','True')
+   createParameter(parameterParent,'lfqRequireMsms','True')
+   createParameter(parameterParent,'lfqBayesQuant','False')
+   createParameter(parameterParent,'decoyMode','revert')
+   createParameter(parameterParent,'boxCarMode','all')
+   createParameter(parameterParent,'includeContaminants','True')
+   createParameter(parameterParent,'maxPeptideMass','4600')
+   createParameter(parameterParent,'epsilonMutationScore','True')
+   createParameter(parameterParent,'mutatedPeptidesSeparately','True')
+   createParameter(parameterParent,'proteogenomicPeptidesSeparately','True')
+   createParameter(parameterParent,'minDeltaScoreUnmodifiedPeptides','0')
+   createParameter(parameterParent,'minDeltaScoreModifiedPeptides','6')
+   createParameter(parameterParent,'minScoreUnmodifiedPeptides','0')
+   createParameter(parameterParent,'minScoreModifiedPeptides','40')
+   createParameter(parameterParent,'secondPeptide','True')
+   createParameter(parameterParent,'matchBetweenRuns','True')
+   createParameter(parameterParent,'matchUnidentifiedFeatures','False')
+   createParameter(parameterParent,'matchBetweenRunsFdr','False')
+   createParameter(parameterParent,'dependentPeptides','False')
+   createParameter(parameterParent,'dependentPeptideFdr','0')
+   createParameter(parameterParent,'dependentPeptideMassBin','0')
+   createParameter(parameterParent,'dependentPeptidesBetweenRuns','False')
+   createParameter(parameterParent,'dependentPeptidesWithinExperiment','False')
+   createParameter(parameterParent,'dependentPeptidesWithinParameterGroup','False')
+   createParameter(parameterParent,'dependentPeptidesRestrictFractions','False')
+   createParameter(parameterParent,'dependentPeptidesFractionDifference','0')
+   createParameter(parameterParent,'ibaq','False')
+   createParameter(parameterParent,'top3','False')
+   createParameter(parameterParent,'independentEnzymes','False')
+   createParameter(parameterParent,'useDeltaScore','False')
+   createParameter(parameterParent,'splitProteinGroupsByTaxonomy','False')
+   createParameter(parameterParent,'taxonomyLevel','Species')
+   createParameter(parameterParent,'avalon','False')
+   createParameter(parameterParent,'nModColumns','3')
+   createParameter(parameterParent,'ibaqLogFit','False')
+   createParameter(parameterParent,'ibaqChargeNormalization','False')
+   createParameter(parameterParent,'razorProteinFdr','True')
+   createParameter(parameterParent,'deNovoSequencing','False')
+   createParameter(parameterParent,'deNovoVarMods','False')
+   createParameter(parameterParent,'deNovoCompleteSequence','False')
+   createParameter(parameterParent,'deNovoCalibratedMasses','False')
+   createParameter(parameterParent,'deNovoMaxIterations','0')
+   createParameter(parameterParent,'deNovoProteaseReward','0')
+   createParameter(parameterParent,'deNovoProteaseRewardTof','0')
+   createParameter(parameterParent,'deNovoAgPenalty','0')
+   createParameter(parameterParent,'deNovoGgPenalty','0')
+   createParameter(parameterParent,'deNovoUseComplementScore','True')
+   createParameter(parameterParent,'deNovoUseProteaseScore','True')
+   createParameter(parameterParent,'deNovoUseWaterLossScore','True')
+   createParameter(parameterParent,'deNovoUseAmmoniaLossScore','True')
+   createParameter(maxQuantParams,'deNovoUseA2Score','True')
+   createParameter(maxQuantParams,'massDifferenceSearch','False')
+   createParameter(maxQuantParams,'isotopeCalc','False')
+   createParameter(maxQuantParams,'writePeptidesForSpectrumFile','')
+   createParameter(maxQuantParams,'intensityPredictionsFile','')
+   createParameter(maxQuantParams,'minPepLen','7')
+   createParameter(maxQuantParams,'psmFdrCrosslink','0.01')
+   createParameter(maxQuantParams,'peptideFdr','0.01')
+   createParameter(maxQuantParams,'proteinFdr','0.01')
+   createParameter(maxQuantParams,'siteFdr','0.01')
+   createParameter(maxQuantParams,'minPeptideLengthForUnspecificSearch','8')
+   createParameter(maxQuantParams,'maxPeptideLengthForUnspecificSearch','25')
+   createParameter(maxQuantParams,'useNormRatiosForOccupancy','True')
+   createParameter(maxQuantParams,'minPeptides','1')
+   createParameter(maxQuantParams,'minRazorPeptides','1')
+   createParameter(maxQuantParams,'minUniquePeptides','0')
+   createParameter(maxQuantParams,'useCounterparts','False')
+   createParameter(maxQuantParams,'advancedSiteIntensities','True')
+   createParameter(maxQuantParams,'customProteinQuantification','False')
+   createParameter(maxQuantParams,'customProteinQuantificationFile','')
+   createParameter(maxQuantParams,'minRatioCount','2')
+   createParameter(maxQuantParams,'restrictProteinQuantification','True')
+
+   restrictionModsEl = xml.createElement('restrictMods')
+   maxQuantParams.appendChild(restrictionModsEl) 
+   createParameter(restrictionModsEl,'string','Oxidation (M)')
+   createParameter(restrictionModsEl,'string','Acetyl (Protein N-term)')
+
+   createParameter(maxQuantParams,'matchingTimeWindow','0.7')
+   createParameter(maxQuantParams,'matchingIonMobilityWindow','0.05')
+   createParameter(maxQuantParams,'alignmentTimeWindow','20')
+   createParameter(maxQuantParams,'alignmentIonMobilityWindow','1')
+   createParameter(maxQuantParams,'numberOfCandidatesMsms','15')
+   createParameter(maxQuantParams,'compositionPrediction','0')
+   createParameter(maxQuantParams,'quantMode','1')
+   createParameter(maxQuantParams,'massDifferenceMods','')
+   createParameter(maxQuantParams,'mainSearchMaxCombinations','200')
+   createParameter(maxQuantParams,'writeMsScansTable','True')
+   createParameter(maxQuantParams,'writeMsmsScansTable','True')
+   createParameter(maxQuantParams,'writePasefMsmsScansTable','True')
+   createParameter(maxQuantParams,'writeAccumulatedMsmsScansTable','True')
+   createParameter(maxQuantParams,'writeMs3ScansTable','True')
+   createParameter(maxQuantParams,'writeAllPeptidesTable','True')
+   createParameter(maxQuantParams,'writeMzRangeTable','True')
+   createParameter(maxQuantParams,'writeDiaFragmentTable','True')
+   createParameter(maxQuantParams,'writeDiaFragmentQuantTable','True')
+   createParameter(maxQuantParams,'writeMzTab','True')
+   createParameter(maxQuantParams,'disableMd5','False')
+   createParameter(maxQuantParams,'cacheBinInds','True')
+   createParameter(maxQuantParams,'etdIncludeB','False')
+   createParameter(maxQuantParams,'ms2PrecursorShift','0')
+   createParameter(maxQuantParams,'complementaryIonPpm','20')
+   createParameter(maxQuantParams,'variationParseRule','')
+   createParameter(maxQuantParams,'variationMode','none')
+   createParameter(maxQuantParams,'useSeriesReporters','False')
+   createParameter(maxQuantParams,'name','session1')
+   createParameter(maxQuantParams,'maxQuantVersion','2.0.3.0')
+   createParameter(maxQuantParams,'pluginFolder','')
+   createParameter(maxQuantParams,'numThreads','1')
+   createParameter(maxQuantParams,'emailAddress','')
+   createParameter(maxQuantParams,'smtpHost','')
+   createParameter(maxQuantParams,'emailFromAddress','')
+   createParameter(maxQuantParams,'fixedCombinedFolder','')
+   createParameter(maxQuantParams,'fullMinMz','-1.79769313486232E+308')
+   createParameter(maxQuantParams,'fullMaxMz','1.79769313486232E+308')
+   createParameter(maxQuantParams,'sendEmail','False')
+   createParameter(maxQuantParams,'ionCountIntensities','False')
+   createParameter(maxQuantParams,'verboseColumnHeaders','False')
+   createParameter(maxQuantParams,'calcPeakProperties','True')
+   createParameter(maxQuantParams,'showCentroidMassDifferences','False')
+   createParameter(maxQuantParams,'showIsotopeMassDifferences','False')
+   createParameter(maxQuantParams,'useDotNetCore','True')
+   createParameter(maxQuantParams,'profilePerformance','False')
+
+   global filePaths
+   filePaths = xml.createElement('filePaths')
+   maxQuantParams.appendChild(filePaths) 
+
+   global experiments
+   experiments = xml.createElement('experiments')
+   maxQuantParams.appendChild(experiments) 
+
+   global fractions
+   fractions = xml.createElement('fractions')
+   maxQuantParams.appendChild(fractions) 
+
+   global ptms
+   ptms = xml.createElement('ptms')
+   maxQuantParams.appendChild(ptms) 
+
+   global paramGroupIndices
+   paramGroupIndices = xml.createElement('paramGroupIndices')
+   maxQuantParams.appendChild(paramGroupIndices) 
+
+   global referenceChannels
+   referenceChannels = xml.createElement('referenceChannel')
+   maxQuantParams.appendChild(referenceChannels) 
+
+
+   createParameter(maxQuantParams,'intensPred','False')
+   createParameter(maxQuantParams,'intensPredModelReTrain','False')
+   createParameter(maxQuantParams,'lfqTopNPeptides','0')
+   createParameter(maxQuantParams,'diaJoinPrecChargesForLfq','False')
+   createParameter(maxQuantParams,'diaFragChargesForQuant','1')
+   createParameter(maxQuantParams,'timsRearrangeSpectra','False')
+   createParameter(maxQuantParams,'gridSpacing','0.5')
+   createParameter(maxQuantParams,'proteinGroupingFile','')
+
+def addParameterGroup():
+   parameterParent = xml.createElement('parameterGroup')
+   parameterGroupsEl.appendChild(parameterParent) 
+   createParameter(parameterParent,'msInstrument','0')
+   createParameter(parameterParent,'maxCharge','7')
+   createParameter(parameterParent,'minPeakLen','2')
+   createParameter(parameterParent,'diaMinPeakLen','1')
+   createParameter(parameterParent,'useMs1Centroids','False')
+   createParameter(parameterParent,'useMs2Centroids','False')
+   createParameter(parameterParent,'cutPeaks','True')
+   createParameter(parameterParent,'gapScans','1')
+   createParameter(parameterParent,'minTime','NaN')
+   createParameter(parameterParent,'maxTime','NaN')
+   createParameter(parameterParent,'matchType','MatchFromAndTo')
+   createParameter(parameterParent,'intensityDetermination','0')
+   createParameter(parameterParent,'centroidMatchTol','8')
+   createParameter(parameterParent,'centroidMatchTolInPpm','True')
+   createParameter(parameterParent,'centroidHalfWidth','35')
+   createParameter(parameterParent,'centroidHalfWidthInPpm','True')
+   createParameter(parameterParent,'valleyFactor','1.4')
+   createParameter(parameterParent,'isotopeValleyFactor','1.2')
+   createParameter(parameterParent,'advancedPeakSplitting','False')
+   createParameter(parameterParent,'intensityThresholdMs1','0')
+   createParameter(parameterParent,'intensityThresholdMs2','0')
+
+   labelMods = xml.createElement('labelMods')
+   parameterParent.appendChild(labelMods) 
+   createParameter(labelMods,"string",'')
+
+   createParameter(parameterParent,'lcmsRunType','Standard')
+   createParameter(parameterParent,'reQuantify','False')
+   createParameter(parameterParent,'lfqMode','1')
+   createParameter(parameterParent,'lfqNormClusterSize','80')
+   createParameter(parameterParent,'lfqMinEdgesPerNode','3')
+   createParameter(parameterParent,'lfqAvEdgesPerNode','6')
+   createParameter(parameterParent,'lfqMaxFeatures','100000')
+   createParameter(parameterParent,'neucodeMaxPpm','0')
+   createParameter(parameterParent,'neucodeResolution','0')
+   createParameter(parameterParent,'neucodeResolutionInMda','False')
+   createParameter(parameterParent,'neucodeInSilicoLowRes','False')
+   createParameter(parameterParent,'fastLfq','True')
+   createParameter(parameterParent,'lfqRestrictFeatures','False')
+   createParameter(parameterParent,'lfqMinRatioCount','2')
+   createParameter(parameterParent,'maxLabeledAa','0')
+   createParameter(parameterParent,'maxNmods','5')
+   createParameter(parameterParent,'maxMissedCleavages','2')
+   createParameter(parameterParent,'multiplicity','1')
+   createParameter(parameterParent,'enzymeMode','0')
+   createParameter(parameterParent,'complementaryReporterType','0')
+   createParameter(parameterParent,'reporterNormalization','0')
+   createParameter(parameterParent,'neucodeIntensityMode','0')
+
+   fixedModifications = xml.createElement('fixedModifications')
+   parameterParent.appendChild(fixedModifications) 
+   createParameter(fixedModifications,"string",'Carbamidomethyl (C)')
+
+   enzymes = xml.createElement('enzymes')
+   parameterParent.appendChild(enzymes) 
+   createParameter(enzymes,"string",'Trypsin/P')
+   createParameter(parameterParent,"enzymesFirstSearch",'')
+   createParameter(parameterParent,"enzymeModeFirstSearch",'0')
+   createParameter(parameterParent,"useEnzymeFirstSearch",'False')
+   createParameter(parameterParent,"useVariableModificationsFirstSearch",'False')
+
+   variableModifications = xml.createElement('variableModifications')
+   parameterParent.appendChild(variableModifications) 
+   createParameter(variableModifications,"string",'Oxidation (M)')
+   createParameter(variableModifications,"string",'Acetyl (Protein N-term)')
+
+   createParameter(parameterParent,'useMultiModification','False')
+   createParameter(parameterParent,'multiModifications','')
+   createParameter(parameterParent,'isobaricLabels','')
+   createParameter(parameterParent,'neucodeLabels','')
+   createParameter(parameterParent,'variableModificationsFirstSearch','')
+   createParameter(parameterParent,'hasAdditionalVariableModifications','False')
+   createParameter(parameterParent,'additionalVariableModifications','')
+   createParameter(parameterParent,'additionalVariableModificationProteins','')
+   createParameter(parameterParent,'doMassFiltering','True')
+   createParameter(parameterParent,'firstSearchTol','20')
+   createParameter(parameterParent,'mainSearchTol','4.5')
+   createParameter(parameterParent,'searchTolInPpm','True')
+   createParameter(parameterParent,'isotopeMatchTol','2')
+   createParameter(parameterParent,'isotopeMatchTolInPpm','True')
+   createParameter(parameterParent,'isotopeTimeCorrelation','0.6')
+   createParameter(parameterParent,'theorIsotopeCorrelation','0.6')
+   createParameter(parameterParent,'checkMassDeficit','True')
+   createParameter(parameterParent,'recalibrationInPpm','True')
+   createParameter(parameterParent,'intensityDependentCalibration','False')
+   createParameter(parameterParent,'minScoreForCalibration','70')
+   createParameter(parameterParent,'matchLibraryFile','False')
+   createParameter(parameterParent,'libraryFile','')
+   createParameter(parameterParent,'matchLibraryMassTolPpm','0')
+   createParameter(parameterParent,'matchLibraryTimeTolMin','0')
+   createParameter(parameterParent,'matchLabelTimeTolMin','0')
+   createParameter(parameterParent,'reporterMassTolerance','NaN')
+   createParameter(parameterParent,'reporterPif','NaN')
+   createParameter(parameterParent,'filterPif','False')
+   createParameter(parameterParent,'reporterFraction','NaN')
+   createParameter(parameterParent,'reporterBasePeakRatio','NaN')
+   createParameter(parameterParent,'timsHalfWidth','0')
+   createParameter(parameterParent,'timsStep','0')
+   createParameter(parameterParent,'timsResolution','0')
+   createParameter(parameterParent,'timsMinMsmsIntensity','0')
+   createParameter(parameterParent,'timsRemovePrecursor','True')
+   createParameter(parameterParent,'timsIsobaricLabels','False')
+   createParameter(parameterParent,'timsCollapseMsms','True')
+   createParameter(parameterParent,'crossLinkingType','0')
+   createParameter(parameterParent,'crossLinker','')
+
+   createParameter(parameterParent,'minMatchXl','3')
+   createParameter(parameterParent,'minPairedPepLenXl','6')
+   createParameter(parameterParent,'minScore_Dipeptide','40')
+   createParameter(parameterParent,'minScore_Monopeptide','0')
+   createParameter(parameterParent,'minScore_PartialCross','10')
+   createParameter(parameterParent,'crosslinkOnlyIntraProtein','False')
+   createParameter(parameterParent,'crosslinkIntensityBasedPrecursor','True')
+   createParameter(parameterParent,'isHybridPrecDetermination','False')
+   createParameter(parameterParent,'topXcross','3')
+   createParameter(parameterParent,'doesSeparateInterIntraProteinCross','False')
+   createParameter(parameterParent,'crosslinkMaxMonoUnsaturated','0')
+   createParameter(parameterParent,'crosslinkMaxMonoSaturated','0')
+   createParameter(parameterParent,'crosslinkMaxDiUnsaturated','0')
+   createParameter(parameterParent,'crosslinkMaxDiSaturated','0')
+   createParameter(parameterParent,'crosslinkModifications','')
+   createParameter(parameterParent,'crosslinkFastaFiles','')
+   createParameter(parameterParent,'crosslinkSites','')
+   createParameter(parameterParent,'crosslinkNetworkFiles','')
+   createParameter(parameterParent,'crosslinkMode','')
+   createParameter(parameterParent,'peakRefinement','False')
+   createParameter(parameterParent,'isobaricSumOverWindow','True')
+   createParameter(parameterParent,'isobaricWeightExponent','0.75')
+   createParameter(parameterParent,'collapseMsmsOnIsotopePatterns','False')
+   createParameter(parameterParent,'diaLibraryType','0')
+   createParameter(parameterParent,'diaLibraryPaths','')
+   createParameter(parameterParent,'diaPeptidePaths','')
+   createParameter(parameterParent,'diaEvidencePaths','')
+   createParameter(parameterParent,'diaMsmsPaths','')
+   createParameter(parameterParent,'diaInitialPrecMassTolPpm','20')
+   createParameter(parameterParent,'diaInitialFragMassTolPpm','20')
+   createParameter(parameterParent,'diaCorrThresholdFeatureClustering','0.85')
+   createParameter(parameterParent,'diaPrecTolPpmFeatureClustering','2')
+   createParameter(parameterParent,'diaFragTolPpmFeatureClustering','2')
+   createParameter(parameterParent,'diaScoreN','7')
+   createParameter(parameterParent,'diaMinScore','1.99')
+   createParameter(parameterParent,'diaXgBoostBaseScore','0.4')
+   createParameter(parameterParent,'diaXgBoostSubSample','0.9')
+   createParameter(parameterParent,'centroidPosition','0')
+   createParameter(parameterParent,'diaQuantMethod','7')
+   createParameter(parameterParent,'diaFeatureQuantMethod','2')
+   createParameter(parameterParent,'lfqNormType','1')
+   createParameter(parameterParent,'diaTopNForQuant','10')
+   createParameter(parameterParent,'diaMinMsmsIntensityForQuant','0')
+   createParameter(parameterParent,'diaTopMsmsIntensityQuantileForQuant','0.85')
+   createParameter(parameterParent,'diaPrecursorFilterType','0')
+   createParameter(parameterParent,'diaMinFragmentOverlapScore','1')
+   createParameter(parameterParent,'diaMinPrecursorScore','0.5')
+   createParameter(parameterParent,'diaMinProfileCorrelation','0')
+   createParameter(parameterParent,'diaXgBoostMinChildWeight','9')
+   createParameter(parameterParent,'diaXgBoostMaximumTreeDepth','12')
+   createParameter(parameterParent,'diaXgBoostEstimators','580')
+   createParameter(parameterParent,'diaXgBoostGamma','0.9')
+   createParameter(parameterParent,'diaXgBoostMaxDeltaStep','3')
+   createParameter(parameterParent,'diaGlobalMl','True')
+   createParameter(parameterParent,'diaAdaptiveMassAccuracy','False')
+   createParameter(parameterParent,'diaMassWindowFactor','3.3')
+   createParameter(parameterParent,'diaRtPrediction','False')
+   createParameter(parameterParent,'diaRtPredictionSecondRound','False')
+   createParameter(parameterParent,'diaNoMl','False')
+   createParameter(parameterParent,'diaPermuteRt','False')
+   createParameter(parameterParent,'diaPermuteCcs','False')
+   createParameter(parameterParent,'diaBackgroundSubtraction','False')
+   createParameter(parameterParent,'diaBackgroundSubtractionQuantile','0.5')
+   createParameter(parameterParent,'diaBackgroundSubtractionFactor','4')
+   createParameter(parameterParent,'diaLfqWeightedMedian','False')
+   createParameter(parameterParent,'diaTransferQvalue','0.3')
+   createParameter(parameterParent,'diaOnlyIsosForRecal','True')
+   createParameter(parameterParent,'diaMinPeaksForRecal','5')
+   createParameter(parameterParent,'diaUseFragIntensForMl','False')
+   createParameter(parameterParent,'diaUseFragMassesForMl','False')
+   createParameter(parameterParent,'diaMaxTrainInstances','1000000')
+
+def addMassSpecType(name,values):
+    prefix=name+"_"
+    msmsParams = xml.createElement('msmsParams')
+    msmsParamArrayEl.appendChild(msmsParams) 
+    createParameter(msmsParams,'Name', name,prefix)
+    createParameter(msmsParams,'MatchTolerance',str(values[0]),prefix)
+    createParameter(msmsParams,'MatchToleranceInPpm',str(values[1]),prefix)
+    createParameter(msmsParams,'DeisotopeTolerance',str(values[2]),prefix)
+    createParameter(msmsParams,'DeisotopeToleranceInPpm',str(values[3]),prefix)
+    createParameter(msmsParams,'DeNovoTolerance',str(values[4]),prefix)
+    createParameter(msmsParams,'DeNovoToleranceInPpm',str(values[5]),prefix)
+    createParameter(msmsParams,'Deisotope',str(values[6]),prefix)
+    createParameter(msmsParams,'Topx',str(values[7]),prefix)
+    createParameter(msmsParams,'TopxInterval',str(values[8]),prefix)
+    createParameter(msmsParams,'HigherCharges',str(values[9]),prefix)
+    createParameter(msmsParams,'IncludeWater',str(values[10]),prefix)
+    createParameter(msmsParams,'IncludeAmmonia',str(values[11]),prefix)
+    createParameter(msmsParams,'DependentLosses',str(values[12]),prefix)
+    createParameter(msmsParams,'Recalibration',str(values[13]),prefix)
+
+def addFragmentationType(name,values):
+    prefix=name+"_"
+    fragmentationParams = xml.createElement('fragmentationParams')
+    fragParamArrayEl.appendChild(fragmentationParams) 
+    createParameter(fragmentationParams,'Name', name,prefix)
+    createParameter(fragmentationParams,'Connected',str(values[0]),prefix)
+    createParameter(fragmentationParams,'ConnectedScore0',str(values[1]),prefix)
+    createParameter(fragmentationParams,'ConnectedScore1',str(values[2]),prefix)
+    createParameter(fragmentationParams,'ConnectedScore2',str(values[3]),prefix)
+    createParameter(fragmentationParams,'InternalFragments',str(values[4]),prefix)
+    createParameter(fragmentationParams,'InternalFragmentWeight',str(values[5]),prefix)
+    createParameter(fragmentationParams,'InternalFragmentAas',str(values[6]),prefix)
+
+def toString():
+   nativeXML = xml.toprettyxml(indent ="   ",).replace("&gt;",">").replace("&lt;","<")
+   nativeXML=nativeXML.replace('<?xml version="1.0"','<?xml version="1.0" encoding="utf-8"')
+   return nativeXML
+
+#########################################################################################################################################
 
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
@@ -81,521 +552,90 @@ with tempfile.TemporaryDirectory() as temp_dir:
    # Create params file
    param_file = os.path.join(par["output"], "mqpar.xml")
    endl = "\n"
-   param_content = f"""<?xml version="1.0" encoding="utf-8"?>
-<MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <fastaFiles>"""
 
-   # TODO: make taxonomy optional
+   generateMaxquantParametersXML()
+
    for path, taxid in zip(par["reference"], par["ref_taxonomy_id"]):
-      param_content += f"""
-      <FastaFileInfo>
-         <fastaFilePath>{path}</fastaFilePath>
-         <identifierParseRule>>.*\|(.*)\|</identifierParseRule>
-         <descriptionParseRule>>(.*)</descriptionParseRule>
-         <taxonomyParseRule></taxonomyParseRule>
-         <variationParseRule></variationParseRule>
-         <modificationParseRule></modificationParseRule>
-         <taxonomyId>{taxid}</taxonomyId>
-      </FastaFileInfo>"""
+        addFastaFile(path,taxid)
+  
+   updateParameter('matchBetweenRuns',par["match_between_runs"])
+   updateParameter('matchingTimeWindow',match_between_runs_settings.at[par["match_between_runs"], "matchingTimeWindow"])
+   updateParameter('matchingIonMobilityWindow',match_between_runs_settings.at[par["match_between_runs"], "matchingIonMobilityWindow"])
+   updateParameter('alignmentTimeWindow',match_between_runs_settings.at[par["match_between_runs"], "alignmentTimeWindow"])
+   
+   updateParameter('alignmentIonMobilityWindow',match_between_runs_settings.at[par["match_between_runs"], "alignmentIonMobilityWindow"])
 
-   param_content += f"""
-   </fastaFiles>
-   <fastaFilesProteogenomics>
-   </fastaFilesProteogenomics>
-   <fastaFilesFirstSearch>
-   </fastaFilesFirstSearch>
-   <fixedSearchFolder></fixedSearchFolder>
-   <andromedaCacheSize>350000</andromedaCacheSize>
-   <advancedRatios>True</advancedRatios>
-   <pvalThres>0.005</pvalThres>
-   <rtShift>False</rtShift>
-   <separateLfq>False</separateLfq>
-   <lfqStabilizeLargeRatios>True</lfqStabilizeLargeRatios>
-   <lfqRequireMsms>True</lfqRequireMsms>
-   <lfqBayesQuant>False</lfqBayesQuant>
-   <decoyMode>revert</decoyMode>
-   <boxCarMode>all</boxCarMode>
-   <includeContaminants>True</includeContaminants>
-   <maxPeptideMass>4600</maxPeptideMass>
-   <epsilonMutationScore>True</epsilonMutationScore>
-   <mutatedPeptidesSeparately>True</mutatedPeptidesSeparately>
-   <proteogenomicPeptidesSeparately>True</proteogenomicPeptidesSeparately>
-   <minDeltaScoreUnmodifiedPeptides>0</minDeltaScoreUnmodifiedPeptides>
-   <minDeltaScoreModifiedPeptides>6</minDeltaScoreModifiedPeptides>
-   <minScoreUnmodifiedPeptides>0</minScoreUnmodifiedPeptides>
-   <minScoreModifiedPeptides>40</minScoreModifiedPeptides>
-   <secondPeptide>True</secondPeptide>
-   <matchBetweenRuns>{par["match_between_runs"]}</matchBetweenRuns>
-   <matchUnidentifiedFeatures>False</matchUnidentifiedFeatures>
-   <matchBetweenRunsFdr>False</matchBetweenRunsFdr>
-   <dependentPeptides>False</dependentPeptides>
-   <dependentPeptideFdr>0</dependentPeptideFdr>
-   <dependentPeptideMassBin>0</dependentPeptideMassBin>
-   <dependentPeptidesBetweenRuns>False</dependentPeptidesBetweenRuns>
-   <dependentPeptidesWithinExperiment>False</dependentPeptidesWithinExperiment>
-   <dependentPeptidesWithinParameterGroup>False</dependentPeptidesWithinParameterGroup>
-   <dependentPeptidesRestrictFractions>False</dependentPeptidesRestrictFractions>
-   <dependentPeptidesFractionDifference>0</dependentPeptidesFractionDifference>
-   <ibaq>False</ibaq>
-   <top3>False</top3>
-   <independentEnzymes>False</independentEnzymes>
-   <useDeltaScore>False</useDeltaScore>
-   <splitProteinGroupsByTaxonomy>False</splitProteinGroupsByTaxonomy>
-   <taxonomyLevel>Species</taxonomyLevel>
-   <avalon>False</avalon>
-   <nModColumns>3</nModColumns>
-   <ibaqLogFit>False</ibaqLogFit>
-   <ibaqChargeNormalization>False</ibaqChargeNormalization>
-   <razorProteinFdr>True</razorProteinFdr>
-   <deNovoSequencing>False</deNovoSequencing>
-   <deNovoVarMods>False</deNovoVarMods>
-   <deNovoCompleteSequence>False</deNovoCompleteSequence>
-   <deNovoCalibratedMasses>False</deNovoCalibratedMasses>
-   <deNovoMaxIterations>0</deNovoMaxIterations>
-   <deNovoProteaseReward>0</deNovoProteaseReward>
-   <deNovoProteaseRewardTof>0</deNovoProteaseRewardTof>
-   <deNovoAgPenalty>0</deNovoAgPenalty>
-   <deNovoGgPenalty>0</deNovoGgPenalty>
-   <deNovoUseComplementScore>True</deNovoUseComplementScore>
-   <deNovoUseProteaseScore>True</deNovoUseProteaseScore>
-   <deNovoUseWaterLossScore>True</deNovoUseWaterLossScore>
-   <deNovoUseAmmoniaLossScore>True</deNovoUseAmmoniaLossScore>
-   <deNovoUseA2Score>True</deNovoUseA2Score>
-   <massDifferenceSearch>False</massDifferenceSearch>
-   <isotopeCalc>False</isotopeCalc>
-   <writePeptidesForSpectrumFile></writePeptidesForSpectrumFile>
-   <intensityPredictionsFile>
-   </intensityPredictionsFile>
-   <minPepLen>7</minPepLen>
-   <psmFdrCrosslink>0.01</psmFdrCrosslink>
-   <peptideFdr>0.01</peptideFdr>
-   <proteinFdr>0.01</proteinFdr>
-   <siteFdr>0.01</siteFdr>
-   <minPeptideLengthForUnspecificSearch>8</minPeptideLengthForUnspecificSearch>
-   <maxPeptideLengthForUnspecificSearch>25</maxPeptideLengthForUnspecificSearch>
-   <useNormRatiosForOccupancy>True</useNormRatiosForOccupancy>
-   <minPeptides>1</minPeptides>
-   <minRazorPeptides>1</minRazorPeptides>
-   <minUniquePeptides>0</minUniquePeptides>
-   <useCounterparts>False</useCounterparts>
-   <advancedSiteIntensities>True</advancedSiteIntensities>
-   <customProteinQuantification>False</customProteinQuantification>
-   <customProteinQuantificationFile></customProteinQuantificationFile>
-   <minRatioCount>2</minRatioCount>
-   <restrictProteinQuantification>True</restrictProteinQuantification>
-   <restrictMods>
-      <string>Oxidation (M)</string>
-      <string>Acetyl (Protein N-term)</string>
-   </restrictMods>
-   <matchingTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingTimeWindow"]}</matchingTimeWindow>
-   <matchingIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "matchingIonMobilityWindow"]}</matchingIonMobilityWindow>
-   <alignmentTimeWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentTimeWindow"]}</alignmentTimeWindow>
-   <alignmentIonMobilityWindow>{match_between_runs_settings.at[par["match_between_runs"], "alignmentIonMobilityWindow"]}</alignmentIonMobilityWindow>
-   <numberOfCandidatesMsms>15</numberOfCandidatesMsms>
-   <compositionPrediction>0</compositionPrediction>
-   <quantMode>1</quantMode>
-   <massDifferenceMods>
-   </massDifferenceMods>
-   <mainSearchMaxCombinations>200</mainSearchMaxCombinations>
-   <writeMsScansTable>{"msScans" in par["write_tables"]}</writeMsScansTable>
-   <writeMsmsScansTable>{"msmsScans" in par["write_tables"]}</writeMsmsScansTable>
-   <writePasefMsmsScansTable>{"pasefMsmsScans" in par["write_tables"]}</writePasefMsmsScansTable>
-   <writeAccumulatedMsmsScansTable>{"accumulatedMsmsScans" in par["write_tables"]}</writeAccumulatedMsmsScansTable>
-   <writeMs3ScansTable>{"ms3Scans" in par["write_tables"]}</writeMs3ScansTable>
-   <writeAllPeptidesTable>{"allPeptides" in par["write_tables"]}</writeAllPeptidesTable>
-   <writeMzRangeTable>{"mzRange" in par["write_tables"]}</writeMzRangeTable>
-   <writeDiaFragmentTable>{"DIA fragments" in par["write_tables"]}</writeDiaFragmentTable>
-   <writeDiaFragmentQuantTable>{"DIA fragments quant" in par["write_tables"]}</writeDiaFragmentQuantTable>
-   <writeMzTab>{"mzTab" in par["write_tables"]}</writeMzTab>
-   <disableMd5>False</disableMd5>
-   <cacheBinInds>True</cacheBinInds>
-   <etdIncludeB>False</etdIncludeB>
-   <ms2PrecursorShift>0</ms2PrecursorShift>
-   <complementaryIonPpm>20</complementaryIonPpm>
-   <variationParseRule></variationParseRule>
-   <variationMode>none</variationMode>
-   <useSeriesReporters>False</useSeriesReporters>
-   <name>session1</name>
-   <maxQuantVersion>2.0.3.0</maxQuantVersion>
-   <pluginFolder></pluginFolder>
-   <numThreads>{meta["cpus"] if meta["cpus"] else "1"}</numThreads>
-   <emailAddress></emailAddress>
-   <smtpHost></smtpHost>
-   <emailFromAddress></emailFromAddress>
-   <fixedCombinedFolder>{par["output"]}/</fixedCombinedFolder>
-   <fullMinMz>-1.79769313486232E+308</fullMinMz>
-   <fullMaxMz>1.79769313486232E+308</fullMaxMz>
-   <sendEmail>False</sendEmail>
-   <ionCountIntensities>False</ionCountIntensities>
-   <verboseColumnHeaders>False</verboseColumnHeaders>
-   <calcPeakProperties>True</calcPeakProperties>
-   <showCentroidMassDifferences>False</showCentroidMassDifferences>
-   <showIsotopeMassDifferences>False</showIsotopeMassDifferences>
-   <useDotNetCore>True</useDotNetCore>
-   <profilePerformance>False</profilePerformance>
-   <filePaths>{''.join([ f"{endl}      <string>{file}</string>" for file in par["input"] ])}
-   </filePaths>
-   <experiments>{''.join([ f"{endl}      <string>{exp}</string>" for exp in experiment_names ])}
-   </experiments>
-   <fractions>{''.join([ f"{endl}      <short>32767</short>" for _ in par["input"] ])}
-   </fractions>
-   <ptms>{''.join([ f"{endl}      <boolean>False</boolean>" for _ in par["input"] ])}
-   </ptms>
-   <paramGroupIndices>{''.join([ f"{endl}      <int>0</int>" for _ in par["input"] ])}
-   </paramGroupIndices>
-   <referenceChannel>{''.join([ f"{endl}      <string></string>" for _ in par["input"] ])}
-   </referenceChannel>
-   <intensPred>False</intensPred>
-   <intensPredModelReTrain>False</intensPredModelReTrain>
-   <lfqTopNPeptides>0</lfqTopNPeptides>
-   <diaJoinPrecChargesForLfq>False</diaJoinPrecChargesForLfq>
-   <diaFragChargesForQuant>1</diaFragChargesForQuant>
-   <timsRearrangeSpectra>False</timsRearrangeSpectra>
-   <gridSpacing>0.5</gridSpacing>
-   <proteinGroupingFile></proteinGroupingFile>
-   <parameterGroups>
-      <parameterGroup>
-         <msInstrument>{ms_instrument_settings.at[par["ms_instrument"], "msInstrument"]}</msInstrument>
-         <maxCharge>{ms_instrument_settings.at[par["ms_instrument"], "maxCharge"]}</maxCharge>
-         <minPeakLen>{ms_instrument_settings.at[par["ms_instrument"], "minPeakLen"]}</minPeakLen>
-         <diaMinPeakLen>{ms_instrument_settings.at[par["ms_instrument"], "diaMinPeakLen"]}</diaMinPeakLen>
-         <useMs1Centroids>{ms_instrument_settings.at[par["ms_instrument"], "useMs1Centroids"]}</useMs1Centroids>
-         <useMs2Centroids>{ms_instrument_settings.at[par["ms_instrument"], "useMs2Centroids"]}</useMs2Centroids>
-         <cutPeaks>True</cutPeaks>
-         <gapScans>1</gapScans>
-         <minTime>NaN</minTime>
-         <maxTime>NaN</maxTime>
-         <matchType>MatchFromAndTo</matchType>
-         <intensityDetermination>{ms_instrument_settings.at[par["ms_instrument"], "intensityDetermination"]}</intensityDetermination>
-         <centroidMatchTol>{ms_instrument_settings.at[par["ms_instrument"], "centroidMatchTol"]}</centroidMatchTol>
-         <centroidMatchTolInPpm>True</centroidMatchTolInPpm>
-         <centroidHalfWidth>35</centroidHalfWidth>
-         <centroidHalfWidthInPpm>True</centroidHalfWidthInPpm>
-         <valleyFactor>{ms_instrument_settings.at[par["ms_instrument"], "valleyFactor"]}</valleyFactor>
-         <isotopeValleyFactor>1.2</isotopeValleyFactor>
-         <advancedPeakSplitting>{ms_instrument_settings.at[par["ms_instrument"], "advancedPeakSplitting"]}</advancedPeakSplitting>
-         <intensityThresholdMs1>{ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs1"]}</intensityThresholdMs1>
-         <intensityThresholdMs2>{ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs2"]}</intensityThresholdMs2>
-         <labelMods>
-            <string></string>
-         </labelMods>
-         <lcmsRunType>{par["lcms_run_type"]}</lcmsRunType>
-         <reQuantify>False</reQuantify>
-         <lfqMode>{"1" if par["lfq_mode"] == "LFQ" else "0"}</lfqMode>
-         <lfqNormClusterSize>80</lfqNormClusterSize>
-         <lfqMinEdgesPerNode>3</lfqMinEdgesPerNode>
-         <lfqAvEdgesPerNode>6</lfqAvEdgesPerNode>
-         <lfqMaxFeatures>100000</lfqMaxFeatures>
-         <neucodeMaxPpm>{group_type_settings.at[par["lcms_run_type"], "neucodeMaxPpm"]}</neucodeMaxPpm>
-         <neucodeResolution>{group_type_settings.at[par["lcms_run_type"], "neucodeResolution"]}</neucodeResolution>
-         <neucodeResolutionInMda>{group_type_settings.at[par["lcms_run_type"], "neucodeResolutionInMda"]}</neucodeResolutionInMda>
-         <neucodeInSilicoLowRes>{group_type_settings.at[par["lcms_run_type"], "neucodeInSilicoLowRes"]}</neucodeInSilicoLowRes>
-         <fastLfq>True</fastLfq>
-         <lfqRestrictFeatures>False</lfqRestrictFeatures>
-         <lfqMinRatioCount>2</lfqMinRatioCount>
-         <maxLabeledAa>{group_type_settings.at[par["lcms_run_type"], "maxLabeledAa"]}</maxLabeledAa>
-         <maxNmods>5</maxNmods>
-         <maxMissedCleavages>2</maxMissedCleavages>
-         <multiplicity>1</multiplicity>
-         <enzymeMode>0</enzymeMode>
-         <complementaryReporterType>0</complementaryReporterType>
-         <reporterNormalization>0</reporterNormalization>
-         <neucodeIntensityMode>0</neucodeIntensityMode>
-         <fixedModifications>
-            <string>Carbamidomethyl (C)</string>
-         </fixedModifications>
-         <enzymes>
-            <string>Trypsin/P</string>
-         </enzymes>
-         <enzymesFirstSearch>
-         </enzymesFirstSearch>
-         <enzymeModeFirstSearch>0</enzymeModeFirstSearch>
-         <useEnzymeFirstSearch>False</useEnzymeFirstSearch>
-         <useVariableModificationsFirstSearch>False</useVariableModificationsFirstSearch>
-         <variableModifications>
-            <string>Oxidation (M)</string>
-            <string>Acetyl (Protein N-term)</string>
-         </variableModifications>
-         <useMultiModification>False</useMultiModification>
-         <multiModifications>
-         </multiModifications>
-         <isobaricLabels>
-         </isobaricLabels>
-         <neucodeLabels>
-         </neucodeLabels>
-         <variableModificationsFirstSearch>
-         </variableModificationsFirstSearch>
-         <hasAdditionalVariableModifications>False</hasAdditionalVariableModifications>
-         <additionalVariableModifications>
-         </additionalVariableModifications>
-         <additionalVariableModificationProteins>
-         </additionalVariableModificationProteins>
-         <doMassFiltering>True</doMassFiltering>
-         <firstSearchTol>20</firstSearchTol>
-         <mainSearchTol>{ms_instrument_settings.at[par["ms_instrument"], "mainSearchTol"]}</mainSearchTol>
-         <searchTolInPpm>True</searchTolInPpm>
-         <isotopeMatchTol>{ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTol"]}</isotopeMatchTol>
-         <isotopeMatchTolInPpm>{ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTolInPpm"]}</isotopeMatchTolInPpm>
-         <isotopeTimeCorrelation>0.6</isotopeTimeCorrelation>
-         <theorIsotopeCorrelation>0.6</theorIsotopeCorrelation>
-         <checkMassDeficit>{ms_instrument_settings.at[par["ms_instrument"], "checkMassDeficit"]}</checkMassDeficit>
-         <recalibrationInPpm>True</recalibrationInPpm>
-         <intensityDependentCalibration>{ms_instrument_settings.at[par["ms_instrument"], "intensityDependentCalibration"]}</intensityDependentCalibration>
-         <minScoreForCalibration>{ms_instrument_settings.at[par["ms_instrument"], "minScoreForCalibration"]}</minScoreForCalibration>
-         <matchLibraryFile>False</matchLibraryFile>
-         <libraryFile></libraryFile>
-         <matchLibraryMassTolPpm>0</matchLibraryMassTolPpm>
-         <matchLibraryTimeTolMin>0</matchLibraryTimeTolMin>
-         <matchLabelTimeTolMin>0</matchLabelTimeTolMin>
-         <reporterMassTolerance>NaN</reporterMassTolerance>
-         <reporterPif>{group_type_settings.at[par["lcms_run_type"], "reporterPif"]}</reporterPif>
-         <filterPif>False</filterPif>
-         <reporterFraction>{group_type_settings.at[par["lcms_run_type"], "reporterFraction"]}</reporterFraction>
-         <reporterBasePeakRatio>{group_type_settings.at[par["lcms_run_type"], "reporterBasePeakRatio"]}</reporterBasePeakRatio>
-         <timsHalfWidth>{group_type_settings.at[par["lcms_run_type"], "timsHalfWidth"]}</timsHalfWidth>
-         <timsStep>{group_type_settings.at[par["lcms_run_type"], "timsStep"]}</timsStep>
-         <timsResolution>{group_type_settings.at[par["lcms_run_type"], "timsResolution"]}</timsResolution>
-         <timsMinMsmsIntensity>{group_type_settings.at[par["lcms_run_type"], "timsMinMsmsIntensity"]}</timsMinMsmsIntensity>
-         <timsRemovePrecursor>True</timsRemovePrecursor>
-         <timsIsobaricLabels>False</timsIsobaricLabels>
-         <timsCollapseMsms>True</timsCollapseMsms>
-         <crossLinkingType>0</crossLinkingType>
-         <crossLinker></crossLinker>
-         <minMatchXl>3</minMatchXl>
-         <minPairedPepLenXl>6</minPairedPepLenXl>
-         <minScore_Dipeptide>40</minScore_Dipeptide>
-         <minScore_Monopeptide>0</minScore_Monopeptide>
-         <minScore_PartialCross>10</minScore_PartialCross>
-         <crosslinkOnlyIntraProtein>False</crosslinkOnlyIntraProtein>
-         <crosslinkIntensityBasedPrecursor>True</crosslinkIntensityBasedPrecursor>
-         <isHybridPrecDetermination>False</isHybridPrecDetermination>
-         <topXcross>3</topXcross>
-         <doesSeparateInterIntraProteinCross>False</doesSeparateInterIntraProteinCross>
-         <crosslinkMaxMonoUnsaturated>0</crosslinkMaxMonoUnsaturated>
-         <crosslinkMaxMonoSaturated>0</crosslinkMaxMonoSaturated>
-         <crosslinkMaxDiUnsaturated>0</crosslinkMaxDiUnsaturated>
-         <crosslinkMaxDiSaturated>0</crosslinkMaxDiSaturated>
-         <crosslinkModifications>
-         </crosslinkModifications>
-         <crosslinkFastaFiles>
-         </crosslinkFastaFiles>
-         <crosslinkSites>
-         </crosslinkSites>
-         <crosslinkNetworkFiles>
-         </crosslinkNetworkFiles>
-         <crosslinkMode></crosslinkMode>
-         <peakRefinement>False</peakRefinement>
-         <isobaricSumOverWindow>True</isobaricSumOverWindow>
-         <isobaricWeightExponent>0.75</isobaricWeightExponent>
-         <collapseMsmsOnIsotopePatterns>False</collapseMsmsOnIsotopePatterns>
-         <diaLibraryType>0</diaLibraryType>
-         <diaLibraryPaths>
-         </diaLibraryPaths>
-         <diaPeptidePaths>
-         </diaPeptidePaths>
-         <diaEvidencePaths>
-         </diaEvidencePaths>
-         <diaMsmsPaths>
-         </diaMsmsPaths>
-         <diaInitialPrecMassTolPpm>20</diaInitialPrecMassTolPpm>
-         <diaInitialFragMassTolPpm>20</diaInitialFragMassTolPpm>
-         <diaCorrThresholdFeatureClustering>0.85</diaCorrThresholdFeatureClustering>
-         <diaPrecTolPpmFeatureClustering>2</diaPrecTolPpmFeatureClustering>
-         <diaFragTolPpmFeatureClustering>2</diaFragTolPpmFeatureClustering>
-         <diaScoreN>7</diaScoreN>
-         <diaMinScore>1.99</diaMinScore>
-         <diaXgBoostBaseScore>0.4</diaXgBoostBaseScore>
-         <diaXgBoostSubSample>0.9</diaXgBoostSubSample>
-         <centroidPosition>0</centroidPosition>
-         <diaQuantMethod>7</diaQuantMethod>
-         <diaFeatureQuantMethod>2</diaFeatureQuantMethod>
-         <lfqNormType>1</lfqNormType>
-         <diaTopNForQuant>{ms_instrument_settings.at[par["ms_instrument"], "diaTopNForQuant"]}</diaTopNForQuant>
-         <diaMinMsmsIntensityForQuant>0</diaMinMsmsIntensityForQuant>
-         <diaTopMsmsIntensityQuantileForQuant>0.85</diaTopMsmsIntensityQuantileForQuant>
-         <diaPrecursorFilterType>0</diaPrecursorFilterType>
-         <diaMinFragmentOverlapScore>1</diaMinFragmentOverlapScore>
-         <diaMinPrecursorScore>0.5</diaMinPrecursorScore>
-         <diaMinProfileCorrelation>0</diaMinProfileCorrelation>
-         <diaXgBoostMinChildWeight>9</diaXgBoostMinChildWeight>
-         <diaXgBoostMaximumTreeDepth>12</diaXgBoostMaximumTreeDepth>
-         <diaXgBoostEstimators>580</diaXgBoostEstimators>
-         <diaXgBoostGamma>0.9</diaXgBoostGamma>
-         <diaXgBoostMaxDeltaStep>3</diaXgBoostMaxDeltaStep>
-         <diaGlobalMl>True</diaGlobalMl>
-         <diaAdaptiveMassAccuracy>False</diaAdaptiveMassAccuracy>
-         <diaMassWindowFactor>3.3</diaMassWindowFactor>
-         <diaRtPrediction>False</diaRtPrediction>
-         <diaRtPredictionSecondRound>False</diaRtPredictionSecondRound>
-         <diaNoMl>False</diaNoMl>
-         <diaPermuteRt>False</diaPermuteRt>
-         <diaPermuteCcs>False</diaPermuteCcs>
-         <diaBackgroundSubtraction>{ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtraction"]}</diaBackgroundSubtraction>
-         <diaBackgroundSubtractionQuantile>{ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtractionQuantile"]}</diaBackgroundSubtractionQuantile>
-         <diaBackgroundSubtractionFactor>4</diaBackgroundSubtractionFactor>
-         <diaLfqWeightedMedian>{ms_instrument_settings.at[par["ms_instrument"], "diaLfqWeightedMedian"]}</diaLfqWeightedMedian>
-         <diaTransferQvalue>0.3</diaTransferQvalue>
-         <diaOnlyIsosForRecal>True</diaOnlyIsosForRecal>
-         <diaMinPeaksForRecal>5</diaMinPeaksForRecal>
-         <diaUseFragIntensForMl>False</diaUseFragIntensForMl>
-         <diaUseFragMassesForMl>False</diaUseFragMassesForMl>
-         <diaMaxTrainInstances>1000000</diaMaxTrainInstances>
-      </parameterGroup>
-   </parameterGroups>
-   <msmsParamsArray>
-      <msmsParams>
-         <Name>FTMS</Name>
-         <MatchTolerance>20</MatchTolerance>
-         <MatchToleranceInPpm>True</MatchToleranceInPpm>
-         <DeisotopeTolerance>7</DeisotopeTolerance>
-         <DeisotopeToleranceInPpm>True</DeisotopeToleranceInPpm>
-         <DeNovoTolerance>25</DeNovoTolerance>
-         <DeNovoToleranceInPpm>True</DeNovoToleranceInPpm>
-         <Deisotope>True</Deisotope>
-         <Topx>12</Topx>
-         <TopxInterval>100</TopxInterval>
-         <HigherCharges>True</HigherCharges>
-         <IncludeWater>True</IncludeWater>
-         <IncludeAmmonia>True</IncludeAmmonia>
-         <DependentLosses>True</DependentLosses>
-         <Recalibration>False</Recalibration>
-      </msmsParams>
-      <msmsParams>
-         <Name>ITMS</Name>
-         <MatchTolerance>0.5</MatchTolerance>
-         <MatchToleranceInPpm>False</MatchToleranceInPpm>
-         <DeisotopeTolerance>0.15</DeisotopeTolerance>
-         <DeisotopeToleranceInPpm>False</DeisotopeToleranceInPpm>
-         <DeNovoTolerance>0.5</DeNovoTolerance>
-         <DeNovoToleranceInPpm>False</DeNovoToleranceInPpm>
-         <Deisotope>False</Deisotope>
-         <Topx>8</Topx>
-         <TopxInterval>100</TopxInterval>
-         <HigherCharges>True</HigherCharges>
-         <IncludeWater>True</IncludeWater>
-         <IncludeAmmonia>True</IncludeAmmonia>
-         <DependentLosses>True</DependentLosses>
-         <Recalibration>False</Recalibration>
-      </msmsParams>
-      <msmsParams>
-         <Name>TOF</Name>
-         <MatchTolerance>40</MatchTolerance>
-         <MatchToleranceInPpm>True</MatchToleranceInPpm>
-         <DeisotopeTolerance>0.01</DeisotopeTolerance>
-         <DeisotopeToleranceInPpm>False</DeisotopeToleranceInPpm>
-         <DeNovoTolerance>25</DeNovoTolerance>
-         <DeNovoToleranceInPpm>True</DeNovoToleranceInPpm>
-         <Deisotope>True</Deisotope>
-         <Topx>10</Topx>
-         <TopxInterval>100</TopxInterval>
-         <HigherCharges>True</HigherCharges>
-         <IncludeWater>True</IncludeWater>
-         <IncludeAmmonia>True</IncludeAmmonia>
-         <DependentLosses>True</DependentLosses>
-         <Recalibration>False</Recalibration>
-      </msmsParams>
-      <msmsParams>
-         <Name>Unknown</Name>
-         <MatchTolerance>20</MatchTolerance>
-         <MatchToleranceInPpm>True</MatchToleranceInPpm>
-         <DeisotopeTolerance>7</DeisotopeTolerance>
-         <DeisotopeToleranceInPpm>True</DeisotopeToleranceInPpm>
-         <DeNovoTolerance>25</DeNovoTolerance>
-         <DeNovoToleranceInPpm>True</DeNovoToleranceInPpm>
-         <Deisotope>True</Deisotope>
-         <Topx>12</Topx>
-         <TopxInterval>100</TopxInterval>
-         <HigherCharges>True</HigherCharges>
-         <IncludeWater>True</IncludeWater>
-         <IncludeAmmonia>True</IncludeAmmonia>
-         <DependentLosses>True</DependentLosses>
-         <Recalibration>False</Recalibration>
-      </msmsParams>
-   </msmsParamsArray>
-   <fragmentationParamsArray>
-      <fragmentationParams>
-         <Name>CID</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>HCD</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>ETD</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>PQD</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>ETHCD</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>ETCID</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>UVPD</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-      <fragmentationParams>
-         <Name>Unknown</Name>
-         <Connected>False</Connected>
-         <ConnectedScore0>1</ConnectedScore0>
-         <ConnectedScore1>1</ConnectedScore1>
-         <ConnectedScore2>1</ConnectedScore2>
-         <InternalFragments>False</InternalFragments>
-         <InternalFragmentWeight>1</InternalFragmentWeight>
-         <InternalFragmentAas>KRH</InternalFragmentAas>
-      </fragmentationParams>
-   </fragmentationParamsArray>
-</MaxQuantParams>
-"""
+   updateParameter('writeMsScansTable',"msScans" in par["write_tables"])
+   updateParameter('writeMsmsScansTable',"msmsScans" in par["write_tables"])
+   updateParameter('writePasefMsmsScansTable',"pasefMsmsScans" in par["write_tables"])
+   updateParameter('writeAccumulatedMsmsScansTable',"accumulatedMsmsScans" in par["write_tables"])
+   updateParameter('writeMs3ScansTable',"ms3Scans" in par["write_tables"])
+   updateParameter('writeAllPeptidesTable',"allPeptides" in par["write_tables"])
+   updateParameter('writeMzRangeTable',"mzRange" in par["write_tables"])
+   updateParameter('writeDiaFragmentTable',"DIA fragments" in par["write_tables"])
+   updateParameter('writeDiaFragmentQuantTable',"DIA fragments quant" in par["write_tables"])
+   updateParameter('writeMzTab',"mzTab" in par["write_tables"])
+
+   updateParameter('numThreads',meta["cpus"] if meta["cpus"] else "1")
+   updateParameter('fixedCombinedFolder',par["output"])
+
+   i=0
+   for file in par["input"]:
+      prefix =str(i)+'_'
+      createParameter(filePaths,'string',file,prefix)
+      createParameter(fractions,'short','32767',prefix)
+      createParameter(ptms,'boolean','False',prefix)
+      createParameter(paramGroupIndices,'int','0',prefix)
+      createParameter(referenceChannels,'string','',prefix)
+
+   i=0
+   for experiment in experiment_names:
+      createParameter(experiments,'string',experiment,str(i)+'_')
+
+   updateParameter('msInstrument',ms_instrument_settings.at[par["ms_instrument"], "msInstrument"])
+   updateParameter('maxCharge',ms_instrument_settings.at[par["ms_instrument"], "maxCharge"])
+   updateParameter('minPeakLen',ms_instrument_settings.at[par["ms_instrument"], "minPeakLen"])
+   updateParameter('diaMinPeakLen',ms_instrument_settings.at[par["ms_instrument"], "diaMinPeakLen"])
+   updateParameter('useMs1Centroids',ms_instrument_settings.at[par["ms_instrument"], "useMs1Centroids"])
+   updateParameter('useMs2Centroids',ms_instrument_settings.at[par["ms_instrument"], "useMs2Centroids"])
+
+   updateParameter('intensityDetermination',ms_instrument_settings.at[par["ms_instrument"], "intensityDetermination"])
+   updateParameter('centroidMatchTol',ms_instrument_settings.at[par["ms_instrument"], "centroidMatchTol"])
+   updateParameter('valleyFactor',ms_instrument_settings.at[par["ms_instrument"], "valleyFactor"])
+   updateParameter('advancedPeakSplitting',ms_instrument_settings.at[par["ms_instrument"], "advancedPeakSplitting"])
+   updateParameter('intensityThresholdMs1',ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs1"])
+   updateParameter('intensityThresholdMs2',ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs2"])
+
+
+
+   updateParameter('lcmsRunType',par["lcms_run_type"])
+   #setParameter('lfqMode',{group_type_settings.at[par["lcms_run_type"], "lfqMode"]})
+   updateParameter('neucodeMaxPpm',group_type_settings.at[par["lcms_run_type"], "neucodeMaxPpm"])
+   updateParameter('neucodeResolution',group_type_settings.at[par["lcms_run_type"], "neucodeResolution"])
+   updateParameter('neucodeResolutionInMda',group_type_settings.at[par["lcms_run_type"], "neucodeResolutionInMda"])
+   updateParameter('neucodeInSilicoLowRes',group_type_settings.at[par["lcms_run_type"], "neucodeInSilicoLowRes"])
+   updateParameter('maxLabeledAa',group_type_settings.at[par["lcms_run_type"], "maxLabeledAa"])
+
+   updateParameter('mainSearchTol',ms_instrument_settings.at[par["ms_instrument"], "mainSearchTol"])
+   updateParameter('isotopeMatchTol',ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTol"])
+   updateParameter('isotopeMatchTolInPpm',ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTolInPpm"])
+   updateParameter('checkMassDeficit',ms_instrument_settings.at[par["ms_instrument"], "checkMassDeficit"])
+   updateParameter('intensityDependentCalibration',ms_instrument_settings.at[par["ms_instrument"], "intensityDependentCalibration"])
+   updateParameter('minScoreForCalibration',ms_instrument_settings.at[par["ms_instrument"], "minScoreForCalibration"])
+
+   updateParameter('reporterFraction',group_type_settings.at[par["lcms_run_type"], "reporterFraction"])
+   updateParameter('reporterBasePeakRatio',group_type_settings.at[par["lcms_run_type"], "reporterBasePeakRatio"])
+   updateParameter('timsHalfWidth',group_type_settings.at[par["lcms_run_type"], "timsHalfWidth"])
+   updateParameter('timsStep',group_type_settings.at[par["lcms_run_type"], "timsStep"])
+   updateParameter('timsResolution',group_type_settings.at[par["lcms_run_type"], "timsResolution"])
+   updateParameter('timsMinMsmsIntensity',group_type_settings.at[par["lcms_run_type"], "timsMinMsmsIntensity"])
+
+   updateParameter("diaTopNForQuant",ms_instrument_settings.at[par["ms_instrument"], "diaTopNForQuant"])
+   updateParameter("diaBackgroundSubtraction",ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtraction"])
+   updateParameter("diaBackgroundSubtractionQuantile",ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtractionQuantile"])
+   updateParameter("diaLfqWeightedMedian",ms_instrument_settings.at[par["ms_instrument"], "diaLfqWeightedMedian"])
+
+   param_content = toString()
 
    with open(param_file, "w") as f:
       f.write(param_content)
@@ -619,3 +659,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
       if p.returncode != 0:
          raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
+
+
+
