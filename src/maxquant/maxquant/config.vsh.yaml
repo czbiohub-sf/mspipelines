@@ -89,7 +89,7 @@ functionality:
   test_resources:
     - type: bash_script
       path: test.sh
-    - path: ../../../resources_test/zenodo_4274987
+    - path: ../../../resources_test/maxquant_11112022
 platforms:
   - type: docker
     image: python:3.10

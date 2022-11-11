@@ -10,8 +10,8 @@ from xml.dom import minidom as xmlbuilder
 
 ## VIASH START
 par = {
-   "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
-   "reference": "resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta",
+   "input": ["resources_test/maxquant_11112022/raw/Sample.raw"],
+   "reference": "resources_test/maxquant_11112022/raw/reference.fasta",
    "output": "output/",
    "match_between_runs": True
 }

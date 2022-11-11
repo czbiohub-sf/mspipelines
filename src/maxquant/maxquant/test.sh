@@ -4,8 +4,8 @@ set -eo pipefail
 
 echo ">> Running $meta_functionality_name"
 "$meta_executable" \
-    --input "$meta_resources_dir/zenodo_4274987/raw/Sample1.raw" \
-    --reference "$meta_resources_dir/zenodo_4274987/raw/reference.fasta" \
+    --input "$meta_resources_dir/maxquant_11112022/raw/Sample.raw" \
+    --reference "$meta_resources_dir/maxquant_11112022/raw/reference.fasta" \
     --ref_taxonomy_id "9606" \
     --match_between_runs "true" \
     --ms_instrument "Orbitrap" \
