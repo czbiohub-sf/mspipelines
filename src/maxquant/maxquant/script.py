@@ -7,11 +7,10 @@ import pandas as pd
 from xml.dom import minidom as xmlbuilder
 
 
-
 ## VIASH START
 par = {
-   "input": ["resources_test/maxquant_11112022/raw/Sample.raw"],
-   "reference": "resources_test/maxquant_11112022/raw/reference.fasta",
+   "input": ["resources_test/maxquant_demo_files/raw/Sample.raw"],
+   "reference": "resources_test/maxquant_demo_files/raw/reference.fasta",
    "output": "output/",
    "match_between_runs": True
 }
