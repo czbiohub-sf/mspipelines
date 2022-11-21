@@ -1,0 +1,13 @@
+
+{% extends "root.xml.jinja" %}
+{% block fastafileinfo %}
+      <FastaFileInfo>
+         <fastaFilePath>{{ path }}</fastaFilePath>
+         <identifierParseRule>>.*\|(.*)\|</identifierParseRule>
+         <descriptionParseRule>>(.*)</descriptionParseRule>
+         <taxonomyParseRule></taxonomyParseRule>
+         <variationParseRule></variationParseRule>
+         <modificationParseRule></modificationParseRule>
+         <taxonomyId>{{ taxid }}</taxonomyId>
+      </FastaFileInfo>
+{%- endblock %}
