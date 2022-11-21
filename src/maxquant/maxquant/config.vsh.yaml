@@ -86,6 +86,7 @@ functionality:
     - type: python_script
       path: script.py
     - path: settings
+    - path: templates
   test_resources:
     - type: bash_script
       path: test.sh

@@ -4,18 +4,22 @@ import subprocess
 import tempfile
 import shutil
 import pandas as pd
-from xml.dom import minidom as xmlbuilder
-
+from jinja2 import FileSystemLoader, Environment
 
 ## VIASH START
 par = {
-   "input": ["resources_test/maxquant_demo_files/raw/Sample.raw"],
-   "reference": "resources_test/maxquant_demo_files/raw/reference.fasta",
+   "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
+   "reference": ["resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"],
    "output": "output/",
-   "match_between_runs": True
+   "match_between_runs": True,
+   "ref_taxonomy_id": None,
+   "ms_instrument": "Bruker TIMS",
+   "lcms_run_type": "Standard",
+   "dryrun": True
 }
 meta = {
-   "resources_dir": "src/maxquant/maxquant/"
+   "resources_dir": "src/maxquant/maxquant/",
+   "cpu": None
 }
 ## VIASH END
 
@@ -463,59 +467,54 @@ fastaArray=[]
 
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
-   par["input"] = [ os.path.join(dp, f) for dp, dn, filenames in os.walk(par["input"]) for f in filenames if re.match(r'.*\.raw', f) ]
+   par["input"] = [os.path.join(dp, f) 
+                   for dp, _, filenames in os.walk(par["input"])
+                   for f in filenames if re.match(r'.*\.raw', f)]
 
 # set taxonomy id to empty string if not specified
 if not par["ref_taxonomy_id"]:
-   par["ref_taxonomy_id"] = [ "" for ref in par["reference"] ]
+   par["ref_taxonomy_id"] = ["" for _ in par["reference"]]
 
 # use absolute paths
-par["input"] = [ os.path.abspath(f) for f in par["input"] ]
-par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
-par["output"] = os.path.abspath(par["output"])
+for par_key in ("input", "reference", "output"):
+   par[par_key] = [os.path.abspath(f) for f in par[par_key]]
 
 # auto set experiment names
-experiment_names = [ re.sub(r"_\d+$", "", os.path.basename(file)) for file in par["input"] ]
+experiment_names = [re.sub(r"_\d+$", "", os.path.basename(file))
+                    for file in par["input"]]
 
-# load default matching settings
-match_between_runs_settings = pd.read_table(
-   meta["resources_dir"] + "/settings/match_between_runs.tsv",
-   sep="\t",
-   index_col="id",
-   dtype=str,
-   keep_default_na=False,
-   na_values=['_']
-)
+# Load parameters that which are defined in tsv files.
+def load_tsv(file_path, loc_selector):
+   df = pd.read_table(
+            f"{meta['resources_dir']}/settings/{file_path}",
+            sep="\t",
+            index_col="id",
+            dtype=str,
+            keep_default_na=False,
+            na_values=['_']
+         )
+   if loc_selector:
+      return df.loc[par[loc_selector]]
+   return df
+   
 
-# load default instrument settings
-ms_instrument_settings = pd.read_table(
-   meta["resources_dir"] + "/settings/ms_instrument.tsv",
-   sep="\t",
-   index_col="id",
-   dtype=str,
-   keep_default_na=False,
-   na_values=['_']
-)
-
-# load default group type settings
-group_type_settings = pd.read_table(
-   meta["resources_dir"] + "/settings/group_type.tsv",
-   sep="\t",
-   index_col="id",
-   dtype=str,
-   keep_default_na=False,
-   na_values=['_']
-)
+tsv_dispatcher = {
+   "match_between_runs_settings": ("match_between_runs.tsv", "match_between_runs"),
+   "ms_instrument_settings": ("ms_instrument.tsv", "ms_instrument"),
+   "group_type_settings":  ("group_type.tsv", "lcms_run_type")
+}
+for var_name, (filepath, selector) in tsv_dispatcher.items():
+   tsv_dispatcher[var_name] = load_tsv(filepath, selector)
 
 # check reference metadata
-
-assert len(par["reference"]) == len(par["ref_taxonomy_id"]), "--ref_taxonomy_id must have same length as --reference"
+assert len(par["reference"]) == len(par["ref_taxonomy_id"]), \
+       "--ref_taxonomy_id must have same length as --reference"
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
    # prepare to copy input files to tempdir
    old_inputs = par["input"]
-   new_inputs = [ os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs ]
+   new_inputs = [os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs]
    par["input"] = new_inputs
 
    # create output dir if not exists
@@ -524,112 +523,13 @@ with tempfile.TemporaryDirectory() as temp_dir:
 
    # Create params file
    param_file = os.path.join(par["output"], "mqpar.xml")
-   endl = "\n"
-
-   generateMaxquantParametersXML(document,maxQuantParameters)
-
-    #CREATE FASTA SECTION
-   fastaFileParamsEl = document.createElement('fastaFiles') 
-   maxQuantParameters.appendChild(fastaFileParamsEl)
-
-   for path, taxid in zip(par["reference"], par["ref_taxonomy_id"]):
-      addFastaFile(document,fastaFileParamsEl,parameterDictionary,fastaArray,path,taxid)
-  
-   updateParameter(document,maxQuantParameters,parameterDictionary,'matchBetweenRuns',par["match_between_runs"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'matchingTimeWindow',match_between_runs_settings.at[par["match_between_runs"], "matchingTimeWindow"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'matchingIonMobilityWindow',match_between_runs_settings.at[par["match_between_runs"], "matchingIonMobilityWindow"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'alignmentTimeWindow',match_between_runs_settings.at[par["match_between_runs"], "alignmentTimeWindow"])
-   
-   updateParameter(document,maxQuantParameters,parameterDictionary,'alignmentIonMobilityWindow',match_between_runs_settings.at[par["match_between_runs"], "alignmentIonMobilityWindow"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeMsScansTable',"msScans" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeMsmsScansTable',"msmsScans" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writePasefMsmsScansTable',"pasefMsmsScans" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeAccumulatedMsmsScansTable',"accumulatedMsmsScans" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeMs3ScansTable',"ms3Scans" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeAllPeptidesTable',"allPeptides" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeMzRangeTable',"mzRange" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeDiaFragmentTable',"DIA fragments" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeDiaFragmentQuantTable',"DIA fragments quant" in par["write_tables"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'writeMzTab',"mzTab" in par["write_tables"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'numThreads',meta["cpus"] if meta["cpus"] else "1")
-   updateParameter(document,maxQuantParameters,parameterDictionary,'fixedCombinedFolder',par["output"])
-
-   filePaths = document.createElement('filePaths')
-   maxQuantParameters.appendChild(filePaths) 
-
-   experiments = document.createElement('experiments')
-   maxQuantParameters.appendChild(experiments) 
-
-   fractions = document.createElement('fractions')
-   maxQuantParameters.appendChild(fractions) 
-
-   ptms = document.createElement('ptms')
-   maxQuantParameters.appendChild(ptms) 
-
-   paramGroupIndices = document.createElement('paramGroupIndices')
-   maxQuantParameters.appendChild(paramGroupIndices) 
-
-   referenceChannels = document.createElement('referenceChannel')
-   maxQuantParameters.appendChild(referenceChannels) 
-
-   i=0
-   for file in par["input"]:
-      prefix =str(i)+'_'
-      createParameter(document,filePaths,parameterDictionary,'string',file,prefix)
-      createParameter(document,fractions,parameterDictionary,'short','32767',prefix)
-      createParameter(document,ptms,parameterDictionary,'boolean','False',prefix)
-      createParameter(document,paramGroupIndices,parameterDictionary,'int','0',prefix)
-      createParameter(document,referenceChannels,parameterDictionary,'string','',prefix)
-
-   i=0
-   for experiment in experiment_names:
-      createParameter(document,experiments,parameterDictionary,'string',experiment,str(i)+'_')
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'msInstrument',ms_instrument_settings.at[par["ms_instrument"], "msInstrument"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'maxCharge',ms_instrument_settings.at[par["ms_instrument"], "maxCharge"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'minPeakLen',ms_instrument_settings.at[par["ms_instrument"], "minPeakLen"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'diaMinPeakLen',ms_instrument_settings.at[par["ms_instrument"], "diaMinPeakLen"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'useMs1Centroids',ms_instrument_settings.at[par["ms_instrument"], "useMs1Centroids"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'useMs2Centroids',ms_instrument_settings.at[par["ms_instrument"], "useMs2Centroids"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'intensityDetermination',ms_instrument_settings.at[par["ms_instrument"], "intensityDetermination"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'centroidMatchTol',ms_instrument_settings.at[par["ms_instrument"], "centroidMatchTol"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'valleyFactor',ms_instrument_settings.at[par["ms_instrument"], "valleyFactor"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'advancedPeakSplitting',ms_instrument_settings.at[par["ms_instrument"], "advancedPeakSplitting"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'intensityThresholdMs1',ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs1"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'intensityThresholdMs2',ms_instrument_settings.at[par["ms_instrument"], "intensityThresholdMs2"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'lcmsRunType',par["lcms_run_type"])
-   #setParameter('lfqMode',{group_type_settings.at[par["lcms_run_type"], "lfqMode"]})
-   updateParameter(document,maxQuantParameters,parameterDictionary,'neucodeMaxPpm',group_type_settings.at[par["lcms_run_type"], "neucodeMaxPpm"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'neucodeResolution',group_type_settings.at[par["lcms_run_type"], "neucodeResolution"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'neucodeResolutionInMda',group_type_settings.at[par["lcms_run_type"], "neucodeResolutionInMda"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'neucodeInSilicoLowRes',group_type_settings.at[par["lcms_run_type"], "neucodeInSilicoLowRes"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'maxLabeledAa',group_type_settings.at[par["lcms_run_type"], "maxLabeledAa"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'mainSearchTol',ms_instrument_settings.at[par["ms_instrument"], "mainSearchTol"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'isotopeMatchTol',ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTol"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'isotopeMatchTolInPpm',ms_instrument_settings.at[par["ms_instrument"], "isotopeMatchTolInPpm"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'checkMassDeficit',ms_instrument_settings.at[par["ms_instrument"], "checkMassDeficit"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'intensityDependentCalibration',ms_instrument_settings.at[par["ms_instrument"], "intensityDependentCalibration"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'minScoreForCalibration',ms_instrument_settings.at[par["ms_instrument"], "minScoreForCalibration"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,'reporterFraction',group_type_settings.at[par["lcms_run_type"], "reporterFraction"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'reporterBasePeakRatio',group_type_settings.at[par["lcms_run_type"], "reporterBasePeakRatio"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'timsHalfWidth',group_type_settings.at[par["lcms_run_type"], "timsHalfWidth"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'timsStep',group_type_settings.at[par["lcms_run_type"], "timsStep"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'timsResolution',group_type_settings.at[par["lcms_run_type"], "timsResolution"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,'timsMinMsmsIntensity',group_type_settings.at[par["lcms_run_type"], "timsMinMsmsIntensity"])
-
-   updateParameter(document,maxQuantParameters,parameterDictionary,"diaTopNForQuant",ms_instrument_settings.at[par["ms_instrument"], "diaTopNForQuant"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,"diaBackgroundSubtraction",ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtraction"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,"diaBackgroundSubtractionQuantile",ms_instrument_settings.at[par["ms_instrument"], "diaBackgroundSubtractionQuantile"])
-   updateParameter(document,maxQuantParameters,parameterDictionary,"diaLfqWeightedMedian",ms_instrument_settings.at[par["ms_instrument"], "diaLfqWeightedMedian"])
-
-   param_content = toString(document)
-
+   file_loader = FileSystemLoader(f"{meta['resources_dir']}/templates/")
+   environment = Environment(loader=file_loader)
+   environment.filters["zip"] = zip
+   template = environment.get_template("fastafileinfo.xml.jinja", parent="root.xml.jinja")
+   param_content = template.render(par,
+                   **tsv_dispatcher,
+                   cpu=meta["cpu"])
    with open(param_file, "w") as f:
       f.write(param_content)
 
@@ -641,17 +541,11 @@ with tempfile.TemporaryDirectory() as temp_dir:
          else:
             shutil.copyfile(old, new)
          
-      
-      # run maxquant
-      p = subprocess.Popen(
-         ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-         # ["maxquant", os.path.basename(param_file)], 
-         cwd=os.path.dirname(param_file)
-      )
-      p.wait()
-
-      if p.returncode != 0:
-         raise Exception(f"MaxQuant finished with exit code {p.returncode}") 
-
-
-
+      try:
+         # run maxquant
+         p = subprocess.check_call(
+            ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
+            cwd=os.path.dirname(param_file)
+         )
+      except subprocess.CalledProcessError as e:
+         raise RuntimeError(f"MaxQuant finished with exit code {e.returncode}") from e
