@@ -9,8 +9,8 @@ from jinja2 import FileSystemLoader, Environment
 ## VIASH START
 par = {
    "input": ["resources_test/zenodo_4274987/raw/Sample1.raw", "resources_test/zenodo_4274987/raw/Sample2.raw"],
+   "output":"output/",
    "reference": ["resources_test/maxquant_test_data/Fasta/20211015_Kistler_Human.Cow.ZEBOV_NP_P2A_VP35_P2A_VP30.fasta"],
-   "output": "output/",
    "match_between_runs": True,
    "ref_taxonomy_id": None,
    "ms_instrument": "Bruker TIMS",
@@ -23,6 +23,7 @@ meta = {
 }
 ## VIASH END
 
+
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
    par["input"] = [os.path.join(dp, f) 
@@ -33,9 +34,14 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
 if not par["ref_taxonomy_id"]:
    par["ref_taxonomy_id"] = ["" for _ in par["reference"]]
 
+# # use absolute paths
+# for par_key in ("input", "reference", "output"):
+#    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
+
 # use absolute paths
-for par_key in ("input", "reference", "output"):
-   par[par_key] = [os.path.abspath(f) for f in par[par_key]]
+par["input"] = [ os.path.abspath(f) for f in par["input"] ]
+par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
+par["output"] = os.path.abspath(par["output"])
 
 # auto set experiment names
 experiment_names = [re.sub(r"_\d+$", "", os.path.basename(file))
@@ -83,11 +89,24 @@ with tempfile.TemporaryDirectory() as temp_dir:
    param_file = os.path.join(par["output"], "mqpar.xml")
    file_loader = FileSystemLoader(f"{meta['resources_dir']}/templates/")
    environment = Environment(loader=file_loader)
-   environment.filters["zip"] = zip
    template = environment.get_template("fastafileinfo.xml.jinja", parent="root.xml.jinja")
-   param_content = template.render(par,
-                   **tsv_dispatcher,
-                   cpu=meta["cpu"])
+
+   param_content = template.render(
+                  input=par['input'],
+                  output=par['output'],
+                  fastas=zip(par['reference'],par['ref_taxonomy_id']),
+                  experiments=experiment_names,
+                  match_between_runs=par['match_between_runs'],
+                  match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
+                  ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
+                  group_type_settings=tsv_dispatcher['group_type_settings']
+                 )
+
+   # Strip empty lines from the file 
+   # No proper jinja-solution for the very first line of the file
+   param_content = os.linesep.join([s for s in param_content.splitlines() if s])
+
+
    with open(param_file, "w") as f:
       f.write(param_content)
 
