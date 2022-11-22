@@ -114,6 +114,8 @@ platforms:
             mv * /maxquant
       - type: python
         pypi: pandas
+      - type: python
+        packages: [ jinja-cli ]
   - type: nextflow
     variant: vdsl3
     directives: 

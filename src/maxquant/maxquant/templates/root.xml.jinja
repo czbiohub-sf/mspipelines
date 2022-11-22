@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
-    {%- for path, taxid in reference | zip(ref_taxonomy_id) -%}
+    {%- for path,taxid in fastas -%}
         {% block fastafileinfo scoped required %}{% endblock %}
     {%- endfor %}
    </fastaFiles>
@@ -144,7 +144,7 @@
       {%- endfor %}
    </filePaths>
    <experiments>
-      {%- for exp in experiment_names %}
+      {%- for exp in experiments %}
       <string>{{ exp }}</string>
       {%- endfor %}
    </experiments>
