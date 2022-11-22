@@ -15,7 +15,9 @@ par = {
    "ref_taxonomy_id": None,
    "ms_instrument": "Bruker TIMS",
    "lcms_run_type": "Standard",
-   "dryrun": True
+   "dryrun": True,
+   "quantMode":1,
+   "mainSearchMaxCombinations":200
 }
 meta = {
    "resources_dir": "src/maxquant/maxquant/",
@@ -98,7 +100,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
                   match_between_runs=par['match_between_runs'],
                   match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
                   ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
-                  group_type_settings=tsv_dispatcher['group_type_settings']
+                  group_type_settings=tsv_dispatcher['group_type_settings'],
+                  quantMode=par['quantMode'],
+                  mainSearchMaxCombinations=par['mainSearchMaxCombinations']
                  )
 
    # Strip empty lines from the file 

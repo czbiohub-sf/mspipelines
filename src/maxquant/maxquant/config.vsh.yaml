@@ -82,6 +82,14 @@ functionality:
         - name: "--dryrun"
           type: boolean_true
           description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+        - name: "--quantMode"
+          type: integer
+          example : "1"
+          description: "Apply the selected quantification mode"
+        - name: "--mainSearchMaxCombinations"
+          type: integer
+          example: "200"
+          description: "The maximal amount of combinations that will be searched"
   resources:
     - type: python_script
       path: script.py
