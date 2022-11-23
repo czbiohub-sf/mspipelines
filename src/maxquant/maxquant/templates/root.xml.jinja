@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
-    {%- for path,taxid in fastas -%}
+    {%- for path,taxid,id_parse_rule in fastas -%}
       <FastaFileInfo>
          <fastaFilePath>{{ path }}</fastaFilePath>
-         <identifierParseRule>>.*\|(.*)\|</identifierParseRule>
+         <identifierParseRule>{{id_parse_rule}}</identifierParseRule>
          <descriptionParseRule>>(.*)</descriptionParseRule>
          <taxonomyParseRule></taxonomyParseRule>
          <variationParseRule></variationParseRule>

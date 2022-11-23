@@ -61,7 +61,6 @@ functionality:
         - name: "--mainSearchMaxCombinations"
           type: integer
           example: "200"
-          description: "The maximal amount of combinations that will be searched"
         # global > tables
         ## if DDA, DIA doesn't need to be returned
         - name: "--write_tables"
@@ -90,7 +89,12 @@ functionality:
         - name: "--dryrun"
           type: boolean_true
           description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
-
+        # parsing
+        - name: "--id_parse_rule"
+          type: string
+          multiple: true
+          multiple_sep: ";"
+          description: "The parsing rule for Faste entries in the provided sequence databases"
   resources:
     - type: python_script
       path: script.py

@@ -32,6 +32,10 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\.raw', f)]
 
+# check if the user provided parsing rules, if not use default parsing rule for standard FASTA formatting
+if not par["id_parse_rule"]:
+   par["id_parse_rule"] = [">.*\\|(.*)\\|" for _ in par["reference"]]
+
 # set taxonomy id to empty string if not specified
 if not par["ref_taxonomy_id"]:
    par["ref_taxonomy_id"] = ["" for _ in par["reference"]]
@@ -76,6 +80,10 @@ for var_name, (filepath, selector) in tsv_dispatcher.items():
 assert len(par["reference"]) == len(par["ref_taxonomy_id"]), \
        "--ref_taxonomy_id must have same length as --reference"
 
+#check id parsing rule
+assert len(par["reference"]) == len(par["id_parse_rule"]), \
+       "--id_parse_rule must have same length as --reference"
+
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
    # prepare to copy input files to tempdir
@@ -96,7 +104,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    param_content = template.render(
                   input=par['input'],
                   output=par['output'],
-                  fastas=zip(par['reference'],par['ref_taxonomy_id']),
+                  fastas=zip(par['reference'],par['ref_taxonomy_id'],par["id_parse_rule"]),
                   experiments=experiment_names,
                   match_between_runs=par['match_between_runs'],
                   match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
