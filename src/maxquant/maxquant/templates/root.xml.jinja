@@ -2,7 +2,15 @@
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
     {%- for path,taxid in fastas -%}
-        {% block fastafileinfo scoped required %}{% endblock %}
+      <FastaFileInfo>
+         <fastaFilePath>{{ path }}</fastaFilePath>
+         <identifierParseRule>>.*\|(.*)\|</identifierParseRule>
+         <descriptionParseRule>>(.*)</descriptionParseRule>
+         <taxonomyParseRule></taxonomyParseRule>
+         <variationParseRule></variationParseRule>
+         <modificationParseRule></modificationParseRule>
+         <taxonomyId>{{ taxid }}</taxonomyId>
+      </FastaFileInfo>
     {%- endfor %}
    </fastaFiles>
    <fastaFilesProteogenomics>

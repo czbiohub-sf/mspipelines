@@ -91,7 +91,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
    param_file = os.path.join(par["output"], "mqpar.xml")
    file_loader = FileSystemLoader(f"{meta['resources_dir']}/templates/")
    environment = Environment(loader=file_loader)
-   template = environment.get_template("fastafileinfo.xml.jinja", parent="root.xml.jinja")
+   template = environment.get_template("root.xml.jinja")
 
    param_content = template.render(
                   input=par['input'],
@@ -103,8 +103,7 @@ with tempfile.TemporaryDirectory() as temp_dir:
                   ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
                   group_type_settings=tsv_dispatcher['group_type_settings'],
                   quantMode=par['quantMode'],
-                  mainSearchMaxCombinations=par['mainSearchMaxCombinations']
-                 )
+                  mainSearchMaxCombinations=par['mainSearchMaxCombinations'])
 
    # Strip empty lines from the file 
    # No proper jinja-solution for the very first line of the file
