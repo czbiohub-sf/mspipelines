@@ -25,6 +25,7 @@ meta = {
 }
 ## VIASH END
 
+
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
    par["input"] = [os.path.join(dp, f) 
