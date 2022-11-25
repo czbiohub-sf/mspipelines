@@ -56,11 +56,11 @@ functionality:
           description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
         - name: "--quantMode"
           type: integer
-          example : "1"
+          example : 1
           description: "Apply the selected quantification mode"
         - name: "--mainSearchMaxCombinations"
           type: integer
-          example: "200"
+          example: 200
         # global > tables
         ## if DDA, DIA doesn't need to be returned
         - name: "--write_tables"
