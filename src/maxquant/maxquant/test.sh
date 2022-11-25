@@ -1,5 +1,3 @@
-#!/bin/bash
-
 set -eo pipefail
 
 echo ">> Running $meta_functionality_name"
@@ -11,6 +9,8 @@ echo ">> Running $meta_functionality_name"
     --ms_instrument "Orbitrap" \
     --lcms_run_type "Standard" \
     --lfq_mode "LFQ" \
+    --quantMode "1" \
+    --mainSearchMaxCombinations "150" \
     --output "output"
 
 echo ">> Checking whether output files can be found"

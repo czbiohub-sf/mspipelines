@@ -4340,5 +4340,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/msdial/msdial_lcms"
   viash_version: "0.6.1"
-  git_commit: "41995bbc0af26d5e2aa4d323112faf2e38d0b936"
+  git_commit: "01f28429db5ba52cd70024d9beb64d974f9f2b2f"
   git_remote: "https://github.com/czbiohub/mspipelines"

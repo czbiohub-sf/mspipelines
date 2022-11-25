@@ -8,11 +8,14 @@ reference: # please fill in - example: ["reference.fasta"]
 # Arguments
 # ref_taxonomy_id: ["9606"]
 match_between_runs: false
+# quantMode: 1
+# mainSearchMaxCombinations: 200
 write_tables: ["msScans", "msmsScans", "ms3Scans", "allPeptides", "mzRange", "mzTab", "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
 ms_instrument: "Bruker TIMS"
 lcms_run_type: "Standard"
 lfq_mode: "LFQ"
 dryrun: false
+# id_parse_rule: ["foo"]
 
 # Nextflow input-output arguments
 publish_dir: # please fill in - example: "output/"

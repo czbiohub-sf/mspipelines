@@ -54,6 +54,13 @@ functionality:
           type: boolean
           default: false
           description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
+        - name: "--quantMode"
+          type: integer
+          example : 1
+          description: "Apply the selected quantification mode"
+        - name: "--mainSearchMaxCombinations"
+          type: integer
+          example: 200
         # global > tables
         ## if DDA, DIA doesn't need to be returned
         - name: "--write_tables"
@@ -82,10 +89,17 @@ functionality:
         - name: "--dryrun"
           type: boolean_true
           description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+        # parsing
+        - name: "--id_parse_rule"
+          type: string
+          multiple: true
+          multiple_sep: ";"
+          description: "The parsing rule for Faste entries in the provided sequence databases"
   resources:
     - type: python_script
       path: script.py
     - path: settings
+    - path: templates
   test_resources:
     - type: bash_script
       path: test.sh
@@ -113,6 +127,8 @@ platforms:
             mv * /maxquant
       - type: python
         pypi: pandas
+      - type: python
+        packages: [ jinja-cli ]
   - type: nextflow
     variant: vdsl3
     directives: 
