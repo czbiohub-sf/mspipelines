@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MaxQuantParams xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <fastaFiles>
-    {%- for path,taxid,id_parse_rule in fastas -%}
+    {%- for fasta in fastas -%}
       <FastaFileInfo>
-         <fastaFilePath>{{ path }}</fastaFilePath>
-         <identifierParseRule>{{id_parse_rule}}</identifierParseRule>
-         <descriptionParseRule>>(.*)</descriptionParseRule>
-         <taxonomyParseRule></taxonomyParseRule>
+         <fastaFilePath>{{ fasta.reference }}</fastaFilePath>
+         <identifierParseRule>{{ fasta.ref_identifier_rule }}</identifierParseRule>
+         <descriptionParseRule>{{ fasta.ref_description_rule }}</descriptionParseRule>
+         <taxonomyParseRule>{{ fasta.ref_taxonomy_rule }}</taxonomyParseRule>
          <variationParseRule></variationParseRule>
          <modificationParseRule></modificationParseRule>
-         <taxonomyId>{{ taxid }}</taxonomyId>
+         <taxonomyId>{{ fasta.ref_taxonomy_id }}</taxonomyId>
       </FastaFileInfo>
     {%- endfor %}
    </fastaFiles>
@@ -106,10 +106,10 @@
    <alignmentIonMobilityWindow>{{ match_between_runs_settings.at["alignmentIonMobilityWindow"] }}</alignmentIonMobilityWindow>
    <numberOfCandidatesMsms>15</numberOfCandidatesMsms>
    <compositionPrediction>0</compositionPrediction>
-   <quantMode>{{quantMode}}</quantMode>
+   <quantMode>{{ quant_mode }}</quantMode>
    <massDifferenceMods>
    </massDifferenceMods>
-   <mainSearchMaxCombinations>{{mainSearchMaxCombinations}}</mainSearchMaxCombinations>
+   <mainSearchMaxCombinations>{{main_search_max_combinations}}</mainSearchMaxCombinations>
    <writeMsScansTable>{{ "msScans" in write_tables }}</writeMsScansTable>
    <writeMsmsScansTable>{{ "msmsScans" in write_tables }}</writeMsmsScansTable>
    <writePasefMsmsScansTable>{{ "pasefMsmsScans" in write_tables }}</writePasefMsmsScansTable>
