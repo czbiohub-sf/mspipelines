@@ -2,6 +2,7 @@
 functionality:
   name: msdial_lcms
   namespace: msdial
+  description: MS-DIAL LC/MS
   authors:
     - name: Robrecht Cannoodt
       email: rcannood@gmail.com

@@ -1,0 +1,170 @@
+---
+title: "Msdial lcms"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `msdial_lcms`  
+Namespace: `msdial`
+
+### Links
+[Source](https://github.com/czbiohub/mspipelines/blob/mainsrc/msdial/msdial_lcms){.btn-action .btn-sm .btn-info .btn role="button"}
+
+:::
+
+MS-DIAL LC/MS
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -main-script target/nextflow/msdial/msdial_lcms/main.nf \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+
+```
+</details>
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -profile docker \
+  -main-script target/nextflow/msdial/msdial_lcms/main.nf \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
+
+## Argument groups
+
+### Inputs
+
+|Name                 |Description                                                               |Attributes                                                                                  |
+|:--------------------|:-------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+|`--input`            |One or more input files.                                                  |`file`, required, example: `"input1.abf"`, example: `"input2.abf"`, example: `"input3.abf"` |
+|`--name`             |Sample name, must be of same length as the input files.                   |`string`, example: `"foo"`, example: `"bar"`, example: `"baz"`                              |
+|`--type`             |Sample type, must be of same length as the input files.                   |`string`, example: `"Sample"`                                                               |
+|`--class_id`         |Sample class, must be of same length as the input files.                  |`string`, example: `"1"`, example: `"2"`, example: `"3"`                                    |
+|`--batch`            |Sample batch, must be of same length as the input files.                  |`integer`, example: `1`, example: `2`, example: `3`                                         |
+|`--analytical_order` |Sample analytical order, must be of same length as the input files.       |`integer`, example: `2`, example: `1`, example: `3`                                         |
+|`--inject_volume`    |Sample injection volume in µL, must be of same length as the input files. |`double`, example: `1`, example: `0.9`, example: `1.1`                                      |
+
+
+### Outputs
+
+|Name       |Description                                          |Attributes                                |
+|:----------|:----------------------------------------------------|:-----------------------------------------|
+|`--output` |An output directory to store the '*.msdial' outputs. |`file`, required, example: `"output_dir"` |
+
+
+### Data type arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Data correction arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Centroid arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Isotope arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Retention time correction arguments
+
+|Name                        |Description                               |Attributes                  |
+|:---------------------------|:-----------------------------------------|:---------------------------|
+|`--rt_correction_smoothing` |RT correction with smoothing for RT diff. |`boolean`, default: `FALSE` |
+
+
+### Peak detection arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Deconvolution arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Adduct arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Identification arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Post-identification arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Alignment arguments
+
+|Name                        |Description                                                                |Attributes                  |
+|:---------------------------|:--------------------------------------------------------------------------|:---------------------------|
+|`--keep_removable_features` |Keep removable features and assign the tag for checking.                   |`boolean`, default: `TRUE`  |
+|`--replace_true_zero`       |Replace true zero values with 1/10 of minimum peak height over all samples |`boolean`, default: `FALSE` |
+
+
+### Isotope tracking arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+
+### Corrdec arguments
+
+|Name                                        |Description                                                                                                                                             |Attributes               |
+|:-------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------|
+|`--corrdec_exclude_highly_correlated_spots` |To ignore highly correlated precursor ions (related ions e.g. adducts and isotopes); 0.8-0.9                                                            |`double`, default: `0.9` |
+|`--corrdec_min_corr_ms2`                    |A cutoff value to remove not correlated MS2 peaks                                                                                                       |`double`, default: `0.7` |
+|`--corrdec_margin_1`                        |Minimum correlation cutoff value: max correlation (vs. a target precursor) - this value. Criterion 2 in the method paper, it should be published soon.  |`double`, default: `0.2` |
+|`--corrdec_margin_2`                        |Minimum correlation cutoff value: max correlation (vs. coeluted precursors) - this value. Criterion 3 in the method paper, it should be published soon. |`double`, default: `0.7` |
+
+
+### Ion mobility arguments
+
+|Name |Description |Attributes |
+|:----|:-----------|:----------|
+
+## Authors
+
+  * Robrecht Cannoodt [{{< fa brands github >}}](https://github.com/rcannood) [{{< fa brands orcid >}}](https://orcid.org/0000-0003-3641-729X) (maintainer)

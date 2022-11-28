@@ -1,0 +1,89 @@
+---
+title: "Maxquant"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `maxquant`  
+Namespace: `maxquant`
+
+### Links
+[Source](https://github.com/czbiohub/mspipelines/blob/mainsrc/maxquant/maxquant){.btn-action .btn-sm .btn-info .btn role="button"}
+
+:::
+
+Perform a MaxQuant analysis with mostly default parameters.
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -main-script target/nextflow/maxquant/maxquant/main.nf \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+
+```
+</details>
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -profile docker \
+  -main-script target/nextflow/maxquant/maxquant/main.nf \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
+
+## Argument groups
+
+### Inputs
+
+|Name          |Description                       |Attributes                                     |
+|:-------------|:---------------------------------|:----------------------------------------------|
+|`--input`     |One or more Thermo Raw files.     |`file`, required, example: `"input.raw"`       |
+|`--reference` |A reference file in fasta format. |`file`, required, example: `"reference.fasta"` |
+
+
+### Outputs
+
+|Name       |Description                                                          |Attributes                                |
+|:----------|:--------------------------------------------------------------------|:-----------------------------------------|
+|`--output` |An output directory to store the 'mqpar.xml' and 'combined' outputs. |`file`, required, example: `"output_dir"` |
+
+
+### Arguments
+
+|Name                   |Description                                                                                                                                                                                                                                                                                                                                                                  |Attributes                                                                                                                                                                                                                                                                      |
+|:----------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|`--ref_taxonomy_id`    |Taxonomy ID. Length must match --reference parameter.  Common taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.                                                                                                                                                                                                                                                      |`string`, example: `"9606"`                                                                                                                                                                                                                                                     |
+|`--match_between_runs` |Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.                                                                                                                                                                                                                                                                          |`boolean`, default: `FALSE`                                                                                                                                                                                                                                                     |
+|`--quantMode`          |Apply the selected quantification mode                                                                                                                                                                                                                                                                                                                                       |`integer`, example: `1`                                                                                                                                                                                                                                                         |
+|`--write_tables`       |Which tables to write out.                                                                                                                                                                                                                                                                                                                                                   |`string`, default: `"msScans"`, default: `"msmsScans"`, default: `"ms3Scans"`, default: `"allPeptides"`, default: `"mzRange"`, default: `"mzTab"`, default: `"DIA fragments"`, default: `"DIA fragments quant"`, default: `"pasefMsmsScans"`, default: `"accumulatedMsmsScans"` |
+|`--ms_instrument`      |Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters. |`string`, default: `"Bruker TIMS"`                                                                                                                                                                                                                                              |
+|`--lcms_run_type`      |The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'.                                                                                                           |`string`, default: `"Standard"`                                                                                                                                                                                                                                                 |
+|`--lfq_mode`           |Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'.                                        |`string`, default: `"LFQ"`                                                                                                                                                                                                                                                      |
+|`--dryrun`             |If true, will only generate the mqpar.xml file and not run MaxQuant.                                                                                                                                                                                                                                                                                                         |`boolean_true`                                                                                                                                                                                                                                                                  |
+|`--id_parse_rule`      |The parsing rule for Faste entries in the provided sequence databases                                                                                                                                                                                                                                                                                                        |`string`                                                                                                                                                                                                                                                                        |
+
+## Authors
+
+  * Robrecht Cannoodt [{{< fa brands github >}}](https://github.com/rcannood) [{{< fa brands orcid >}}](https://orcid.org/0000-0003-3641-729X) (maintainer)

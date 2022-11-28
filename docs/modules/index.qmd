@@ -1,0 +1,24 @@
+---
+title: "Components"
+---
+
+## Workflows
+
+:::{.column-body-outset}
+|Namespace |Name |Description |
+|:---------|:----|:-----------|
+:::
+
+## Modules
+
+:::{.column-body-outset}
+|Namespace |Name                                                           |Description                                                                                     |
+|:---------|:--------------------------------------------------------------|:-----------------------------------------------------------------------------------------------|
+|Convert   |[Maxquant to h5ad](module_convert_maxquant_to_h5ad.qmd)        |Converting a MaxQuant output folder to an AnnData file                                          |
+|Convert   |[Thermo to mzml](module_convert_thermo_to_mzml.qmd)            |Convert a thermo raw to an mzML file                                                            |
+|Download  |[Sync test resources](module_download_sync_test_resources.qmd) |Synchronise the test resources from s3://czbiohub-pipelines/resources_test_ms to resources_test |
+|Maxquant  |[Maxquant](module_maxquant_maxquant.qmd)                       |Perform a MaxQuant analysis with mostly default parameters                                      |
+|Msdial    |[Msdial gcms](module_msdial_msdial_gcms.qmd)                   |MS-DIAL GC/MS                                                                                   |
+|Msdial    |[Msdial lcms](module_msdial_msdial_lcms.qmd)                   |MS-DIAL LC/MS                                                                                   |
+|Qc        |[Rawbeans](module_qc_rawbeans.qmd)                             |Perform a QC analysis                                                                           |
+:::
