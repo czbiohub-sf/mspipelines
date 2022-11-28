@@ -9,8 +9,8 @@ echo ">> Running $meta_functionality_name"
     --ms_instrument "Orbitrap" \
     --lcms_run_type "Standard" \
     --lfq_mode "LFQ" \
-    --quantMode "1" \
-    --mainSearchMaxCombinations "150" \
+    --peptides_for_quantification "unique+razor" \
+    --main_search_max_combinations "150" \
     --output "output"
 
 echo ">> Checking whether output files can be found"

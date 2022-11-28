@@ -16,8 +16,8 @@ par = {
    "ms_instrument": "Bruker TIMS",
    "lcms_run_type": "Standard",
    "dryrun": True,
-   "quantMode":1,
-   "mainSearchMaxCombinations":200
+   "peptides_for_quantification":"unique+razor",
+   "main_search_max_combinations":200
 }
 meta = {
    "resources_dir": "src/maxquant/maxquant/",
@@ -32,14 +32,6 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\.raw', f)]
 
-# check if the user provided parsing rules, if not use default parsing rule for standard FASTA formatting
-if not par["id_parse_rule"]:
-   par["id_parse_rule"] = [">.*\\|(.*)\\|" for _ in par["reference"]]
-
-# set taxonomy id to empty string if not specified
-if not par["ref_taxonomy_id"]:
-   par["ref_taxonomy_id"] = ["" for _ in par["reference"]]
-
 # # use absolute paths
 # for par_key in ("input", "reference", "output"):
 #    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
@@ -53,7 +45,7 @@ par["output"] = os.path.abspath(par["output"])
 experiment_names = [re.sub(r"_\d+$", "", os.path.basename(file))
                     for file in par["input"]]
 
-# Load parameters that which are defined in tsv files.
+# Load parameter sets from tsv files
 def load_tsv(file_path, loc_selector):
    df = pd.read_table(
             f"{meta['resources_dir']}/settings/{file_path}",
@@ -67,7 +59,6 @@ def load_tsv(file_path, loc_selector):
       return df.loc[par[loc_selector]]
    return df
    
-
 tsv_dispatcher = {
    "match_between_runs_settings": ("match_between_runs.tsv", "match_between_runs"),
    "ms_instrument_settings": ("ms_instrument.tsv", "ms_instrument"),
@@ -76,13 +67,24 @@ tsv_dispatcher = {
 for var_name, (filepath, selector) in tsv_dispatcher.items():
    tsv_dispatcher[var_name] = load_tsv(filepath, selector)
 
-# check reference metadata
-assert len(par["reference"]) == len(par["ref_taxonomy_id"]), \
-       "--ref_taxonomy_id must have same length as --reference"
 
-#check id parsing rule
-assert len(par["reference"]) == len(par["id_parse_rule"]), \
-       "--id_parse_rule must have same length as --reference"
+# check length of all reference related args
+# including reference in it as well for ease of use later on
+ref_args = ["reference", "ref_identifier_rule", "ref_description_rule", "ref_taxonomy_rule", "ref_taxonomy_id"]
+for ref_arg in ref_args:
+   if len(par[ref_arg]) == 1 and len(par["reference"]) > 1:
+      par[ref_arg] = par[ref_arg] * len(par["reference"])
+
+   assert len(par["reference"]) == len(par[ref_arg]), \
+      f"--{ref_arg} must have same length as --reference"
+
+fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in ref_args])]
+
+# process quant mode parameter
+# this information was derived by toggling through parameters in the MaxQuant GUI 
+# and inspecting the difference in mqpar.xml contents
+quant_mode_options = ["all", "unique+razor", "unique"]
+quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -102,21 +104,17 @@ with tempfile.TemporaryDirectory() as temp_dir:
    template = environment.get_template("root.xml.jinja")
 
    param_content = template.render(
-                  input=par['input'],
-                  output=par['output'],
-                  fastas=zip(par['reference'],par['ref_taxonomy_id'],par["id_parse_rule"]),
-                  experiments=experiment_names,
-                  match_between_runs=par['match_between_runs'],
-                  match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
-                  ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
-                  group_type_settings=tsv_dispatcher['group_type_settings'],
-                  quantMode=par['quantMode'],
-                  mainSearchMaxCombinations=par['mainSearchMaxCombinations'])
-
-   # Strip empty lines from the file 
-   # No proper jinja-solution for the very first line of the file
-   param_content = os.linesep.join([s for s in param_content.splitlines() if s])
-
+      input=par['input'],
+      output=par['output'],
+      fastas=fastas,
+      experiments=experiment_names,
+      match_between_runs=par['match_between_runs'],
+      match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
+      ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
+      group_type_settings=tsv_dispatcher['group_type_settings'],
+      quant_mode=quant_mode,
+      main_search_max_combinations=par['main_search_max_combinations']
+   )
 
    with open(param_file, "w") as f:
       f.write(param_content)
