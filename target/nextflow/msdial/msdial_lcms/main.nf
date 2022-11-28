@@ -1222,6 +1222,7 @@ thisConfig = processConfig([
       "parent" : "file:/home/runner/work/mspipelines/mspipelines/src/msdial/msdial_lcms/config.vsh.yaml"
     }
   ],
+  "description" : "MS-DIAL LC/MS",
   "test_resources" : [
     {
       "type" : "bash_script",

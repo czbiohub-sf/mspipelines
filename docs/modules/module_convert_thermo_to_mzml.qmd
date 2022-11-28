@@ -1,0 +1,67 @@
+---
+title: "Thermo to mzml"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `thermo_to_mzml`  
+Namespace: `convert`
+
+### Links
+[Source](https://github.com/czbiohub/mspipelines/blob/mainsrc/convert/thermo_to_mzml){.btn-action .btn-sm .btn-info .btn role="button"}
+
+:::
+
+Convert a thermo raw to an mzML file.
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -main-script target/nextflow/convert/thermo_to_mzml/main.nf \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+
+```
+</details>
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -profile docker \
+  -main-script target/nextflow/convert/thermo_to_mzml/main.nf \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
+
+## Argument group
+
+### Arguments
+
+|Name       |Description            |Attributes                                 |
+|:----------|:----------------------|:------------------------------------------|
+|`--input`  |A Thermo Raw file.     |`file`, required, example: `"input.raw"`   |
+|`--output` |Path to an .mzML file. |`file`, required, example: `"output.mzML"` |
+
+## Authors
+
+  * Robrecht Cannoodt [{{< fa brands github >}}](https://github.com/rcannood) [{{< fa brands orcid >}}](https://orcid.org/0000-0003-3641-729X) (maintainer)

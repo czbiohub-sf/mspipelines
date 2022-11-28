@@ -716,5 +716,5 @@ info:
   output: "target/native/download/sync_test_resources"
   executable: "target/native/download/sync_test_resources/sync_test_resources"
   viash_version: "0.6.1"
-  git_commit: "01f28429db5ba52cd70024d9beb64d974f9f2b2f"
+  git_commit: "d8af3f0b1e2663216205ca0e43aa8e39f3b1679a"
   git_remote: "https://github.com/czbiohub/mspipelines"

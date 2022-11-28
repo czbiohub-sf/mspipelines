@@ -2290,6 +2290,7 @@ functionality:
             "parent" : "file:/home/runner/work/mspipelines/mspipelines/src/msdial/msdial_lcms/config.vsh.yaml"
           }
         ],
+        "description" : "MS-DIAL LC/MS",
         "test_resources" : [
           {
             "type" : "bash_script",
@@ -4230,6 +4231,7 @@ functionality:
         mainScript = 'main.nf'
         nextflowVersion = '!>=20.12.1-edge'
         version = 'main_build'
+        description = 'MS-DIAL LC/MS'
         author = 'Robrecht Cannoodt'
       }
       
@@ -4299,6 +4301,7 @@ functionality:
       }
 
     dest: "nextflow.config"
+  description: "MS-DIAL LC/MS"
   test_resources:
   - type: "bash_script"
     path: "run_test.sh"
@@ -4340,5 +4343,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/msdial/msdial_lcms"
   viash_version: "0.6.1"
-  git_commit: "01f28429db5ba52cd70024d9beb64d974f9f2b2f"
+  git_commit: "d8af3f0b1e2663216205ca0e43aa8e39f3b1679a"
   git_remote: "https://github.com/czbiohub/mspipelines"
