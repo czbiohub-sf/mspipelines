@@ -59,20 +59,6 @@ thisConfig = processConfig([
           "multiple" : true,
           "multiple_sep" : ";",
           "dest" : "par"
-        },
-        {
-          "type" : "file",
-          "name" : "--reference",
-          "description" : "A reference file in fasta format.",
-          "example" : [
-            "reference.fasta"
-          ],
-          "must_exist" : false,
-          "required" : true,
-          "direction" : "input",
-          "multiple" : true,
-          "multiple_sep" : ";",
-          "dest" : "par"
         }
       ]
     },
@@ -92,67 +78,11 @@ thisConfig = processConfig([
           "multiple" : false,
           "multiple_sep" : ":",
           "dest" : "par"
-        }
-      ]
-    },
-    {
-      "name" : "Arguments",
-      "arguments" : [
-        {
-          "type" : "string",
-          "name" : "--ref_taxonomy_id",
-          "description" : "Taxonomy ID. Length must match --reference parameter. \nCommon taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.\n",
-          "example" : [
-            "9606"
-          ],
-          "required" : false,
-          "direction" : "input",
-          "multiple" : true,
-          "multiple_sep" : ":",
-          "dest" : "par"
-        },
-        {
-          "type" : "boolean",
-          "name" : "--match_between_runs",
-          "description" : "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.",
-          "default" : [
-            false
-          ],
-          "required" : false,
-          "direction" : "input",
-          "multiple" : false,
-          "multiple_sep" : ":",
-          "dest" : "par"
-        },
-        {
-          "type" : "integer",
-          "name" : "--quantMode",
-          "description" : "Apply the selected quantification mode",
-          "example" : [
-            1
-          ],
-          "required" : false,
-          "direction" : "input",
-          "multiple" : false,
-          "multiple_sep" : ":",
-          "dest" : "par"
-        },
-        {
-          "type" : "integer",
-          "name" : "--mainSearchMaxCombinations",
-          "example" : [
-            200
-          ],
-          "required" : false,
-          "direction" : "input",
-          "multiple" : false,
-          "multiple_sep" : ":",
-          "dest" : "par"
         },
         {
           "type" : "string",
           "name" : "--write_tables",
-          "description" : "Which tables to write out.",
+          "description" : "Which tables to write out. This argument is listed in the GUI under \\"Global parameters > Tables\\".",
           "default" : [
             "msScans",
             "msmsScans",
@@ -182,11 +112,91 @@ thisConfig = processConfig([
           "multiple" : true,
           "multiple_sep" : ":",
           "dest" : "par"
+        }
+      ]
+    },
+    {
+      "name" : "Reference sequences",
+      "description" : "Arguments listed in the GUI under \\"Global parameters > Sequences\\"",
+      "arguments" : [
+        {
+          "type" : "file",
+          "name" : "--reference",
+          "description" : "A reference file in fasta format.",
+          "example" : [
+            "reference.fasta"
+          ],
+          "must_exist" : false,
+          "required" : true,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";",
+          "dest" : "par"
         },
         {
           "type" : "string",
+          "name" : "--ref_identifier_rule",
+          "description" : "The identifier parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+          "default" : [
+            ">.*\\\\|(.*)\\\\|"
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";",
+          "dest" : "par"
+        },
+        {
+          "type" : "string",
+          "name" : "--ref_description_rule",
+          "description" : "The description parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+          "default" : [
+            ">(.*)"
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";",
+          "dest" : "par"
+        },
+        {
+          "type" : "string",
+          "name" : "--ref_taxonomy_rule",
+          "description" : "The taxonomy parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+          "default" : [
+            ""
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ";",
+          "dest" : "par"
+        },
+        {
+          "type" : "string",
+          "name" : "--ref_taxonomy_id",
+          "description" : "The taxonomy ID for the provided reference fastas.\nCommon taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.\nLength must be 1 or match that of the --reference argument.\n",
+          "example" : [
+            "9606"
+          ],
+          "default" : [
+            ""
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : true,
+          "multiple_sep" : ":",
+          "dest" : "par"
+        }
+      ]
+    },
+    {
+      "name" : "Group-specific arguments",
+      "arguments" : [
+        {
+          "type" : "string",
           "name" : "--ms_instrument",
-          "description" : "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters.",
+          "description" : "Type of intrument the data was generated on. This argument is listed in the MaxQuant GUI under \\"Group-specific parameters > Instrument\\".\n\nCurrently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600.\nUsually there is no need for the user to adjust the sub-parameters.\n\nSome internal arguments are set based on this argument value.\nSee `settings/ms_instrument.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
           "default" : [
             "Bruker TIMS"
           ],
@@ -206,7 +216,7 @@ thisConfig = processConfig([
         {
           "type" : "string",
           "name" : "--lcms_run_type",
-          "description" : "The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'.",
+          "description" : "The type of LC-MS run. This argument is listed in the MaxQuant GUI under \\"Group-specific parameters > Type\\".\n\n- Standard: for label free and MS1 labeled samples\n- Reporter ion MS2: for conventional isobaric labeling samples\n- Reporter ion MS3: for isobaric labeling reporters to be read from MS3 spectra\n- Other run types are undocumented in the MaxQuant GUI.\n\nSome internal arguments are set based on this argument value.\nSee `settings/group_type.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
           "default" : [
             "Standard"
           ],
@@ -230,7 +240,7 @@ thisConfig = processConfig([
         {
           "type" : "string",
           "name" : "--lfq_mode",
-          "description" : "Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'.",
+          "description" : "Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under \\"Group-specific parameters > Label-free quantification\\".\n\nThe use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. \nThe output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'.\n",
           "default" : [
             "LFQ"
           ],
@@ -243,22 +253,73 @@ thisConfig = processConfig([
           "multiple" : false,
           "multiple_sep" : ":",
           "dest" : "par"
+        }
+      ]
+    },
+    {
+      "name" : "Identification",
+      "description" : "Arguments listed in the MaxQuant GUI under \\"Global parameters > Identifications\\"",
+      "arguments" : [
+        {
+          "type" : "boolean",
+          "name" : "--match_between_runs",
+          "description" : "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.\n\nSome internal arguments are set based on this argument value.\nSee `settings/match_between_runs.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
+          "default" : [
+            false
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ":",
+          "dest" : "par"
         },
+        {
+          "type" : "integer",
+          "name" : "--main_search_max_combinations",
+          "description" : "The maximum combinations during the main search. Further documentation about this parameter is lacking in the MaxQuant GUI.",
+          "default" : [
+            200
+          ],
+          "required" : false,
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ":",
+          "dest" : "par"
+        }
+      ]
+    },
+    {
+      "name" : "Protein quantification",
+      "description" : "Arguments listed in the MaxQuant GUI under \\"Global parameters > Protein quantification\\"",
+      "arguments" : [
+        {
+          "type" : "string",
+          "name" : "--peptides_for_quantification",
+          "description" : "Specify how the protein ratios will be calculated.\n\n- 'all': the quantification is done on all peptides.\n- 'unique': only the peptides unique for that specific protein group are used for quantification.\n- 'unique+razor': calculates protein ratios from unique and razor peptides. Razor peptides are\n  non-unique peptides assigned to the protein group with the most other peptides (Occam's razor principle).\n\nThis argument assigns the \\"quantMode\\" value in `mqpar.xml`.\n",
+          "default" : [
+            "unique+razor"
+          ],
+          "required" : false,
+          "choices" : [
+            "all",
+            "unique",
+            "unique+razor"
+          ],
+          "direction" : "input",
+          "multiple" : false,
+          "multiple_sep" : ":",
+          "dest" : "par"
+        }
+      ]
+    },
+    {
+      "name" : "Other arguments",
+      "arguments" : [
         {
           "type" : "boolean_true",
           "name" : "--dryrun",
           "description" : "If true, will only generate the mqpar.xml file and not run MaxQuant.",
           "direction" : "input",
-          "dest" : "par"
-        },
-        {
-          "type" : "string",
-          "name" : "--id_parse_rule",
-          "description" : "The parsing rule for Faste entries in the provided sequence databases",
-          "required" : false,
-          "direction" : "input",
-          "multiple" : true,
-          "multiple_sep" : ";",
           "dest" : "par"
         }
       ]
@@ -318,18 +379,20 @@ from jinja2 import FileSystemLoader, Environment
 # The following code has been auto-generated by Viash.
 par = {
   'input': $( if [ ! -z ${VIASH_PAR_INPUT+x} ]; then echo "r'${VIASH_PAR_INPUT//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
-  'reference': $( if [ ! -z ${VIASH_PAR_REFERENCE+x} ]; then echo "r'${VIASH_PAR_REFERENCE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
   'output': $( if [ ! -z ${VIASH_PAR_OUTPUT+x} ]; then echo "r'${VIASH_PAR_OUTPUT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'ref_taxonomy_id': $( if [ ! -z ${VIASH_PAR_REF_TAXONOMY_ID+x} ]; then echo "r'${VIASH_PAR_REF_TAXONOMY_ID//\\'/\\'\\"\\'\\"r\\'}'.split(':')"; else echo None; fi ),
-  'match_between_runs': $( if [ ! -z ${VIASH_PAR_MATCH_BETWEEN_RUNS+x} ]; then echo "r'${VIASH_PAR_MATCH_BETWEEN_RUNS//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi ),
-  'quantMode': $( if [ ! -z ${VIASH_PAR_QUANTMODE+x} ]; then echo "int(r'${VIASH_PAR_QUANTMODE//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
-  'mainSearchMaxCombinations': $( if [ ! -z ${VIASH_PAR_MAINSEARCHMAXCOMBINATIONS+x} ]; then echo "int(r'${VIASH_PAR_MAINSEARCHMAXCOMBINATIONS//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
   'write_tables': $( if [ ! -z ${VIASH_PAR_WRITE_TABLES+x} ]; then echo "r'${VIASH_PAR_WRITE_TABLES//\\'/\\'\\"\\'\\"r\\'}'.split(':')"; else echo None; fi ),
+  'reference': $( if [ ! -z ${VIASH_PAR_REFERENCE+x} ]; then echo "r'${VIASH_PAR_REFERENCE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
+  'ref_identifier_rule': $( if [ ! -z ${VIASH_PAR_REF_IDENTIFIER_RULE+x} ]; then echo "r'${VIASH_PAR_REF_IDENTIFIER_RULE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
+  'ref_description_rule': $( if [ ! -z ${VIASH_PAR_REF_DESCRIPTION_RULE+x} ]; then echo "r'${VIASH_PAR_REF_DESCRIPTION_RULE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
+  'ref_taxonomy_rule': $( if [ ! -z ${VIASH_PAR_REF_TAXONOMY_RULE+x} ]; then echo "r'${VIASH_PAR_REF_TAXONOMY_RULE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
+  'ref_taxonomy_id': $( if [ ! -z ${VIASH_PAR_REF_TAXONOMY_ID+x} ]; then echo "r'${VIASH_PAR_REF_TAXONOMY_ID//\\'/\\'\\"\\'\\"r\\'}'.split(':')"; else echo None; fi ),
   'ms_instrument': $( if [ ! -z ${VIASH_PAR_MS_INSTRUMENT+x} ]; then echo "r'${VIASH_PAR_MS_INSTRUMENT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'lcms_run_type': $( if [ ! -z ${VIASH_PAR_LCMS_RUN_TYPE+x} ]; then echo "r'${VIASH_PAR_LCMS_RUN_TYPE//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'lfq_mode': $( if [ ! -z ${VIASH_PAR_LFQ_MODE+x} ]; then echo "r'${VIASH_PAR_LFQ_MODE//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
-  'dryrun': $( if [ ! -z ${VIASH_PAR_DRYRUN+x} ]; then echo "r'${VIASH_PAR_DRYRUN//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi ),
-  'id_parse_rule': $( if [ ! -z ${VIASH_PAR_ID_PARSE_RULE+x} ]; then echo "r'${VIASH_PAR_ID_PARSE_RULE//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi )
+  'match_between_runs': $( if [ ! -z ${VIASH_PAR_MATCH_BETWEEN_RUNS+x} ]; then echo "r'${VIASH_PAR_MATCH_BETWEEN_RUNS//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi ),
+  'main_search_max_combinations': $( if [ ! -z ${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS+x} ]; then echo "int(r'${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
+  'peptides_for_quantification': $( if [ ! -z ${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION+x} ]; then echo "r'${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'dryrun': $( if [ ! -z ${VIASH_PAR_DRYRUN+x} ]; then echo "r'${VIASH_PAR_DRYRUN//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi )
 }
 meta = {
   'functionality_name': $( if [ ! -z ${VIASH_META_FUNCTIONALITY_NAME+x} ]; then echo "r'${VIASH_META_FUNCTIONALITY_NAME//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
@@ -354,14 +417,6 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\\\\.raw', f)]
 
-# check if the user provided parsing rules, if not use default parsing rule for standard FASTA formatting
-if not par["id_parse_rule"]:
-   par["id_parse_rule"] = [">.*\\\\\\\\|(.*)\\\\\\\\|" for _ in par["reference"]]
-
-# set taxonomy id to empty string if not specified
-if not par["ref_taxonomy_id"]:
-   par["ref_taxonomy_id"] = ["" for _ in par["reference"]]
-
 # # use absolute paths
 # for par_key in ("input", "reference", "output"):
 #    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
@@ -375,7 +430,7 @@ par["output"] = os.path.abspath(par["output"])
 experiment_names = [re.sub(r"_\\\\d+\\$", "", os.path.basename(file))
                     for file in par["input"]]
 
-# Load parameters that which are defined in tsv files.
+# Load parameter sets from tsv files
 def load_tsv(file_path, loc_selector):
    df = pd.read_table(
             f"{meta['resources_dir']}/settings/{file_path}",
@@ -389,7 +444,6 @@ def load_tsv(file_path, loc_selector):
       return df.loc[par[loc_selector]]
    return df
    
-
 tsv_dispatcher = {
    "match_between_runs_settings": ("match_between_runs.tsv", "match_between_runs"),
    "ms_instrument_settings": ("ms_instrument.tsv", "ms_instrument"),
@@ -398,13 +452,24 @@ tsv_dispatcher = {
 for var_name, (filepath, selector) in tsv_dispatcher.items():
    tsv_dispatcher[var_name] = load_tsv(filepath, selector)
 
-# check reference metadata
-assert len(par["reference"]) == len(par["ref_taxonomy_id"]), \\\\
-       "--ref_taxonomy_id must have same length as --reference"
 
-#check id parsing rule
-assert len(par["reference"]) == len(par["id_parse_rule"]), \\\\
-       "--id_parse_rule must have same length as --reference"
+# check length of all reference related args
+# including reference in it as well for ease of use later on
+ref_args = ["reference", "ref_identifier_rule", "ref_description_rule", "ref_taxonomy_rule", "ref_taxonomy_id"]
+for ref_arg in ref_args:
+   if len(par[ref_arg]) == 1 and len(par["reference"]) > 1:
+      par[ref_arg] = par[ref_arg] * len(par["reference"])
+
+   assert len(par["reference"]) == len(par[ref_arg]), \\\\
+      f"--{ref_arg} must have same length as --reference"
+
+fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in ref_args])]
+
+# process quant mode parameter
+# this information was derived by toggling through parameters in the MaxQuant GUI 
+# and inspecting the difference in mqpar.xml contents
+quant_mode_options = ["all", "unique+razor", "unique"]
+quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -424,21 +489,17 @@ with tempfile.TemporaryDirectory() as temp_dir:
    template = environment.get_template("root.xml.jinja")
 
    param_content = template.render(
-                  input=par['input'],
-                  output=par['output'],
-                  fastas=zip(par['reference'],par['ref_taxonomy_id'],par["id_parse_rule"]),
-                  experiments=experiment_names,
-                  match_between_runs=par['match_between_runs'],
-                  match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
-                  ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
-                  group_type_settings=tsv_dispatcher['group_type_settings'],
-                  quantMode=par['quantMode'],
-                  mainSearchMaxCombinations=par['mainSearchMaxCombinations'])
-
-   # Strip empty lines from the file 
-   # No proper jinja-solution for the very first line of the file
-   param_content = os.linesep.join([s for s in param_content.splitlines() if s])
-
+      input=par['input'],
+      output=par['output'],
+      fastas=fastas,
+      experiments=experiment_names,
+      match_between_runs=par['match_between_runs'],
+      match_between_runs_settings=tsv_dispatcher['match_between_runs_settings'],
+      ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
+      group_type_settings=tsv_dispatcher['group_type_settings'],
+      quant_mode=quant_mode,
+      main_search_max_combinations=par['main_search_max_combinations']
+   )
 
    with open(param_file, "w") as f:
       f.write(param_content)

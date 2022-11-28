@@ -1,21 +1,31 @@
 # Inputs
 input: # please fill in - example: ["input.raw"]
-reference: # please fill in - example: ["reference.fasta"]
 
 # Outputs
 # output: "$id.$key.output.output"
-
-# Arguments
-# ref_taxonomy_id: ["9606"]
-match_between_runs: false
-# quantMode: 1
-# mainSearchMaxCombinations: 200
 write_tables: ["msScans", "msmsScans", "ms3Scans", "allPeptides", "mzRange", "mzTab", "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+
+# Reference sequences
+reference: # please fill in - example: ["reference.fasta"]
+ref_identifier_rule: [">.*\|(.*)\|"]
+ref_description_rule: [">(.*)"]
+ref_taxonomy_rule: [""]
+ref_taxonomy_id: [""]
+
+# Group-specific arguments
 ms_instrument: "Bruker TIMS"
 lcms_run_type: "Standard"
 lfq_mode: "LFQ"
+
+# Identification
+match_between_runs: false
+main_search_max_combinations: 200
+
+# Protein quantification
+peptides_for_quantification: "unique+razor"
+
+# Other arguments
 dryrun: false
-# id_parse_rule: ["foo"]
 
 # Nextflow input-output arguments
 publish_dir: # please fill in - example: "output/"
