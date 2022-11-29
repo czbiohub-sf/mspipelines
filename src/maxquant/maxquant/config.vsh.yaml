@@ -149,6 +149,10 @@ functionality:
         - name: "--dryrun"
           type: boolean_true
           description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+        - name: "--cpu"
+          type: integer
+          default: 1
+          description: "The amount of processing threads maxquant can use to run"
   resources:
     - type: python_script
       path: script.py

@@ -17,14 +17,13 @@ par = {
    "lcms_run_type": "Standard",
    "dryrun": True,
    "peptides_for_quantification":"unique+razor",
-   "main_search_max_combinations":200
+   "main_search_max_combinations":200,
+   "cpu": 1
 }
 meta = {
-   "resources_dir": "src/maxquant/maxquant/",
-   "cpu": None
+   "resources_dir": "src/maxquant/maxquant/"
 }
 ## VIASH END
-
 
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
@@ -113,7 +112,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
       ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
       group_type_settings=tsv_dispatcher['group_type_settings'],
       quant_mode=quant_mode,
-      main_search_max_combinations=par['main_search_max_combinations']
+      main_search_max_combinations=par['main_search_max_combinations'],
+      cpu=par['cpu']
    )
 
    with open(param_file, "w") as f:
