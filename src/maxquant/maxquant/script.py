@@ -102,8 +102,6 @@ with tempfile.TemporaryDirectory() as temp_dir:
    environment = Environment(loader=file_loader)
    template = environment.get_template("root.xml.jinja")
 
-   print(meta)
-
    if meta['cpus'] is None :
       meta['cpus']=1
 

@@ -12,7 +12,7 @@ echo ">> Running $meta_functionality_name"
     --peptides_for_quantification "unique+razor" \
     --main_search_max_combinations "150" \
     --output "output" \
-    -- ---cpus 4 
+    ---cpus 4 
 
 echo ">> Checking whether output files can be found"
 [[ ! -f "output/mqpar.xml" ]] && echo "Output mqpar.xml does not exist" && exit 1
