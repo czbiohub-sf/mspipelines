@@ -11,8 +11,7 @@ echo ">> Running $meta_functionality_name"
     --lfq_mode "LFQ" \
     --peptides_for_quantification "unique+razor" \
     --main_search_max_combinations "150" \
-    --cpu "4" \
-    --output "output"
+    --output "output" 
 
 echo ">> Checking whether output files can be found"
 [[ ! -f "output/mqpar.xml" ]] && echo "Output mqpar.xml does not exist" && exit 1
