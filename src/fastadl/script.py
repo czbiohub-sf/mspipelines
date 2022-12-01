@@ -3,10 +3,10 @@ from requests.adapters import HTTPAdapter, Retry
 
 ## VIASH START
 # par = {
-#    'taxid': "9606",
-#    'output': "fastas",
-#    'include_contaminants': True
-#     }
+#     'taxid': "694009",
+#     'output': "fastas",
+#     'include_contaminants': True
+#      }
 
 cRAPUrl="http://ftp.thegpm.org/fasta/cRAP/crap.fasta"
 
@@ -56,10 +56,14 @@ with open(fastafile, 'w+') as f:
         if response.status_code==400 or response.status_code==404:
             print(f"Could not reach cRAP database at {cRAPUrl}")
             response.raise_for_status()
+            #there is a typo in the final entry of the official cRAP (don't know why :)
         data = response.text
-        #there is a typo in the official cRAP (don't know why :)
         data=data.replace(">KKA1_ECOLX",">sp|KKA1_ECOLX|")
-        print(data,file=f)
+        lines = data.splitlines()
+        for line in lines:
+            if line.endswith('|'):
+                line=line+"Known Contaminant"
+            print(line,file=f)
 
 print("Done")
 
