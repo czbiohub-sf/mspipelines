@@ -17,14 +17,13 @@ par = {
    "lcms_run_type": "Standard",
    "dryrun": True,
    "peptides_for_quantification":"unique+razor",
-   "main_search_max_combinations":200
+   "main_search_max_combinations":200,
 }
 meta = {
    "resources_dir": "src/maxquant/maxquant/",
-   "cpu": None
+   "cpus":"4"
 }
 ## VIASH END
-
 
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
@@ -103,6 +102,9 @@ with tempfile.TemporaryDirectory() as temp_dir:
    environment = Environment(loader=file_loader)
    template = environment.get_template("root.xml.jinja")
 
+   if meta['cpus'] is None :
+      meta['cpus']=1
+
    param_content = template.render(
       input=par['input'],
       output=par['output'],
@@ -113,7 +115,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
       ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
       group_type_settings=tsv_dispatcher['group_type_settings'],
       quant_mode=quant_mode,
-      main_search_max_combinations=par['main_search_max_combinations']
+      main_search_max_combinations=par['main_search_max_combinations'],
+      cpus=meta['cpus']
    )
 
    with open(param_file, "w") as f:
