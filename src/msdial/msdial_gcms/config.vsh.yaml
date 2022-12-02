@@ -217,7 +217,7 @@ functionality:
   resources:
     - type: python_script
       path: script.py
-  tests:
+  test_resources:
     - type: bash_script
       path: run_test.sh
     - path: ../../../resources_test/msdial_demo_files/raw/GCMS
