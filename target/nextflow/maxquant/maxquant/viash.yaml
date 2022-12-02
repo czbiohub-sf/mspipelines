@@ -708,7 +708,6 @@ functionality:
       
       ## VIASH END
       
-      
       # if par_input is a directory, look for raw files
       if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
          par["input"] = [os.path.join(dp, f) 
@@ -786,6 +785,9 @@ functionality:
          environment = Environment(loader=file_loader)
          template = environment.get_template("root.xml.jinja")
       
+         if meta['cpus'] is None :
+            meta['cpus']=1
+      
          param_content = template.render(
             input=par['input'],
             output=par['output'],
@@ -796,7 +798,8 @@ functionality:
             ms_instrument_settings=tsv_dispatcher['ms_instrument_settings'],
             group_type_settings=tsv_dispatcher['group_type_settings'],
             quant_mode=quant_mode,
-            main_search_max_combinations=par['main_search_max_combinations']
+            main_search_max_combinations=par['main_search_max_combinations'],
+            cpus=meta['cpus']
          )
       
          with open(param_file, "w") as f:
@@ -2563,5 +2566,5 @@ info:
   platform: "nextflow"
   output: "target/nextflow/maxquant/maxquant"
   viash_version: "0.6.1"
-  git_commit: "7ec3ea112aa0905d26f5bc3ba1fe4c5153dc8844"
+  git_commit: "fec064786862e6e1dd97a7a2c7fdad2628179939"
   git_remote: "https://github.com/czbiohub/mspipelines"
