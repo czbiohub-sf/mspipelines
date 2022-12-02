@@ -8,23 +8,22 @@ functionality:
       email: kenneth@data-intuitive.com
       roles: [ maintainer ]
       props: { github: KennethVerheggen }
-  argument_groups:
-    - name: Inputs
-      arguments:
-        - name: "--taxid"
-          type: string
-          required: true
-          description: The taxonomyID to obtain a fasta for
-          example: "9606"
-        - name: "--output"
-          type: file
-          required: true
-          description: An output directory for the fasta files
-          example: "db/"
-        - name: "--include_contaminants"
-          type: boolean
-          default: true
-          description: Include a collection of common contaminants from thegpmdb (highly advised)
+  arguments:
+    - name: "--taxid"
+      type: string
+      required: true
+      description: The taxonomyID to obtain a fasta for
+      example: "9606"
+    - name: "--output"
+      type: file
+      required: true
+      description: An output directory for the fasta files
+      example: "db/"
+      direction: output
+    - name: "--include_contaminants"
+      type: boolean
+      default: true
+      description: Include a collection of common contaminants from thegpmdb (highly advised)
   resources:
     - type: python_script
       path: script.py
