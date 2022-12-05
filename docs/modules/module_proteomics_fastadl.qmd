@@ -1,0 +1,70 @@
+---
+title: "Fastadl"
+namespace: "Proteomics"
+description: "Downloads a Fasta sequence database for a given taxonomy ID"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `fastadl`  
+Namespace: `proteomics`
+
+### Links
+[Source](https://github.com/czbiohub/mspipelines/blob/mainsrc/fastadl){.btn-action .btn-sm .btn-info .btn role="button"}
+
+:::
+
+
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -main-script target/nextflow/proteomics/fastadl/main.nf \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+
+```
+</details>
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -profile docker \
+  -main-script target/nextflow/proteomics/fastadl/main.nf \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
+
+## Argument group
+
+### Arguments
+
+|Name                     |Description                                                                |Attributes                            |
+|:------------------------|:--------------------------------------------------------------------------|:-------------------------------------|
+|`--taxid`                |The taxonomyID to obtain a fasta for                                       |`string`, required, example: `"9606"` |
+|`--output`               |An output directory for the fasta files                                    |`file`, required, example: `"db"`     |
+|`--include_contaminants` |Include a collection of common contaminants from thegpmdb (highly advised) |`boolean`, default: `TRUE`            |
+
+## Authors
+
+  * Kenneth Verheggen [{{< fa brands github >}}](https://github.com/KennethVerheggen) (maintainer)
