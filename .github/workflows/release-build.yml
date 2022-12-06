@@ -131,7 +131,7 @@ jobs:
     - name: Push containers
       run: |
         SRC_DIR=`dirname ${{ matrix.component.config }}`
-        bin/viash ns build --config_mod ".functionality.version := '${{ github.event.inputs.version_tag }}'" -s "$SRC_DIR" --push --setup donothing
+        bin/viash ns build --config_mod ".functionality.version := '${{ github.event.inputs.version_tag }}'" -s "$SRC_DIR" --setup push
 
   ###################################3
   # phase 3
@@ -159,7 +159,7 @@ jobs:
     - name: Build target dir
       run: |
         # build target dir
-        bin/viash ns build --config_mod ".functionality.version := '${{ github.event.inputs.version_tag }}'" --parallel --setup donothing
+        bin/viash ns build --config_mod ".functionality.version := '${{ github.event.inputs.version_tag }}'" --parallel
 
     # use cache
     - name: Cache resources data
@@ -217,5 +217,4 @@ jobs:
         bin/viash ns test --config_mod ".functionality.version := '${{ github.event.inputs.version_tag }}'" \
           -s "$SRC_DIR" \
           -c '.functionality.requirements.cpus := 2' \
-          -c '.functionality.requirements.memory := "5gb"' \
-          --setup build
+          -c '.functionality.requirements.memory := "5gb"'
