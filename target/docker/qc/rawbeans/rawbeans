@@ -418,9 +418,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt"
 LABEL org.opencontainers.image.description="Companion container for running component qc rawbeans"
-LABEL org.opencontainers.image.created="2022-12-06T16:07:08Z"
+LABEL org.opencontainers.image.created="2022-12-06T16:08:05Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="54a09ad467e36588fe22e1bb3dd2c5dc58ca184b"
+LABEL org.opencontainers.image.revision="67a176ffc49468a455c66ccfbaf51fc9195bf58c"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
