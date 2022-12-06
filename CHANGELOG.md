@@ -1,5 +1,9 @@
 # mspipeline 0.3.2
 
+## New functionality
+
+* `proteomics/fastadl`: Generates a FASTA sequence database for a given taxonomy using UniProtKB
+
 ## Minor changes
 
 * `msdial/msdial_gcms`: Use parallel processing for processing input files.
