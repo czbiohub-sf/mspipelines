@@ -1,0 +1,10 @@
+# Arguments
+input: # please fill in - example: ["input.mzML"]
+# output: "$id.$key.output.output"
+batch: false
+no_report: false
+# mass: [371.10124, 445.12003]
+
+# Nextflow input-output arguments
+publish_dir: # please fill in - example: "output/"
+# param_list: "my_params.yaml"

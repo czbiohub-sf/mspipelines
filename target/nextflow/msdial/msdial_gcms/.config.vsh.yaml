@@ -1,0 +1,717 @@
+functionality:
+  name: "msdial_gcms"
+  namespace: "msdial"
+  version: "0.3.2"
+  authors:
+  - name: "Robrecht Cannoodt"
+    email: "rcannood@gmail.com"
+    roles:
+    - "maintainer"
+    props:
+      github: "rcannood"
+      orcid: "0000-0003-3641-729X"
+  inputs: []
+  outputs: []
+  arguments: []
+  argument_groups:
+  - name: "Inputs"
+    arguments:
+    - type: "file"
+      name: "--input"
+      alternatives: []
+      description: "One or more input files."
+      example:
+      - "input1.abf"
+      - "input2.abf"
+      - "input3.abf"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: true
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--name"
+      alternatives: []
+      description: "Sample name, must be of same length as the input files."
+      example:
+      - "foo"
+      - "bar"
+      - "baz"
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--type"
+      alternatives: []
+      description: "Sample type, must be of same length as the input files."
+      example:
+      - "Sample"
+      default: []
+      required: false
+      choices:
+      - "Sample"
+      - "Standard"
+      - "QC"
+      - "Blank"
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--class_id"
+      alternatives: []
+      description: "Sample class, must be of same length as the input files."
+      example:
+      - "1"
+      - "2"
+      - "3"
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "integer"
+      name: "--batch"
+      alternatives: []
+      description: "Sample batch, must be of same length as the input files."
+      example:
+      - 1
+      - 2
+      - 3
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "integer"
+      name: "--analytical_order"
+      alternatives: []
+      description: "Sample analytical order, must be of same length as the input files."
+      example:
+      - 2
+      - 1
+      - 3
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "double"
+      name: "--inject_volume"
+      alternatives: []
+      description: "Sample injection volume in µL, must be of same length as the input\
+        \ files."
+      example:
+      - 1.0
+      - 0.9
+      - 1.1
+      default: []
+      required: false
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+  - name: "Outputs"
+    arguments:
+    - type: "file"
+      name: "--output"
+      alternatives: []
+      description: "An output directory to store the '*.msdial' outputs."
+      example:
+      - "output_dir"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: true
+      direction: "output"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Data type arguments"
+    arguments:
+    - type: "string"
+      name: "--data_type"
+      alternatives: []
+      example: []
+      default:
+      - "Centroid"
+      required: false
+      choices:
+      - "Centroid"
+      - "Profile"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--ion_mode"
+      alternatives: []
+      example: []
+      default:
+      - "Positive"
+      required: false
+      choices:
+      - "Positive"
+      - "Negative"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--accuracy_type"
+      alternatives: []
+      example: []
+      default:
+      - "IsNominal"
+      required: false
+      choices:
+      - "IsNominal"
+      - "IsAccurate"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Data correction arguments"
+    arguments:
+    - type: "double"
+      name: "--retention_time_begin"
+      alternatives: []
+      example: []
+      default:
+      - 0.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_time_end"
+      alternatives: []
+      example: []
+      default:
+      - 25.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--mass_range_begin"
+      alternatives: []
+      example: []
+      default:
+      - 0.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--mass_range_end"
+      alternatives: []
+      example: []
+      default:
+      - 1000.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Peak detection arguments"
+    arguments:
+    - type: "string"
+      name: "--smoothing_method"
+      alternatives: []
+      example: []
+      default:
+      - "LinearWeightedMovingAverage"
+      required: false
+      choices:
+      - "SimpleMovingAverage"
+      - "LinearWeightedMovingAverage"
+      - "SavitzkyGolayFilter"
+      - "BinomialFilter"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "integer"
+      name: "--smoothing_level"
+      alternatives: []
+      example: []
+      default:
+      - 3
+      required: false
+      choices: []
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "integer"
+      name: "--average_peak_width"
+      alternatives: []
+      example: []
+      default:
+      - 20
+      required: false
+      choices: []
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "integer"
+      name: "--minimum_peak_height"
+      alternatives: []
+      example: []
+      default:
+      - 1000
+      required: false
+      choices: []
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--mass_slice_width"
+      alternatives: []
+      example: []
+      default:
+      - 0.1
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--mass_accuracy"
+      alternatives: []
+      example: []
+      default:
+      - 0.025
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Deconvolution arguments"
+    arguments:
+    - type: "double"
+      name: "--sigma_window_value"
+      alternatives: []
+      example: []
+      default:
+      - 0.5
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--amplitude_cutoff"
+      alternatives: []
+      example: []
+      default:
+      - 10.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Identification arguments"
+    arguments:
+    - type: "file"
+      name: "--msp_file"
+      alternatives: []
+      example:
+      - "file.msp"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "file"
+      name: "--ri_index_file"
+      alternatives: []
+      example:
+      - "ri_index.txt"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: false
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--retention_type"
+      alternatives: []
+      example: []
+      default:
+      - "RI"
+      required: false
+      choices:
+      - "RI"
+      - "RT"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--ri_compound"
+      alternatives: []
+      example: []
+      default:
+      - "Alkanes"
+      required: false
+      choices:
+      - "Fames"
+      - "Alkanes"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_time_tolerance_for_identification"
+      alternatives: []
+      example: []
+      default:
+      - 0.5
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_index_tolerance_for_identification"
+      alternatives: []
+      example: []
+      default:
+      - 20.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--ei_similarity_tolerance_for_identification"
+      alternatives: []
+      example: []
+      default:
+      - 70.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--identification_score_cutoff"
+      alternatives: []
+      example: []
+      default:
+      - 70.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--use_retention_information_for_identification_scoring"
+      alternatives: []
+      example: []
+      default:
+      - false
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--use_retention_information_for_identification_filtering"
+      alternatives: []
+      example: []
+      default:
+      - false
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--only_report_top_hit"
+      alternatives: []
+      example: []
+      default:
+      - true
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Alignment arguments"
+    arguments:
+    - type: "string"
+      name: "--alignment_index_type"
+      alternatives: []
+      example: []
+      default:
+      - "RT"
+      required: false
+      choices:
+      - "RI"
+      - "RT"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_time_tolerance_for_alignment"
+      alternatives: []
+      example: []
+      default:
+      - 0.075
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_index_tolerance_for_alignment"
+      alternatives: []
+      example: []
+      default:
+      - 20.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--ei_similarity_tolerance_for_alignment"
+      alternatives: []
+      example: []
+      default:
+      - 70.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--retention_time_factor_for_alignment"
+      alternatives: []
+      example: []
+      default:
+      - 0.5
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--ei_similarity_factor_for_alignment"
+      alternatives: []
+      example: []
+      default:
+      - 0.5
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--peak_count_filter"
+      alternatives: []
+      example: []
+      default:
+      - 0.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--remove_feature_based_on_peak_height_fold_change"
+      alternatives: []
+      example: []
+      default:
+      - false
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--pct_detected_in_at_least_one_group"
+      alternatives: []
+      example: []
+      default:
+      - 0.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--sample_max_over_blank_average"
+      alternatives: []
+      example: []
+      default:
+      - 5.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "double"
+      name: "--sample_average_over_blank_average"
+      alternatives: []
+      example: []
+      default:
+      - 5.0
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--keep_identified_metabolites"
+      alternatives: []
+      example: []
+      default:
+      - true
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--keep_removable_features"
+      alternatives: []
+      description: "Keep removable features and assign the tag for checking."
+      example: []
+      default:
+      - true
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "boolean"
+      name: "--replace_true_zero"
+      alternatives: []
+      description: "Replace true zero values with 1/10 of minimum peak height over\
+        \ all samples"
+      example: []
+      default:
+      - false
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  resources:
+  - type: "python_script"
+    path: "script.py"
+    is_executable: true
+  description: "MS-DIAL GC/MS"
+  test_resources:
+  - type: "bash_script"
+    path: "run_test.sh"
+    is_executable: true
+  - type: "file"
+    path: "../../../resources_test/msdial_demo_files/raw/GCMS"
+  status: "enabled"
+  requirements:
+    commands: []
+  set_wd_to_resources_dir: false
+platforms:
+- type: "docker"
+  id: "docker"
+  image: "python:3.10"
+  target_organization: "czbiohub/mspipelines"
+  target_registry: "ghcr.io"
+  namespace_separator: "_"
+  resolve_volume: "Automatic"
+  chown: true
+  port: []
+  setup_strategy: "ifneedbepullelsecachedbuild"
+  run_args: []
+  target_image_source: "https://github.com/czbiohub/mspipelines"
+  setup:
+  - type: "apt"
+    packages:
+    - "libnetcdf-dev"
+    interactive: false
+  - type: "docker"
+    resources: []
+    label: []
+    add: []
+    copy: []
+    run:
+    - "mkdir /tmp/msdial && cd /tmp/msdial && wget -q https://www.dropbox.com/s/6fn2tjfyudbrg3o/foo.zip?dl=1\
+      \ -O \"msdial.zip\" && unzip \"msdial.zip\" -d /msdial && rm -rf /tmp/msdial\
+      \ && chmod +x /msdial/MsdialConsoleApp"
+    build_args: []
+    env: []
+  - type: "python"
+    user: false
+    packages: []
+    pip: []
+    pypi:
+    - "pandas"
+    git: []
+    github: []
+    gitlab: []
+    mercurial: []
+    svn: []
+    bazaar: []
+    url: []
+    script: []
+    upgrade: true
+  test_setup: []
+- type: "nextflow"
+  id: "nextflow"
+  variant: "vdsl3"
+  directives:
+    accelerator: {}
+    conda: []
+    containerOptions: []
+    label:
+    - "midmem"
+    - "midcpu"
+    module: []
+    pod: []
+    publishDir: []
+    queue: []
+    tag: "$id"
+  auto:
+    simplifyInput: true
+    simplifyOutput: true
+    transcript: false
+    publish: false
+  debug: false
+  container: "docker"
+info:
+  config: "/home/runner/work/mspipelines/mspipelines/src/msdial/msdial_gcms/config.vsh.yaml"
+  platform: "nextflow"
+  output: "/home/runner/work/mspipelines/mspipelines/target/nextflow/msdial/msdial_gcms"
+  executable: "/home/runner/work/mspipelines/mspipelines/target/nextflow/msdial/msdial_gcms/msdial_gcms"
+  viash_version: "0.6.6"
+  git_commit: "67a176ffc49468a455c66ccfbaf51fc9195bf58c"
+  git_remote: "https://github.com/czbiohub/mspipelines"

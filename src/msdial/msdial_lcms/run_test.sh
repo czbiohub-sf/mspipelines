@@ -2,8 +2,8 @@
 
 echo ">> Testing MS-DIAL LCMS DDA"
 $meta_executable \
-  --input "$resources_dir/LCMS_DDA/Nega_Ida_QC_1_1.mzML" \
-  --input "$resources_dir/LCMS_DDA/Nega_Ida_QC_1_9.mzML" \
+  --input "$meta_resources_dir/LCMS_DDA/Nega_Ida_QC_1_1.mzML" \
+  --input "$meta_resources_dir/LCMS_DDA/Nega_Ida_QC_1_9.mzML" \
   --class_id foo \
   --class_id bar \
   --ms1_data_type Profile \
@@ -33,9 +33,9 @@ if ! ls output2/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresu
 
 echo ">> Running MS-DIAL LCMS DIA"
 $meta_executable \
-  --input "$resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S01.abf" \
-  --input "$resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S03.abf" \
-  --dia_file "$resources_dir/LCMS_DIA/Plasma-HILIC-SWATH-Experiment.txt" \
+  --input "$meta_resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S01.abf" \
+  --input "$meta_resources_dir/LCMS_DIA/HILIC_SWATH_25Da_10ms_S03.abf" \
+  --dia_file "$meta_resources_dir/LCMS_DIA/Plasma-HILIC-SWATH-Experiment.txt" \
   --ms1_data_type Profile \
   --ms2_data_type Profile \
   --ion_mode Positive \
@@ -68,4 +68,4 @@ if ! ls output3/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresu
 [[ ! -f output3/params.txt ]] && echo "Param file could not be found!" && exit 1
 
 
-echo ">> All test succeeded!"
+echo ">> All tests succeeded!"

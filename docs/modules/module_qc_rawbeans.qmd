@@ -1,0 +1,70 @@
+---
+title: "Rawbeans"
+toc: false
+---
+
+::: {.column-margin}
+
+### Info
+
+ID: `rawbeans`  
+Namespace: `qc`
+
+### Links
+[Source](https://github.com/czbiohub/mspipelines/blob/mainsrc/qc/rawbeans){.btn-action .btn-sm .btn-info .btn role="button"}
+
+:::
+
+Perform a QC analysis.
+
+## Example commands
+
+You can run the pipeline using `nextflow run`.
+
+### View help
+
+You can use `--help` as a parameter to get an overview of the possible parameters.
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -main-script target/nextflow/qc/rawbeans/main.nf \
+  --help
+```
+
+### Run command
+
+<details>
+<summary>Example of `params.yaml`</summary>
+```yaml
+
+```
+</details>
+
+```bash
+nextflow run czbiohub/mspipelines \
+  -r main_build -latest \
+  -profile docker \
+  -main-script target/nextflow/qc/rawbeans/main.nf \
+  -params-file params.yaml
+```
+
+:::{.callout-note}
+Replace `-profile docker` with `-profile podman` or `-profile singularity` depending on the desired backend.
+:::
+
+## Argument group
+
+### Arguments
+
+|Name          |Description                                                                                |Attributes                                           |
+|:-------------|:------------------------------------------------------------------------------------------|:----------------------------------------------------|
+|`--input`     |One or more mzML files.                                                                    |`file`, required, example: `"input.mzML"`            |
+|`--output`    |An output directory to the QC results.                                                     |`file`, required, example: `"output_qc_dir"`         |
+|`--batch`     |When specified, will generate one report per sample instead of one report for all samples. |`boolean_true`                                       |
+|`--no_report` |When specified, will only generate json and no report.                                     |`boolean_true`                                       |
+|`--mass`      |List of masses to follow.                                                                  |`double`, example: `371.10124`, example: `445.12003` |
+
+## Authors
+
+  * Robrecht Cannoodt [{{< fa brands github >}}](https://github.com/rcannood) [{{< fa brands orcid >}}](https://orcid.org/0000-0003-3641-729X) (maintainer)

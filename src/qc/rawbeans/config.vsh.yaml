@@ -29,8 +29,10 @@ functionality:
       description: "When specified, will only generate json and no report."
     - name: "--mass"
       type: double
-      description: "List of masses to follow. Example: '--mass 371.10124 --mass 445.12003' or '--mass 371.10124:445.12003'."
+      description: "List of masses to follow."
       multiple: true
+      multiple_sep: ":"
+      example: [ "371.10124", "445.12003" ]
   resources:
     - type: bash_script
       path: script.sh
@@ -40,11 +42,7 @@ platforms:
     setup:
       - type: apt
         packages: [ cython3, git ]
-      - type: docker
-        run: |
-          cd / && \
-          git clone https://bitbucket.org/incpm/prot-qc.git && \
-          cd prot-qc && \
-          python setup.py install
+      - type: python
+        git: https://bitbucket.org/incpm/prot-qc.git
   - type: nextflow
     variant: vdsl3

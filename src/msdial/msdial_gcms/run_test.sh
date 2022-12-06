@@ -3,11 +3,11 @@
 # testing individual files
 echo ">> Running MSDial"
 $meta_executable \
-  --input "$resources_dir/GCMS/140428actsa25_1.cdf" \
-  --input "$resources_dir/GCMS/140428actsa27_1.cdf" \
+  --input "$meta_resources_dir/GCMS/140428actsa25_1.cdf" \
+  --input "$meta_resources_dir/GCMS/140428actsa27_1.cdf" \
   --class_id foo \
   --class_id bar \
-  --ri_index_file "$resources_dir/GCMS/FAMEs RT.txt" \
+  --ri_index_file "$meta_resources_dir/GCMS/FAMEs RT.txt" \
   --output "output2" | \
   tee output2.txt
 
@@ -25,4 +25,4 @@ if ! ls output2/AlignResult-* > /dev/null 2>&1; then echo "Output file alignresu
 [[ ! -f output2/params.txt ]] && echo "Param file could not be found!" && exit 1
 [[ ! -f output2/ri_index_paths.txt ]] && echo "RI Index file could not be found!" && exit 1
 
-echo ">> All test succeeded!"
+echo ">> All tests succeeded!"

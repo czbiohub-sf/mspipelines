@@ -8,82 +8,156 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
-  inputs:
-    - name: "--input"
-      type: file
-      required: true
-      multiple: true
-      description: One or more Thermo Raw files.
-      example: input.raw
-    # - name: "--input_meta"
-    #   type: file
-    #   required: true
-    #   example: input_meta.csv
-    #   description: "CSV file containing columns 'id', 'path', 'fractions', 'ptms', 'paramGroupIndices', 'referenceChannel'."
-    - name: "--reference"
-      type: file
-      required: true
-      multiple: true
-      example: reference.fasta
-      description: A reference file in fasta format.
-  outputs:
-    - name: "--output"
-      type: file
-      direction: output
-      required: true
-      example: output_dir
-      description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
-  arguments:
-    # input related
-    # global > sequences
-    - name: "--ref_taxonomy_id"
-      type: string
-      multiple: true
-      example: "9606"
-      description: |
-        Taxonomy ID. Length must match --reference parameter. 
-        Common taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.
-    # other
-    - name: "--match_between_runs"
-      type: boolean
-      default: false
-      description: "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs."
-    # global > tables
-    ## if DDA, DIA doesn't need to be returned
-    - name: "--write_tables"
-      type: string
-      multiple: true
-      default: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
-      choices: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
-      description: "Which tables to write out."
-    # group-specific parameters
-    - name: "--ms_instrument"
-      type: string
-      default: "Bruker TIMS"
-      choices: ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"]
-      description: "Type of intrument the data was generated on. Some internal parameters, e.g. in peak detection are set to optimal values based on the machine type. Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600. Usually there is no need for the user to adjust the sub-parameters."
-    - name: "--lcms_run_type"
-      type: string
-      choices: [Standard, "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"]
-      description: "The type of LC-MS run. Select 'Standard' for label free and MS1 labeled samples. For conventional isobaric labeling samples, select 'Reporter ion MS2'. In case the isobaric labeling reporters should be read from MS3 spectra, please select 'Reporter ion MS3'."
-      default: Standard
-    - name: "--lfq_mode"
-      type: string
-      choices: ["None", "LFQ"]
-      default: "LFQ"
-      description: "Apply the algorithm for label free protein quantification. The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'."
-    # platform 
-    - name: "--num_cores"
-      type: integer
-      example: 30
-      description: "Number of cores to use during the analysis."
-    - name: "--dryrun"
-      type: boolean_true
-      description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+  argument_groups:
+    - name: Inputs
+      arguments:
+        - name: "--input"
+          type: file
+          required: true
+          multiple: true
+          multiple_sep: ";"
+          description: One or more Thermo Raw files.
+          # todo: also support mzml and other input formats supported by MaxQuant?
+          example: input.raw
+    - name: Outputs
+      arguments:
+        - name: "--output"
+          type: file
+          direction: output
+          required: true
+          example: output_dir
+          description: An output directory to store the 'mqpar.xml' and 'combined' outputs.
+        - name: "--write_tables"
+          type: string
+          multiple: true
+          default: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+          choices: [msScans, msmsScans, ms3Scans, allPeptides, mzRange, mzTab, "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"]
+          description: Which tables to write out. This argument is listed in the GUI under "Global parameters > Tables".
+    - name: Reference sequences
+      description: Arguments listed in the GUI under "Global parameters > Sequences"
+      arguments:
+        - name: "--reference"
+          type: file
+          required: true
+          multiple: true
+          multiple_sep: ";"
+          example: reference.fasta
+          description: A reference file in fasta format.
+        - name: "--ref_identifier_rule"
+          type: string
+          default: ">.*\\|(.*)\\|"
+          multiple: true
+          multiple_sep: ";"
+          description: |
+            The identifier parsing regex for the provided reference fastas.
+            Length must be 1 or match that of the --reference argument.
+        - name: "--ref_description_rule"
+          type: string
+          default: ">(.*)"
+          multiple: true
+          multiple_sep: ";"
+          description: |
+            The description parsing regex for the provided reference fastas.
+            Length must be 1 or match that of the --reference argument.
+        - name: "--ref_taxonomy_rule"
+          type: string
+          default: ""
+          multiple: true
+          multiple_sep: ";"
+          description: |
+            The taxonomy parsing regex for the provided reference fastas.
+            Length must be 1 or match that of the --reference argument.
+        - name: "--ref_taxonomy_id"
+          type: string
+          default: ""
+          multiple: true
+          example: "9606"
+          description: |
+            The taxonomy ID for the provided reference fastas.
+            Common taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.
+            Length must be 1 or match that of the --reference argument.
+    - name: Group-specific arguments
+      arguments:
+        - name: "--ms_instrument"
+          type: string
+          default: "Bruker TIMS"
+          choices: ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"]
+          description: |
+            Type of intrument the data was generated on. This argument is listed in the MaxQuant GUI under "Group-specific parameters > Instrument".
+            
+            Currently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600.
+            Usually there is no need for the user to adjust the sub-parameters.
+
+            Some internal arguments are set based on this argument value.
+            See `settings/ms_instrument.tsv` in the source code of this Viash component for a full list of affected arguments.
+        - name: "--lcms_run_type"
+          type: string
+          choices: [Standard, "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"]
+          description: |
+            The type of LC-MS run. This argument is listed in the MaxQuant GUI under "Group-specific parameters > Type".
+
+            - Standard: for label free and MS1 labeled samples
+            - Reporter ion MS2: for conventional isobaric labeling samples
+            - Reporter ion MS3: for isobaric labeling reporters to be read from MS3 spectra
+            - Other run types are undocumented in the MaxQuant GUI.
+
+            Some internal arguments are set based on this argument value.
+            See `settings/group_type.tsv` in the source code of this Viash component for a full list of affected arguments.
+          default: Standard
+        - name: "--lfq_mode"
+          type: string
+          choices: ["None", "LFQ"]
+          default: "LFQ"
+          description: |
+            Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under "Group-specific parameters > Label-free quantification".
+            
+            The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. 
+            The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'.
+    - name: Identification
+      description: Arguments listed in the MaxQuant GUI under "Global parameters > Identifications"
+      arguments:
+        - name: "--match_between_runs"
+          type: boolean
+          default: false
+          description: |
+            Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.
+
+            Some internal arguments are set based on this argument value.
+            See `settings/match_between_runs.tsv` in the source code of this Viash component for a full list of affected arguments.
+        - name: "--main_search_max_combinations"
+          type: integer
+          default: 200
+          description: The maximum combinations during the main search. Further documentation about this parameter is lacking in the MaxQuant GUI.
+    - name: Protein quantification
+      description: Arguments listed in the MaxQuant GUI under "Global parameters > Protein quantification"
+      arguments:
+        - name: "--peptides_for_quantification"
+          type: string
+          default: "unique+razor"
+          choices: ["all", "unique", "unique+razor"]
+          description: |
+            Specify how the protein ratios will be calculated.
+
+            - 'all': the quantification is done on all peptides.
+            - 'unique': only the peptides unique for that specific protein group are used for quantification.
+            - 'unique+razor': calculates protein ratios from unique and razor peptides. Razor peptides are
+              non-unique peptides assigned to the protein group with the most other peptides (Occam's razor principle).
+            
+            This argument assigns the "quantMode" value in `mqpar.xml`.
+    - name: Other arguments
+      arguments:
+        - name: "--dryrun"
+          type: boolean_true
+          description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
   resources:
     - type: python_script
       path: script.py
     - path: settings
+    - path: templates
+  test_resources:
+    - type: bash_script
+      path: test.sh
+    - path: ../../../resources_test/maxquant_demo_files
 platforms:
   - type: docker
     image: python:3.10
@@ -107,6 +181,8 @@ platforms:
             mv * /maxquant
       - type: python
         pypi: pandas
+      - type: python
+        packages: [ jinja-cli ]
   - type: nextflow
     variant: vdsl3
     directives: 

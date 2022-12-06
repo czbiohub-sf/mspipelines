@@ -1,0 +1,184 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "maxquant",
+    "description": "Perform a MaxQuant analysis with mostly default parameters.",
+    "type": "object",
+    "definitions": {
+      "inputs" : {
+        "title": "Inputs",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {"input": {
+            "type":"string",
+            "description": "One or more Thermo Raw files.",
+            
+            "default": ""
+          }
+        }
+      },
+      "outputs" : {
+        "title": "Outputs",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {"output": {
+            "type":"string",
+            "description": "An output directory to store the \u0027mqpar.xml\u0027 and \u0027combined\u0027 outputs.",
+            
+            "default": "$id.$key.output.output"
+          },"write_tables": {
+            "type":"string",
+            "description": "Which tables to write out. This argument is listed in the GUI under \"Global parameters \u003e Tables\".",
+            "enum": ["msScans", "msmsScans", "ms3Scans", "allPeptides", "mzRange", "mzTab", "DIA fragments", "DIA fragments quant", "pasefMsmsScans", "accumulatedMsmsScans"],
+            "default": "['msScans', 'msmsScans', 'ms3Scans', 'allPeptides', 'mzRange', 'mzTab', 'DIA fragments', 'DIA fragments quant', 'pasefMsmsScans', 'accumulatedMsmsScans']"
+          }
+        }
+      },
+      "reference sequences" : {
+        "title": "Reference sequences",
+        "type": "object",
+        "description": "Arguments listed in the GUI under \"Global parameters \u003e Sequences\"",
+        "default": "",
+        "properties": {"reference": {
+            "type":"string",
+            "description": "A reference file in fasta format.",
+            
+            "default": ""
+          },"ref_identifier_rule": {
+            "type":"string",
+            "description": "The identifier parsing regex for the provided reference fastas.","help_text": "The identifier parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+            
+            "default": ">.*\|(.*)\|"
+          },"ref_description_rule": {
+            "type":"string",
+            "description": "The description parsing regex for the provided reference fastas.","help_text": "The description parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+            
+            "default": ">(.*)"
+          },"ref_taxonomy_rule": {
+            "type":"string",
+            "description": "The taxonomy parsing regex for the provided reference fastas.","help_text": "The taxonomy parsing regex for the provided reference fastas.\nLength must be 1 or match that of the --reference argument.\n",
+            
+            "default": ""
+          },"ref_taxonomy_id": {
+            "type":"string",
+            "description": "The taxonomy ID for the provided reference fastas.","help_text": "The taxonomy ID for the provided reference fastas.\nCommon taxonomy IDs are Homo Sapiens: 9606, Mus Musculus: 10090.\nLength must be 1 or match that of the --reference argument.\n",
+            
+            "default": ""
+          }
+        }
+      },
+      "group-specific arguments" : {
+        "title": "Group-specific arguments",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {"ms_instrument": {
+            "type":"string",
+            "description": "Type of intrument the data was generated on. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Instrument\".","help_text": "Type of intrument the data was generated on. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Instrument\".\n\nCurrently Thermo Fisher Orbitrap and FT like instruments are supported, as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF 5600.\nUsually there is no need for the user to adjust the sub-parameters.\n\nSome internal arguments are set based on this argument value.\nSee `settings/ms_instrument.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
+            "enum": ["Orbitrap", "Bruker Q-TOF", "Sciex Q-TOF", "Agilent Q-TOF", "Bruker TIMS"],
+            "default": "Bruker TIMS"
+          },"lcms_run_type": {
+            "type":"string",
+            "description": "The type of LC-MS run. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Type\".","help_text": "The type of LC-MS run. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Type\".\n\n- Standard: for label free and MS1 labeled samples\n- Reporter ion MS2: for conventional isobaric labeling samples\n- Reporter ion MS3: for isobaric labeling reporters to be read from MS3 spectra\n- Other run types are undocumented in the MaxQuant GUI.\n\nSome internal arguments are set based on this argument value.\nSee `settings/group_type.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
+            "enum": ["Standard", "Reporter ion MS2", "Reporter ion MS3", "NeuCode", "BoxCar", "TIMS-DDA", "MaxDIA", "TIMS MaxDIA", "BoxCar MaxDIA"],
+            "default": "Standard"
+          },"lfq_mode": {
+            "type":"string",
+            "description": "Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Label-free quantification\".","help_text": "Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Label-free quantification\".\n\nThe use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. \nThe output of the label free algorithm can be found in the proteinGroups table in the columns starting with \u0027LFQ Intensity\u0027.\n",
+            "enum": ["None", "LFQ"],
+            "default": "LFQ"
+          }
+        }
+      },
+      "identification" : {
+        "title": "Identification",
+        "type": "object",
+        "description": "Arguments listed in the MaxQuant GUI under \"Global parameters \u003e Identifications\"",
+        "default": "",
+        "properties": {"match_between_runs": {
+            "type":"boolean",
+            "description": "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.","help_text": "Identifications are transferred to non-sequenced or non-identified MS features in other LC-MS runs.\n\nSome internal arguments are set based on this argument value.\nSee `settings/match_between_runs.tsv` in the source code of this Viash component for a full list of affected arguments.\n",
+            
+            "default": "False"
+          },"main_search_max_combinations": {
+            "type":"integer",
+            "description": "The maximum combinations during the main search. Further documentation about this parameter is lacking in the MaxQuant GUI.",
+            
+            "default": "200"
+          }
+        }
+      },
+      "protein quantification" : {
+        "title": "Protein quantification",
+        "type": "object",
+        "description": "Arguments listed in the MaxQuant GUI under \"Global parameters \u003e Protein quantification\"",
+        "default": "",
+        "properties": {"peptides_for_quantification": {
+            "type":"string",
+            "description": "Specify how the protein ratios will be calculated.","help_text": "Specify how the protein ratios will be calculated.\n\n- \u0027all\u0027: the quantification is done on all peptides.\n- \u0027unique\u0027: only the peptides unique for that specific protein group are used for quantification.\n- \u0027unique+razor\u0027: calculates protein ratios from unique and razor peptides. Razor peptides are\n  non-unique peptides assigned to the protein group with the most other peptides (Occam\u0027s razor principle).\n\nThis argument assigns the \"quantMode\" value in `mqpar.xml`.\n",
+            "enum": ["all", "unique", "unique+razor"],
+            "default": "unique+razor"
+          }
+        }
+      },
+      "other arguments" : {
+        "title": "Other arguments",
+        "type": "object",
+        "description": "No description",
+        "default": "",
+        "properties": {"dryrun": {
+            "type":"boolean",
+            "description": "If true, will only generate the mqpar.xml file and not run MaxQuant.",
+            
+            "default": "False"
+          }
+        }
+      },
+      "nextflow input-output arguments" : {
+        "title": "Nextflow input-output arguments",
+        "type": "object",
+        "description": "Input/output parameters for Nextflow itself. Please note that both publishDir and publish_dir are supported but at least one has to be configured.",
+        "default": "",
+        "properties": {"publish_dir": {
+            "type":"string",
+            "description": "Path to an output directory.",
+            
+            "default": ""
+          },"param_list": {
+            "type":"string",
+            "description": "Allows inputting multiple parameter sets to initialise a Nextflow channel. A `param_list` can either be a list of maps, a csv file, a json file, a yaml file, or simply a yaml blob.","help_text": "Allows inputting multiple parameter sets to initialise a Nextflow channel. A `param_list` can either be a list of maps, a csv file, a json file, a yaml file, or simply a yaml blob.\n\n* A list of maps (as-is) where the keys of each map corresponds to the arguments of the pipeline. Example: in a `nextflow.config` file: `param_list: [ [\u0027id\u0027: \u0027foo\u0027, \u0027input\u0027: \u0027foo.txt\u0027], [\u0027id\u0027: \u0027bar\u0027, \u0027input\u0027: \u0027bar.txt\u0027] ]`.\n* A csv file should have column names which correspond to the different arguments of this pipeline. Example: `--param_list data.csv` with columns `id,input`.\n* A json or a yaml file should be a list of maps, each of which has keys corresponding to the arguments of the pipeline. Example: `--param_list data.json` with contents `[ {\u0027id\u0027: \u0027foo\u0027, \u0027input\u0027: \u0027foo.txt\u0027}, {\u0027id\u0027: \u0027bar\u0027, \u0027input\u0027: \u0027bar.txt\u0027} ]`.\n* A yaml blob can also be passed directly as a string. Example: `--param_list \"[ {\u0027id\u0027: \u0027foo\u0027, \u0027input\u0027: \u0027foo.txt\u0027}, {\u0027id\u0027: \u0027bar\u0027, \u0027input\u0027: \u0027bar.txt\u0027} ]\"`.\n\nWhen passing a csv, json or yaml file, relative path names are relativized to the location of the parameter file. No relativation is performed when `param_list` is a list of maps (as-is) or a yaml blob.","hidden": true,
+            
+            "default": ""
+          }
+        }
+      }
+    },
+    "allOf": [
+      {
+        "$ref": "#/definitions/inputs"
+      },
+      {
+        "$ref": "#/definitions/outputs"
+      },
+      {
+        "$ref": "#/definitions/reference sequences"
+      },
+      {
+        "$ref": "#/definitions/group-specific arguments"
+      },
+      {
+        "$ref": "#/definitions/identification"
+      },
+      {
+        "$ref": "#/definitions/protein quantification"
+      },
+      {
+        "$ref": "#/definitions/other arguments"
+      },
+      {
+        "$ref": "#/definitions/nextflow input-output arguments"
+      }
+      
+    ]
+}
