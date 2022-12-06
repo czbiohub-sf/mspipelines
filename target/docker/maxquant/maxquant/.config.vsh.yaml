@@ -1,0 +1,429 @@
+functionality:
+  name: "maxquant"
+  namespace: "maxquant"
+  version: "main_build"
+  authors:
+  - name: "Robrecht Cannoodt"
+    email: "rcannood@gmail.com"
+    roles:
+    - "maintainer"
+    props:
+      github: "rcannood"
+      orcid: "0000-0003-3641-729X"
+  inputs: []
+  outputs: []
+  arguments: []
+  argument_groups:
+  - name: "Inputs"
+    arguments:
+    - type: "file"
+      name: "--input"
+      alternatives: []
+      description: "One or more Thermo Raw files."
+      example:
+      - "input.raw"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: true
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+  - name: "Outputs"
+    arguments:
+    - type: "file"
+      name: "--output"
+      alternatives: []
+      description: "An output directory to store the 'mqpar.xml' and 'combined' outputs."
+      example:
+      - "output_dir"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: true
+      direction: "output"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--write_tables"
+      alternatives: []
+      description: "Which tables to write out. This argument is listed in the GUI\
+        \ under \"Global parameters > Tables\"."
+      example: []
+      default:
+      - "msScans"
+      - "msmsScans"
+      - "ms3Scans"
+      - "allPeptides"
+      - "mzRange"
+      - "mzTab"
+      - "DIA fragments"
+      - "DIA fragments quant"
+      - "pasefMsmsScans"
+      - "accumulatedMsmsScans"
+      required: false
+      choices:
+      - "msScans"
+      - "msmsScans"
+      - "ms3Scans"
+      - "allPeptides"
+      - "mzRange"
+      - "mzTab"
+      - "DIA fragments"
+      - "DIA fragments quant"
+      - "pasefMsmsScans"
+      - "accumulatedMsmsScans"
+      direction: "input"
+      multiple: true
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Reference sequences"
+    description: "Arguments listed in the GUI under \"Global parameters > Sequences\""
+    arguments:
+    - type: "file"
+      name: "--reference"
+      alternatives: []
+      description: "A reference file in fasta format."
+      example:
+      - "reference.fasta"
+      default: []
+      must_exist: true
+      create_parent: true
+      required: true
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--ref_identifier_rule"
+      alternatives: []
+      description: "The identifier parsing regex for the provided reference fastas.\n\
+        Length must be 1 or match that of the --reference argument.\n"
+      example: []
+      default:
+      - ">.*\\|(.*)\\|"
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--ref_description_rule"
+      alternatives: []
+      description: "The description parsing regex for the provided reference fastas.\n\
+        Length must be 1 or match that of the --reference argument.\n"
+      example: []
+      default:
+      - ">(.*)"
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--ref_taxonomy_rule"
+      alternatives: []
+      description: "The taxonomy parsing regex for the provided reference fastas.\n\
+        Length must be 1 or match that of the --reference argument.\n"
+      example: []
+      default:
+      - ""
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "string"
+      name: "--ref_taxonomy_id"
+      alternatives: []
+      description: "The taxonomy ID for the provided reference fastas.\nCommon taxonomy\
+        \ IDs are Homo Sapiens: 9606, Mus Musculus: 10090.\nLength must be 1 or match\
+        \ that of the --reference argument.\n"
+      example:
+      - "9606"
+      default:
+      - ""
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Group-specific arguments"
+    arguments:
+    - type: "string"
+      name: "--ms_instrument"
+      alternatives: []
+      description: "Type of intrument the data was generated on. This argument is\
+        \ listed in the MaxQuant GUI under \"Group-specific parameters > Instrument\"\
+        .\n\nCurrently Thermo Fisher Orbitrap and FT like instruments are supported,\
+        \ as well as ToF instruments like Bruker Impact HD and AB Sciex TripleTOF\
+        \ 5600.\nUsually there is no need for the user to adjust the sub-parameters.\n\
+        \nSome internal arguments are set based on this argument value.\nSee `settings/ms_instrument.tsv`\
+        \ in the source code of this Viash component for a full list of affected arguments.\n"
+      example: []
+      default:
+      - "Bruker TIMS"
+      required: false
+      choices:
+      - "Orbitrap"
+      - "Bruker Q-TOF"
+      - "Sciex Q-TOF"
+      - "Agilent Q-TOF"
+      - "Bruker TIMS"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--lcms_run_type"
+      alternatives: []
+      description: "The type of LC-MS run. This argument is listed in the MaxQuant\
+        \ GUI under \"Group-specific parameters > Type\".\n\n- Standard: for label\
+        \ free and MS1 labeled samples\n- Reporter ion MS2: for conventional isobaric\
+        \ labeling samples\n- Reporter ion MS3: for isobaric labeling reporters to\
+        \ be read from MS3 spectra\n- Other run types are undocumented in the MaxQuant\
+        \ GUI.\n\nSome internal arguments are set based on this argument value.\n\
+        See `settings/group_type.tsv` in the source code of this Viash component for\
+        \ a full list of affected arguments.\n"
+      example: []
+      default:
+      - "Standard"
+      required: false
+      choices:
+      - "Standard"
+      - "Reporter ion MS2"
+      - "Reporter ion MS3"
+      - "NeuCode"
+      - "BoxCar"
+      - "TIMS-DDA"
+      - "MaxDIA"
+      - "TIMS MaxDIA"
+      - "BoxCar MaxDIA"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "string"
+      name: "--lfq_mode"
+      alternatives: []
+      description: "Apply the algorithm for label free protein quantification. This\
+        \ argument is listed in the MaxQuant GUI under \"Group-specific parameters\
+        \ > Label-free quantification\".\n\nThe use of an experimental design so specify\
+        \ which LC-MS runs or groups of LC-MS runs correspond to the different samples\
+        \ is obligatory here. \nThe output of the label free algorithm can be found\
+        \ in the proteinGroups table in the columns starting with 'LFQ Intensity'.\n"
+      example: []
+      default:
+      - "LFQ"
+      required: false
+      choices:
+      - "None"
+      - "LFQ"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Identification"
+    description: "Arguments listed in the MaxQuant GUI under \"Global parameters >\
+      \ Identifications\""
+    arguments:
+    - type: "boolean"
+      name: "--match_between_runs"
+      alternatives: []
+      description: "Identifications are transferred to non-sequenced or non-identified\
+        \ MS features in other LC-MS runs.\n\nSome internal arguments are set based\
+        \ on this argument value.\nSee `settings/match_between_runs.tsv` in the source\
+        \ code of this Viash component for a full list of affected arguments.\n"
+      example: []
+      default:
+      - false
+      required: false
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+    - type: "integer"
+      name: "--main_search_max_combinations"
+      alternatives: []
+      description: "The maximum combinations during the main search. Further documentation\
+        \ about this parameter is lacking in the MaxQuant GUI."
+      example: []
+      default:
+      - 200
+      required: false
+      choices: []
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Protein quantification"
+    description: "Arguments listed in the MaxQuant GUI under \"Global parameters >\
+      \ Protein quantification\""
+    arguments:
+    - type: "string"
+      name: "--peptides_for_quantification"
+      alternatives: []
+      description: "Specify how the protein ratios will be calculated.\n\n- 'all':\
+        \ the quantification is done on all peptides.\n- 'unique': only the peptides\
+        \ unique for that specific protein group are used for quantification.\n- 'unique+razor':\
+        \ calculates protein ratios from unique and razor peptides. Razor peptides\
+        \ are\n  non-unique peptides assigned to the protein group with the most other\
+        \ peptides (Occam's razor principle).\n\nThis argument assigns the \"quantMode\"\
+        \ value in `mqpar.xml`.\n"
+      example: []
+      default:
+      - "unique+razor"
+      required: false
+      choices:
+      - "all"
+      - "unique"
+      - "unique+razor"
+      direction: "input"
+      multiple: false
+      multiple_sep: ":"
+      dest: "par"
+  - name: "Other arguments"
+    arguments:
+    - type: "boolean_true"
+      name: "--dryrun"
+      alternatives: []
+      description: "If true, will only generate the mqpar.xml file and not run MaxQuant."
+      direction: "input"
+      dest: "par"
+  resources:
+  - type: "python_script"
+    path: "script.py"
+    is_executable: true
+  - type: "file"
+    path: "settings"
+  - type: "file"
+    path: "templates"
+  description: "Perform a MaxQuant analysis with mostly default parameters."
+  usage: "maxquant --input file1.raw --input file2.raw --reference ref.fasta --output\
+    \ out/"
+  test_resources:
+  - type: "bash_script"
+    path: "test.sh"
+    is_executable: true
+  - type: "file"
+    path: "../../../resources_test/maxquant_demo_files"
+  status: "enabled"
+  requirements:
+    commands: []
+  set_wd_to_resources_dir: false
+platforms:
+- type: "docker"
+  id: "docker"
+  image: "python:3.10"
+  target_organization: "czbiohub/mspipelines"
+  target_registry: "ghcr.io"
+  namespace_separator: "_"
+  resolve_volume: "Automatic"
+  chown: true
+  port: []
+  setup_strategy: "ifneedbepullelsecachedbuild"
+  run_args: []
+  target_image_source: "https://github.com/czbiohub/mspipelines"
+  setup:
+  - type: "apt"
+    packages:
+    - "wget"
+    - "unzip"
+    - "apt-transport-https"
+    interactive: false
+  - type: "docker"
+    resources: []
+    label: []
+    add: []
+    copy: []
+    run:
+    - "wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb\
+      \ -O packages-microsoft-prod.deb && dpkg -i packages-microsoft-prod.deb && rm\
+      \ packages-microsoft-prod.deb"
+    build_args: []
+    env: []
+  - type: "apt"
+    packages:
+    - "dotnet-sdk-2.1"
+    - "aspnetcore-runtime-2.1"
+    - "dotnet-sdk-3.1"
+    - "aspnetcore-runtime-3.1"
+    interactive: false
+  - type: "docker"
+    resources: []
+    label: []
+    add: []
+    copy: []
+    run:
+    - "mkdir /maxquant && cd /maxquant && wget -q https://www.dropbox.com/s/6aijsx0v3zvkfqu/MaxQuant_2.0.3.1.zip\
+      \ -O MaxQuant_2.0.3.1.zip && unzip MaxQuant_2.0.3.1.zip && rm MaxQuant_2.0.3.1.zip\
+      \ && cd $(find /maxquant/* -type d -maxdepth 1) && mv * /maxquant"
+    build_args: []
+    env: []
+  - type: "python"
+    user: false
+    packages: []
+    pip: []
+    pypi:
+    - "pandas"
+    git: []
+    github: []
+    gitlab: []
+    mercurial: []
+    svn: []
+    bazaar: []
+    url: []
+    script: []
+    upgrade: true
+  - type: "python"
+    user: false
+    packages:
+    - "jinja-cli"
+    pip: []
+    pypi: []
+    git: []
+    github: []
+    gitlab: []
+    mercurial: []
+    svn: []
+    bazaar: []
+    url: []
+    script: []
+    upgrade: true
+  test_setup: []
+- type: "nextflow"
+  id: "nextflow"
+  variant: "vdsl3"
+  directives:
+    accelerator: {}
+    conda: []
+    containerOptions: []
+    label:
+    - "highmem"
+    - "highcpu"
+    module: []
+    pod: []
+    publishDir: []
+    queue: []
+    tag: "$id"
+  auto:
+    simplifyInput: true
+    simplifyOutput: true
+    transcript: false
+    publish: false
+  debug: false
+  container: "docker"
+info:
+  config: "/home/runner/work/mspipelines/mspipelines/src/maxquant/maxquant/config.vsh.yaml"
+  platform: "docker"
+  output: "/home/runner/work/mspipelines/mspipelines/target/docker/maxquant/maxquant"
+  executable: "/home/runner/work/mspipelines/mspipelines/target/docker/maxquant/maxquant/maxquant"
+  viash_version: "0.6.6"
+  git_commit: "54a09ad467e36588fe22e1bb3dd2c5dc58ca184b"
+  git_remote: "https://github.com/czbiohub/mspipelines"
