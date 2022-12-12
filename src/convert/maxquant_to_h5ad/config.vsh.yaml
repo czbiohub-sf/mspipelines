@@ -22,6 +22,10 @@ functionality:
   resources:
     - type: r_script
       path: script.R
+  test_resources:
+    - type: bash_script
+      path: test.sh
+    - path: ../../../resources_test/zenodo_4274987
 platforms:
   - type: docker
     image: dataintuitive/randpy:r4.0_py3.8_bioc3.12
