@@ -1,3 +1,5 @@
+#!/bin/bash
+
 set -eo pipefail
 
 echo ">> Running $meta_functionality_name"
