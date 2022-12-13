@@ -20,8 +20,8 @@ functionality:
       example: output.h5ad
       description: The dataset as an AnnData file.
   resources:
-    - type: r_script
-      path: script.R
+    - type: python_script
+      path: script.py
   test_resources:
     - type: bash_script
       path: test.sh
