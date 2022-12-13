@@ -7,6 +7,7 @@ from requests.adapters import HTTPAdapter, Retry
 #     'output': "fastas",
 #     'include_contaminants': True
 #      }
+## VIASH END
 
 cRAPUrl="http://ftp.thegpm.org/fasta/cRAP/crap.fasta"
 
