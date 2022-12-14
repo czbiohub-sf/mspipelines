@@ -28,10 +28,14 @@ class TestMaxQuantToHAD(TestCase):
                                     "--output", target])
         self.assertTrue(Path(target).is_file())
         converted_data = ad.read_h5ad(target)
-        print(converted_data.layers)
+
+        #Check if the specified data layers are present in the output
         self.assertListEqual(list(converted_data.layers),['intensity', 'peptides', 'razor_and_unique_peptides', 'sequence_coverage', 'unique_peptides'])
+        #Check the number of observations (should be 2: Sample1 & Sample2)
         self.assertEqual(len(converted_data.obs),2)
+        #Check the number of metadata columns (proteingroups), should be 270 in the given example
         self.assertEqual(len(converted_data.var),270)
-        
+        #TODO is it worth testing further in depth?
+
 if __name__ == "__main__":
     main()

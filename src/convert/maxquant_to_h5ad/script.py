@@ -18,7 +18,7 @@ def fix_headers(df):
     df.columns=df.columns.str.replace("[^a-z0-9_]*","",regex=True)
 
 # helper function to transform booleans in the dataframes to 
-# integers
+# integers (anndata crashes when parsing 'False' or 'True')
 def fix_booleans(df):
     #TODO figure out which are causing the issues
     for column in df.columns:
@@ -41,7 +41,7 @@ summary_nt = summary[summary["Raw file"].str.contains("Total")==False]
 protein_groups = pd.read_table(f"{par['input']}/combined/txt/proteinGroups.txt")
 
 #use hardcoded templates
-#TODO evaluate if this is the best strategy
+#TODO evaluate if this is the best strategy (alternative = original version, dynamically read the column headers)
 templates = {
    'peptides' : "Peptides {sample_id}",
    'razor_and_unique_peptides' : "Razor + unique peptides {sample_id}",
@@ -50,6 +50,7 @@ templates = {
    'intensity' : "Intensity {sample_id}"
 }
 
+#The sample IDs
 sampleIDs = summary_nt.loc[:,"Experiment"]
 
 layers={}
@@ -60,13 +61,10 @@ for template in templates:
 #set sample metadata as observations
 obs = summary_nt
 fix_headers(obs)
-
+fix_booleans(obs)
 #set protein identifications as metadata
 var = protein_groups
 fix_headers(var)
-
-#Fix the boolean (can not be parsed otherwise)
-fix_booleans(obs)
 fix_booleans(var)
 
 #Create an AnnData object
