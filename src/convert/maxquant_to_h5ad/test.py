@@ -1,9 +1,7 @@
-import pandas as pd
-import anndata as ad
-
 from unittest import main, TestCase
 import subprocess
 from pathlib import Path
+import anndata as ad
 
 ## VIASH START
 meta = {
@@ -12,9 +10,9 @@ meta = {
 }
 ## VIASH END
 
-resources_dir, executable = meta["resources_dir"], meta["executable"]
-conversion_output = f"{resources_dir}/output.h5ad"
 target ="output.h5ad"
+resources_dir, executable = meta["resources_dir"], meta["executable"]
+conversion_output = f"{resources_dir}/{target}]"
 
 class TestMaxQuantToHAD(TestCase):
     def _run_and_check_output(self, args_as_list, expected_raise=False):
