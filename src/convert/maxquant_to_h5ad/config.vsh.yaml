@@ -7,6 +7,10 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
+    - name: Kenneth Verheggen
+      email: kenneth@data-intuitive.com
+      roles: [ maintainer ]
+      props: { github: KennethVerheggen }
   arguments:
     - name: "--input"
       type: file
