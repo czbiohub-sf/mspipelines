@@ -21,6 +21,8 @@
   - `--peptides_for_quantification`: Specify how the protein ratios will be calculated.
   - `--main_search_max_combinations`: The maximum combinations during the main search.
 
+* `convert/maxquant_to_h5ad`:  Converted script to python and implemented a (preliminary) unit test
+
 # mspipeline 0.3.1
 
 ## Breaking changes
