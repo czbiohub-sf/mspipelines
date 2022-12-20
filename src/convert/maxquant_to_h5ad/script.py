@@ -12,27 +12,22 @@ par = {
 
 # helper function for transforming column names in proteingroups
 # to snakecase
-def fix_headers(dataframe):
-    """Fixes the headers by unescaping and converting to snakecase"""
+def fix_headers(dataframe_old:pd.DataFrame)->pd.DataFrame:
+    """Fixes the headers by unescaping and converting to snakecase and replacing booleans with integers"""
+    dataframe = dataframe_old.copy(deep=True)
     dataframe.columns = dataframe.columns.str.replace("+", "and", regex=False)
     dataframe.columns = dataframe.columns.str.replace("%", "pct", regex=False)
     dataframe.columns = dataframe.columns.str.replace(" ", "_", regex=False)
     dataframe.columns = dataframe.columns.str.lower()
     dataframe.columns = dataframe.columns.str.replace("[^a-z0-9_]*",
                                                       "", regex=True)
-
-
-# helper function to transform booleans in the dataframes to
-# integers (anndata crashes when parsing 'False' or 'True')
-def fix_booleans(dataframe):
-    """Replaces booleans with integers"""
     #TODO figure out which are causing the issues
     for column in dataframe.columns:
         dataframe[column] = dataframe[column].replace([False, True], [0, 1])
-
+    return dataframe
 
 # helper function to collate layer data from proteingroups
-def get_layer_data(_protein_groups, template, sample_ids):
+def get_layer_data(_protein_groups:pd.DataFrame, template:str, sample_ids:pd.DataFrame)->pd.DataFrame:
     """Retrieves data for the protein group layers"""
     headers = []
     for sample_id in sample_ids:
@@ -41,7 +36,6 @@ def get_layer_data(_protein_groups, template, sample_ids):
     dataframe.columns = sample_ids
     dataframe = dataframe.transpose()
     return dataframe
-
 
 # read sample metadata
 summary = pd.read_table(f"{par['input']}/combined/txt/summary.txt")
@@ -68,13 +62,9 @@ for key, value in templates.items():
     layers[key] = x
 
 # set sample metadata as observations
-obs = summary_nt
-fix_headers(obs)
-fix_booleans(obs)
+obs=fix_headers(summary_nt)
 # set protein identifications as metadata
-var = protein_groups
-fix_headers(var)
-fix_booleans(var)
+var = fix_headers(protein_groups)
 
 # Create an AnnData object
 adata = ad.AnnData(None, obs, var)
