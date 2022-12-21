@@ -15,15 +15,24 @@ par = {
 def fix_headers(dataframe_old:pd.DataFrame)->pd.DataFrame:
     """Fixes the headers by unescaping and converting to snakecase and replacing booleans with integers"""
     dataframe = dataframe_old.copy(deep=True)
-    dataframe.columns = dataframe.columns.str.replace("+", "and", regex=False)
-    dataframe.columns = dataframe.columns.str.replace("%", "pct", regex=False)
-    dataframe.columns = dataframe.columns.str.replace(" ", "_", regex=False)
+
     dataframe.columns = dataframe.columns.str.lower()
-    dataframe.columns = dataframe.columns.str.replace("[^a-z0-9_]*",
-                                                      "", regex=True)
+
+    replaces={  "+":("and",False),
+                "%":("and",False),
+                " ":("and",False),
+                "[^a-z0-9_]*":("",True)
+             }
+
+    for old, (new,use_regex) in replaces.items():
+        dataframe.columns = dataframe.columns.str.replace(old, new, regex=use_regex)
+    
     #TODO figure out which are causing the issues
-    for column in dataframe.columns:
-        dataframe[column] = dataframe[column].replace([False, True], [0, 1])
+    for column_name,column in dataframe.items():
+        print(f"Removing booleans for : {column_name} ")
+        column.replace([False, True], [0, 1])
+        
+    
     return dataframe
 
 # helper function to collate layer data from proteingroups
