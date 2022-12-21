@@ -10,6 +10,12 @@ functionality:
     props:
       github: "rcannood"
       orcid: "0000-0003-3641-729X"
+  - name: "Kenneth Verheggen"
+    email: "kenneth@data-intuitive.com"
+    roles:
+    - "maintainer"
+    props:
+      github: "KennethVerheggen"
   inputs: []
   outputs: []
   arguments:
@@ -44,11 +50,16 @@ functionality:
     dest: "par"
   argument_groups: []
   resources:
-  - type: "r_script"
-    path: "script.R"
+  - type: "python_script"
+    path: "script.py"
     is_executable: true
   description: "Converting a MaxQuant output folder to an AnnData file."
-  test_resources: []
+  test_resources:
+  - type: "python_script"
+    path: "test.py"
+    is_executable: true
+  - type: "file"
+    path: "../../../resources_test/zenodo_4274987"
   status: "enabled"
   requirements:
     commands: []
@@ -94,5 +105,5 @@ info:
   output: "/home/runner/work/mspipelines/mspipelines/target/nextflow/convert/maxquant_to_h5ad"
   executable: "/home/runner/work/mspipelines/mspipelines/target/nextflow/convert/maxquant_to_h5ad/maxquant_to_h5ad"
   viash_version: "0.6.6"
-  git_commit: "972ff4d825a06f14d32cdfe57a2fbf0b4c5d3fd3"
+  git_commit: "fdc3a0dc2d0da20cde972e916794b323586dc5bd"
   git_remote: "https://github.com/czbiohub/mspipelines"

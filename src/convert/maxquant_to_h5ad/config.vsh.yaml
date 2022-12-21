@@ -7,6 +7,10 @@ functionality:
       email: rcannood@gmail.com
       roles: [ maintainer ]
       props: { github: rcannood, orcid: "0000-0003-3641-729X" }
+    - name: Kenneth Verheggen
+      email: kenneth@data-intuitive.com
+      roles: [ maintainer ]
+      props: { github: KennethVerheggen }
   arguments:
     - name: "--input"
       type: file
@@ -20,8 +24,12 @@ functionality:
       example: output.h5ad
       description: The dataset as an AnnData file.
   resources:
-    - type: r_script
-      path: script.R
+    - type: python_script
+      path: script.py
+  test_resources:
+    - type: python_script
+      path: test.py
+    - path: ../../../resources_test/zenodo_4274987
 platforms:
   - type: docker
     image: dataintuitive/randpy:r4.0_py3.8_bioc3.12
