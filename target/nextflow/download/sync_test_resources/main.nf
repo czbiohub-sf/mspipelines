@@ -168,7 +168,7 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
     "config" : "/home/runner/work/mspipelines/mspipelines/src/download/sync_test_resources/config.vsh.yaml",
     "platform" : "nextflow",
     "viash_version" : "0.6.6",
-    "git_commit" : "fdc3a0dc2d0da20cde972e916794b323586dc5bd",
+    "git_commit" : "9b10ab5de395d156c84f34dfe65b923d788e4cdb",
     "git_remote" : "https://github.com/czbiohub/mspipelines"
   }
 }'''))

@@ -451,7 +451,7 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
     "config" : "/home/runner/work/mspipelines/mspipelines/src/maxquant/maxquant/config.vsh.yaml",
     "platform" : "nextflow",
     "viash_version" : "0.6.6",
-    "git_commit" : "fdc3a0dc2d0da20cde972e916794b323586dc5bd",
+    "git_commit" : "9b10ab5de395d156c84f34dfe65b923d788e4cdb",
     "git_remote" : "https://github.com/czbiohub/mspipelines"
   }
 }'''))
@@ -460,6 +460,7 @@ thisScript = '''set -e
 tempscript=".viash_script.sh"
 cat > "$tempscript" << VIASHMAIN
 
+"""This module hosts a maxquant process"""
 import os
 import re
 import subprocess
@@ -506,7 +507,7 @@ meta = {
 
 # if par_input is a directory, look for raw files
 if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
-   par["input"] = [os.path.join(dp, f) 
+    par["input"] = [os.path.join(dp, f)
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\\\\.raw', f)]
 
@@ -524,8 +525,9 @@ experiment_names = [re.sub(r"_\\\\d+\\$", "", os.path.basename(file))
                     for file in par["input"]]
 
 # Load parameter sets from tsv files
-def load_tsv(file_path, loc_selector):
-   df = pd.read_table(
+def load_tsv(file_path:str, loc_selector:str)->pd.DataFrame:
+    """Loads a TSV file into a dataframe"""
+    dataframe = pd.read_table(
             f"{meta['resources_dir']}/settings/{file_path}",
             sep="\\\\t",
             index_col="id",
@@ -533,33 +535,34 @@ def load_tsv(file_path, loc_selector):
             keep_default_na=False,
             na_values=['_']
          )
-   if loc_selector:
-      return df.loc[par[loc_selector]]
-   return df
-   
+    if loc_selector:
+        return dataframe.loc[par[loc_selector]]
+    return dataframe
+
 tsv_dispatcher = {
    "match_between_runs_settings": ("match_between_runs.tsv", "match_between_runs"),
    "ms_instrument_settings": ("ms_instrument.tsv", "ms_instrument"),
    "group_type_settings":  ("group_type.tsv", "lcms_run_type")
 }
 for var_name, (filepath, selector) in tsv_dispatcher.items():
-   tsv_dispatcher[var_name] = load_tsv(filepath, selector)
+    tsv_dispatcher[var_name] = load_tsv(filepath, selector)
 
 
 # check length of all reference related args
 # including reference in it as well for ease of use later on
-ref_args = ["reference", "ref_identifier_rule", "ref_description_rule", "ref_taxonomy_rule", "ref_taxonomy_id"]
+ref_args = ["reference", "ref_identifier_rule", "ref_description_rule",
+            "ref_taxonomy_rule", "ref_taxonomy_id"]
 for ref_arg in ref_args:
-   if len(par[ref_arg]) == 1 and len(par["reference"]) > 1:
-      par[ref_arg] = par[ref_arg] * len(par["reference"])
+    if len(par[ref_arg]) == 1 and len(par["reference"]) > 1:
+        par[ref_arg] = par[ref_arg] * len(par["reference"])
 
-   assert len(par["reference"]) == len(par[ref_arg]), \\\\
-      f"--{ref_arg} must have same length as --reference"
+    assert len(par["reference"]) == len(par[ref_arg]), \\\\
+        f"--{ref_arg} must have same length as --reference"
 
 fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in ref_args])]
 
 # process quant mode parameter
-# this information was derived by toggling through parameters in the MaxQuant GUI 
+# this information was derived by toggling through parameters in the MaxQuant GUI
 # and inspecting the difference in mqpar.xml contents
 quant_mode_options = ["all", "unique+razor", "unique"]
 quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
@@ -567,24 +570,24 @@ quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
    # prepare to copy input files to tempdir
-   old_inputs = par["input"]
-   new_inputs = [os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs]
-   par["input"] = new_inputs
+    old_inputs = par["input"]
+    new_inputs = [os.path.join(temp_dir, os.path.basename(f)) for f in old_inputs]
+    par["input"] = new_inputs
 
    # create output dir if not exists
-   if not os.path.exists(par["output"]):
-      os.makedirs(par["output"])
+    if not os.path.exists(par["output"]):
+        os.makedirs(par["output"])
 
    # Create params file
-   param_file = os.path.join(par["output"], "mqpar.xml")
-   file_loader = FileSystemLoader(f"{meta['resources_dir']}/templates/")
-   environment = Environment(loader=file_loader)
-   template = environment.get_template("root.xml.jinja")
+    param_file = os.path.join(par["output"], "mqpar.xml")
+    file_loader = FileSystemLoader(f"{meta['resources_dir']}/templates/")
+    environment = Environment(loader=file_loader)
+    template = environment.get_template("root.xml.jinja")
 
-   if meta['cpus'] is None :
-      meta['cpus']=1
+    if meta['cpus'] is None :
+        meta['cpus']=1
 
-   param_content = template.render(
+    param_content = template.render(
       input=par['input'],
       output=par['output'],
       fastas=fastas,
@@ -598,25 +601,24 @@ with tempfile.TemporaryDirectory() as temp_dir:
       cpus=meta['cpus']
    )
 
-   with open(param_file, "w") as f:
-      f.write(param_content)
+    with open(param_file, "w", encoding='utf-8') as f:
+        f.write(param_content)
 
-   if not par["dryrun"]:
+    if not par["dryrun"]:
       # copy input files
-      for old, new in zip(old_inputs, new_inputs):
-         if (os.path.isdir(old)):
-            shutil.copytree(old, new)
-         else:
-            shutil.copyfile(old, new)
-         
-      try:
-         # run maxquant
-         p = subprocess.check_call(
-            ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)], 
-            cwd=os.path.dirname(param_file)
-         )
-      except subprocess.CalledProcessError as e:
-         raise RuntimeError(f"MaxQuant finished with exit code {e.returncode}") from e
+        for old, new in zip(old_inputs, new_inputs):
+            if os.path.isdir(old):
+                shutil.copytree(old, new)
+            else:
+                shutil.copyfile(old, new)
+        try:
+           # run maxquant
+            PROCESS = subprocess.check_call(
+              ["dotnet", "/maxquant/bin/MaxQuantCmd.exe", os.path.basename(param_file)],
+              cwd=os.path.dirname(param_file)
+           )
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError(f"MaxQuant finished with exit code {e.returncode}") from e
 
 VIASHMAIN
 python "$tempscript"

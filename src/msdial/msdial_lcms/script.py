@@ -1,14 +1,15 @@
+"""Module to run the msdial algorithm for lcms"""
 import os
 import tempfile
 import shutil
 import subprocess
 import pandas as pd
 
-msdial_path="/msdial"
+MSDIAL_PATH="/msdial"
 ## VIASH START
-input_dir='resources_test/msdial_demo_files/raw/GCMS/'
+INPUT_DIR='resources_test/msdial_demo_files/raw/GCMS/'
 par = {
-  'input': [f'{input_dir}/140428actsa25_1.cdf', f'{input_dir}/140428actsa26_1.cdf'],
+  'input': [f'{INPUT_DIR}/140428actsa25_1.cdf', f'{INPUT_DIR}/140428actsa26_1.cdf'],
   'output': 'output_test/GCMS_output',
   'name': ['foo', 'bar'],
   'type': ['Sample', 'Sample'],
@@ -18,29 +19,29 @@ par = {
   'inject_volume': [1.0, 1.0],
   '...': '...'
 }
-msdial_path="../msdial_build"
+MSDIAL_PATH="../msdial_build"
 ## VIASH END
 
-mode = "lcmsdia" if par["dia_file"] else "lcmsdda"
+MODE = "lcmsdia" if par["dia_file"] else "lcmsdda"
 
-print(f"Running MS-DIAL {mode}", flush=True)
+print(f"Running MS-DIAL {MODE}", flush=True)
 
 assert len(par["input"]) > 0, "Need to specify at least one --input."
 
 # Create input csv file
 csv_vars = {
-  'file_path': 'input', 
-  'file_name': 'name', 
-  'type': 'type', 
+  'file_path': 'input',
+  'file_name': 'name',
+  'type': 'type',
   'class_id': 'class_id',
-  'batch': 'batch', 
-  'analytical_order': 'analytical_order', 
+  'batch': 'batch',
+  'analytical_order': 'analytical_order',
   'inject_volume': 'inject_volume',
 }
 
 csv_file = os.path.join(par["output"], "input.csv")
 for par_key, par_name in csv_vars.items():
-   assert par.get(par_name) is None or len(par["input"]) == len(par[par_name]), f"--{par_name} should be of same length as --input"
+    assert par.get(par_name) is None or len(par["input"]) == len(par[par_name]), f"--{par_name} should be of same length as --input"
 
 # Create params file
 param_file = os.path.join(par["output"], "params.txt")
@@ -153,43 +154,41 @@ use ccs for identification filtering: {par["use_ccs_for_identification_filtering
 """
 
 with tempfile.TemporaryDirectory() as temp_dir:
-   # copy input files to tempdir
-   # because MSDial otherwise generates a lot
-   # of temporary files in the input dir.
-   sources = par["input"]
-   dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
+    # copy input files to tempdir
+    # because MSDial otherwise generates a lot
+    # of temporary files in the input dir.
+    sources = par["input"]
+    dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
 
-   for src,dst in zip(par["input"], dests):
-      print(f"Copying {src} to {dst}", flush=True)
-      shutil.copyfile(src, dst)
+    for src,dst in zip(par["input"], dests):
+        print(f"Copying {src} to {dst}", flush=True)
+        shutil.copyfile(src, dst)
 
-   par["input"] = dests
+    par["input"] = dests
 
-   # create output dir if not exists
-   if not os.path.exists(par["output"]):
-      os.makedirs(par["output"])
-   
-   # write input csv file
-   data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
-   data_df = pd.DataFrame(data)
-   data_df.to_csv(csv_file, index=False)
+    # create output dir if not exists
+    if not os.path.exists(par["output"]):
+        os.makedirs(par["output"])
+    # write input csv file
+    data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
+    data_df = pd.DataFrame(data)
+    data_df.to_csv(csv_file, index=False)
 
-   # write params file
-   with open(param_file, "w") as f:
-      f.write(param_content)
+    # write params file
+    with open(param_file, "w",encoding='utf-8') as f:
+        f.write(param_content)
 
-   # run msdial
-   p = subprocess.Popen(
-      [
-         f"{msdial_path}/MsdialConsoleApp", 
-         mode,
-         "-i", csv_file,
-         "-o", par["output"],
-         "-m", param_file,
-         "-p"
-      ]
-   )
-   p.wait()
+    # run msdial
+    args =  [
+            f"{MSDIAL_PATH}/MsdialConsoleApp",
+            MODE,
+            "-i", csv_file,
+            "-o", par["output"],
+            "-m", param_file,
+            "-p"
+        ]
+    with subprocess.Popen(args) as p:
+        p.wait()
 
 if p.returncode != 0:
-   raise Exception(f"MS-DIAL finished with exit code {p.returncode}") 
+    raise Exception(f"MS-DIAL finished with exit code {p.returncode}")
