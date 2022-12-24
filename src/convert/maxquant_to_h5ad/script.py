@@ -13,7 +13,8 @@ par = {
 # helper function for transforming column names in proteingroups
 # to snakecase
 def fix_headers(dataframe_old:pd.DataFrame)->pd.DataFrame:
-    """Fixes the headers by unescaping and converting to snakecase and replacing booleans with integers"""
+    """Fixes the headers by unescaping and converting to
+    snakecase and replacing booleans with integers"""
     dataframe = dataframe_old.copy(deep=True)
 
     dataframe.columns = dataframe.columns.str.lower()
@@ -26,17 +27,15 @@ def fix_headers(dataframe_old:pd.DataFrame)->pd.DataFrame:
 
     for old, (new,use_regex) in replaces.items():
         dataframe.columns = dataframe.columns.str.replace(old, new, regex=use_regex)
-    
     #TODO figure out which are causing the issues
     for column_name,column in dataframe.items():
         print(f"Removing booleans for : {column_name} ")
         column.replace([False, True], [0, 1])
-        
-    
     return dataframe
 
 # helper function to collate layer data from proteingroups
-def get_layer_data(_protein_groups:pd.DataFrame, template:str, sample_ids:pd.DataFrame)->pd.DataFrame:
+def get_layer_data(_protein_groups:pd.DataFrame, template:str,
+                    sample_ids:pd.DataFrame)->pd.DataFrame:
     """Retrieves data for the protein group layers"""
     headers = []
     for sample_id in sample_ids:
@@ -48,7 +47,8 @@ def get_layer_data(_protein_groups:pd.DataFrame, template:str, sample_ids:pd.Dat
 
 # read sample metadata
 summary = pd.read_table(f"{par['input']}/combined/txt/summary.txt")
-summary_nt = summary[summary["Raw file"].str.contains("Total") == False]
+# this is the only working, confirmed way
+summary_nt = summary[summary["Raw file"].str.contains("Total")==False]
 # read protein group info
 protein_groups = pd.read_table(f"{par['input']}/combined/txt/proteinGroups.txt")
 
