@@ -115,5 +115,5 @@ info:
   output: "/home/runner/work/mspipelines/mspipelines/target/nextflow/convert/thermo_to_mzml"
   executable: "/home/runner/work/mspipelines/mspipelines/target/nextflow/convert/thermo_to_mzml/thermo_to_mzml"
   viash_version: "0.6.6"
-  git_commit: "9b10ab5de395d156c84f34dfe65b923d788e4cdb"
+  git_commit: "d4398c4e18ff54feeb4ca772f7dba2f11ad3f3c2"
   git_remote: "https://github.com/czbiohub/mspipelines"
