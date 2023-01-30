@@ -28,6 +28,8 @@ par = {
     "dryrun": True,
     "peptides_for_quantification":"unique+razor",
     "main_search_max_combinations":200,
+    "dia_library_type": "tsv",
+    "dia_library": None
 }
 meta = {
    "resources_dir": "src/maxquant/maxquant/",
@@ -41,15 +43,15 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\.raw', f)]
 
-# # use absolute paths
-# for par_key in ("input", "reference", "output"):
-#    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
-
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
 par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
 par["output"] = os.path.abspath(par["output"])
-
+if par["dia_library"]:
+    par["dia_library"] = [ os.path.abspath(f) for f in par["dia_library"] ]
+else:
+    par["dia_library"] = []
+    
 # Load parameter sets from tsv files
 def load_tsv(file_path:str, loc_selector:str)->pd.DataFrame:
     """Loads a TSV file into a dataframe"""
@@ -110,6 +112,9 @@ fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in re
 # and inspecting the difference in mqpar.xml contents
 quant_mode_options = ["all", "unique+razor", "unique"]
 quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
+
+# process dia library type
+par["dia_library_type"] = {"MaxQuant": "0", "tsv": "1"}[par["dia_library_type"]]
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:

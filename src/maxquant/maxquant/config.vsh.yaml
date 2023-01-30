@@ -148,6 +148,17 @@ functionality:
             
             The use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. 
             The output of the label free algorithm can be found in the proteinGroups table in the columns starting with 'LFQ Intensity'.
+        - name: "--dia_library_type"
+          type: string
+          choices: ["MaxQuant", "tsv"]
+          default: "tsv"
+          description: Which type of DIA library to use.
+        - name: "--dia_library"
+          type: file
+          multiple: true
+          multiple_sep: ";"
+          example: "path/to/library.tsv"
+          description: Which DIA library to use.
     - name: Identification
       description: Arguments listed in the MaxQuant GUI under "Global parameters > Identifications"
       arguments:
