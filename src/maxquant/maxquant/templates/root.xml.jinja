@@ -163,7 +163,7 @@
    </fractions>
    <ptms>
       {%- for input in inputs %}
-      <bool>{{ input.ptm }}</bool>
+      <bool>{{ input.input_ptm }}</bool>
       {%- endfor %}
    </ptms>
    <paramGroupIndices>
@@ -319,8 +319,11 @@
          <isobaricSumOverWindow>True</isobaricSumOverWindow>
          <isobaricWeightExponent>0.75</isobaricWeightExponent>
          <collapseMsmsOnIsotopePatterns>False</collapseMsmsOnIsotopePatterns>
-         <diaLibraryType>0</diaLibraryType>
+         <diaLibraryType>{{ dia_library_type }} </diaLibraryType>
          <diaLibraryPaths>
+            {%- for library in dia_library %}
+            <string>{{ library }}</string>
+            {%- endfor %}
          </diaLibraryPaths>
          <diaPeptidePaths>
          </diaPeptidePaths>

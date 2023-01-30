@@ -103,6 +103,16 @@
             "description": "Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Label-free quantification\".","help_text": "Apply the algorithm for label free protein quantification. This argument is listed in the MaxQuant GUI under \"Group-specific parameters \u003e Label-free quantification\".\n\nThe use of an experimental design so specify which LC-MS runs or groups of LC-MS runs correspond to the different samples is obligatory here. \nThe output of the label free algorithm can be found in the proteinGroups table in the columns starting with \u0027LFQ Intensity\u0027.\n",
             "enum": ["None", "LFQ"],
             "default": "LFQ"
+          },"dia_library_type": {
+            "type":"string",
+            "description": "Which type of DIA library to use.",
+            "enum": ["MaxQuant", "tsv"],
+            "default": "tsv"
+          },"dia_library": {
+            "type":"string",
+            "description": "Which DIA library to use.",
+            
+            "default": ""
           }
         }
       },

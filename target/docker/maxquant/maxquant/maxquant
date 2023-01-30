@@ -278,6 +278,17 @@ function ViashHelp {
   echo "        The output of the label free algorithm can be found in the proteinGroups"
   echo "        table in the columns starting with 'LFQ Intensity'."
   echo ""
+  echo "    --dia_library_type"
+  echo "        type: string"
+  echo "        default: tsv"
+  echo "        choices: [ MaxQuant, tsv ]"
+  echo "        Which type of DIA library to use."
+  echo ""
+  echo "    --dia_library"
+  echo "        type: file, multiple values allowed, file must exist"
+  echo "        example: path/to/library.tsv"
+  echo "        Which DIA library to use."
+  echo ""
   echo "Identification:"
   echo "    Arguments listed in the MaxQuant GUI under \"Global parameters >"
   echo "    Identifications\""
@@ -556,9 +567,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Robrecht Cannoodt"
 LABEL org.opencontainers.image.description="Companion container for running component maxquant maxquant"
-LABEL org.opencontainers.image.created="2023-01-30T16:50:51Z"
+LABEL org.opencontainers.image.created="2023-01-30T17:06:28Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="5f189de4d46db17a6619f198c8e732cebc25c9c7"
+LABEL org.opencontainers.image.revision="0db7fce32b23a60a5579a018715c5cbe4e6edaea"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
@@ -925,6 +936,34 @@ while [[ $# -gt 0 ]]; do
             VIASH_PAR_LFQ_MODE=$(ViashRemoveFlags "$1")
             shift 1
             ;;
+        --dia_library_type)
+            [ -n "$VIASH_PAR_DIA_LIBRARY_TYPE" ] && ViashError Bad arguments for option \'--dia_library_type\': \'$VIASH_PAR_DIA_LIBRARY_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+            VIASH_PAR_DIA_LIBRARY_TYPE="$2"
+            [ $# -lt 2 ] && ViashError Not enough arguments passed to --dia_library_type. Use "--help" to get more information on the parameters. && exit 1
+            shift 2
+            ;;
+        --dia_library_type=*)
+            [ -n "$VIASH_PAR_DIA_LIBRARY_TYPE" ] && ViashError Bad arguments for option \'--dia_library_type=*\': \'$VIASH_PAR_DIA_LIBRARY_TYPE\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
+            VIASH_PAR_DIA_LIBRARY_TYPE=$(ViashRemoveFlags "$1")
+            shift 1
+            ;;
+        --dia_library)
+            if [ -z "$VIASH_PAR_DIA_LIBRARY" ]; then
+              VIASH_PAR_DIA_LIBRARY="$2"
+            else
+              VIASH_PAR_DIA_LIBRARY="$VIASH_PAR_DIA_LIBRARY;""$2"
+            fi
+            [ $# -lt 2 ] && ViashError Not enough arguments passed to --dia_library. Use "--help" to get more information on the parameters. && exit 1
+            shift 2
+            ;;
+        --dia_library=*)
+            if [ -z "$VIASH_PAR_DIA_LIBRARY" ]; then
+              VIASH_PAR_DIA_LIBRARY=$(ViashRemoveFlags "$1")
+            else
+              VIASH_PAR_DIA_LIBRARY="$VIASH_PAR_DIA_LIBRARY;"$(ViashRemoveFlags "$1")
+            fi
+            shift 1
+            ;;
         --match_between_runs)
             [ -n "$VIASH_PAR_MATCH_BETWEEN_RUNS" ] && ViashError Bad arguments for option \'--match_between_runs\': \'$VIASH_PAR_MATCH_BETWEEN_RUNS\' \& \'$2\' - you should provide exactly one argument for this option. && exit 1
             VIASH_PAR_MATCH_BETWEEN_RUNS="$2"
@@ -1139,6 +1178,9 @@ fi
 if [ -z ${VIASH_PAR_LFQ_MODE+x} ]; then
   VIASH_PAR_LFQ_MODE="LFQ"
 fi
+if [ -z ${VIASH_PAR_DIA_LIBRARY_TYPE+x} ]; then
+  VIASH_PAR_DIA_LIBRARY_TYPE="tsv"
+fi
 if [ -z ${VIASH_PAR_MATCH_BETWEEN_RUNS+x} ]; then
   VIASH_PAR_MATCH_BETWEEN_RUNS="false"
 fi
@@ -1169,6 +1211,18 @@ if [ ! -z "$VIASH_PAR_REFERENCE" ]; then
   IFS=';'
   set -f
   for file in $VIASH_PAR_REFERENCE; do
+    unset IFS
+    if [ ! -e "$file" ]; then
+      ViashError "Input file '$file' does not exist."
+      exit 1
+    fi
+  done
+  set +f
+fi
+if [ ! -z "$VIASH_PAR_DIA_LIBRARY" ]; then
+  IFS=';'
+  set -f
+  for file in $VIASH_PAR_DIA_LIBRARY; do
     unset IFS
     if [ ! -e "$file" ]; then
       ViashError "Input file '$file' does not exist."
@@ -1317,6 +1371,18 @@ if [ ! -z "$VIASH_PAR_LFQ_MODE" ]; then
   unset IFS
 fi
 
+if [ ! -z "$VIASH_PAR_DIA_LIBRARY_TYPE" ]; then
+  VIASH_PAR_DIA_LIBRARY_TYPE_CHOICES=("MaxQuant:tsv")
+  IFS=':'
+  set -f
+  if ! [[ ":${VIASH_PAR_DIA_LIBRARY_TYPE_CHOICES[*]}:" =~ ":$VIASH_PAR_DIA_LIBRARY_TYPE:" ]]; then
+    ViashError '--dia_library_type' specified value of \'$VIASH_PAR_DIA_LIBRARY_TYPE\' is not in the list of allowed values. Use "--help" to get more information on the parameters.
+    exit 1
+  fi
+  set +f
+  unset IFS
+fi
+
 if [ ! -z "$VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION" ]; then
   VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION_CHOICES=("all:unique:unique+razor")
   IFS=':'
@@ -1362,6 +1428,17 @@ if [ ! -z "$VIASH_PAR_REFERENCE" ]; then
     VIASH_TEST_REFERENCE+=( "$var" )
   done
   VIASH_PAR_REFERENCE=$(IFS=';' ; echo "${VIASH_TEST_REFERENCE[*]}")
+fi
+if [ ! -z "$VIASH_PAR_DIA_LIBRARY" ]; then
+  VIASH_TEST_DIA_LIBRARY=()
+  IFS=';'
+  for var in $VIASH_PAR_DIA_LIBRARY; do
+    unset IFS
+    VIASH_EXTRA_MOUNTS+=( $(ViashAutodetectMountArg "$var") )
+    var=$(ViashAutodetectMount "$var")
+    VIASH_TEST_DIA_LIBRARY+=( "$var" )
+  done
+  VIASH_PAR_DIA_LIBRARY=$(IFS=';' ; echo "${VIASH_TEST_DIA_LIBRARY[*]}")
 fi
 if [ ! -z "$VIASH_META_RESOURCES_DIR" ]; then
   VIASH_EXTRA_MOUNTS+=( $(ViashAutodetectMountArg "$VIASH_META_RESOURCES_DIR") )
@@ -1443,6 +1520,8 @@ par = {
   'ms_instrument': $( if [ ! -z ${VIASH_PAR_MS_INSTRUMENT+x} ]; then echo "r'${VIASH_PAR_MS_INSTRUMENT//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'lcms_run_type': $( if [ ! -z ${VIASH_PAR_LCMS_RUN_TYPE+x} ]; then echo "r'${VIASH_PAR_LCMS_RUN_TYPE//\'/\'\"\'\"r\'}'"; else echo None; fi ),
   'lfq_mode': $( if [ ! -z ${VIASH_PAR_LFQ_MODE+x} ]; then echo "r'${VIASH_PAR_LFQ_MODE//\'/\'\"\'\"r\'}'"; else echo None; fi ),
+  'dia_library_type': $( if [ ! -z ${VIASH_PAR_DIA_LIBRARY_TYPE+x} ]; then echo "r'${VIASH_PAR_DIA_LIBRARY_TYPE//\'/\'\"\'\"r\'}'"; else echo None; fi ),
+  'dia_library': $( if [ ! -z ${VIASH_PAR_DIA_LIBRARY+x} ]; then echo "r'${VIASH_PAR_DIA_LIBRARY//\'/\'\"\'\"r\'}'.split(';')"; else echo None; fi ),
   'match_between_runs': $( if [ ! -z ${VIASH_PAR_MATCH_BETWEEN_RUNS+x} ]; then echo "r'${VIASH_PAR_MATCH_BETWEEN_RUNS//\'/\'\"\'\"r\'}'.lower() == 'true'"; else echo None; fi ),
   'main_search_max_combinations': $( if [ ! -z ${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS+x} ]; then echo "int(r'${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS//\'/\'\"\'\"r\'}')"; else echo None; fi ),
   'peptides_for_quantification': $( if [ ! -z ${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION+x} ]; then echo "r'${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION//\'/\'\"\'\"r\'}'"; else echo None; fi ),
@@ -1471,15 +1550,15 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\\.raw', f)]
 
-# # use absolute paths
-# for par_key in ("input", "reference", "output"):
-#    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
-
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
 par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
 par["output"] = os.path.abspath(par["output"])
-
+if par["dia_library"]:
+    par["dia_library"] = [ os.path.abspath(f) for f in par["dia_library"] ]
+else:
+    par["dia_library"] = []
+    
 # Load parameter sets from tsv files
 def load_tsv(file_path:str, loc_selector:str)->pd.DataFrame:
     """Loads a TSV file into a dataframe"""
@@ -1540,6 +1619,9 @@ fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in re
 # and inspecting the difference in mqpar.xml contents
 quant_mode_options = ["all", "unique+razor", "unique"]
 quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
+
+# process dia library type
+par["dia_library_type"] = {"MaxQuant": "0", "tsv": "1"}[par["dia_library_type"]]
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:
@@ -1631,6 +1713,19 @@ if [ ! -z "$VIASH_PAR_REFERENCE" ]; then
     fi
   done
   VIASH_PAR_REFERENCE="$VIASH_TEST_REFERENCE"
+fi
+if [ ! -z "$VIASH_PAR_DIA_LIBRARY" ]; then
+  unset VIASH_TEST_DIA_LIBRARY
+  IFS=';'
+  for var in $VIASH_PAR_DIA_LIBRARY; do
+    unset IFS
+    if [ -z "$VIASH_TEST_DIA_LIBRARY" ]; then
+      VIASH_TEST_DIA_LIBRARY="$(ViashStripAutomount "$var")"
+    else
+      VIASH_TEST_DIA_LIBRARY="$VIASH_TEST_DIA_LIBRARY;""$(ViashStripAutomount "$var")"
+    fi
+  done
+  VIASH_PAR_DIA_LIBRARY="$VIASH_TEST_DIA_LIBRARY"
 fi
 if [ ! -z "$VIASH_META_RESOURCES_DIR" ]; then
   VIASH_META_RESOURCES_DIR=$(ViashStripAutomount "$VIASH_META_RESOURCES_DIR")

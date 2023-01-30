@@ -289,6 +289,38 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
             "multiple" : false,
             "multiple_sep" : ":",
             "dest" : "par"
+          },
+          {
+            "type" : "string",
+            "name" : "--dia_library_type",
+            "description" : "Which type of DIA library to use.",
+            "default" : [
+              "tsv"
+            ],
+            "required" : false,
+            "choices" : [
+              "MaxQuant",
+              "tsv"
+            ],
+            "direction" : "input",
+            "multiple" : false,
+            "multiple_sep" : ":",
+            "dest" : "par"
+          },
+          {
+            "type" : "file",
+            "name" : "--dia_library",
+            "description" : "Which DIA library to use.",
+            "example" : [
+              "path/to/library.tsv"
+            ],
+            "must_exist" : true,
+            "create_parent" : true,
+            "required" : false,
+            "direction" : "input",
+            "multiple" : true,
+            "multiple_sep" : ";",
+            "dest" : "par"
           }
         ]
       },
@@ -484,7 +516,7 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
     "config" : "/home/runner/work/mspipelines/mspipelines/src/maxquant/maxquant/config.vsh.yaml",
     "platform" : "nextflow",
     "viash_version" : "0.6.6",
-    "git_commit" : "5f189de4d46db17a6619f198c8e732cebc25c9c7",
+    "git_commit" : "0db7fce32b23a60a5579a018715c5cbe4e6edaea",
     "git_remote" : "https://github.com/czbiohub/mspipelines"
   }
 }'''))
@@ -519,6 +551,8 @@ par = {
   'ms_instrument': $( if [ ! -z ${VIASH_PAR_MS_INSTRUMENT+x} ]; then echo "r'${VIASH_PAR_MS_INSTRUMENT//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'lcms_run_type': $( if [ ! -z ${VIASH_PAR_LCMS_RUN_TYPE+x} ]; then echo "r'${VIASH_PAR_LCMS_RUN_TYPE//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
   'lfq_mode': $( if [ ! -z ${VIASH_PAR_LFQ_MODE+x} ]; then echo "r'${VIASH_PAR_LFQ_MODE//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'dia_library_type': $( if [ ! -z ${VIASH_PAR_DIA_LIBRARY_TYPE+x} ]; then echo "r'${VIASH_PAR_DIA_LIBRARY_TYPE//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
+  'dia_library': $( if [ ! -z ${VIASH_PAR_DIA_LIBRARY+x} ]; then echo "r'${VIASH_PAR_DIA_LIBRARY//\\'/\\'\\"\\'\\"r\\'}'.split(';')"; else echo None; fi ),
   'match_between_runs': $( if [ ! -z ${VIASH_PAR_MATCH_BETWEEN_RUNS+x} ]; then echo "r'${VIASH_PAR_MATCH_BETWEEN_RUNS//\\'/\\'\\"\\'\\"r\\'}'.lower() == 'true'"; else echo None; fi ),
   'main_search_max_combinations': $( if [ ! -z ${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS+x} ]; then echo "int(r'${VIASH_PAR_MAIN_SEARCH_MAX_COMBINATIONS//\\'/\\'\\"\\'\\"r\\'}')"; else echo None; fi ),
   'peptides_for_quantification': $( if [ ! -z ${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION+x} ]; then echo "r'${VIASH_PAR_PEPTIDES_FOR_QUANTIFICATION//\\'/\\'\\"\\'\\"r\\'}'"; else echo None; fi ),
@@ -547,15 +581,15 @@ if len(par["input"]) == 1 and os.path.isdir(par["input"][0]):
                    for dp, _, filenames in os.walk(par["input"])
                    for f in filenames if re.match(r'.*\\\\.raw', f)]
 
-# # use absolute paths
-# for par_key in ("input", "reference", "output"):
-#    par[par_key] = [os.path.abspath(f) for f in par[par_key]]
-
 # use absolute paths
 par["input"] = [ os.path.abspath(f) for f in par["input"] ]
 par["reference"] = [ os.path.abspath(f) for f in par["reference"] ]
 par["output"] = os.path.abspath(par["output"])
-
+if par["dia_library"]:
+    par["dia_library"] = [ os.path.abspath(f) for f in par["dia_library"] ]
+else:
+    par["dia_library"] = []
+    
 # Load parameter sets from tsv files
 def load_tsv(file_path:str, loc_selector:str)->pd.DataFrame:
     """Loads a TSV file into a dataframe"""
@@ -616,6 +650,9 @@ fastas = [dict(zip(ref_args, values)) for values in zip(*[par[arg] for arg in re
 # and inspecting the difference in mqpar.xml contents
 quant_mode_options = ["all", "unique+razor", "unique"]
 quant_mode = quant_mode_options.index(par["peptides_for_quantification"])
+
+# process dia library type
+par["dia_library_type"] = {"MaxQuant": "0", "tsv": "1"}[par["dia_library_type"]]
 
 # copy input files to tempdir
 with tempfile.TemporaryDirectory() as temp_dir:

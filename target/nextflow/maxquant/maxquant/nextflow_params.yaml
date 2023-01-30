@@ -19,6 +19,8 @@ ref_taxonomy_id: [""]
 ms_instrument: "Bruker TIMS"
 lcms_run_type: "Standard"
 lfq_mode: "LFQ"
+dia_library_type: "tsv"
+# dia_library: ["path/to/library.tsv"]
 
 # Identification
 match_between_runs: false

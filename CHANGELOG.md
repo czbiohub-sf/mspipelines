@@ -9,6 +9,8 @@
   - `--input_experiment`: Set the experiment label for a given input. Must be undefined or of the same length as `--input`.
   - `--input_fraction`: Set the fraction for a given input. Must be undefined or of the same length as `--input`.
   - `--input_ptm`: Set the PTM value for a given input. Must be undefined or of the same length as `--input`.
+  - `--dia_library_type`: Which type of DIA library to use. Must be "MaxQuant" or "tsv".
+  - `--dia_library`: Path to the DIA library.
 
 
 ## Bug fixes

@@ -150,7 +150,7 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
     "config" : "/home/runner/work/mspipelines/mspipelines/src/convert/thermo_to_mzml/config.vsh.yaml",
     "platform" : "nextflow",
     "viash_version" : "0.6.6",
-    "git_commit" : "5f189de4d46db17a6619f198c8e732cebc25c9c7",
+    "git_commit" : "0db7fce32b23a60a5579a018715c5cbe4e6edaea",
     "git_remote" : "https://github.com/czbiohub/mspipelines"
   }
 }'''))
