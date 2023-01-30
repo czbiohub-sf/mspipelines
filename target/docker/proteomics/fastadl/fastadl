@@ -406,9 +406,9 @@ RUN pip install --upgrade pip && \
 
 LABEL org.opencontainers.image.authors="Kenneth Verheggen"
 LABEL org.opencontainers.image.description="Companion container for running component proteomics fastadl"
-LABEL org.opencontainers.image.created="2023-01-30T17:06:28Z"
+LABEL org.opencontainers.image.created="2023-01-30T17:58:25Z"
 LABEL org.opencontainers.image.source="https://github.com/czbiohub/mspipelines"
-LABEL org.opencontainers.image.revision="0db7fce32b23a60a5579a018715c5cbe4e6edaea"
+LABEL org.opencontainers.image.revision="4fef684fb8dcb2578f7009350f834d836d01d90e"
 LABEL org.opencontainers.image.version="main_build"
 VIASHDOCKER
 }
