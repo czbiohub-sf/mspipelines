@@ -147,23 +147,23 @@
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
    <filePaths>
-      {%- for file in input %}
-      <string>{{ file }}</string>
+      {%- for input in inputs %}
+      <string>{{ input.input }}</string>
       {%- endfor %}
    </filePaths>
    <experiments>
-      {%- for exp in experiments %}
-      <string>{{ exp }}</string>
+      {%- for input in inputs %}
+      <string>{{ input.input_experiment }}</string>
       {%- endfor %}
    </experiments>
    <fractions>
-      {%-for _ in input %}
-      <short>32767</short>
+      {%- for input in inputs %}
+      <short>{{ input.input_fraction }}</short>
       {%- endfor %}
    </fractions>
    <ptms>
-      {%- for _ in input %}
-      <boolean>False</boolean>
+      {%- for input in inputs %}
+      <bool>{{ input.ptm }}</bool>
       {%- endfor %}
    </ptms>
    <paramGroupIndices>

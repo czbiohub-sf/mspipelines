@@ -30,6 +30,43 @@ functionality:
       multiple: true
       multiple_sep: ";"
       dest: "par"
+    - type: "string"
+      name: "--input_experiment"
+      alternatives: []
+      description: "Experiment labels. Must be undefined or of the same length as\
+        \ `--input`."
+      example:
+      - "input"
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "integer"
+      name: "--input_fraction"
+      alternatives: []
+      description: "Input fractions. Must be undefined or of the same length as `--input`."
+      example: []
+      default: []
+      required: false
+      choices: []
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
+    - type: "boolean"
+      name: "--input_ptm"
+      alternatives: []
+      description: "Input PTMs. Must be undefined or of the same length as `--input`."
+      example: []
+      default: []
+      required: false
+      direction: "input"
+      multiple: true
+      multiple_sep: ";"
+      dest: "par"
   - name: "Outputs"
     arguments:
     - type: "file"
@@ -425,5 +462,5 @@ info:
   output: "/home/runner/work/mspipelines/mspipelines/target/nextflow/maxquant/maxquant"
   executable: "/home/runner/work/mspipelines/mspipelines/target/nextflow/maxquant/maxquant/maxquant"
   viash_version: "0.6.6"
-  git_commit: "d4398c4e18ff54feeb4ca772f7dba2f11ad3f3c2"
+  git_commit: "5f189de4d46db17a6619f198c8e732cebc25c9c7"
   git_remote: "https://github.com/czbiohub/mspipelines"

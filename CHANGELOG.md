@@ -1,3 +1,21 @@
+# mspipeline 0.3.3
+
+## Minor changes
+
+* `convert/maxquant_to_h5ad`:  Converted script to python and implemented a (preliminary) unit test.
+
+* `maxquant/maxquant`: Added parameters:
+
+  - `--input_experiment`: Set the experiment label for a given input. Must be undefined or of the same length as `--input`.
+  - `--input_fraction`: Set the fraction for a given input. Must be undefined or of the same length as `--input`.
+  - `--input_ptm`: Set the PTM value for a given input. Must be undefined or of the same length as `--input`.
+
+
+## Bug fixes
+
+* `maxquant/maxquant`: Fix issue where `lfq_mode` was not being passed to the jinja template.
+
+
 # mspipeline 0.3.2
 
 ## New functionality
@@ -20,8 +38,6 @@
   - `--ref_taxonomy_rule`: The taxonomy parsing regex for the provided reference fastas. Length must be 1 or match that of the --reference argument.
   - `--peptides_for_quantification`: Specify how the protein ratios will be calculated.
   - `--main_search_max_combinations`: The maximum combinations during the main search.
-
-* `convert/maxquant_to_h5ad`:  Converted script to python and implemented a (preliminary) unit test
 
 # mspipeline 0.3.1
 

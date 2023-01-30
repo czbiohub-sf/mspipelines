@@ -1,5 +1,8 @@
 # Inputs
 input: # please fill in - example: ["input.raw"]
+# input_experiment: ["input"]
+# input_fraction: [123]
+# input_ptm: [true]
 
 # Outputs
 # output: "$id.$key.output.output"
