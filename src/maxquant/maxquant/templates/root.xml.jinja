@@ -147,23 +147,23 @@
    <useDotNetCore>True</useDotNetCore>
    <profilePerformance>False</profilePerformance>
    <filePaths>
-      {%- for file in input %}
-      <string>{{ file }}</string>
+      {%- for input in inputs %}
+      <string>{{ input.input }}</string>
       {%- endfor %}
    </filePaths>
    <experiments>
-      {%- for exp in experiments %}
-      <string>{{ exp }}</string>
+      {%- for input in inputs %}
+      <string>{{ input.input_experiment }}</string>
       {%- endfor %}
    </experiments>
    <fractions>
-      {%-for _ in input %}
-      <short>32767</short>
+      {%- for input in inputs %}
+      <short>{{ input.input_fraction }}</short>
       {%- endfor %}
    </fractions>
    <ptms>
-      {%- for _ in input %}
-      <boolean>False</boolean>
+      {%- for input in inputs %}
+      <bool>{{ input.input_ptm }}</bool>
       {%- endfor %}
    </ptms>
    <paramGroupIndices>
@@ -319,8 +319,11 @@
          <isobaricSumOverWindow>True</isobaricSumOverWindow>
          <isobaricWeightExponent>0.75</isobaricWeightExponent>
          <collapseMsmsOnIsotopePatterns>False</collapseMsmsOnIsotopePatterns>
-         <diaLibraryType>0</diaLibraryType>
+         <diaLibraryType>{{ dia_library_type }} </diaLibraryType>
          <diaLibraryPaths>
+            {%- for library in dia_library %}
+            <string>{{ library }}</string>
+            {%- endfor %}
          </diaLibraryPaths>
          <diaPeptidePaths>
          </diaPeptidePaths>

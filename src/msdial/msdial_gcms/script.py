@@ -1,3 +1,4 @@
+"""Module to run the msdial algorithm for gcms"""
 import os
 import csv
 import tempfile
@@ -5,11 +6,11 @@ import shutil
 import subprocess
 import pandas as pd
 
-msdial_path="/msdial"
+MSDIAL_PATH="/msdial"
 ## VIASH START
-input_dir='resources_test/msdial_demo_files/raw/GCMS/'
+INPUT_DIR='resources_test/msdial_demo_files/raw/GCMS/'
 par = {
-  'input': [f'{input_dir}/140428actsa25_1.cdf', f'{input_dir}/140428actsa26_1.cdf'],
+  'input': [f'{INPUT_DIR}/140428actsa25_1.cdf', f'{INPUT_DIR}/140428actsa26_1.cdf'],
   'output': 'output_test/GCMS_output',
   'name': ['foo', 'bar'],
   'type': ['Sample', 'Sample'],
@@ -49,25 +50,25 @@ par = {
   'peak_count_filter': int('0'),
   'qc_at_least_filter': 'true'.lower() == 'true'
 }
-msdial_path="../msdial_build"
+MSDIAL_PATH="../msdial_build"
 ## VIASH END
 
 assert len(par["input"]) > 0, "Need to specify at least one --input."
 
 # Create input csv file
 csv_vars = {
-  'file_path': 'input', 
-  'file_name': 'name', 
-  'type': 'type', 
+  'file_path': 'input',
+  'file_name': 'name',
+  'type': 'type',
   'class_id': 'class_id',
-  'batch': 'batch', 
-  'analytical_order': 'analytical_order', 
+  'batch': 'batch',
+  'analytical_order': 'analytical_order',
   'inject_volume': 'inject_volume',
 }
 
 csv_file = os.path.join(par["output"], "input.csv")
 for par_key, par_name in csv_vars.items():
-   assert par.get(par_name) is None or len(par["input"]) == len(par[par_name]), f"--{par_name} should be of same length as --input"
+    assert par.get(par_name) is None or len(par["input"]) == len(par[par_name]), f"--{par_name} should be of same length as --input"
 
 # Create params file
 param_file = os.path.join(par["output"], "params.txt")
@@ -127,55 +128,54 @@ Replace true zero values with 1/10 of minimum peak height over all samples: {par
 """
 
 with tempfile.TemporaryDirectory() as temp_dir:
-   # copy input files to tempdir
-   # because MSDial otherwise generates a lot
-   # of temporary files in the input dir.
-   sources = par["input"]
-   dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
+    # copy input files to tempdir
+    # because MSDial otherwise generates a lot
+    # of temporary files in the input dir.
+    sources = par["input"]
+    dests = [ os.path.join(temp_dir, os.path.basename(file)) for file in par["input"] ]
 
-   for src,dst in zip(par["input"], dests):
-      print(f"Copying {src} to {dst}", flush=True)
-      shutil.copyfile(src, dst)
+    for src,dst in zip(par["input"], dests):
+        print(f"Copying {src} to {dst}", flush=True)
+        shutil.copyfile(src, dst)
 
-   par["input"] = dests
+    par["input"] = dests
 
-   # create output dir if not exists
-   if not os.path.exists(par["output"]):
-      os.makedirs(par["output"])
-   
-   # write input csv file
-   data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
-   data_df = pd.DataFrame(data)
-   data_df.to_csv(csv_file, index=False)
-   
-   # create ri index file paths file
-   # (if needed)
-   if par["ri_index_file"]:
-      assert len(par["ri_index_file"]) == 1 or len(par["ri_index_file"]) == len(par["input"]), "Length of --ri_index_file must be one or equal to the length of --input"
-      if len(par["ri_index_file"]) == 1:
-         par["ri_index_file"] = len(par["input"]) * par["ri_index_file"]
+    # create output dir if not exists
+    if not os.path.exists(par["output"]):
+        os.makedirs(par["output"])
 
-      with open(ri_index_file, 'w') as out_file:
-         tsv_writer = csv.writer(out_file, delimiter="\t")
-         ri_file_data = zip(dests, par["ri_index_file"])
-         tsv_writer.writerows(ri_file_data)
+    # write input csv file
+    data = {new: par[key] for new, key in csv_vars.items() if par.get(key) is not None}
+    data_df = pd.DataFrame(data)
+    data_df.to_csv(csv_file, index=False)
 
-   # write params file
-   with open(param_file, "w") as f:
-      f.write(param_content)
+    # create ri index file paths file
+    # (if needed)
+    if par["ri_index_file"]:
+        assert len(par["ri_index_file"]) == 1 or len(par["ri_index_file"]) == len(par["input"]), "Length of --ri_index_file must be one or equal to the length of --input"
+        if len(par["ri_index_file"]) == 1:
+            par["ri_index_file"] = len(par["input"]) * par["ri_index_file"]
 
-   # run msdial
-   p = subprocess.Popen(
-      [
-         f"{msdial_path}/MsdialConsoleApp", 
-         "gcms", 
-         "-i", csv_file,
-         "-o", par["output"],
-         "-m", param_file,
-         "-p"
-      ]
-   )
-   p.wait()
+        with open(ri_index_file, 'w', encoding ='utf-8') as out_file:
+            tsv_writer = csv.writer(out_file, delimiter="\t")
+            ri_file_data = zip(dests, par["ri_index_file"])
+            tsv_writer.writerows(ri_file_data)
+
+    # write params file
+    with open(param_file, "w", encoding="utf-8") as f:
+        f.write(param_content)
+
+    # run msdial
+    args = [
+             f"{MSDIAL_PATH}/MsdialConsoleApp",
+             "gcms",
+             "-i", csv_file,
+             "-o", par["output"],
+             "-m", param_file,
+             "-p"
+            ]
+    with subprocess.Popen(args) as p:
+        p.wait()
 
 if p.returncode != 0:
-   raise Exception(f"MS-DIAL finished with exit code {p.returncode}") 
+    raise Exception(f"MS-DIAL finished with exit code {p.returncode}")

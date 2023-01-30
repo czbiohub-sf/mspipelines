@@ -1,3 +1,23 @@
+# mspipeline 0.3.3
+
+## Minor changes
+
+* `convert/maxquant_to_h5ad`:  Converted script to python and implemented a (preliminary) unit test.
+
+* `maxquant/maxquant`: Added parameters:
+
+  - `--input_experiment`: Set the experiment label for a given input. Must be undefined or of the same length as `--input`.
+  - `--input_fraction`: Set the fraction for a given input. Must be undefined or of the same length as `--input`.
+  - `--input_ptm`: Set the PTM value for a given input. Must be undefined or of the same length as `--input`.
+  - `--dia_library_type`: Which type of DIA library to use. Must be "MaxQuant" or "tsv".
+  - `--dia_library`: Path to the DIA library.
+
+
+## Bug fixes
+
+* `maxquant/maxquant`: Fix issue where `lfq_mode` was not being passed to the jinja template.
+
+
 # mspipeline 0.3.2
 
 ## New functionality
