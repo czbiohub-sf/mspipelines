@@ -19,6 +19,41 @@ functionality:
           description: One or more Thermo Raw files.
           # todo: also support mzml and other input formats supported by MaxQuant?
           example: input.raw
+        - name: "--input_experiment"
+          type: string
+          required: false
+          multiple: true
+          multiple_sep: ";"
+          description: Experiment labels. Must be undefined or of the same length as `--input`.
+          example: input
+        - name: "--input_fraction"
+          type: integer
+          required: false
+          multiple: true
+          multiple_sep: ";"
+          description: Input fractions. Must be undefined or of the same length as `--input`.
+        - name: "--input_ptm"
+          type: boolean
+          required: false
+          multiple: true
+          multiple_sep: ";"
+          description: Input PTMs. Must be undefined or of the same length as `--input`.
+        # different parameter groups are not allowed (for now).
+        # if needed, do multiple separate runs.
+        # if still needed, change code
+        # - name: "--input_group_indices"
+        #   type: boolean
+        #   required: false
+        #   multiple: true
+        #   multiple_sep: ";"
+        #   description: Parameter group index.
+        # specifying reference channels not supported (for now)
+        # - name: "--input_reference_channel"
+        #   type: boolean
+        #   required: false
+        #   multiple: true
+        #   multiple_sep: ";"
+        #   description: Reference channel.
     - name: Outputs
       arguments:
         - name: "--output"
