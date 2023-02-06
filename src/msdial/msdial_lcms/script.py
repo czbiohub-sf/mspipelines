@@ -1,25 +1,109 @@
 """Module to run the msdial algorithm for lcms"""
+
 import os
 import tempfile
 import shutil
 import subprocess
 import pandas as pd
 
-MSDIAL_PATH="/msdial"
+MSDIAL_PATH = "/msdial"
+
 ## VIASH START
-INPUT_DIR='resources_test/msdial_demo_files/raw/GCMS/'
+# use the following instructions to install msdial_app locally:
+#   mkdir src/msdial/msdial_app
+#   wget -q https://www.dropbox.com/s/6fn2tjfyudbrg3o/foo.zip?dl=1 -O "msdial.zip"
+#   unzip "msdial.zip" -d src/msdial/msdial_app
+#   rm msdial.zip
+#   chmod +x msdial_app/MsdialConsoleApp
+MSDIAL_PATH = "src/msdial/msdial_app"
+INPUT_DIR = os.getcwd() + '/resources_test/msdial_demo_files/raw/LCMS_DDA/'
 par = {
-  'input': [f'{INPUT_DIR}/140428actsa25_1.cdf', f'{INPUT_DIR}/140428actsa26_1.cdf'],
-  'output': 'output_test/GCMS_output',
-  'name': ['foo', 'bar'],
-  'type': ['Sample', 'Sample'],
-  'class_id': ['1', '2'],
-  'batch': [1, 1],
-  'analytical_order': [1, 2],
-  'inject_volume': [1.0, 1.0],
-  '...': '...'
+  'input': [f'{INPUT_DIR}/Nega_Ida_QC_1_1.mzML', f'{INPUT_DIR}/Nega_Ida_QC_1_9.mzML'],
+  'name': ["foo", "bar"],
+  'type': None,
+  'class_id': None,
+  'batch': None,
+  'analytical_order': None,
+  'inject_volume': None,
+  'output': 'foo',
+  'ms1_data_type': 'Profile',
+  'ms2_data_type': 'Profile',
+  'ion_mode': r'Positive',
+  'dia_file': None,
+  'retention_time_begin': float(r'0.0'),
+  'retention_time_end': float(r'100.0'),
+  'ms1_mass_range_begin': float(r'0.0'),
+  'ms1_mass_range_end': float(r'2000.0'),
+  'ms2_mass_range_begin': float(r'0.0'),
+  'ms2_mass_range_end': float(r'2000.0'),
+  'ms1_tolerance_for_centroid': float(r'0.01'),
+  'ms2_tolerance_for_centroid': float(r'0.025'),
+  'max_charged_number': int(r'2'),
+  'execute_rt_correction': r'false'.lower() == 'true',
+  'rt_correction_smoothing': r'false'.lower() == 'true',
+  'user_setting_intercept': float(r'0.0'),
+  'rt_diff_calc_method': r'SampleMinusSampleAverage',
+  'extrapolation_method_begin': r'UserSetting',
+  'extrapolation_method_end': r'lastpoint',
+  'istd_file': None,
+  'smoothing_method': r'LinearWeightedMovingAverage',
+  'smoothing_level': int(r'3'),
+  'minimum_peak_width': int(r'5'),
+  'minimum_peak_height': int(r'1000'),
+  'mass_slice_width': float(r'0.1'),
+  'sigma_window_value': float(r'0.5'),
+  'amplitude_cutoff': float(r'0.0'),
+  'exclude_after_precursor': r'true'.lower() == 'true',
+  'keep_isotope_until': float(r'0.5'),
+  'keep_original_precursor_isotopes': r'false'.lower() == 'true',
+  'adduct_list': r'[M+H]+,[M+Na]+,[M+NH4]+'.split(','),
+  'msp_file': None,
+  'retention_time_tolerance_for_identification': float(r'100.0'),
+  'accurate_ms1_tolerance_for_identification': float(r'0.01'),
+  'accurate_ms2_tolerance_for_identification': float(r'0.05'),
+  'identification_score_cutoff': float(r'80.0'),
+  'use_retention_information_for_identification_scoring': r'false'.lower() == 'true',
+  'use_retention_information_for_identification_filtering': r'false'.lower() == 'true',
+  'post_identification_library_file': None,
+  'retention_time_tolerance_for_post_identification': float(r'0.1'),
+  'accurate_ms1_tolerance_for_post_identification': float(r'0.01'),
+  'post_identification_score_cutoff': float(r'85.0'),
+  'retention_time_tolerance_for_alignment': float(r'0.05'),
+  'ms1_tolerance_for_alignment': float(r'0.015'),
+  'retention_time_factor_for_alignment': float(r'0.5'),
+  'ms1_factor_for_alignment': float(r'0.5'),
+  'peak_count_filter': float(r'0.0'),
+  'gap_filling_by_compulsion': r'true'.lower() == 'true',
+  'alignment_reference_file_id': int(r'0'),
+  'remove_feature_based_on_peak_height_fold_change': r'false'.lower() == 'true',
+  'pct_detected_in_at_least_one_group': float(r'0.0'),
+  'sample_max_over_blank_average': float(r'5.0'),
+  'sample_average_over_blank_average': float(r'5.0'),
+  'keep_identified_metabolites': r'true'.lower() == 'true',
+  'keep_removable_features': r'true'.lower() == 'true',
+  'replace_true_zero': r'false'.lower() == 'true',
+  'tracking_isotope_label': r'false'.lower() == 'true',
+  'set_fully_labeled_reference_file': r'false'.lower() == 'true',
+  'non_labeled_reference_id': int(r'0'),
+  'fully_labeled_reference_id': int(r'0'),
+  'isotope_tracking_dictionary_id': int(r'0'),
+  'corrdec_execute': r'true'.lower() == 'true',
+  'corrdec_ms2_tolerance': float(r'0.01'),
+  'corrdec_minimum_ms2_peak_height': float(r'1000.0'),
+  'corrdec_min_detected_samples': float(r'3.0'),
+  'corrdec_exclude_highly_correlated_spots': float(r'0.9'),
+  'corrdec_min_corr_ms2': float(r'0.7'),
+  'corrdec_margin_1': float(r'0.2'),
+  'corrdec_margin_2': float(r'0.7'),
+  'corrdec_min_detected_rate': float(r'0.5'),
+  'corrdec_min_ms2_relative_intensity': float(r'2.0'),
+  'corrdec_remove_peaks_larger_than_precursor': r'true'.lower() == 'true',
+  'accumulated_rt_range': float(r'0.2'),
+  'ccs_search_tolerance': float(r'10.0'),
+  'mobility_axis_alignment_tolerance': float(r'0.02'),
+  'use_ccs_for_identification_scoring': r'false'.lower() == 'true',
+  'use_ccs_for_identification_filtering': r'true'.lower() == 'true'
 }
-MSDIAL_PATH="../msdial_build"
 ## VIASH END
 
 MODE = "lcmsdia" if par["dia_file"] else "lcmsdda"
@@ -175,18 +259,18 @@ with tempfile.TemporaryDirectory() as temp_dir:
     data_df.to_csv(csv_file, index=False)
 
     # write params file
-    with open(param_file, "w",encoding='utf-8') as f:
+    with open(param_file, "w", encoding='utf-8') as f:
         f.write(param_content)
 
     # run msdial
-    args =  [
-            f"{MSDIAL_PATH}/MsdialConsoleApp",
-            MODE,
-            "-i", csv_file,
-            "-o", par["output"],
-            "-m", param_file,
-            "-p"
-        ]
+    args = [
+        f"{MSDIAL_PATH}/MsdialConsoleApp",
+        MODE,
+        "-i", csv_file,
+        "-o", par["output"],
+        "-m", param_file,
+        "-p"
+    ]
     with subprocess.Popen(args) as p:
         p.wait()
 
