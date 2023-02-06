@@ -812,7 +812,7 @@ thisConfig = processConfig(jsonSlurper.parseText('''{
     "config" : "/home/runner/work/mspipelines/mspipelines/src/msdial/msdial_gcms/config.vsh.yaml",
     "platform" : "nextflow",
     "viash_version" : "0.6.6",
-    "git_commit" : "4fef684fb8dcb2578f7009350f834d836d01d90e",
+    "git_commit" : "2b28c16140b874946c6846ed6d628bb50c173a43",
     "git_remote" : "https://github.com/czbiohub/mspipelines"
   }
 }'''))
