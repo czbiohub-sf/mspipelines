@@ -10,135 +10,126 @@ library(tidyverse)
 ```
 
 
+## Requirements
 
-## Installation instructions for developers
+To use this repository, please install the following dependencies:
 
-First off, you can install Viash and Nextflow using the `bin/init` script. This will download the
-right version of Viash and Nextflow to be able to build the Viash components from scratch.
+* Bash
+* Java (Java 11 or higher)
+* [Docker](https://docs.docker.com/get-docker/)
+* [Nextflow](https://www.nextflow.io/index.html#GetStarted)
+* [Viash](https://viash.io/installation/)
 
-```sh
-bin/init
+Assuming you've already got Bash, Java, Docker installed. To install Nextflow and Viash, 
+create a `bin/` directory in your home directory and make sure it's on your PATH variable.
+
+```bash
+mkdir "$HOME/bin"
+curl -fsSL get.viash.io | bash -s -- --bin $HOME/bin --tools false
+curl -s https://get.nextflow.io | bash; mv nextflow $HOME/bin
 ```
 
-Next, you can build all Viash components into containerised Nextflow modules or Bash CLI scripts
-by using the `bin/viash_build` command. The first time it might take a long time to build all 
-Docker containers from scratch, but afterwards rebuilding the components should be significantly
-faster thanks to the caching of Docker layers.
+Make sure that Viash and Nextflow are on the $PATH by checking whether the following commands work:
 
-```sh
-bin/viash_build
+```bash
+viash -v
+nextflow -v
 ```
 
-If you only need a subset of components, you can use any of the query parameters to selectively
-build a subset of components. Check `bin/viash_build --help` for more details.
+## Step 1: Build all the components
 
-You can download the test resource data from S3 to `resources_test/` by running:
-```sh
-target/docker/download/sync_test_resources/sync_test_resources
+The `src/` folder contains Viash components for processing Mass Spec data. With the command below, you can turn your script into a containerized executable and a containerized Nextflow module. Use the `-q 'xxx'` parameter to build a subset of components in the repository.
+
+```bash
+viash ns build --query 'maxquant' --parallel --setup cachedbuild
 ```
 
-You can test whether the Nextflow pipeline works by running:
-```sh
-NXF_VER=21.10.6 nextflow run \
-  https://github.com/czbiohub/mspipelines.git -r 0.3.0 \
-  -main-script target/nextflow/msdial/msdial_gcms/main.nf \
-  -resume -latest -profile docker \
-  --input 's3://czbiohub-pipelines/resources_test_ms/msdial_demo_files/raw/GCMS' \
-  --ri_index_file 's3://czbiohub-pipelines/resources_test_ms/msdial_demo_files/raw/GCMS/FAMEs RT.txt' \
-  --publishDir output_foo/
+    Exporting maxquant (maxquant) =nextflow=> mspipelines/target/nextflow/maxquant/maxquant
+    Exporting maxquant (maxquant) =docker=> mspipelines/target/docker/maxquant/maxquant
+    Exporting maxquant_to_h5ad (convert) =docker=> mspipelines/target/docker/convert/maxquant_to_h5ad
+    Exporting maxquant_to_h5ad (convert) =nextflow=> mspipelines/target/nextflow/convert/maxquant_to_h5ad
+    [notice] Building container 'ghcr.io/czbiohub/mspipelines/maxquant_maxquant:dev' with Dockerfile
+    [notice] Building container 'ghcr.io/czbiohub/mspipelines/convert_maxquant_to_h5ad:dev' with Dockerfile
+    Not all configs built successfully
+      6/10 configs were disabled
+      4/10 configs built successfully
+
+Viash will build a whole namespace (`ns`) into executables and Nextflow pipelines into the `target/docker` and `target/nextflow` folders respectively.
+
+* By adding the `-q/--query` flag, you can filter which components to build using a regex.
+* By adding the `--parallel` flag, these components are built in parallel (otherwise it will take a really long time).
+* The flag `--setup cachedbuild` will automatically start building Docker containers for each of these methods.
+
+The command might take a while to run, since it is building a docker container for each of the components. 
+
+## Step 2: Download the test resources
+
+Use the `sync_test_resources` component to download the test resources.
+
+```bash
+viash run src/download/sync_test_resources/config.vsh.yaml
 ```
 
-You can unit test all components (for which unit tests have been defined) by running:
-```sh
-bin/viash_test
+    Completed 256.0 KiB/7.2 MiB (302.6 KiB/s) with 6 file(s) remaining
+    Completed 512.0 KiB/7.2 MiB (595.8 KiB/s) with 6 file(s) remaining
+    Completed 768.0 KiB/7.2 MiB (880.3 KiB/s) with 6 file(s) remaining
+    Completed 1.0 MiB/7.2 MiB (1.1 MiB/s) with 6 file(s) remaining    
+    Completed 1.2 MiB/7.2 MiB (1.3 MiB/s) with 6 file(s) remaining
+    ...
+
+## That's it!
+
+You're all set to start developing new components. Below are a few more examples to help you get started.
+
+## Example 1: Unit test a component
+
+```bash
+viash test src/maxquant/maxquant/config.vsh.yaml
 ```
 
-## List of components
+    Running tests in temporary directory: '/home/rcannood/workspace/viash_temp/viash_test_maxquant750761290439648338'
+    ====================================================================
+    +/home/rcannood/workspace/viash_temp/viash_test_maxquant750761290439648338/build_executable/maxquant ---verbosity 6 ---setup cachedbuild
+    [notice] Building container 'ghcr.io/czbiohub/mspipelines/maxquant_maxquant:test_jrHF3N' with Dockerfile
+    ...
+    Successfully built d502546463de
+    Successfully tagged ghcr.io/czbiohub/mspipelines/maxquant_maxquant:test_jrHF3N
+    ====================================================================
+    +/home/rcannood/workspace/viash_temp/viash_test_maxquant750761290439648338/test_test/test_executable
+    >> Running maxquant
+    Configuring 
+    Assemble run info 
+    Finish run info 
+    Testing fasta files 
+    Testing raw files 
+    ...
+    Writing tables 
+    Finish writing tables  
+    >> Checking whether output files can be found
+    >> All tests succeeded!
+    ====================================================================
+    SUCCESS! All 1 out of 1 test scripts succeeded!
+    Cleaning up temporary directory
 
-The results below were generated by running `bin/viash_build; bin/viash_test`.
+## Example 2: Run a pipeline using the local code
 
-```{r readyaml, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results='asis'}
-# get viash to generate a yaml of all components
-out <- processx::run(
-  command = "bin/viash", args = c("ns", "list", "-p", "docker"),
-)
-comp_yamls <- yaml::read_yaml(text = out$stdout)
+```bash
+dir=resources_test/msdial_demo_files/raw/LCMS_DDA
+nextflow run . \
+  -main-script target/nextflow/msdial/msdial_lcms/main.nf \
+  -with-docker \
+  --input "$dir/Nega_Ida_QC_1_1.mzML" \
+  --input "$dir/Nega_Ida_QC_1_9.mzML" \
+  --class_id foo \
+  --class_id bar \
+  --ms1_data_type Profile \
+  --ms2_data_type Profile \
+  --ion_mode Negative \
+  --minimum_peak_height 1 \
+  --adduct_list "[M-H]-,[M+FA-H]-,[M-H2O-H]-" \
+  --retention_time_tolerance_for_identification 4 \
+  --accurate_ms1_tolerance_for_identification 0.025 \
+  --accurate_ms2_tolerance_for_identification 0.25 \
+  --publish_dir output
 ```
 
-```{r yamlasdf, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results='asis'}
-# format relevant information as a data frame
-comp_df <- map_df(seq_along(comp_yamls), function(i) {
-  ya <- comp_yamls[[i]]
-  auths <- ya$functionality$authors
-  maintainer <- auths[map_lgl(auths, function(aut) "maintainer" %in% aut$roles)] %>% 
-    first()
-  
-  tibble(
-    conf = ya$info$config,
-    name = ya$functionality$name,
-    namespace = ya$functionality$namespace %||% NA_character_,
-    maintainer_name = maintainer$name %||% NA_character_,
-    maintainer_email = maintainer$email %||% NA_character_,
-    maintainer_account = maintainer$props$github %||% NA_character_,
-    platform = ya$platform$type %||% NA_character_
-  )
-})
-```
-
-```{r readtsv, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results='asis'}
-# read `project_test` results
-test_results <- 
-  read_tsv(".viash_log_test.tsv") %>% 
-  group_by(namespace, name = functionality, platform) %>% 
-  summarise(
-    setup_succeeded = any(test_name == "build_executable" & exit_code == 0),
-    num_tests = sum(exit_code[test_name != "build_executable"] >= 0),
-    num_succeeds = sum(exit_code[test_name != "build_executable"] == 0),
-    status_label = case_when(
-      !setup_succeeded ~ "SETUP FAIL!",
-      num_tests == 0 ~ "no tests",
-      TRUE ~ paste0(num_succeeds, " out of ", num_tests)
-    ),
-    status_colour = case_when(
-      !setup_succeeded ~ "red",
-      num_tests == 0 ~ "orange", 
-      num_tests != num_succeeds ~ "red",
-      TRUE ~ "brightgreen"
-    ),
-    duration = sum(duration),
-    .groups = "drop"
-  )
-
-# provide defaults for tests which did not finish (DNF)
-fail_defaults <- tibble(
-  setup_succeeded = FALSE,
-  num_tests = 0L,
-  num_succeeds = 0L,
-  status_label = "DNF",
-  status_colour = "red",
-  duration = NA
-)
-
-dnf_fill <- comp_df %>% 
-  select(namespace, name, platform) %>% 
-  anti_join(test_results, by = c("namespace", "name", "platform")) %>% 
-  crossing(fail_defaults)
-```
-
-```{r mdtable, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results='asis'}
-# combine info final markdown table
-bind_rows(
-  test_results,
-  dnf_fill
-) %>% 
-  left_join(comp_df, by = c("namespace", "name", "platform")) %>% 
-  arrange(namespace, name, platform) %>% 
-  transmute(
-    Namespace = namespace,
-    Component = glue::glue("[{name}]({conf})"),
-    Tests = paste0("![tests](https://img.shields.io/badge/tests-", status_label, "-", status_colour, ")"),
-    Maintainer = ifelse(!is.na(maintainer_account), glue::glue("[{maintainer_account}](https://github.com/{maintainer_account})"), ifelse(!is.na(maintainer_name), maintainer_name, "")),
-    `Duration (s)` = duration
-  ) %>% 
-  knitr::kable()
-```
