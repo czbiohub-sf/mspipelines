@@ -1,3 +1,9 @@
+# mspipeline 0.3.4
+
+## Minor changes
+
+* Update to Viash 0.7.1 to improve VDSL3 functionality.
+
 # mspipeline 0.3.3
 
 ## Minor changes
